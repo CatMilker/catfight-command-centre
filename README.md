@@ -1,11 +1,5 @@
 # Catfight Command Centre
 
-Star Citizen 4.8 org tool for the Catfight org. Single-file HTML — no server required, open directly in a browser.
-
-**Live site:** https://[your-username].github.io/catfight-command-centre
-
----
-
 ## What's in it
 
 - BHG grind guide with fast track (VLRT → ERT), cert chain confirmed from 4.8 live game files
