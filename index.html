@@ -7,27 +7,31 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Exo+2:ital,wght@0,300;0,400;0,600;1,400&display=swap');
 :root{
-  --void:#050810;--panel:#0c1425;--panel2:#0f1930;--border:#1a2840;--border2:#243555;
-  --red:#e8142a;--red-dim:#6b0912;--orange:#ff5c1a;--gold:#ffb800;--gold-dim:#7a5500;
-  --blue:#00c8ff;--blue-dim:#003d4f;--green:#00e676;--green-dim:#003a1a;
-  --amber:#ff9500;--amber-dim:#4a2c00;--purple:#b06fff;--purple-dim:#2d0a6b;
-  --teal:#00e5cc;--teal-dim:#003d38;
-  --bright:#e8eef8;--mid:#7a99c4;--dim:#3a5070;--dimmer:#1e3050;
-  --g-red:0 0 15px rgba(232,20,42,0.35);--g-blue:0 0 15px rgba(0,200,255,0.25);
-  --g-green:0 0 15px rgba(0,230,118,0.25);--g-amber:0 0 15px rgba(255,149,0,0.25);
-  --g-purple:0 0 15px rgba(176,111,255,0.25);--g-teal:0 0 15px rgba(0,229,204,0.25);
+  /* Pyro Ember palette */
+  --void:#0a0805;--panel:#141008;--panel2:#1a1510;--border:#2e2018;--border2:#3d2e1c;
+  --red:#ff3d1a;--red-dim:#6b1500;--orange:#ff6a00;--gold:#ffaa00;--gold-dim:#6b4400;
+  --blue:#ff8c42;--blue-dim:#4a2200;--green:#7fff6e;--green-dim:#1a3a00;
+  --amber:#ffcc44;--amber-dim:#4a3800;--purple:#ff9d6e;--purple-dim:#4a2010;
+  --teal:#ff7c2a;--teal-dim:#3d1a00;
+  --bright:#f5ede0;--mid:#c4956a;--dim:#5c3d22;--dimmer:#2e1e0e;
+  --g-red:0 0 18px rgba(255,61,26,0.4);--g-blue:0 0 18px rgba(255,140,66,0.3);
+  --g-green:0 0 18px rgba(127,255,110,0.25);--g-amber:0 0 18px rgba(255,204,68,0.3);
+  --g-purple:0 0 18px rgba(255,157,110,0.25);--g-teal:0 0 18px rgba(255,124,42,0.3);
+  --color-text-primary:var(--bright);--color-text-secondary:var(--mid);
+  --color-background-primary:var(--panel);
+  --border-radius:2px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--void);color:var(--bright);font-family:'Exo 2',sans-serif;min-height:100vh;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.06) 2px,rgba(0,0,0,0.06) 4px);pointer-events:none;z-index:9999}
+body{background:var(--void);color:var(--bright);font-family:'Exo 2',sans-serif;min-height:100vh;overflow-x:hidden;font-size:14px}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.04) 2px,rgba(0,0,0,0.04) 4px);pointer-events:none;z-index:9999}
 
 /* ===== HEADER ===== */
-header{padding:1.25rem 1.5rem 1rem;border-bottom:1px solid var(--border);position:relative;background:linear-gradient(180deg,rgba(232,20,42,0.06) 0%,transparent 100%)}
-header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,var(--red) 30%,var(--red) 70%,transparent 100%)}
+header{padding:1.25rem 1.5rem 1rem;border-bottom:1px solid var(--border);position:relative;background:linear-gradient(180deg,rgba(255,106,0,0.08) 0%,transparent 100%)}
+header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,var(--orange) 30%,var(--red) 70%,transparent 100%)}
 .hdr{max-width:1200px;margin:0 auto;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
-.logo{font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(1.6rem,4vw,2.8rem);color:var(--red);letter-spacing:.12em;text-shadow:var(--g-red);line-height:1}
-.logo-sub{font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--dim);letter-spacing:.25em;margin-top:.2rem}
+.logo{font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(1.6rem,4vw,2.8rem);color:var(--orange);letter-spacing:.12em;text-shadow:var(--g-red);line-height:1}
+.logo-sub{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--dim);letter-spacing:.25em;margin-top:.2rem}
 .badges{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
 .badge{font-family:'Orbitron',sans-serif;font-size:.65rem;letter-spacing:.15em;padding:.3rem .7rem;border:1px solid}
 .badge-gold{color:var(--gold);border-color:var(--gold)}
@@ -45,48 +49,59 @@ nav{max-width:1200px;margin:.5rem auto 0;padding:0 1.5rem}
 .nav-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(95px,1fr));gap:.4rem}
 @media(max-width:800px){.nav-grid{grid-template-columns:repeat(4,1fr)}}@media(max-width:500px){.nav-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:420px){.nav-grid{grid-template-columns:repeat(2,1fr)}}
-.nav-btn{background:var(--panel);border:1px solid var(--border);padding:.55rem .4rem;cursor:pointer;text-align:center;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:.25rem;position:relative;overflow:hidden}
+.nav-btn{background:var(--panel);border:1px solid var(--border);padding:.6rem .4rem;cursor:pointer;text-align:center;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:.25rem;position:relative;overflow:hidden}
 .nav-btn::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;transition:all .15s}
 .nav-btn:hover{background:rgba(255,255,255,.03)}
-.nav-icon{font-size:1.1rem}
-.nav-label{font-family:'Orbitron',sans-serif;font-size:.55rem;letter-spacing:.1em;font-weight:700}
-.nav-sub{font-family:'Share Tech Mono',monospace;font-size:.55rem;color:var(--dim)}
+.nav-icon{font-size:1.2rem}
+.nav-label{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.1em;font-weight:700}
+.nav-sub{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--dim)}
 
-/* Nav themes */
+/* Nav themes — Pyro Ember */
 .nb-grind::before{background:var(--gold)}
-.nb-grind.active{border-color:var(--gold);background:rgba(255,184,0,.06);box-shadow:var(--g-amber)}
+.nb-grind.active{border-color:var(--gold);background:rgba(255,170,0,.07);box-shadow:var(--g-amber)}
 .nb-grind .nav-label{color:var(--gold)}
-.nb-ships::before{background:var(--blue)}
-.nb-ships.active{border-color:var(--blue);background:rgba(0,200,255,.06);box-shadow:var(--g-blue)}
-.nb-ships .nav-label{color:var(--blue)}
+.nb-ships::before{background:var(--orange)}
+.nb-ships.active{border-color:var(--orange);background:rgba(255,106,0,.07);box-shadow:var(--g-blue)}
+.nb-ships .nav-label{color:var(--orange)}
 .nb-trade::before{background:var(--green)}
-.nb-trade.active{border-color:var(--green);background:rgba(0,230,118,.06);box-shadow:var(--g-green)}
+.nb-trade.active{border-color:var(--green);background:rgba(127,255,110,.07);box-shadow:var(--g-green)}
 .nb-trade .nav-label{color:var(--green)}
 .nb-rep::before{background:var(--purple)}
-.nb-rep.active{border-color:var(--purple);background:rgba(176,111,255,.06);box-shadow:var(--g-purple)}
+.nb-rep.active{border-color:var(--purple);background:rgba(255,157,110,.07);box-shadow:var(--g-purple)}
 .nb-rep .nav-label{color:var(--purple)}
 .nb-bp::before{background:var(--teal)}
-.nb-bp.active{border-color:var(--teal);background:rgba(0,229,204,.06);box-shadow:var(--g-teal)}
+.nb-bp.active{border-color:var(--teal);background:rgba(255,124,42,.07);box-shadow:var(--g-teal)}
 .nb-bp .nav-label{color:var(--teal)}
 .nb-calc::before{background:var(--amber)}
-.nb-calc.active{border-color:var(--amber);background:rgba(255,149,0,.06);box-shadow:var(--g-amber)}
+.nb-calc.active{border-color:var(--amber);background:rgba(255,204,68,.07);box-shadow:var(--g-amber)}
 .nb-calc .nav-label{color:var(--amber)}
 .nb-loadout::before{background:var(--red)}
-.nb-loadout.active{border-color:var(--red);background:rgba(232,20,42,.06);box-shadow:var(--g-red)}
+.nb-loadout.active{border-color:var(--red);background:rgba(255,61,26,.07);box-shadow:var(--g-red)}
 .nb-loadout .nav-label{color:var(--red)}
 .nb-org::before{background:var(--orange)}
-.nb-org.active{border-color:var(--orange);background:rgba(255,92,26,.06);box-shadow:0 0 15px rgba(255,92,26,.25)}
+.nb-org.active{border-color:var(--orange);background:rgba(255,106,0,.07);box-shadow:0 0 18px rgba(255,106,0,.3)}
 .nb-org .nav-label{color:var(--orange)}
 .nb-new::before{background:var(--mid)}
-.nb-new.active{border-color:var(--mid);background:rgba(122,153,196,.06)}
+.nb-new.active{border-color:var(--mid);background:rgba(196,149,106,.07)}
 .nb-new .nav-label{color:var(--mid)}
-
-.nb-ships2::before{background:var(--blue)}
-.nb-ships2.active{border-color:var(--blue);background:rgba(0,200,255,.06);box-shadow:var(--g-blue)}
-.nb-ships2 .nav-label{color:var(--blue)}
+.nb-ships2::before{background:var(--orange)}
+.nb-ships2.active{border-color:var(--orange);background:rgba(255,106,0,.07);box-shadow:var(--g-blue)}
+.nb-ships2 .nav-label{color:var(--orange)}
 .nb-nav::before{background:var(--teal)}
-.nb-nav.active{border-color:var(--teal);background:rgba(0,229,204,.06);box-shadow:var(--g-teal)}
+.nb-nav.active{border-color:var(--teal);background:rgba(255,124,42,.07);box-shadow:var(--g-teal)}
 .nb-nav .nav-label{color:var(--teal)}
+.nb-mining::before{background:var(--amber)}
+.nb-mining.active{border-color:var(--amber);background:rgba(255,204,68,.07);box-shadow:var(--g-amber)}
+.nb-mining .nav-label{color:var(--amber)}
+.nb-missions::before{background:var(--gold)}
+.nb-missions.active{border-color:var(--gold);background:rgba(255,170,0,.07);box-shadow:var(--g-amber)}
+.nb-missions .nav-label{color:var(--gold)}
+.nb-bpsrc::before{background:var(--teal)}
+.nb-bpsrc.active{border-color:var(--teal);background:rgba(255,124,42,.07);box-shadow:var(--g-teal)}
+.nb-bpsrc .nav-label{color:var(--teal)}
+.nb-shopfind::before{background:var(--purple)}
+.nb-shopfind.active{border-color:var(--purple);background:rgba(255,157,110,.07);box-shadow:var(--g-purple)}
+.nb-shopfind .nav-label{color:var(--purple)}
 
 /* ===== MAIN ===== */
 .main{max-width:1200px;margin:1rem auto 3rem;padding:0 1.5rem}
@@ -96,19 +111,19 @@ nav{max-width:1200px;margin:.5rem auto 0;padding:0 1.5rem}
 
 /* ===== SECTION HEADERS ===== */
 .sec-hdr{display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
-.sec-title{font-family:'Orbitron',sans-serif;font-size:1rem;letter-spacing:.15em;font-weight:700}
-.sec-sub{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--dim);letter-spacing:.1em;margin-left:auto}
+.sec-title{font-family:'Orbitron',sans-serif;font-size:1.05rem;letter-spacing:.15em;font-weight:700}
+.sec-sub{font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--dim);letter-spacing:.1em;margin-left:auto}
 
 /* ===== TIER CARDS ===== */
 .tiers{display:flex;flex-direction:column;gap:.75rem}
 .tier{background:var(--panel);border:1px solid var(--border);overflow:hidden;position:relative}
 .tier::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
-.t1::before{background:#3a5070}.t2::before{background:var(--orange)}.t3::before{background:var(--gold)}.t4::before{background:var(--red)}
-.tier-hdr{padding:.65rem 1rem .65rem 1.25rem;display:flex;align-items:center;gap:.75rem;cursor:pointer;user-select:none;transition:background .15s}
+.t1::before{background:var(--dim)}.t2::before{background:var(--orange)}.t3::before{background:var(--gold)}.t4::before{background:var(--red)}
+.tier-hdr{padding:.7rem 1rem .7rem 1.25rem;display:flex;align-items:center;gap:.75rem;cursor:pointer;user-select:none;transition:background .15s}
 .tier-hdr:hover{background:rgba(255,255,255,.02)}
-.tier-lbl{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.2em;font-weight:700;opacity:.5;min-width:3rem}
-.tier-name{font-family:'Exo 2',sans-serif;font-weight:600;font-size:.9rem;flex:1}
-.tier-earn{font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--gold)}
+.tier-lbl{font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:.2em;font-weight:700;opacity:.5;min-width:3rem}
+.tier-name{font-family:'Exo 2',sans-serif;font-weight:600;font-size:.95rem;flex:1}
+.tier-earn{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--gold)}
 .tier-tog{font-size:.65rem;color:var(--dim);transition:transform .2s}
 .tier.open .tier-tog{transform:rotate(180deg)}
 .tier-body{display:none;padding:0 1.25rem 1.25rem 1.25rem;border-top:1px solid var(--border)}
@@ -116,32 +131,32 @@ nav{max-width:1200px;margin:.5rem auto 0;padding:0 1.5rem}
 
 /* ===== STEPS ===== */
 .steps{margin-top:.75rem}
-.step{display:flex;gap:.6rem;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.step{display:flex;gap:.6rem;align-items:flex-start;padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
 .step:last-child{border-bottom:none}
-.step-n{font-family:'Orbitron',sans-serif;font-size:.55rem;font-weight:700;min-width:1.4rem;height:1.4rem;background:rgba(255,255,255,.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--dim);flex-shrink:0;margin-top:.1rem}
-.step-t{font-size:.82rem;color:var(--mid);line-height:1.5}
+.step-n{font-family:'Orbitron',sans-serif;font-size:.58rem;font-weight:700;min-width:1.5rem;height:1.5rem;background:rgba(255,255,255,.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--dim);flex-shrink:0;margin-top:.1rem}
+.step-t{font-size:.88rem;color:var(--mid);line-height:1.55}
 .step-t strong{color:var(--bright);font-weight:600}
 
 /* ===== TAGS ===== */
 .tags{margin-top:.5rem;display:flex;flex-wrap:wrap;gap:.3rem}
-.tag{font-family:'Share Tech Mono',monospace;font-size:.6rem;padding:.15rem .45rem;border-radius:2px}
-.ts{background:rgba(0,200,255,.1);color:var(--blue)}
-.to{background:rgba(255,92,26,.12);color:#ff9966}
-.tr{background:rgba(232,20,42,.1);color:#ff6b7a}
-.tg{background:rgba(0,230,118,.1);color:var(--green)}
-.tam{background:rgba(255,149,0,.1);color:var(--amber)}
-.tp{background:rgba(176,111,255,.1);color:var(--purple)}
+.tag{font-family:'Share Tech Mono',monospace;font-size:.63rem;padding:.15rem .45rem;border-radius:2px}
+.ts{background:rgba(255,106,0,.12);color:var(--orange)}
+.to{background:rgba(255,106,0,.12);color:#ff9966}
+.tr{background:rgba(255,61,26,.1);color:#ff8060}
+.tg{background:rgba(127,255,110,.1);color:var(--green)}
+.tam{background:rgba(255,204,68,.1);color:var(--amber)}
+.tp{background:rgba(255,157,110,.1);color:var(--purple)}
 .tn{background:rgba(255,255,255,.06);color:var(--mid)}
 
 /* ===== TIP / WARN BOXES ===== */
-.tip{margin-top:.75rem;background:rgba(255,184,0,.05);border:1px solid rgba(255,184,0,.18);border-left:2px solid var(--gold);padding:.5rem .8rem;font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--gold);line-height:1.5}
-.warn{margin-top:.5rem;background:rgba(232,20,42,.05);border:1px solid rgba(232,20,42,.18);border-left:2px solid var(--red);padding:.5rem .8rem;font-family:'Share Tech Mono',monospace;font-size:.72rem;color:#ff8080;line-height:1.5}
-.info{margin-top:.5rem;background:rgba(0,200,255,.05);border:1px solid rgba(0,200,255,.18);border-left:2px solid var(--blue);padding:.5rem .8rem;font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--blue);line-height:1.5}
+.tip{margin-top:.75rem;background:rgba(255,170,0,.05);border:1px solid rgba(255,170,0,.2);border-left:2px solid var(--gold);padding:.55rem .85rem;font-family:'Share Tech Mono',monospace;font-size:.78rem;color:var(--gold);line-height:1.55}
+.warn{margin-top:.5rem;background:rgba(255,61,26,.05);border:1px solid rgba(255,61,26,.2);border-left:2px solid var(--red);padding:.55rem .85rem;font-family:'Share Tech Mono',monospace;font-size:.78rem;color:#ff9070;line-height:1.55}
+.info{margin-top:.5rem;background:rgba(255,106,0,.05);border:1px solid rgba(255,106,0,.2);border-left:2px solid var(--orange);padding:.55rem .85rem;font-family:'Share Tech Mono',monospace;font-size:.78rem;color:var(--orange);line-height:1.55}
 
 /* ===== TABLES ===== */
-.tbl{width:100%;border-collapse:collapse;margin-top:.75rem;font-family:'Share Tech Mono',monospace;font-size:.72rem}
-.tbl th{text-align:left;padding:.35rem .65rem;color:var(--dim);letter-spacing:.1em;font-size:.62rem;border-bottom:1px solid var(--border)}
-.tbl td{padding:.45rem .65rem;border-bottom:1px solid rgba(255,255,255,.04);color:var(--mid);vertical-align:top}
+.tbl{width:100%;border-collapse:collapse;margin-top:.75rem;font-family:'Share Tech Mono',monospace;font-size:.78rem}
+.tbl th{text-align:left;padding:.38rem .65rem;color:var(--dim);letter-spacing:.1em;font-size:.66rem;border-bottom:1px solid var(--border)}
+.tbl td{padding:.48rem .65rem;border-bottom:1px solid rgba(255,255,255,.04);color:var(--mid);vertical-align:top}
 .tbl td:first-child{color:var(--bright);font-weight:600}
 .tbl tr:last-child td{border-bottom:none}
 .hi{color:var(--gold)}.md{color:var(--amber)}.lo{color:var(--mid)}
@@ -153,51 +168,51 @@ nav{max-width:1200px;margin:.5rem auto 0;padding:0 1.5rem}
 
 /* ===== CARDS ===== */
 .card{background:var(--panel2);border:1px solid var(--border);padding:.9rem}
-.card-title{font-family:'Orbitron',sans-serif;font-size:.72rem;letter-spacing:.12em;font-weight:700;margin-bottom:.5rem}
-.card-body{font-size:.8rem;color:var(--mid);line-height:1.5}
+.card-title{font-family:'Orbitron',sans-serif;font-size:.75rem;letter-spacing:.12em;font-weight:700;margin-bottom:.5rem}
+.card-body{font-size:.85rem;color:var(--mid);line-height:1.55}
 .card-val{font-family:'Share Tech Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--gold)}
-.card-lbl{font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--dim);letter-spacing:.1em;margin-bottom:.2rem}
+.card-lbl{font-family:'Share Tech Mono',monospace;font-size:.66rem;color:var(--dim);letter-spacing:.1em;margin-bottom:.2rem}
 
 /* ===== LINKS ROW ===== */
 .links{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border)}
-.ext{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--mid);border:1px solid var(--border);padding:.35rem .7rem;text-decoration:none;transition:all .15s;letter-spacing:.05em}
+.ext{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--mid);border:1px solid var(--border);padding:.35rem .7rem;text-decoration:none;transition:all .15s;letter-spacing:.05em}
 .ext:hover{color:var(--bright);border-color:var(--mid);background:rgba(255,255,255,.03)}
 
 /* ===== CALCULATOR ===== */
 .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.75rem}
 @media(max-width:600px){.calc-grid{grid-template-columns:1fr}}
 .form-group{margin-bottom:.75rem}
-.form-group label{display:block;font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--dim);letter-spacing:.1em;margin-bottom:.35rem}
-.form-group select,.form-group input{width:100%;background:var(--panel2);border:1px solid var(--border);color:var(--bright);font-family:'Share Tech Mono',monospace;font-size:.78rem;padding:.45rem .65rem;outline:none;transition:border-color .15s}
+.form-group label{display:block;font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--dim);letter-spacing:.1em;margin-bottom:.35rem}
+.form-group select,.form-group input{width:100%;background:var(--panel2);border:1px solid var(--border);color:var(--bright);font-family:'Share Tech Mono',monospace;font-size:.82rem;padding:.45rem .65rem;outline:none;transition:border-color .15s}
 .form-group select:focus,.form-group input:focus{border-color:var(--mid)}
 .form-group select option{background:var(--void)}
 .result-panel{background:var(--panel2);border:1px solid var(--border);padding:1rem;margin-top:.75rem}
 .res-row{display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
 .res-row:last-child{border-bottom:none}
-.res-lbl{font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--dim)}
-.res-val{font-family:'Share Tech Mono',monospace;font-size:.85rem;color:var(--gold);font-weight:700}
+.res-lbl{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--dim)}
+.res-val{font-family:'Share Tech Mono',monospace;font-size:.88rem;color:var(--gold);font-weight:700}
 
 /* ===== REP TRACKER ===== */
 .rep-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.75rem;margin-top:.75rem}
 .rep-card{background:var(--panel2);border:1px solid var(--border);padding:.9rem}
 .rep-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
-.rep-name{font-family:'Orbitron',sans-serif;font-size:.75rem;letter-spacing:.1em;font-weight:700}
+.rep-name{font-family:'Orbitron',sans-serif;font-size:.78rem;letter-spacing:.1em;font-weight:700}
 .rep-bar-wrap{background:var(--border);height:4px;border-radius:2px;margin:.4rem 0;overflow:hidden}
 .rep-bar{height:100%;border-radius:2px;transition:width .4s}
 .rep-ranks{margin-top:.5rem}
-.rep-rank{display:flex;align-items:center;gap:.5rem;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.04);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--mid);user-select:none;transition:color .15s}
+.rep-rank{display:flex;align-items:center;gap:.5rem;padding:.32rem 0;border-bottom:1px solid rgba(255,255,255,.04);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:.76rem;color:var(--mid);user-select:none;transition:color .15s}
 .rep-rank:last-child{border-bottom:none}
 .rep-rank.done{color:var(--green);text-decoration:line-through;opacity:.6}
 .rep-rank .chk{width:12px;height:12px;border:1px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.6rem;transition:all .15s}
 .rep-rank.done .chk{background:var(--green);border-color:var(--green);color:var(--void)}
-.rep-unlock{font-size:.6rem;color:var(--teal);margin-left:auto}
-.rep-reset{font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--dim);cursor:pointer;border:1px solid var(--border);padding:.2rem .5rem;background:none;transition:all .15s;margin-top:.5rem;display:block;width:100%;text-align:center}
+.rep-unlock{font-size:.63rem;color:var(--teal);margin-left:auto}
+.rep-reset{font-family:'Share Tech Mono',monospace;font-size:.66rem;color:var(--dim);cursor:pointer;border:1px solid var(--border);padding:.2rem .5rem;background:none;transition:all .15s;margin-top:.5rem;display:block;width:100%;text-align:center}
 .rep-reset:hover{color:var(--mid);border-color:var(--mid)}
 
 /* ===== LOADOUT BUILDER ===== */
 .loadout-tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.75rem}
-.ltab{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.12em;border:1px solid var(--border);background:none;color:var(--dim);padding:.35rem .8rem;cursor:pointer;transition:all .15s}
-.ltab.active{border-color:var(--red);color:var(--red);background:rgba(232,20,42,.06)}
+.ltab{font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:.12em;border:1px solid var(--border);background:none;color:var(--dim);padding:.38rem .85rem;cursor:pointer;transition:all .15s}
+.ltab.active{border-color:var(--orange);color:var(--orange);background:rgba(255,106,0,.07)}
 .loadout-content{display:none}
 .miss-tab{display:none}.miss-tab.active{display:block}
 .loadout-content.active{display:block}
@@ -460,6 +475,11 @@ footer{text-align:center;padding:1.25rem;font-family:'Share Tech Mono',monospace
       <span class="nav-icon">📋</span>
       <span class="nav-label">BLUEPRINTS</span>
       <span class="nav-sub">Sources · Drop rates</span>
+    </button>
+  <button class="nav-btn nb-shopfind" onclick="setPanel('shopfind')">
+      <span class="nav-icon">🔍</span>
+      <span class="nav-label">SHOP FINDER</span>
+      <span class="nav-sub">Rent · Weapons · Attachments</span>
     </button>
   </div>
 </nav>
@@ -1709,6 +1729,67 @@ footer{text-align:center;padding:1.25rem;font-family:'Share Tech Mono',monospace
 </div>
 
 
+<!-- PANEL: SHOP FINDER -->
+<!-- ============================================================ -->
+<div class="panel" id="panel-shopfind">
+  <div class="sec-hdr"><div class="sec-title" style="color:var(--teal)">SHOP FINDER</div><div class="sec-sub">RENT SHIPS · BUY WEAPONS · BUY ATTACHMENTS · CONFIRMED FROM 4.8 LIVE FILES</div></div>
+
+  <div class="cftabs" style="margin-bottom:.75rem">
+    <button class="ltab active" onclick="setShopTab('rent',this)">🚀 Rent Ships</button>
+    <button class="ltab" onclick="setShopTab('weapons',this)">🔫 Buy Weapons</button>
+    <button class="ltab" onclick="setShopTab('attachments',this)">🔧 Attachments &amp; Tools</button>
+  </div>
+
+  <!-- RENT SHIPS -->
+  <div class="miss-tab active" id="shop-rent">
+    <div class="info" style="margin-bottom:.75rem">Ship rentals are available at ASOP terminals. Not all ships are rentable — availability varies by location and CIG updates. Rental costs scale with ship size. Prices are approximate from 4.7 — verify in-game.</div>
+    <div style="position:relative;margin-bottom:.5rem">
+      <input type="text" id="rent-search" placeholder="Search ship name or role..." oninput="filterRent()" style="width:100%;font-size:12px;padding-left:1.6rem">
+      <span style="position:absolute;left:.5rem;top:50%;transform:translateY(-50%);color:var(--dim);font-size:13px">🔍</span>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="data-tbl" id="rent-table" style="min-width:500px">
+        <thead><tr><th>Ship</th><th>Role</th><th>Rent/day (approx)</th><th>Where to rent</th><th>Notes</th></tr></thead>
+        <tbody id="rent-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- BUY WEAPONS -->
+  <div class="miss-tab" id="shop-weapons">
+    <div class="info" style="margin-bottom:.75rem">Search any ship weapon or FPS weapon. Ship weapons at ship component shops, FPS weapons at armistice zone shops and some outposts. All names confirmed from 4.8 live global.ini.</div>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem;align-items:center">
+      <div style="flex:1;min-width:160px;position:relative">
+        <input type="text" id="weap-search" placeholder="Search weapon name..." oninput="filterWeapons()" style="width:100%;font-size:12px;padding-left:1.6rem">
+        <span style="position:absolute;left:.5rem;top:50%;transform:translateY(-50%);color:var(--dim);font-size:13px">🔍</span>
+      </div>
+      <select id="weap-type" onchange="filterWeapons()" style="font-size:11px">
+        <option value="">All types</option>
+        <option value="ship">Ship weapons</option>
+        <option value="rifle">Rifles</option>
+        <option value="smg">SMGs</option>
+        <option value="pistol">Pistols</option>
+        <option value="shotgun">Shotguns</option>
+        <option value="sniper">Snipers</option>
+        <option value="lmg">LMGs</option>
+      </select>
+      <span id="weap-count" style="font-size:10px;color:var(--dim)"></span>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="data-tbl" id="weap-table" style="min-width:500px">
+        <thead><tr><th>Weapon</th><th>Type</th><th>Size / Damage</th><th>Buy location</th><th>Notes</th></tr></thead>
+        <tbody id="weap-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ATTACHMENTS & TOOLS -->
+  <div class="miss-tab" id="shop-attachments">
+    <div class="info" style="margin-bottom:.75rem">All multitool attachments and handheld tools. The Pyro RYT Multi-Tool accepts all attachments — buy the base tool first. All names confirmed from 4.8 live game files.</div>
+    <div id="attach-cards"></div>
+  </div>
+</div>
+
 <!-- PANEL: BLUEPRINT SOURCES -->
 <!-- ============================================================ -->
 <div class="panel" id="panel-bpsrc">
@@ -1828,7 +1909,7 @@ function setPanel(id){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
-  const btnMap={grind:'nb-grind',ships:'nb-ships',loadout:'nb-loadout',trade:'nb-trade',rep:'nb-rep',bp:'nb-bp',calc:'nb-calc',org:'nb-org',new:'nb-new',navmap:'nb-nav',shipdb:'nb-ships2',mining:'nb-mining',missions:'nb-missions',bpsrc:'nb-bpsrc'};
+  const btnMap={grind:'nb-grind',ships:'nb-ships',loadout:'nb-loadout',trade:'nb-trade',rep:'nb-rep',bp:'nb-bp',calc:'nb-calc',org:'nb-org',new:'nb-new',navmap:'nb-nav',shipdb:'nb-ships2',mining:'nb-mining',missions:'nb-missions',bpsrc:'nb-bpsrc',shopfind:'nb-shopfind'};
   const navBtn=document.querySelector('.'+btnMap[id]);
   if(navBtn)navBtn.classList.add('active');
   if(id==='calc')calcUpdate();
@@ -1848,7 +1929,165 @@ function setShipTab(t,btn){
   document.querySelectorAll('#panel-ships .ltab').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
 }
-// ===== BLUEPRINT SOURCES =====
+// ===== SHOP FINDER =====
+const RENT_DATA=[
+  // Starters
+  {ship:'Aurora LN',role:'Starter',day:'~3k',where:'All major ASSOPs',note:'Cheapest rental — starter combat'},
+  {ship:'Aurora CL',role:'Cargo',day:'~3k',where:'All major ASSOPs',note:'16 SCU cargo variant'},
+  {ship:'Mustang Alpha',role:'Starter',day:'~3k',where:'All major ASSOPs',note:'Fast starter, minimal cargo'},
+  {ship:'Avenger Titan',role:'Starter / Cargo',day:'~5k',where:'Lorville · Area 18 · New Babbage · Checkmate',note:'Best starter rental — 8 SCU, versatile'},
+  {ship:'Cutter',role:'Cargo',day:'~4k',where:'Lorville · Area 18',note:'12 off-grid SCU — good early haul ship'},
+  // Light fighters
+  {ship:'Gladius',role:'Light Fighter',day:'~7k',where:'Lorville · Area 18 · Grim Hex',note:'Best dogfighter rental for learning combat'},
+  {ship:'Arrow',role:'Light Fighter',day:'~6k',where:'Lorville · Area 18',note:'Fixed weapon only — skill ceiling high'},
+  {ship:'Hawk',role:'Light Fighter',day:'~6k',where:'Lorville',note:'Built-in EMP — disable builds'},
+  // Medium fighters
+  {ship:'F7C Hornet Mk II',role:'Medium Fighter',day:'~10k',where:'Lorville · Area 18',note:'Org workhorse — rent before buying'},
+  {ship:'Sabre',role:'Stealth Fighter',day:'~10k',where:'Grim Hex',note:'Rent from Grim Hex specifically'},
+  // Cargo
+  {ship:'Cutlass Black',role:'Cargo / Multi',day:'~8k',where:'All major ASSOPs',note:'Most versatile rental in game'},
+  {ship:'Freelancer',role:'Cargo',day:'~9k',where:'Lorville · New Babbage',note:'Good mid cargo rental'},
+  {ship:'Hull A',role:'Cargo',day:'~5k',where:'Area 18 · Lorville',note:'64 SCU — best small cargo per credit'},
+  {ship:'Zeus Mk II CL',role:'Cargo',day:'~15k',where:'Lorville · Area 18',note:'128 SCU — excellent mid-tier haul'},
+  {ship:'Constellation Taurus',role:'Cargo / Combat',day:'~18k',where:'Lorville · Area 18',note:'174 SCU + 4x S3 guns'},
+  {ship:'C2 Hercules',role:'Large Cargo',day:'~45k',where:'Lorville · Area 18',note:'696 SCU — Covalex senior haul ship'},
+  // Mining
+  {ship:'Prospector',role:'Mining',day:'~12k',where:'Lorville · Area 18',note:'Solo asteroid mining — most common rental'},
+  {ship:'Greycat ROC',role:'Ground Mining',day:'~5k',where:'Lorville · Area 18',note:'Surface gem mining — fits in most ships'},
+  // Salvage
+  {ship:'Vulture',role:'Salvage',day:'~9k',where:'Lorville · Grim Hex',note:'Best solo salvage rental'},
+  // Medical
+  {ship:'Cutlass Red',role:'Medical',day:'~9k',where:'Lorville · Area 18',note:'Org support role rental'},
+];
+
+const WEAPON_DATA=[
+  // Ship weapons
+  {name:'Deadbolt I Cannon',type:'ship',size:'S1',dmg:'Ballistic',where:"Lorville Centermass (L19) · Grim Hex Skutters · Area 18 Dumper's Depot",note:'Esperia mfr — meta ballistic cannon'},
+  {name:'Deadbolt II Cannon',type:'ship',size:'S2',dmg:'Ballistic',where:"Lorville Centermass (L19) · Grim Hex Skutters · Area 18 Dumper's Depot",note:'Meta S2 — Gladius / Arrow / Hawk'},
+  {name:'Deadbolt III Cannon',type:'ship',size:'S3',dmg:'Ballistic',where:"Lorville Centermass (L19) · Area 18 Dumper's Depot",note:'Meta S3 — F7C Mk II / Sabre / Corsair'},
+  {name:'Deadbolt IV Cannon',type:'ship',size:'S4',dmg:'Ballistic',where:'Lorville Centermass (L19)',note:'Corsair nose — limited stock, check terminals'},
+  {name:'Deadbolt V Cannon',type:'ship',size:'S5',dmg:'Ballistic',where:'Lorville Centermass (L19)',note:'Vanguard Harbinger nose — very limited stock'},
+  {name:'Attrition-3 Laser Cannon',type:'ship',size:'S2',dmg:'Laser',where:"Lorville Centermass (L19) · Area 18 Dumper's Depot",note:'Gimbal laser — unlimited ammo, beginner friendly'},
+  {name:'Attrition-5 Laser Cannon',type:'ship',size:'S3',dmg:'Laser',where:"Lorville Centermass (L19) · Area 18 Dumper's Depot",note:'Gimbal S3 laser'},
+  {name:'CF-227 Badger Repeater',type:'ship',size:'S2',dmg:'Laser',where:"Area 18 Dumper's Depot · Grim Hex",note:'Drake stock — fast fire rate'},
+  {name:'CF-447 Rhino Repeater',type:'ship',size:'S4',dmg:'Laser',where:"Area 18 Dumper's Depot",note:'Drake stock — Corsair / Caterpillar'},
+  {name:'Mantis GT-220',type:'ship',size:'S3',dmg:'Laser',where:"Area 18 Dumper's Depot",note:'F7C-M turret upgrade option'},
+  // FPS weapons — base variants only (confirmed from 4.8 global.ini)
+  {name:'P8-AR Rifle',type:'rifle',size:'—',dmg:'Ballistic',where:'Lorville · Area 18 · New Babbage',note:'Standard military rifle — reliable, widely stocked'},
+  {name:'Gallant Rifle',type:'rifle',size:'—',dmg:'Laser',where:'Lorville · Area 18',note:'KLWE energy rifle — unlimited ammo'},
+  {name:'Karna Rifle',type:'rifle',size:'—',dmg:'Laser',where:'Area 18 · New Babbage',note:'Kastak Arms energy rifle'},
+  {name:'S71 Rifle',type:'rifle',size:'—',dmg:'Ballistic',where:'Lorville · Area 18',note:'Reliable ballistic — CFP BP drop'},
+  {name:'Parallax Energy Assault Rifle',type:'rifle',size:'—',dmg:'Laser',where:'Foxwell vendor terminals',note:'Foxwell BP drop — buy with MG Scrip or find in game'},
+  {name:'Killshot Rifle',type:'rifle',size:'—',dmg:'Ballistic',where:'Grim Hex · Levski',note:'Outlaw vendor — Pyro/Nyx'},
+  {name:'P4-AR Rifle',type:'rifle',size:'—',dmg:'Ballistic',where:'Lorville · Area 18',note:'Common ballistic rifle'},
+  {name:'Custodian SMG',type:'smg',size:'—',dmg:'Laser',where:'Lorville · Area 18 · New Babbage',note:'Most common SMG — good for CQB'},
+  {name:'C54 SMG',type:'smg',size:'—',dmg:'Ballistic',where:'Lorville · Area 18',note:'CFP BP drop'},
+  {name:'P8-SC SMG',type:'smg',size:'—',dmg:'Ballistic',where:'Lorville · Area 18',note:'CFP BP drop — compact ballistic'},
+  {name:'Ripper SMG',type:'smg',size:'—',dmg:'Ballistic',where:'Grim Hex · Levski',note:'Outlaw vendor'},
+  {name:'Lumin V SMG',type:'smg',size:'—',dmg:'Laser',where:'Lorville · Area 18',note:'Black box recovery BP drop'},
+  {name:'Quartz Energy SMG',type:'smg',size:'—',dmg:'Laser',where:'InterSec vendor terminals',note:'InterSec BP drop — Deadfall / Lumen variants'},
+  {name:'LH86 Pistol',type:'pistol',size:'—',dmg:'Ballistic',where:'Lorville · Area 18 · New Babbage · Grim Hex',note:'Most common pistol — widely available'},
+  {name:'S-38 Pistol',type:'pistol',size:'—',dmg:'Ballistic',where:'Lorville · Area 18',note:'Standard ballistic sidearm'},
+  {name:'Arclight Pistol',type:'pistol',size:'—',dmg:'Laser',where:'Shubin vendor terminals',note:'Shubin BP drop — laser pistol'},
+  {name:'Coda Pistol',type:'pistol',size:'—',dmg:'Ballistic',where:'Headhunters vendor / loot',note:'Headhunters BP drop'},
+  {name:'Yubarev Pistol',type:'pistol',size:'—',dmg:'Ballistic',where:'Headhunters vendor / loot',note:'Headhunters chain elimination BP drop'},
+  {name:'Pulse Laser Pistol',type:'pistol',size:'—',dmg:'Laser',where:'Lorville · Area 18 · Grim Hex',note:'Common energy sidearm — InterSec also drops variants'},
+  {name:'Devastator Shotgun',type:'shotgun',size:'—',dmg:'Ballistic',where:'Lorville · Area 18',note:'Headhunters BP drop — hard/eliminate missions'},
+  {name:'R97 Shotgun',type:'shotgun',size:'—',dmg:'Ballistic',where:'Nyx — QV Breaker Station loot / BHG BP drop',note:'BHG Nyx bounty guaranteed BP — best shotgun'},
+  {name:'Ravager-212 Twin Shotgun',type:'shotgun',size:'—',dmg:'Ballistic',where:'Headhunters loot / Grim Hex',note:'Headhunters asteroid elimination BP drop'},
+  {name:'Scalpel Sniper Rifle',type:'sniper',size:'—',dmg:'Ballistic',where:'Headhunters vendor / loot',note:'Headhunters BP drop — hard eliminate'},
+  {name:'Atzkav Sniper Rifle',type:'sniper',size:'—',dmg:'Laser',where:'Headhunters chain / vendor',note:'Headhunters chain elimination BP drop'},
+  {name:'Arrowhead Sniper Rifle',type:'sniper',size:'—',dmg:'Ballistic',where:'Black box recovery (Hard) loot',note:'Hard black box mission BP drop'},
+  {name:'Zenith Laser Sniper Rifle',type:'sniper',size:'—',dmg:'Laser',where:'Area 18 · New Babbage',note:'Precision energy sniper'},
+  {name:'Demeco LMG',type:'lmg',size:'—',dmg:'Ballistic',where:'Lorville · Area 18',note:'Standard ballistic LMG'},
+  {name:'FS-9 LMG',type:'lmg',size:'—',dmg:'Ballistic',where:'Grim Hex · Levski',note:'Outlaw vendor LMG'},
+  {name:'F55 LMG',type:'lmg',size:'—',dmg:'Laser',where:'Area 18 · New Babbage',note:'Energy LMG'},
+  {name:'Fresnel Energy LMG',type:'lmg',size:'—',dmg:'Laser',where:'Area 18 · New Babbage',note:'High-end energy LMG'},
+];
+
+const ATTACH_DATA=[
+  {name:'Pyro RYT Multi-Tool',category:'Base tool',desc:'Required base — all attachments slot into this. Buy before any attachment.',where:'Lorville · Area 18 · New Babbage · Checkmate · most shops',note:'Greycat Industrial — ~900 aUEC'},
+  {name:'OreBit Mining Attachment',category:'Mining',desc:'Turns the Multi-Tool into a hand mining laser. Scans rocks and extracts ore. Required for Janalite/Hadanite cave mining.',where:'Lorville · Area 18 · New Babbage',note:'Must own base Multi-Tool first'},
+  {name:'Cambio-Lite SRT Attachment',category:'Salvage',desc:'Light salvage and repair attachment. Strips hull material into RMC. Not as powerful as Vulture/Reclaimer beams but handheld.',where:'Lorville · Area 18',note:'Cambio-Lite SRT Canister sold separately — consumable'},
+  {name:'TruHold Tractor Beam Attachment',category:'Cargo / Utility',desc:'Handheld tractor beam. Essential for cargo recovery missions, Zeta-Prolanide runs, and moving crates without ATLS.',where:'Lorville · Area 18 · New Babbage · most major stations',note:'Required for CFP Recover Cargo missions and Xenothreat Blockade Runner'},
+  {name:'LifeGuard Medical Attachment',category:'Medical',desc:'Emergency medical treatment tool. Administers MedGel for field healing. LifeGuard Refill sold separately.',where:'Lorville medical district · Area 18 · New Babbage',note:'LifeGuard Refill (MedGel) must be restocked separately'},
+  {name:'OxyTorch Cutter Attachment',category:'Utility',desc:'Precision cutter for slicing through materials. Used in salvage and engineering.',where:'Lorville · Area 18',note:'Niche utility — primarily salvage/engineering use'},
+  {name:'MaxLift Tractor Beam',category:'Cargo',desc:'Standalone handheld tractor beam (not a multitool attachment). Larger capacity than TruHold — better for heavy cargo ops.',where:'Lorville · Area 18 · New Babbage',note:'MaxLift Keystone variant also available'},
+];
+
+function setShopTab(t,btn){
+  document.querySelectorAll('#panel-shopfind .miss-tab').forEach(c=>c.classList.remove('active'));
+  const el=document.querySelector('#shop-'+t);
+  if(el)el.classList.add('active');
+  btn.closest('.cftabs').querySelectorAll('.ltab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function filterRent(){
+  const q=(document.getElementById('rent-search')?.value||'').toLowerCase();
+  const body=document.getElementById('rent-body');
+  if(!body)return;
+  const filtered=RENT_DATA.filter(r=>!q||r.ship.toLowerCase().includes(q)||r.role.toLowerCase().includes(q)||r.where.toLowerCase().includes(q));
+  body.innerHTML=filtered.map(r=>`<tr>
+    <td style="font-weight:500;color:var(--gold)">${r.ship}</td>
+    <td style="font-size:11px">${r.role}</td>
+    <td style="color:var(--teal);font-size:11px">${r.day}</td>
+    <td style="font-size:11px;color:var(--dim)">${r.where}</td>
+    <td style="font-size:10px;color:var(--dim)">${r.note}</td>
+  </tr>`).join('');
+}
+
+function filterWeapons(){
+  const q=(document.getElementById('weap-search')?.value||'').toLowerCase();
+  const type=(document.getElementById('weap-type')?.value||'');
+  const body=document.getElementById('weap-body');
+  const count=document.getElementById('weap-count');
+  if(!body)return;
+  const filtered=WEAPON_DATA.filter(w=>{
+    if(type&&w.type!==type)return false;
+    if(q&&!w.name.toLowerCase().includes(q)&&!w.where.toLowerCase().includes(q)&&!w.note.toLowerCase().includes(q))return false;
+    return true;
+  });
+  if(count)count.textContent=filtered.length+' results';
+  const typeColor={ship:'var(--red)',rifle:'var(--teal)',smg:'var(--teal)',pistol:'var(--teal)',shotgun:'var(--teal)',sniper:'var(--teal)',lmg:'var(--teal)'};
+  body.innerHTML=filtered.map(w=>`<tr>
+    <td style="font-weight:500;color:var(--gold)">${w.name}</td>
+    <td><span style="font-size:10px;padding:.1rem .3rem;border:.5px solid var(--border);border-radius:var(--border-radius);color:${typeColor[w.type]||'var(--dim)'}">${w.type==='ship'?'Ship':w.type.toUpperCase()}</span></td>
+    <td style="font-size:11px;color:var(--dim)">${w.size!=='—'?'S'+w.size+' · ':''  }${w.dmg}</td>
+    <td style="font-size:11px;color:var(--dim)">${w.where}</td>
+    <td style="font-size:10px;color:var(--dim)">${w.note}</td>
+  </tr>`).join('');
+}
+
+function renderAttachments(){
+  const container=document.getElementById('attach-cards');
+  if(!container)return;
+  const catColors={'Base tool':'var(--gold)','Mining':'var(--teal)','Salvage':'var(--amber)','Cargo / Utility':'var(--blue)','Medical':'var(--red)','Utility':'var(--dim)','Cargo':'var(--blue)'};
+  container.innerHTML=ATTACH_DATA.map(a=>`
+    <div style="background:var(--panel);border:.5px solid var(--border);border-left:2px solid ${catColors[a.category]||'var(--dim)'};border-radius:var(--border-radius);margin-bottom:.4rem;overflow:hidden">
+      <div style="padding:.4rem .75rem;border-bottom:.5px solid var(--border);display:flex;align-items:center;gap:.75rem;flex-wrap:wrap">
+        <span style="font-size:10px;color:${catColors[a.category]||'var(--dim)'};font-weight:500;min-width:80px">${a.category}</span>
+        <span style="font-size:12px;font-weight:500;color:var(--gold)">${a.name}</span>
+      </div>
+      <div style="padding:.4rem .75rem;display:grid;grid-template-columns:1fr 1fr;gap:.5rem;font-size:11px">
+        <div style="color:var(--dim)">${a.desc}</div>
+        <div>
+          <div style="color:var(--teal);margin-bottom:.2rem">${a.where}</div>
+          <div style="font-size:10px;color:var(--dim)">${a.note}</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  filterRent();
+  filterWeapons();
+  renderAttachments();
+  minFilter();
+  renderBHG();
+  lbLoad();
+  bpFilter();
+});
 const BP_SOURCES=[
   {name:'BHG — FPS Intro Bounty',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'BHG',priority:true,
    note:'First FPS bounty cert mission. Solo, 1 target on foot.',
@@ -2322,13 +2561,6 @@ function lbLoad(){
   document.getElementById('lb-route').innerHTML=lbBuildRoute(shipKey,preset);
 }
 // Init on load
-document.addEventListener('DOMContentLoaded',function(){
-  minFilter();
-  renderBHG();
-  lbLoad();
-  bpFilter();
-});
-
 // ===== BUY ROUTE PLANNER =====
 const STOP_ORDER=['Lorville','Grim Hex','Area 18','New Babbage','Orison','Levski','Crafted','Stock'];
 const ITEM_LOC={
@@ -2604,41 +2836,42 @@ orgUpdate();
 
 // ===== NEW PLAYER CHECKLIST =====
 const checkData=[
-  {section:'FIRST 30 MINUTES',items:[
-    {text:'Spawn in at the cheapest station you own (Lorville if unsure)',pri:'p-crit',key:'c0'},
-    {text:'Check mobiGlas → Contracts → filter Mercenary. Accept first available VLRT/LRT mission',pri:'p-crit',key:'c1'},
-    {text:'Complete 3 VLRT missions — don\'t spend anything yet',pri:'p-crit',key:'c2'},
-    {text:'Stack 5+ VLRTs if available — complete in one loop',pri:'p-high',key:'c3'},
-    {text:'Sell any looted cargo or components at commodity terminal',pri:'p-high',key:'c4'},
+  {section:'FIRST 5 MINUTES — SPAWN & SETUP',items:[
+    {text:'Set spawn at Checkmate Station (Pyro) — no UEE jurisdiction, central to Pyro content, best 4.8 starting hub',pri:'p-crit',key:'c0'},
+    {text:'Open mobiGlas → Contracts → accept the BHG intro mission immediately — starts your cert chain, one-time only',pri:'p-crit',key:'c2'},
+    {text:'Accept the Covalex intro haul mission from the contract board — one-time, +50 XP, unlocks the full haul chain',pri:'p-high',key:'c3'},
+    {text:'Stock up on medpens (x4) and food at Checkmate shops before leaving',pri:'p-med',key:'c4'},
   ]},
-  {section:'FIRST SESSION (0–200k aUEC)',items:[
-    {text:'Push to BHG: Operative rank by completing VLRT/LRT chain',pri:'p-crit',key:'c5'},
-    {text:'Accept your first Covalex hauling mission (Trainee → Rookie intro job)',pri:'p-high',key:'c6'},
-    {text:'Do NOT buy anything until you hit 100k aUEC buffer',pri:'p-high',key:'c7'},
-    {text:'Check if Mercenary Gauntlet Scenario missions are available — high income, low risk',pri:'p-med',key:'c8'},
-    {text:'Stock up on medpens and basic food at first opportunity',pri:'p-med',key:'c9'},
+  {section:'FIRST SESSION — VLRT GRIND (0–200k aUEC)',items:[
+    {text:'Complete the VLRT Cert mission from BHG board — one-time, required to unlock LRT tier',pri:'p-crit',key:'c5'},
+    {text:'Stack 5+ VLRT bounties and complete in one loop — enemies cluster near same nav markers',pri:'p-crit',key:'c6'},
+    {text:'Loot every downed pilot — sell components and cargo at commodity terminal after each loop',pri:'p-high',key:'c7'},
+    {text:'Do NOT spend anything until you have 100k aUEC buffer — ship repairs and respawns cost money',pri:'p-high',key:'c8'},
+    {text:'Check Foxwell contracts — Very Easy Defend Location missions are open immediately, drop Antium armor BPs + MG Scrip every run',pri:'p-med',key:'c9'},
+  ]},
+  {section:'CERT CHAIN — DO THESE IN ORDER',items:[
+    {text:'Complete LRT Cert mission when BHG Junior rank unlocks — check mobiGlas → Reputation for rank progress',pri:'p-crit',key:'c10'},
+    {text:'Complete MRT Cert mission at Member rank',pri:'p-crit',key:'c11'},
+    {text:'Complete HRT Cert mission at Guild Member rank — biggest income jump in the game',pri:'p-crit',key:'c12'},
+    {text:'Complete VHRT Cert mission at Senior rank',pri:'p-high',key:'c13'},
+    {text:'Complete ERT Cert mission at Veteran rank — endgame bounty content unlocked',pri:'p-high',key:'c14'},
+    {text:'Cert missions are one-time only — complete each immediately when rank unlocks, do not skip',pri:'p-crit',key:'c15'},
   ]},
   {section:'DAY ONE PRIORITIES (200k–1M aUEC)',items:[
-    {text:'Rent or buy Gladius / Arrow from Lorville / Area 18 if doing combat',pri:'p-crit',key:'c10'},
-    {text:'Buy Deadbolt II cannons from Lorville shops for combat ship',pri:'p-high',key:'c11'},
-    {text:'Start Covalex rep grind: stack Baijini → Riker contracts (Rookie)',pri:'p-high',key:'c12'},
-    {text:'If mining: buy Multi-Tool, fly to Daymar or Magda Sand Caves for Janalite hand mining',pri:'p-high',key:'c13'},
-    {text:'Get familiar with quantum jump to New Babbage for shields/components',pri:'p-med',key:'c14'},
-    {text:'Join a Catfight org session — org ops multiply income vs solo',pri:'p-med',key:'c15'},
+    {text:'Buy a Gladius or Arrow from Lorville for dedicated combat — prices unconfirmed for 4.8, check UEX before buying',pri:'p-crit',key:'c16'},
+    {text:'Buy Deadbolt II Ballistic Cannons from Lorville Centermass (L19) — current meta S2 weapon',pri:'p-high',key:'c17'},
+    {text:'Buy Palisade S2 shield from Area 18 Dumper\'s Depot as a base component while saving for crafted FR-66',pri:'p-high',key:'c18'},
+    {text:'If hand mining: buy Pyro RYT Multi-Tool + OreBit mining attachment — fly to Daymar or Magda Sand Caves for Janalite',pri:'p-high',key:'c19'},
+    {text:'Stack Covalex Haul Raw Ore contracts (+1,000 XP each) between combat sessions — no combat, passive rep',pri:'p-med',key:'c20'},
+    {text:'Run Foxwell Easy/Medium missions alongside BHG — all drop Antium armor BPs + MG Scrip',pri:'p-med',key:'c21'},
   ]},
   {section:'WEEK ONE GOALS',items:[
-    {text:'Push BHG rep to Guild Member (unlocks ERT access)',pri:'p-high',key:'c16'},
-    {text:'Push Covalex to Member rank (unlocks 10-mission stacking)',pri:'p-high',key:'c17'},
-    {text:'Complete first Foxwell Event mission chain for FR-66 shield blueprint',pri:'p-high',key:'c18'},
-    {text:'Have 3M+ aUEC banked before committing to any large ship purchase',pri:'p-med',key:'c19'},
-    {text:'Scout Nyx system with Catfight — fly through Levski, learn the layout',pri:'p-med',key:'c20'},
-    {text:'Farm Quadracell S1 power plant blueprint via solo-accessible missions',pri:'p-med',key:'c21'},
-  ]},
-  {section:'CATFIGHT INTEGRATION',items:[
-    {text:'Add your available ships to the org Discord ship list',pri:'p-high',key:'c22'},
-    {text:'Get briefed on current Catfight role assignments for sessions',pri:'p-high',key:'c23'},
-    {text:'Share your current rep levels so org can assign you appropriate tasks',pri:'p-med',key:'c24'},
-    {text:'Learn gate routes: Stanton → Pyro and Stanton → Nyx for org ops',pri:'p-med',key:'c25'},
+    {text:'Push BHG to Guild Member rank — HRTs available, first serious income begins here',pri:'p-high',key:'c22'},
+    {text:'Push Covalex to unlock Interstellar Haul contracts (+2,000 XP per run)',pri:'p-high',key:'c23'},
+    {text:'Run InterSec Security Patrol Hard (54 enemies) — drops Testudo armor BPs + MG Scrip every run',pri:'p-high',key:'c24'},
+    {text:'Have 3M+ aUEC banked before buying anything larger than a light fighter',pri:'p-high',key:'c25'},
+    {text:'Run BHG QV Breaker Station bounties in Nyx — guaranteed Monde armor + R97 Shotgun BPs every run',pri:'p-med',key:'c26'},
+    {text:'Scout Nyx with Catfight — fly to Levski, set it as secondary spawn, learn the layout',pri:'p-med',key:'c27'},
   ]},
 ];
 function renderChecklist(){
