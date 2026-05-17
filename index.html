@@ -8,99 +8,99 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Exo+2:ital,wght@0,300;0,400;0,600;1,400&display=swap');
 :root{
   /* Pyro Ember palette */
-  --void:#0a0805;--panel:#141008;--panel2:#1a1510;--border:#2e2018;--border2:#3d2e1c;
-  --red:#ff3d1a;--red-dim:#6b1500;--orange:#ff6a00;--gold:#ffaa00;--gold-dim:#6b4400;
-  --blue:#ff8c42;--blue-dim:#4a2200;--green:#7fff6e;--green-dim:#1a3a00;
-  --amber:#ffcc44;--amber-dim:#4a3800;--purple:#ff9d6e;--purple-dim:#4a2010;
-  --teal:#ff7c2a;--teal-dim:#3d1a00;
-  --bright:#f5ede0;--mid:#c4956a;--dim:#5c3d22;--dimmer:#2e1e0e;
-  --g-red:0 0 18px rgba(255,61,26,0.4);--g-blue:0 0 18px rgba(255,140,66,0.3);
-  --g-green:0 0 18px rgba(127,255,110,0.25);--g-amber:0 0 18px rgba(255,204,68,0.3);
-  --g-purple:0 0 18px rgba(255,157,110,0.25);--g-teal:0 0 18px rgba(255,124,42,0.3);
+  --void:#080604;--panel:#131008;--panel2:#1c1710;--border:#2e200e;--border2:#3d2c14;
+  --red:#ff4422;--red-dim:#6b1a00;--orange:#ff7722;--gold:#ffbb33;--gold-dim:#6b4a00;
+  --blue:#ff9955;--blue-dim:#4a2800;--green:#88ff77;--green-dim:#1a3a00;
+  --amber:#ffcc44;--amber-dim:#4a3800;--purple:#ffaa88;--purple-dim:#4a2818;
+  --teal:#ff8844;--teal-dim:#3d1e00;
+  --bright:#f8eedc;--mid:#c8976a;--dim:#6b4422;--dimmer:#2e1a08;
+  --g-red:0 0 20px rgba(255,68,34,0.35);--g-blue:0 0 20px rgba(255,153,85,0.28);
+  --g-green:0 0 20px rgba(136,255,119,0.22);--g-amber:0 0 20px rgba(255,204,68,0.28);
+  --g-purple:0 0 20px rgba(255,170,136,0.22);--g-teal:0 0 20px rgba(255,136,68,0.28);
   --color-text-primary:var(--bright);--color-text-secondary:var(--mid);
   --color-background-primary:var(--panel);
-  --border-radius:2px;
+  --border-radius:3px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--void);color:var(--bright);font-family:'Exo 2',sans-serif;min-height:100vh;overflow-x:hidden;font-size:14px}
-body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.04) 2px,rgba(0,0,0,0.04) 4px);pointer-events:none;z-index:9999}
+body{background:var(--void);color:var(--bright);font-family:'Exo 2',sans-serif;min-height:100vh;overflow-x:hidden;font-size:15px}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);pointer-events:none;z-index:9999}
 
 /* ===== HEADER ===== */
-header{padding:1.25rem 1.5rem 1rem;border-bottom:1px solid var(--border);position:relative;background:linear-gradient(180deg,rgba(255,106,0,0.08) 0%,transparent 100%)}
-header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,var(--orange) 30%,var(--red) 70%,transparent 100%)}
+header{padding:1.25rem 1.5rem 1rem;border-bottom:1px solid var(--border);position:relative;background:linear-gradient(180deg,rgba(255,119,34,0.1) 0%,transparent 100%)}
+header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,var(--orange) 25%,var(--gold) 50%,var(--red) 75%,transparent 100%)}
 .hdr{max-width:1200px;margin:0 auto;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
-.logo{font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(1.6rem,4vw,2.8rem);color:var(--orange);letter-spacing:.12em;text-shadow:var(--g-red);line-height:1}
-.logo-sub{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--dim);letter-spacing:.25em;margin-top:.2rem}
+.logo{font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(1.8rem,4vw,3rem);color:var(--orange);letter-spacing:.12em;text-shadow:var(--g-red);line-height:1}
+.logo-sub{font-family:'Share Tech Mono',monospace;font-size:.8rem;color:var(--dim);letter-spacing:.25em;margin-top:.2rem}
 .badges{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
-.badge{font-family:'Orbitron',sans-serif;font-size:.65rem;letter-spacing:.15em;padding:.3rem .7rem;border:1px solid}
+.badge{font-family:'Orbitron',sans-serif;font-size:.68rem;letter-spacing:.15em;padding:.3rem .7rem;border:1px solid}
 .badge-gold{color:var(--gold);border-color:var(--gold)}
 .badge-red{color:var(--red);border-color:var(--red);animation:pulse-border 2s infinite}
 @keyframes pulse-border{0%,100%{border-color:var(--red)}50%{border-color:var(--red-dim)}}
 
 /* ===== WIPE BANNER ===== */
 .wipe{max-width:1200px;margin:.75rem auto;padding:0 1.5rem}
-.wipe-inner{background:rgba(232,20,42,.08);border:1px solid var(--red-dim);border-left:3px solid var(--red);padding:.5rem 1rem;font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--red);display:flex;align-items:center;gap:.75rem}
+.wipe-inner{background:rgba(232,20,42,.08);border:1px solid var(--red-dim);border-left:3px solid var(--red);padding:.5rem 1rem;font-family:'Share Tech Mono',monospace;font-size:.8rem;color:var(--red);display:flex;align-items:center;gap:.75rem}
 .blink{animation:blink 1.1s step-end infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
 /* ===== NAV ===== */
 nav{max-width:1200px;margin:.5rem auto 0;padding:0 1.5rem}
-.nav-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(95px,1fr));gap:.4rem}
+.nav-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:.4rem}
 @media(max-width:800px){.nav-grid{grid-template-columns:repeat(4,1fr)}}@media(max-width:500px){.nav-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:420px){.nav-grid{grid-template-columns:repeat(2,1fr)}}
-.nav-btn{background:var(--panel);border:1px solid var(--border);padding:.6rem .4rem;cursor:pointer;text-align:center;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:.25rem;position:relative;overflow:hidden}
+.nav-btn{background:var(--panel);border:1px solid var(--border);padding:.65rem .4rem;cursor:pointer;text-align:center;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:.25rem;position:relative;overflow:hidden}
 .nav-btn::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;transition:all .15s}
 .nav-btn:hover{background:rgba(255,255,255,.03)}
-.nav-icon{font-size:1.2rem}
-.nav-label{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.1em;font-weight:700}
-.nav-sub{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--dim)}
+.nav-icon{font-size:1.3rem}
+.nav-label{font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:.1em;font-weight:700}
+.nav-sub{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--dim)}
 
 /* Nav themes — Pyro Ember */
 .nb-grind::before{background:var(--gold)}
-.nb-grind.active{border-color:var(--gold);background:rgba(255,170,0,.07);box-shadow:var(--g-amber)}
+.nb-grind.active{border-color:var(--gold);background:rgba(255,187,51,.07);box-shadow:var(--g-amber)}
 .nb-grind .nav-label{color:var(--gold)}
 .nb-ships::before{background:var(--orange)}
-.nb-ships.active{border-color:var(--orange);background:rgba(255,106,0,.07);box-shadow:var(--g-blue)}
+.nb-ships.active{border-color:var(--orange);background:rgba(255,119,34,.07);box-shadow:var(--g-blue)}
 .nb-ships .nav-label{color:var(--orange)}
 .nb-trade::before{background:var(--green)}
-.nb-trade.active{border-color:var(--green);background:rgba(127,255,110,.07);box-shadow:var(--g-green)}
+.nb-trade.active{border-color:var(--green);background:rgba(136,255,119,.07);box-shadow:var(--g-green)}
 .nb-trade .nav-label{color:var(--green)}
 .nb-rep::before{background:var(--purple)}
-.nb-rep.active{border-color:var(--purple);background:rgba(255,157,110,.07);box-shadow:var(--g-purple)}
+.nb-rep.active{border-color:var(--purple);background:rgba(255,170,136,.07);box-shadow:var(--g-purple)}
 .nb-rep .nav-label{color:var(--purple)}
 .nb-bp::before{background:var(--teal)}
-.nb-bp.active{border-color:var(--teal);background:rgba(255,124,42,.07);box-shadow:var(--g-teal)}
+.nb-bp.active{border-color:var(--teal);background:rgba(255,136,68,.07);box-shadow:var(--g-teal)}
 .nb-bp .nav-label{color:var(--teal)}
 .nb-calc::before{background:var(--amber)}
 .nb-calc.active{border-color:var(--amber);background:rgba(255,204,68,.07);box-shadow:var(--g-amber)}
 .nb-calc .nav-label{color:var(--amber)}
 .nb-loadout::before{background:var(--red)}
-.nb-loadout.active{border-color:var(--red);background:rgba(255,61,26,.07);box-shadow:var(--g-red)}
+.nb-loadout.active{border-color:var(--red);background:rgba(255,68,34,.07);box-shadow:var(--g-red)}
 .nb-loadout .nav-label{color:var(--red)}
 .nb-org::before{background:var(--orange)}
-.nb-org.active{border-color:var(--orange);background:rgba(255,106,0,.07);box-shadow:0 0 18px rgba(255,106,0,.3)}
+.nb-org.active{border-color:var(--orange);background:rgba(255,119,34,.07);box-shadow:0 0 20px rgba(255,119,34,.28)}
 .nb-org .nav-label{color:var(--orange)}
 .nb-new::before{background:var(--mid)}
-.nb-new.active{border-color:var(--mid);background:rgba(196,149,106,.07)}
+.nb-new.active{border-color:var(--mid);background:rgba(200,151,106,.07)}
 .nb-new .nav-label{color:var(--mid)}
 .nb-ships2::before{background:var(--orange)}
-.nb-ships2.active{border-color:var(--orange);background:rgba(255,106,0,.07);box-shadow:var(--g-blue)}
+.nb-ships2.active{border-color:var(--orange);background:rgba(255,119,34,.07);box-shadow:var(--g-blue)}
 .nb-ships2 .nav-label{color:var(--orange)}
 .nb-nav::before{background:var(--teal)}
-.nb-nav.active{border-color:var(--teal);background:rgba(255,124,42,.07);box-shadow:var(--g-teal)}
+.nb-nav.active{border-color:var(--teal);background:rgba(255,136,68,.07);box-shadow:var(--g-teal)}
 .nb-nav .nav-label{color:var(--teal)}
 .nb-mining::before{background:var(--amber)}
 .nb-mining.active{border-color:var(--amber);background:rgba(255,204,68,.07);box-shadow:var(--g-amber)}
 .nb-mining .nav-label{color:var(--amber)}
 .nb-missions::before{background:var(--gold)}
-.nb-missions.active{border-color:var(--gold);background:rgba(255,170,0,.07);box-shadow:var(--g-amber)}
+.nb-missions.active{border-color:var(--gold);background:rgba(255,187,51,.07);box-shadow:var(--g-amber)}
 .nb-missions .nav-label{color:var(--gold)}
 .nb-bpsrc::before{background:var(--teal)}
-.nb-bpsrc.active{border-color:var(--teal);background:rgba(255,124,42,.07);box-shadow:var(--g-teal)}
+.nb-bpsrc.active{border-color:var(--teal);background:rgba(255,136,68,.07);box-shadow:var(--g-teal)}
 .nb-bpsrc .nav-label{color:var(--teal)}
 .nb-shopfind::before{background:var(--purple)}
-.nb-shopfind.active{border-color:var(--purple);background:rgba(255,157,110,.07);box-shadow:var(--g-purple)}
+.nb-shopfind.active{border-color:var(--purple);background:rgba(255,170,136,.07);box-shadow:var(--g-purple)}
 .nb-shopfind .nav-label{color:var(--purple)}
 
 /* ===== MAIN ===== */
@@ -111,19 +111,19 @@ nav{max-width:1200px;margin:.5rem auto 0;padding:0 1.5rem}
 
 /* ===== SECTION HEADERS ===== */
 .sec-hdr{display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
-.sec-title{font-family:'Orbitron',sans-serif;font-size:1.05rem;letter-spacing:.15em;font-weight:700}
-.sec-sub{font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--dim);letter-spacing:.1em;margin-left:auto}
+.sec-title{font-family:'Orbitron',sans-serif;font-size:1.1rem;letter-spacing:.15em;font-weight:700}
+.sec-sub{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--dim);letter-spacing:.1em;margin-left:auto}
 
 /* ===== TIER CARDS ===== */
 .tiers{display:flex;flex-direction:column;gap:.75rem}
 .tier{background:var(--panel);border:1px solid var(--border);overflow:hidden;position:relative}
 .tier::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
 .t1::before{background:var(--dim)}.t2::before{background:var(--orange)}.t3::before{background:var(--gold)}.t4::before{background:var(--red)}
-.tier-hdr{padding:.7rem 1rem .7rem 1.25rem;display:flex;align-items:center;gap:.75rem;cursor:pointer;user-select:none;transition:background .15s}
+.tier-hdr{padding:.75rem 1rem .75rem 1.25rem;display:flex;align-items:center;gap:.75rem;cursor:pointer;user-select:none;transition:background .15s}
 .tier-hdr:hover{background:rgba(255,255,255,.02)}
-.tier-lbl{font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:.2em;font-weight:700;opacity:.5;min-width:3rem}
-.tier-name{font-family:'Exo 2',sans-serif;font-weight:600;font-size:.95rem;flex:1}
-.tier-earn{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--gold)}
+.tier-lbl{font-family:'Orbitron',sans-serif;font-size:.64rem;letter-spacing:.2em;font-weight:700;opacity:.5;min-width:3rem}
+.tier-name{font-family:'Exo 2',sans-serif;font-weight:600;font-size:1rem;flex:1}
+.tier-earn{font-family:'Share Tech Mono',monospace;font-size:.78rem;color:var(--gold)}
 .tier-tog{font-size:.65rem;color:var(--dim);transition:transform .2s}
 .tier.open .tier-tog{transform:rotate(180deg)}
 .tier-body{display:none;padding:0 1.25rem 1.25rem 1.25rem;border-top:1px solid var(--border)}
@@ -131,35 +131,47 @@ nav{max-width:1200px;margin:.5rem auto 0;padding:0 1.5rem}
 
 /* ===== STEPS ===== */
 .steps{margin-top:.75rem}
-.step{display:flex;gap:.6rem;align-items:flex-start;padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.step{display:flex;gap:.6rem;align-items:flex-start;padding:.6rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
 .step:last-child{border-bottom:none}
 .step-n{font-family:'Orbitron',sans-serif;font-size:.58rem;font-weight:700;min-width:1.5rem;height:1.5rem;background:rgba(255,255,255,.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--dim);flex-shrink:0;margin-top:.1rem}
-.step-t{font-size:.88rem;color:var(--mid);line-height:1.55}
+.step-t{font-size:.92rem;color:var(--mid);line-height:1.6}
 .step-t strong{color:var(--bright);font-weight:600}
 
 /* ===== TAGS ===== */
 .tags{margin-top:.5rem;display:flex;flex-wrap:wrap;gap:.3rem}
-.tag{font-family:'Share Tech Mono',monospace;font-size:.63rem;padding:.15rem .45rem;border-radius:2px}
-.ts{background:rgba(255,106,0,.12);color:var(--orange)}
-.to{background:rgba(255,106,0,.12);color:#ff9966}
-.tr{background:rgba(255,61,26,.1);color:#ff8060}
-.tg{background:rgba(127,255,110,.1);color:var(--green)}
+.tag{font-family:'Share Tech Mono',monospace;font-size:.65rem;padding:.15rem .45rem;border-radius:3px}
+.ts{background:rgba(255,119,34,.12);color:var(--orange)}
+.to{background:rgba(255,119,34,.12);color:#ffaa77}
+.tr{background:rgba(255,68,34,.1);color:#ff9077}
+.tg{background:rgba(136,255,119,.1);color:var(--green)}
 .tam{background:rgba(255,204,68,.1);color:var(--amber)}
-.tp{background:rgba(255,157,110,.1);color:var(--purple)}
+.tp{background:rgba(255,170,136,.1);color:var(--purple)}
 .tn{background:rgba(255,255,255,.06);color:var(--mid)}
 
 /* ===== TIP / WARN BOXES ===== */
-.tip{margin-top:.75rem;background:rgba(255,170,0,.05);border:1px solid rgba(255,170,0,.2);border-left:2px solid var(--gold);padding:.55rem .85rem;font-family:'Share Tech Mono',monospace;font-size:.78rem;color:var(--gold);line-height:1.55}
-.warn{margin-top:.5rem;background:rgba(255,61,26,.05);border:1px solid rgba(255,61,26,.2);border-left:2px solid var(--red);padding:.55rem .85rem;font-family:'Share Tech Mono',monospace;font-size:.78rem;color:#ff9070;line-height:1.55}
-.info{margin-top:.5rem;background:rgba(255,106,0,.05);border:1px solid rgba(255,106,0,.2);border-left:2px solid var(--orange);padding:.55rem .85rem;font-family:'Share Tech Mono',monospace;font-size:.78rem;color:var(--orange);line-height:1.55}
+.tip{margin-top:.75rem;background:rgba(255,187,51,.05);border:1px solid rgba(255,187,51,.2);border-left:2px solid var(--gold);padding:.6rem .9rem;font-family:'Share Tech Mono',monospace;font-size:.82rem;color:var(--gold);line-height:1.6}
+.warn{margin-top:.5rem;background:rgba(255,68,34,.05);border:1px solid rgba(255,68,34,.2);border-left:2px solid var(--red);padding:.6rem .9rem;font-family:'Share Tech Mono',monospace;font-size:.82rem;color:#ff9977;line-height:1.6}
+.info{margin-top:.5rem;background:rgba(255,119,34,.05);border:1px solid rgba(255,119,34,.2);border-left:2px solid var(--orange);padding:.6rem .9rem;font-family:'Share Tech Mono',monospace;font-size:.82rem;color:var(--orange);line-height:1.6}
 
 /* ===== TABLES ===== */
-.tbl{width:100%;border-collapse:collapse;margin-top:.75rem;font-family:'Share Tech Mono',monospace;font-size:.78rem}
-.tbl th{text-align:left;padding:.38rem .65rem;color:var(--dim);letter-spacing:.1em;font-size:.66rem;border-bottom:1px solid var(--border)}
-.tbl td{padding:.48rem .65rem;border-bottom:1px solid rgba(255,255,255,.04);color:var(--mid);vertical-align:top}
+.tbl{width:100%;border-collapse:collapse;margin-top:.75rem;font-family:'Share Tech Mono',monospace;font-size:.82rem}
+.tbl th{text-align:left;padding:.4rem .7rem;color:var(--dim);letter-spacing:.1em;font-size:.68rem;border-bottom:1px solid var(--border)}
+.tbl td{padding:.52rem .7rem;border-bottom:1px solid rgba(255,255,255,.04);color:var(--mid);vertical-align:top}
 .tbl td:first-child{color:var(--bright);font-weight:600}
 .tbl tr:last-child td{border-bottom:none}
 .hi{color:var(--gold)}.md{color:var(--amber)}.lo{color:var(--mid)}
+
+/* ===== DATA TABLE (searchable panels) ===== */
+.data-tbl{width:100%;border-collapse:collapse;font-size:.82rem}
+.data-tbl th{text-align:left;padding:.4rem .7rem;color:var(--dim);font-size:.68rem;letter-spacing:.08em;border-bottom:1px solid var(--border);cursor:pointer;user-select:none}
+.data-tbl td{padding:.48rem .7rem;border-bottom:1px solid rgba(255,255,255,.03);color:var(--mid);vertical-align:top;font-size:.82rem}
+.data-tbl tr:hover td{background:rgba(255,255,255,.015)}
+.data-tbl tr:last-child td{border-bottom:none}
+
+/* ===== INPUTS & SELECTS ===== */
+input[type=text],select{background:var(--panel2);border:1px solid var(--border);color:var(--bright);font-family:'Share Tech Mono',monospace;font-size:.84rem;padding:.4rem .65rem;outline:none;transition:border-color .15s;border-radius:var(--border-radius)}
+input[type=text]:focus,select:focus{border-color:var(--orange)}
+select option{background:var(--void)}
 
 /* ===== GRID LAYOUTS ===== */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem}
@@ -168,35 +180,35 @@ nav{max-width:1200px;margin:.5rem auto 0;padding:0 1.5rem}
 
 /* ===== CARDS ===== */
 .card{background:var(--panel2);border:1px solid var(--border);padding:.9rem}
-.card-title{font-family:'Orbitron',sans-serif;font-size:.75rem;letter-spacing:.12em;font-weight:700;margin-bottom:.5rem}
-.card-body{font-size:.85rem;color:var(--mid);line-height:1.55}
+.card-title{font-family:'Orbitron',sans-serif;font-size:.78rem;letter-spacing:.12em;font-weight:700;margin-bottom:.5rem}
+.card-body{font-size:.88rem;color:var(--mid);line-height:1.6}
 .card-val{font-family:'Share Tech Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--gold)}
-.card-lbl{font-family:'Share Tech Mono',monospace;font-size:.66rem;color:var(--dim);letter-spacing:.1em;margin-bottom:.2rem}
+.card-lbl{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--dim);letter-spacing:.1em;margin-bottom:.2rem}
 
 /* ===== LINKS ROW ===== */
 .links{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border)}
-.ext{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--mid);border:1px solid var(--border);padding:.35rem .7rem;text-decoration:none;transition:all .15s;letter-spacing:.05em}
+.ext{font-family:'Share Tech Mono',monospace;font-size:.74rem;color:var(--mid);border:1px solid var(--border);padding:.35rem .7rem;text-decoration:none;transition:all .15s;letter-spacing:.05em}
 .ext:hover{color:var(--bright);border-color:var(--mid);background:rgba(255,255,255,.03)}
 
 /* ===== CALCULATOR ===== */
 .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.75rem}
 @media(max-width:600px){.calc-grid{grid-template-columns:1fr}}
 .form-group{margin-bottom:.75rem}
-.form-group label{display:block;font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--dim);letter-spacing:.1em;margin-bottom:.35rem}
-.form-group select,.form-group input{width:100%;background:var(--panel2);border:1px solid var(--border);color:var(--bright);font-family:'Share Tech Mono',monospace;font-size:.82rem;padding:.45rem .65rem;outline:none;transition:border-color .15s}
-.form-group select:focus,.form-group input:focus{border-color:var(--mid)}
+.form-group label{display:block;font-family:'Share Tech Mono',monospace;font-size:.74rem;color:var(--dim);letter-spacing:.1em;margin-bottom:.35rem}
+.form-group select,.form-group input{width:100%;background:var(--panel2);border:1px solid var(--border);color:var(--bright);font-family:'Share Tech Mono',monospace;font-size:.84rem;padding:.45rem .65rem;outline:none;transition:border-color .15s}
+.form-group select:focus,.form-group input:focus{border-color:var(--orange)}
 .form-group select option{background:var(--void)}
 .result-panel{background:var(--panel2);border:1px solid var(--border);padding:1rem;margin-top:.75rem}
 .res-row{display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
 .res-row:last-child{border-bottom:none}
-.res-lbl{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--dim)}
-.res-val{font-family:'Share Tech Mono',monospace;font-size:.88rem;color:var(--gold);font-weight:700}
+.res-lbl{font-family:'Share Tech Mono',monospace;font-size:.78rem;color:var(--dim)}
+.res-val{font-family:'Share Tech Mono',monospace;font-size:.9rem;color:var(--gold);font-weight:700}
 
 /* ===== REP TRACKER ===== */
 .rep-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.75rem;margin-top:.75rem}
 .rep-card{background:var(--panel2);border:1px solid var(--border);padding:.9rem}
 .rep-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
-.rep-name{font-family:'Orbitron',sans-serif;font-size:.78rem;letter-spacing:.1em;font-weight:700}
+.rep-name{font-family:'Orbitron',sans-serif;font-size:.8rem;letter-spacing:.1em;font-weight:700}
 .rep-bar-wrap{background:var(--border);height:4px;border-radius:2px;margin:.4rem 0;overflow:hidden}
 .rep-bar{height:100%;border-radius:2px;transition:width .4s}
 .rep-ranks{margin-top:.5rem}
@@ -400,7 +412,7 @@ footer{text-align:center;padding:1.25rem;font-family:'Share Tech Mono',monospace
 <div class="wipe">
   <div class="wipe-inner" style="border-color:var(--teal);background:rgba(0,200,200,.06);color:var(--teal)">
     <span>✓</span>
-    <span>4.8 LIVE — Wipe complete. Blueprints &amp; pledge ships preserved. Ship prices pending 4.8 live data — update incoming when UEX stabilises.</span>
+    <span>4.8 LIVE — Wipe complete. Blueprints &amp; pledge ships preserved. <strong>Ship/component prices are 4.7.2 estimates</strong> — 4.8 live prices not yet confirmed. Verify on UEX before buying.</span>
   </div>
 </div>
 
@@ -447,9 +459,9 @@ footer{text-align:center;padding:1.25rem;font-family:'Share Tech Mono',monospace
       <span class="nav-sub">Role planner</span>
     </button>
     <button class="nav-btn nb-new" onclick="setPanel('new')">
-      <span class="nav-icon">📋</span>
-      <span class="nav-label">NEW PLAYER</span>
-      <span class="nav-sub">Day-one checklist</span>
+      <span class="nav-icon">🏪</span>
+      <span class="nav-label">SHOPS</span>
+      <span class="nav-sub">Where to buy everything</span>
     </button>
     <button class="nav-btn nb-nav" onclick="setPanel('navmap')">
       <span class="nav-icon">🗺️</span>
@@ -475,11 +487,6 @@ footer{text-align:center;padding:1.25rem;font-family:'Share Tech Mono',monospace
       <span class="nav-icon">📋</span>
       <span class="nav-label">BLUEPRINTS</span>
       <span class="nav-sub">Sources · Drop rates</span>
-    </button>
-  <button class="nav-btn nb-shopfind" onclick="setPanel('shopfind')">
-      <span class="nav-icon">🔍</span>
-      <span class="nav-label">SHOP FINDER</span>
-      <span class="nav-sub">Rent · Weapons · Attachments</span>
     </button>
   </div>
 </nav>
@@ -1441,13 +1448,38 @@ footer{text-align:center;padding:1.25rem;font-family:'Share Tech Mono',monospace
 </div>
 
 <!-- ============================================================ -->
-<!-- PANEL: NEW PLAYER CHECKLIST -->
+<!-- PANEL: SHOP DIRECTORY -->
 <!-- ============================================================ -->
 <div class="panel" id="panel-new">
-  <div class="sec-hdr"><div class="sec-title" style="color:var(--mid)">NEW PLAYER — DAY ONE CHECKLIST</div><div class="sec-sub">4.8 DAY ONE GUIDE · SAVES TO BROWSER</div></div>
-  <div class="info">Check off items as you complete them. Progress saves to your browser. Optimal path from zero to stable income in 4.8. Check off items as you complete them — progress saves to your browser.</div>
-  <div class="checklist" id="checklist"></div>
-  <button class="reset-checks" onclick="resetChecklist()">↺ RESET ALL CHECKBOXES</button>
+  <div class="sec-hdr"><div class="sec-title" style="color:var(--mid)">SHOP DIRECTORY</div><div class="sec-sub">SEARCH ANY ITEM · WHERE TO BUY IT · 4.8 LIVE</div></div>
+
+  <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.6rem">
+    <div style="flex:1;position:relative">
+      <input type="text" id="shop-search" placeholder='Search anything — "Deadbolt", "medpen", "Arrow", "shield"...' oninput="shopFilter()" style="width:100%;font-size:13px;padding:.45rem .65rem .45rem 1.9rem">
+      <span style="position:absolute;left:.55rem;top:50%;transform:translateY(-50%);color:var(--dim);font-size:14px">🔍</span>
+    </div>
+    <span id="shop-count" style="font-size:10px;color:var(--dim);white-space:nowrap"></span>
+  </div>
+
+  <div style="display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.6rem" id="shop-cats">
+    <button class="ltab active" onclick="shopCat('',this)">All</button>
+    <button class="ltab" onclick="shopCat('ship',this)">🚀 Ships</button>
+    <button class="ltab" onclick="shopCat('ship-weapon',this)">💥 Ship Weapons</button>
+    <button class="ltab" onclick="shopCat('component',this)">⚙️ Components</button>
+    <button class="ltab" onclick="shopCat('fps-weapon',this)">🔫 FPS Weapons</button>
+    <button class="ltab" onclick="shopCat('armor',this)">🛡️ Armor</button>
+    <button class="ltab" onclick="shopCat('tool',this)">🔧 Tools</button>
+    <button class="ltab" onclick="shopCat('medical',this)">💊 Medical</button>
+    <button class="ltab" onclick="shopCat('food',this)">🍔 Food</button>
+    <button class="ltab" onclick="shopCat('misc',this)">📦 Misc</button>
+  </div>
+
+  <div style="background:var(--panel);border:.5px solid var(--border);border-radius:var(--border-radius);overflow:hidden">
+    <div style="display:grid;grid-template-columns:180px 1fr auto;gap:.5rem;padding:.3rem .6rem;border-bottom:.5px solid var(--border2);font-size:10px;font-weight:500;color:var(--dim);letter-spacing:.06em">
+      <span>ITEM</span><span>WHERE TO BUY</span><span style="text-align:right">PRICE</span>
+    </div>
+    <div id="shop-cards"></div>
+  </div>
 </div>
 
 <!-- ============================================================ -->
@@ -1729,67 +1761,6 @@ footer{text-align:center;padding:1.25rem;font-family:'Share Tech Mono',monospace
 </div>
 
 
-<!-- PANEL: SHOP FINDER -->
-<!-- ============================================================ -->
-<div class="panel" id="panel-shopfind">
-  <div class="sec-hdr"><div class="sec-title" style="color:var(--teal)">SHOP FINDER</div><div class="sec-sub">RENT SHIPS · BUY WEAPONS · BUY ATTACHMENTS · CONFIRMED FROM 4.8 LIVE FILES</div></div>
-
-  <div class="cftabs" style="margin-bottom:.75rem">
-    <button class="ltab active" onclick="setShopTab('rent',this)">🚀 Rent Ships</button>
-    <button class="ltab" onclick="setShopTab('weapons',this)">🔫 Buy Weapons</button>
-    <button class="ltab" onclick="setShopTab('attachments',this)">🔧 Attachments &amp; Tools</button>
-  </div>
-
-  <!-- RENT SHIPS -->
-  <div class="miss-tab active" id="shop-rent">
-    <div class="info" style="margin-bottom:.75rem">Ship rentals are available at ASOP terminals. Not all ships are rentable — availability varies by location and CIG updates. Rental costs scale with ship size. Prices are approximate from 4.7 — verify in-game.</div>
-    <div style="position:relative;margin-bottom:.5rem">
-      <input type="text" id="rent-search" placeholder="Search ship name or role..." oninput="filterRent()" style="width:100%;font-size:12px;padding-left:1.6rem">
-      <span style="position:absolute;left:.5rem;top:50%;transform:translateY(-50%);color:var(--dim);font-size:13px">🔍</span>
-    </div>
-    <div style="overflow-x:auto">
-      <table class="data-tbl" id="rent-table" style="min-width:500px">
-        <thead><tr><th>Ship</th><th>Role</th><th>Rent/day (approx)</th><th>Where to rent</th><th>Notes</th></tr></thead>
-        <tbody id="rent-body"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- BUY WEAPONS -->
-  <div class="miss-tab" id="shop-weapons">
-    <div class="info" style="margin-bottom:.75rem">Search any ship weapon or FPS weapon. Ship weapons at ship component shops, FPS weapons at armistice zone shops and some outposts. All names confirmed from 4.8 live global.ini.</div>
-    <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem;align-items:center">
-      <div style="flex:1;min-width:160px;position:relative">
-        <input type="text" id="weap-search" placeholder="Search weapon name..." oninput="filterWeapons()" style="width:100%;font-size:12px;padding-left:1.6rem">
-        <span style="position:absolute;left:.5rem;top:50%;transform:translateY(-50%);color:var(--dim);font-size:13px">🔍</span>
-      </div>
-      <select id="weap-type" onchange="filterWeapons()" style="font-size:11px">
-        <option value="">All types</option>
-        <option value="ship">Ship weapons</option>
-        <option value="rifle">Rifles</option>
-        <option value="smg">SMGs</option>
-        <option value="pistol">Pistols</option>
-        <option value="shotgun">Shotguns</option>
-        <option value="sniper">Snipers</option>
-        <option value="lmg">LMGs</option>
-      </select>
-      <span id="weap-count" style="font-size:10px;color:var(--dim)"></span>
-    </div>
-    <div style="overflow-x:auto">
-      <table class="data-tbl" id="weap-table" style="min-width:500px">
-        <thead><tr><th>Weapon</th><th>Type</th><th>Size / Damage</th><th>Buy location</th><th>Notes</th></tr></thead>
-        <tbody id="weap-body"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- ATTACHMENTS & TOOLS -->
-  <div class="miss-tab" id="shop-attachments">
-    <div class="info" style="margin-bottom:.75rem">All multitool attachments and handheld tools. The Pyro RYT Multi-Tool accepts all attachments — buy the base tool first. All names confirmed from 4.8 live game files.</div>
-    <div id="attach-cards"></div>
-  </div>
-</div>
-
 <!-- PANEL: BLUEPRINT SOURCES -->
 <!-- ============================================================ -->
 <div class="panel" id="panel-bpsrc">
@@ -1905,11 +1876,408 @@ footer{text-align:center;padding:1.25rem;font-family:'Share Tech Mono',monospace
 
 <script>
 // ===== NAV =====
+// ===== CALCULATOR =====
+const calcActivities=[
+  {id:'vlrt',label:'VLRT Bounty',base:10000,unit:'mission'},
+  {id:'lrt',label:'LRT Bounty',base:22000,unit:'mission'},
+  {id:'mrt',label:'MRT Bounty',base:42000,unit:'mission'},
+  {id:'hrt',label:'HRT Bounty',base:65000,unit:'mission'},
+  {id:'vhrt',label:'VHRT Bounty',base:100000,unit:'mission'},
+  {id:'ert',label:'ERT Bounty',base:225000,unit:'mission'},
+  {id:'janalite',label:'Janalite Hand Mining',base:180000,unit:'hr'},
+  {id:'prospector',label:'Prospector Ship Mining',base:350000,unit:'hr'},
+  {id:'mole',label:'MOLE Ship Mining (3 crew)',base:900000,unit:'hr'},
+  {id:'vulture',label:'Vulture Solo Salvage',base:200000,unit:'hr'},
+  {id:'reclaimer',label:'Reclaimer Salvage (crew)',base:800000,unit:'hr'},
+  {id:'covalex_haul',label:'Covalex Raw Ore Haul',base:120000,unit:'hr'},
+  {id:'covalex_inter',label:'Covalex Interstellar Haul',base:280000,unit:'hr'},
+  {id:'c2_trade',label:'C2 Trade Route',base:600000,unit:'hr'},
+  {id:'cfp_cargo',label:'CFP Recover Cargo',base:85000,unit:'mission'},
+  {id:'gauntlet',label:'Gauntlet Scenario 6',base:150000,unit:'mission'},
+  {id:'xenothreat',label:'Xenothreat Phase 1',base:280000,unit:'hr'},
+];
+const calcQuality={avg:1,good:1.25,great:1.5};
+const calcServer={full:1,medium:1.15,low:1.25};
+const calcExp={solo:1,duo:0.75,group:0.6};
+function calcUpdate(){
+  const act=calcActivities.find(a=>a.id===(document.getElementById('calcActivity')?.value||'vlrt'))||calcActivities[0];
+  const q=calcQuality[document.getElementById('calcQuality')?.value||'avg']||1;
+  const s=calcServer[document.getElementById('calcServer')?.value||'full']||1;
+  const e=calcExp[document.getElementById('calcExp')?.value||'solo']||1;
+  const base=act.base*q*s*e;
+  const hr=act.unit==='mission'?base*4:base;
+  const day=hr*3;
+  const setEl=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};
+  setEl('calcResult',fmtAuec(base));
+  setEl('calcUnit','per '+act.unit);
+  setEl('calcHr',fmtAuec(hr)+'/hr');
+  setEl('calcDay',fmtAuec(day)+'/day (3hr session)');
+  setEl('calcNotes',act.unit==='mission'?'Assumes ~4 missions/hr average':'Based on active play, not AFK');
+}
+function fmtAuec(n){if(n>=1e6)return(n/1e6).toFixed(2)+'M aUEC';if(n>=1e3)return Math.round(n/1e3)+'k aUEC';return Math.round(n)+' aUEC';}
+calcUpdate();
+
+// ===== MINERALS =====
+const MINERALS=[
+  {name:'Janalite',type:'hand',value:'very-high',sys:['stanton'],locs:'Daymar, Hurston, Ita, Magda Sand Caves, Wala — cave nodes',craft:''},
+  {name:'Hadanite',type:'hand',value:'high',sys:['stanton','pyro'],locs:'All Moons/Planets/Caves',craft:''},
+  {name:'Aphorite',type:'hand',value:'low',sys:['stanton','pyro'],locs:'All Moons/Planets/Caves',craft:''},
+  {name:'Dolivine',type:'hand',value:'low',sys:['stanton','pyro'],locs:'All Moons/Planets/Caves',craft:''},
+  {name:'Quantainium',type:'ship',value:'high',sys:['stanton'],locs:'Stanton asteroid deposits (rare) — explosive, handle carefully',craft:''},
+  {name:'Lindinium',type:'ship',value:'high',sys:['nyx'],locs:'Glaciem Ring, Keeger Belt',craft:'Aves/Shrike/Talon armor, Aztalan stealth, F55/FS-9/Pulverizer LMG'},
+  {name:'Savrilium',type:'ship',value:'high',sys:['nyx'],locs:'Glaciem Ring, Keeger Belt, QV Breaker Stations (Nyx)',craft:'Monde armor, Palatino armor, R97 Shotgun, P8-SC SMG'},
+  {name:'Sadaryx',type:'hand',value:'medium',sys:['nyx'],locs:'QV Breaker Stations (Nyx) — exclusive to Nyx',craft:'Sadaryx Focus Lens (crafting component)'},
+  {name:'Laranite',type:'ship',value:'high',sys:['stanton','pyro'],locs:'HUR-L1/L4/L5, Lyria, Pyro IV, Wala',craft:'Corbel/Palatino engineer, Morozov/Inquisitor hunter, Chiron medic armor'},
+  {name:'Bexalite',type:'ship',value:'high',sys:['stanton','pyro','nyx'],locs:'CRU-L1/L2, Fairo, Fuego, Glaciem Ring, HUR-L3, Keeger Belt, Pyro Asteroid Clusters, Vuur',craft:''},
+  {name:'Agricium',type:'ship',value:'medium',sys:['stanton','pyro'],locs:'ARC-L3, Cellin, CRU-L5, Daymar, MIC-L4, Pyro Asteroid Clusters, Terminus, Vuur, Yela',craft:'CBH-3, Calico, PAB-1 light combat armor'},
+  {name:'Taranite',type:'ship',value:'medium',sys:['stanton','pyro'],locs:'ARC-L1/L2/L4, Cellin, Clio, Euterpe, HUR-L2, Pyro Asteroid Clusters, Yela',craft:'Horizon/MacFlex cosmonaut, Dust Devil/Manticore explorer, sniper rifles'},
+  {name:'Hephaestanite',type:'ship',value:'medium',sys:['stanton','pyro'],locs:'Arial, ARC-L1/L2/L4, Calliope, CRU-L3, Fuego, HUR-L1/L2/L4/L5, MIC-L1/L2/L5, microTech, Monox, Pyro Asteroid Clusters, Vuur',craft:'Ballistic/Electron/Laser/Plasma ammo, multiple FPS weapons'},
+  {name:'Beryl',type:'ship',value:'medium',sys:['stanton','pyro'],locs:'Aaron Halo, ARC-L3, CRU-L5, MIC-L4, Pyro Asteroid Clusters, Wala',craft:'Karna Rifle'},
+  {name:'Aslarite',type:'ship',value:'medium',sys:['stanton','pyro'],locs:'Aaron Halo, ARC-L5, CRU-L4, Fuego, Ita, Magda, MIC-L4, Pyro Asteroid Clusters, Vuur',craft:'Heavy/Medium/Light combat armor, cosmonaut/explorer/hunter/medic/miner/salvager/stealth'},
+  {name:'Ouratite',type:'ship',value:'medium',sys:['stanton'],locs:'Aberdeen, Arial, Hurston, Yela Ring',craft:'Heavy/Light/Medium combat armor sets'},
+  {name:'Stileron',type:'ship',value:'medium',sys:['pyro'],locs:'All Pyro Planets, Akiro Cluster, Pyro Asteroid Clusters',craft:'Testudo medium combat, environment/hunter/medic/radiation/stealth armor, P8-AR Rifle'},
+  {name:'Borase',type:'ship',value:'low',sys:['stanton','pyro'],locs:'Adir, Bloom, Fuego, HUR-L1/L4/L5, Pyro Asteroid Clusters, Pyro IV',craft:''},
+  {name:'Riccite',type:'ship',value:'low',sys:['stanton','pyro'],locs:'Adir, Akiro Cluster, Bloom, Ignis, Pyro Asteroid Clusters, Terminus, Vatra',craft:'Dust Devil explorer, Strata miner armor, Karna Rifle, Lumin V SMG'},
+  {name:'Titanium',type:'ship',value:'low',sys:['stanton','pyro'],locs:'Aaron Halo, Aberdeen, CRU-L1/L2, HUR-L3, Magda, Pyro Asteroid Clusters, Terminus, Yela Ring',craft:'Citadel/Fortifier heavy combat, Corbel heavy engineer armor'},
+  {name:'Tungsten',type:'ship',value:'low',sys:['stanton','pyro'],locs:'Adir, ARC-L1/L2/L4, Fairo, HUR-L2, Pyro Asteroid Clusters',craft:'Ballistic ammo, ORC-mkX medium combat, Antium/Morozov/Inquisitor hunter, Aril salvager'},
+  {name:'Copper',type:'ship',value:'low',sys:['stanton','pyro'],locs:'Aaron Halo, Akiro Cluster, ARC-L3/L5, Clio, CRU-L1/L2/L4/L5, Euterpe, Lyria, MIC-L3/L4, Pyro Asteroid Clusters, Pyro I/IV, Terminus, Wala, Yela Ring',craft:'Plasma Ammo, Arclight/Yubarev pistol, Gallant Rifle, Devastator Shotgun, Custodian/Lumin V/Ripper SMG'},
+  {name:'Corundum',type:'ship',value:'low',sys:['stanton','pyro'],locs:'Aberdeen, ARC-L1/L2/L4, Arial, CRU-L3, Hurston, HUR-L1/L2/L4/L5, MIC-L1/L2/L5, Pyro Asteroid Clusters',craft:'Strata miner, Aril salvager armor, Demeco LMG, Gallant Rifle, Custodian SMG'},
+  {name:'Gold',type:'ship',value:'low',sys:['stanton','pyro'],locs:'ARC-L5, CRU-L4, Fairo, Ignis, MIC-L3, Pyro Asteroid Clusters, Terminus, Vatra',craft:'Electron Ammo, Fresnel LMG, Pulse/Parallax energy weapons, Zenith laser sniper'},
+  {name:'Iron',type:'ship',value:'low',sys:['stanton','pyro','nyx'],locs:'Aaron Halo, Adir, Akiro Cluster, ARC-L3/L5, Bloom, Calliope, CRU-L1/L2/L4/L5, Fairo, Fuego, Glaciem Ring, HUR-L3, Keeger Belt, Lyria, Magda, microTech, MIC-L3/L4, Monox, Pyro Asteroid Clusters, Pyro I/IV, Vatra, Vuur, Wala, Yela Ring',craft:'Ballistic ammo, FPS weapons (multiple)'},
+  {name:'Silicon',type:'ship',value:'low',sys:['stanton','pyro'],locs:'Aaron Halo, Akiro Cluster, Cellin, Daymar, Fairo, Ignis, Pyro Asteroid Clusters, Vatra, Yela',craft:'Xanthule flightsuit, Mirai racing armor, undersuit armor sets'},
+  {name:'Aluminium',type:'ship',value:'low',sys:['stanton','pyro','nyx'],locs:'Aaron Halo, Aberdeen, ARC-L1/L2, Arial, CRU-L3, Glaciem Ring, HUR-L1/L2/L4/L5, Ita, Keeger Belt, Magda, MIC-L1/L2/L5, Pyro Asteroid Clusters',craft:''},
+  {name:'Tin',type:'ship',value:'low',sys:['stanton','pyro'],locs:'Arial, Hurston, Ignis, Ita, Monox, Pyro Asteroid Clusters, Pyro I',craft:'CSP-68L light stealth armor'},
+  {name:'Torite',type:'ship',value:'low',sys:['stanton','pyro','nyx'],locs:'Akiro Cluster, CRU-L3, Glaciem Ring, Keeger Belt, MIC-L1/L2/L5, Pyro Asteroid Clusters, QV Breaker Stations (Nyx)',craft:'Ballistic ammo, shotguns, Ripper SMG'},
+  {name:'Quartz',type:'ship',value:'low',sys:['stanton','pyro'],locs:'Bloom, Cellin, Daymar, Pyro Asteroid Clusters, Yela',craft:'Laser Ammo'},
+  {name:'Caranite',type:'ship',value:'low',sys:['stanton'],locs:'Aberdeen, Daymar',craft:''},
+  {name:'Ice',type:'ship',value:'low',sys:['stanton','pyro','nyx'],locs:'Aaron Halo, Akiro Cluster, ARC-L3/L5, Calliope, Clio, Euterpe, Glaciem Ring, HUR-L3, Keeger Belt, microTech, MIC-L3/L4, Pyro Asteroid Clusters, Yela Ring',craft:''},
+  {name:'Beradon',type:'ship',value:'low',sys:['pyro'],locs:'Bloom, Pyro I',craft:''},
+  {name:'Feynmaline',type:'ship',value:'rare',sys:['pyro'],locs:'Pyro IV — rare',craft:''},
+  {name:'Glacosite',type:'ship',value:'low',sys:['pyro'],locs:'Monox',craft:''},
+];
+const VALUE_COLORS={'very-high':'var(--gold)','high':'var(--teal)','medium':'var(--amber)','low':'var(--dim)','rare':'var(--red)'};
+const VALUE_LABELS={'very-high':'Very High','high':'High','medium':'Medium','low':'Low','rare':'Rare'};
+let minSortDir=1;
+function minFilter(){
+  const q=(document.getElementById('min-search')||{}).value?.toLowerCase()||'';
+  const sys=(document.getElementById('min-sys')||{}).value||'';
+  const type=(document.getElementById('min-type')||{}).value||'';
+  let filtered=MINERALS.filter(m=>{
+    if(q&&!m.name.toLowerCase().includes(q)&&!m.locs.toLowerCase().includes(q)&&!m.craft.toLowerCase().includes(q))return false;
+    if(sys&&!m.sys.includes(sys))return false;
+    if(type==='hand'&&m.type!=='hand')return false;
+    if(type==='ship'&&m.type!=='ship')return false;
+    if(type==='rare'&&m.value!=='very-high'&&m.value!=='high'&&m.value!=='rare')return false;
+    return true;
+  });
+  const body=document.getElementById('min-body');
+  const none=document.getElementById('min-none');
+  const countEl=document.getElementById('min-count');
+  if(countEl)countEl.textContent=filtered.length+' minerals';
+  if(!filtered.length){if(body)body.innerHTML='';if(none)none.style.display='block';return;}
+  if(none)none.style.display='none';
+  if(!body)return;
+  const typeIcon={hand:'👤',ship:'🚀'};
+  body.innerHTML=filtered.map(m=>`<tr>
+    <td style="font-weight:500">${m.name}</td>
+    <td style="font-size:11px">${typeIcon[m.type]||''} ${m.type==='hand'?'Hand':'Ship'}</td>
+    <td><span style="color:${VALUE_COLORS[m.value]};font-size:11px;font-weight:500">${VALUE_LABELS[m.value]}</span></td>
+    <td style="font-size:11px;color:var(--dim);max-width:280px">${m.locs}</td>
+    <td style="font-size:10px;color:var(--dim);max-width:200px">${m.craft||'—'}</td>
+  </tr>`).join('');
+}
+function minSort(col){minSortDir*=-1;minFilter();}
+
+// ===== MISSIONS TABS =====
+function setMissTab(t,btn){
+  document.querySelectorAll('.miss-tab').forEach(c=>c.classList.remove('active'));
+  const el=document.querySelector('#miss-'+t);
+  if(el)el.classList.add('active');
+  const tabs=btn.closest('.cftabs');
+  if(tabs)tabs.querySelectorAll('.ltab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ===== BHG TIERS =====
+const BHG_TIERS=[
+  {tier:'VLRT',name:'Very Low-Risk Target',cert:'Tracker Training Permit',unlock:'Starting tier — no cert needed',enemies:'1–2 ships, minimal escort',approxPay:'5k–15k aUEC',xp:'+50 XP cert',risk:'Low',color:'var(--teal)'},
+  {tier:'LRT',name:'Low-Risk Target',cert:'Tracker Beginner\'s Permit',unlock:'Complete VLRT cert mission — Junior rank',enemies:'2–4 ships, small escort',approxPay:'15k–30k aUEC',xp:'+50 XP cert',risk:'Low-Med',color:'var(--teal)'},
+  {tier:'MRT',name:'Moderate-Risk Target',cert:'Tracker License',unlock:'Complete LRT cert mission — Member rank',enemies:'4 ships, medium escort',approxPay:'30k–50k aUEC',xp:'+50 XP cert',risk:'Medium',color:'var(--amber)'},
+  {tier:'HRT',name:'High-Risk Target',cert:'Journeyman Tracker License',unlock:'Complete MRT cert mission — Guild Member rank',enemies:'6 ships, heavy escort',approxPay:'42k–80k aUEC',xp:'+50 XP cert',risk:'Medium-High',color:'var(--amber)'},
+  {tier:'VHRT',name:'Very High-Risk Target',cert:'Advanced Tracker License',unlock:'Complete HRT cert mission — Senior rank',enemies:'4+ ships, heavy multicrew',approxPay:'60k–120k aUEC',xp:'+50 XP cert',risk:'High',color:'var(--gold)'},
+  {tier:'ERT',name:'Extreme-Risk Target',cert:'Master Tracker License',unlock:'Complete VHRT cert mission — Veteran rank',enemies:'4+ sub-capital + escorts',approxPay:'100k–300k+ aUEC',xp:'+50 XP cert',risk:'Very High',color:'var(--red)'},
+];
+function renderBHG(){
+  const el=document.getElementById('bhg-tiers');
+  if(!el)return;
+  el.innerHTML=BHG_TIERS.map((t,i)=>`
+    <div style="background:var(--panel);border:.5px solid var(--border);border-left:2px solid ${t.color};border-radius:var(--border-radius);overflow:hidden">
+      <div style="padding:.4rem .75rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;cursor:pointer;user-select:none" onclick="this.parentElement.querySelector('.bhg-body').style.display=this.parentElement.querySelector('.bhg-body').style.display==='none'?'block':'none'">
+        <span style="font-size:11px;font-weight:500;color:${t.color};min-width:2.5rem">${t.tier}</span>
+        <span style="font-size:12px;font-weight:500;color:var(--color-text-primary)">${t.name}</span>
+        <span style="font-size:10px;color:var(--gold);margin-left:auto">${t.approxPay}</span>
+        <span style="font-size:10px;color:var(--dim)">▼</span>
+      </div>
+      <div class="bhg-body" style="display:${i===0?'block':'none'};border-top:.5px solid var(--border);padding:.5rem .75rem">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.5rem;font-size:11px">
+          <div><span style="color:var(--dim)">Cert required:</span> <span>${t.cert}</span></div>
+          <div><span style="color:var(--dim)">Unlocked by:</span> <span>${t.unlock}</span></div>
+          <div><span style="color:var(--dim)">Enemy composition:</span> <span>${t.enemies}</span></div>
+          <div><span style="color:var(--dim)">Risk tier:</span> <span style="color:${t.color}">${t.risk}</span></div>
+          <div><span style="color:var(--dim)">Payout range:</span> <span style="color:var(--gold)">${t.approxPay}</span></div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ===== LOADOUT BUILDER =====
+const LB_SHIPS={
+  gladius:{name:'Anvil Gladius',class:'Light Fighter',crew:1,scm:'226 m/s',armor:'4,125 HP',role:'VLRTs → HRTs · Best beginner combat ship',auec:2381400,buy:'Lorville / Area 18',
+    presets:{'Deadbolt Fixed (meta)':{slots:[
+      {slot:'3× S2 Weapon',size:'S2',item:'Deadbolt II Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18 / Grim Hex',cost:42000,qty:3,note:'Fixed mount — best DPS'},
+      {slot:'S2 Shield',size:'S2',item:'FR-66 (crafted) / Palisade S2',mfr:'Foxwell / BASL',src:'Crafted (BP req) / Area 18',cost:80000,qty:1,note:'FR-66 if you have BP'},
+      {slot:'S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville / Area 18',cost:55000,qty:1,note:''},
+      {slot:'2× S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18 / New Babbage',cost:18000,qty:2,note:''},
+      {slot:'S1 Quantum Drive',size:'S1',item:'VK-00 (crafted) / Beacon',mfr:'Wetherstone',src:'Crafted (BP req) / stock',cost:35000,qty:1,note:''},
+    ],tip:'Best new-player combat ship. Cheap to repair. Run gimbals while learning aim, switch to fixed Deadbolts once consistent.',role:'VLRTs → HRTs'},
+    'Gimbal Laser (beginner)':{slots:[
+      {slot:'3× S2 Weapon',size:'S2',item:'Attrition-3 Laser Cannon',mfr:'JOKER',src:'Lorville / Area 18',cost:28000,qty:3,note:'Gimbal — unlimited ammo'},
+      {slot:'S2 Shield',size:'S2',item:'Palisade S2',mfr:'BASL',src:'Area 18',cost:75000,qty:1,note:''},
+      {slot:'S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:1,note:''},
+      {slot:'2× S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18',cost:18000,qty:2,note:'Lasers run hot'},
+      {slot:'S1 Quantum Drive',size:'S1',item:'Beacon (stock)',mfr:'stock',src:'Stock',cost:0,qty:1,note:''},
+    ],tip:'Zero pressure — gimbals auto-track. Swap to Deadbolts once comfortable.',role:'VLRTs → MRTs'}}},
+  arrow:{name:'Anvil Arrow',class:'Light Fighter',crew:1,scm:'229 m/s',armor:'4,125 HP',role:'HRT / VHRT solo grind',auec:1100000,buy:'Lorville / Area 18',
+    presets:{'Deadbolt Fixed (meta)':{slots:[
+      {slot:'2× S2 Weapon',size:'S2',item:'Deadbolt II Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18 / Grim Hex',cost:42000,qty:2,note:'Fixed only — Arrow has no gimbal mounts'},
+      {slot:'S2 Shield',size:'S2',item:'FR-66 (crafted) / Palisade S2',mfr:'Foxwell / BASL',src:'Crafted / Area 18',cost:80000,qty:1,note:''},
+      {slot:'S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:1,note:''},
+      {slot:'S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18',cost:18000,qty:1,note:''},
+      {slot:'S1 Quantum Drive',size:'S1',item:'VK-00 (crafted) / Beacon',mfr:'Wetherstone',src:'Crafted / stock',cost:35000,qty:1,note:''},
+    ],tip:'Fastest light fighter. Only 2 weapons but fixed-mount forces you to learn fixed aim — pays off massively at HRT/VHRT. Low repair cost.',role:'HRTs → VHRTs'}}},
+  hawk:{name:'Anvil Hawk',class:'Light Fighter',crew:1,scm:'225 m/s',armor:'4,125 HP',role:'Bounty hunting · EMP / disable builds',auec:1200000,buy:'Lorville',
+    presets:{'Deadbolt Fixed (meta)':{slots:[
+      {slot:'2× S3 Weapon',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:2,note:'S3 on a light fighter'},
+      {slot:'2× S2 Shield',size:'S2',item:'Palisade S2',mfr:'BASL',src:'Area 18',cost:75000,qty:2,note:'Hawk runs dual S2 shields'},
+      {slot:'S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:1,note:''},
+      {slot:'2× S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18',cost:18000,qty:2,note:''},
+      {slot:'S1 Quantum Drive',size:'S1',item:'VK-00 (crafted) / Beacon',mfr:'Wetherstone',src:'Crafted / stock',cost:35000,qty:1,note:''},
+    ],tip:'Underrated ship. S3 Deadbolts on a light frame. Dual shields give it more staying power than Arrow or Gladius.',role:'HRTs → VHRTs'}}},
+  f7c:{name:'Anvil F7C Hornet Mk II',class:'Medium Fighter',crew:1,scm:'220 m/s',armor:'8,250 HP',role:'HRT–ERT · Xenothreat · Org combat sessions',auec:2800000,buy:'Lorville / Area 18',
+    presets:{'Full Deadbolt (meta)':{slots:[
+      {slot:'4× S3 Weapon',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:4,note:'Fixed — brutal alpha damage'},
+      {slot:'S3 Shield',size:'S3',item:'FR-76 (crafted) / Palisade S3',mfr:'Foxwell / BASL',src:'Crafted / Area 18',cost:145000,qty:1,note:''},
+      {slot:'S2 Power Plant',size:'S2',item:'QuadraCell MT S2',mfr:'Aegis',src:'Lorville / New Babbage',cost:90000,qty:1,note:''},
+      {slot:'2× S2 Cooler',size:'S2',item:'SnowBlind S2',mfr:'Tyler Design',src:'Area 18',cost:32000,qty:2,note:''},
+      {slot:'S2 Quantum Drive',size:'S2',item:'XL-1 (crafted) / Crossfield',mfr:'Wetherstone',src:'Crafted / Area 18',cost:55000,qty:1,note:''},
+    ],tip:'Catfight org workhorse. Four S3 fixed Deadbolts delete medium targets fast. Buy ship + weapons first, upgrade components as you earn.',role:'HRTs → ERTs'}}},
+  sabre:{name:'Aegis Sabre',class:'Stealth Fighter',crew:1,scm:'223 m/s',armor:'3,465 HP',role:'Solo PvE · Stealth ops · High alpha damage',auec:2600000,buy:'Grim Hex',
+    presets:{'Full Deadbolt (meta)':{slots:[
+      {slot:'4× S3 Weapon',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Grim Hex',cost:68000,qty:4,note:'Fixed wing mounts'},
+      {slot:'S3 Shield',size:'S3',item:'FR-76 (crafted) / Palisade S3',mfr:'Foxwell / BASL',src:'Crafted / Area 18',cost:145000,qty:1,note:''},
+      {slot:'2× S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:2,note:'Sabre runs dual S1 power'},
+      {slot:'2× S1 Cooler',size:'S1',item:'Boreal S1',mfr:'Aegis',src:'Lorville / Area 18',cost:25000,qty:2,note:'Low EM — confirmed MIL-2D in game files'},
+      {slot:'S1 Quantum Drive',size:'S1',item:'XL-1 (crafted) / Beacon',mfr:'Wetherstone',src:'Crafted / stock',cost:35000,qty:1,note:''},
+    ],tip:'Four S3 Deadbolts on an agile frame. Thin armor — pick fights on your terms. <strong>4.8 confirms new stealth shields: Mirage (S1), Veil (S1), Obscura/Sheut/Umbra (S2) — lower EM than Palisade for true stealth.</strong>',role:'HRTs → VHRTs'}}},
+  vanguard:{name:'Aegis Vanguard Harbinger',class:'Heavy Fighter',crew:2,scm:'212 m/s',armor:'12,375 HP',role:'ERT specialist · Long patrols · Built-in bed bay',auec:10934595,buy:'Lorville',
+    presets:{'Full Deadbolt (meta)':{slots:[
+      {slot:'2× S5 Nose (fixed)',size:'S5',item:'Deadbolt V Ballistic Cannon',mfr:'Esperia',src:'Lorville (limited stock)',cost:185000,qty:2,note:'Primary firepower'},
+      {slot:'2× S3 Wing',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:2,note:''},
+      {slot:'2× S3 Shield',size:'S3',item:'FR-76 (crafted) / Palisade S3',mfr:'Foxwell / BASL',src:'Crafted / Area 18',cost:145000,qty:2,note:'Vanguard runs dual S3 shields'},
+      {slot:'S2 Power Plant',size:'S2',item:'QuadraCell MT S2',mfr:'Aegis',src:'Lorville',cost:90000,qty:1,note:''},
+      {slot:'2× S2 Cooler',size:'S2',item:'SnowBlind S2',mfr:'Tyler Design',src:'Area 18',cost:32000,qty:2,note:''},
+      {slot:'S2 Quantum Drive',size:'S2',item:'XL-1 (crafted) / Crossfield',mfr:'Wetherstone',src:'Crafted / Area 18',cost:55000,qty:1,note:''},
+    ],tip:'ERT and long patrol specialist. Built-in bed bay — respawn inside. Tanky enough to absorb escort fire while S5 nose cannons delete primary targets.',role:'VHRTs → ERTs'}}},
+  corsair:{name:'Drake Corsair',class:'Exploration / Combat',crew:4,scm:'217 m/s',armor:'8,250 HP',role:'Long range patrols · Org multi-role · Nyx / Pyro sorties',auec:3200000,buy:'Grim Hex / Lorville',
+    presets:{'Combat loadout':{slots:[
+      {slot:'2× S4 Weapon (nose)',size:'S4',item:'Deadbolt IV Ballistic Cannon',mfr:'Esperia',src:'Lorville (limited)',cost:120000,qty:2,note:'Fixed nose — main firepower'},
+      {slot:'2× S3 Weapon (wing)',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:2,note:'Fixed wing'},
+      {slot:'S3 Turret (manned)',size:'S3',item:'Stock turret',mfr:'Stock',src:'Stock',cost:0,qty:1,note:'Rear turret'},
+      {slot:'2× S3 Shield',size:'S3',item:'Palisade S3',mfr:'BASL',src:'Area 18',cost:130000,qty:2,note:'Dual S3 shields'},
+      {slot:'S3 Power Plant',size:'S3',item:'Stock S3',mfr:'Stock',src:'Stock / Lorville',cost:0,qty:1,note:''},
+      {slot:'S2 Quantum Drive',size:'S2',item:'XL-1 (crafted) / Crossfield',mfr:'Wetherstone',src:'Crafted / Area 18',cost:55000,qty:1,note:'Long range QD essential'},
+    ],tip:'Catfight multi-role workhorse for longer ops. 4-crew, S4 nose weapons hit harder than most medium fighters. Upgrade QD first.',role:'HRTs → VHRTs (multi-role)'}}},
+  f7cm:{name:'Anvil F7C-M Super Hornet Mk II',class:'Medium Fighter',crew:2,scm:'215 m/s',armor:'8,250 HP',role:'Crew combat · Org multi-crew',auec:4000000,buy:'Area 18',
+    presets:{'Full Deadbolt (meta)':{slots:[
+      {slot:'4× S3 Weapon (pilot)',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:4,note:'Pilot fixed weapons'},
+      {slot:'S4 Ball Turret (gunner)',size:'S4',item:'Stock / Mantis GT-220',mfr:'stock / JOKER',src:'Stock or Area 18',cost:0,qty:1,note:'Gunner seat'},
+      {slot:'3× S1 Shield',size:'S1',item:'Palisade S1 (×3)',mfr:'BASL',src:'Area 18',cost:45000,qty:3,note:'Super Hornet runs 3× S1 shields'},
+      {slot:'S2 Power Plant',size:'S2',item:'QuadraCell MT S2',mfr:'Aegis',src:'Lorville',cost:90000,qty:1,note:''},
+      {slot:'2× S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18',cost:18000,qty:2,note:''},
+      {slot:'S1 Quantum Drive',size:'S1',item:'VK-00 (crafted) / Beacon',mfr:'Wetherstone',src:'Crafted / stock',cost:35000,qty:1,note:''},
+    ],tip:'Two-seat org ship. Pilot handles fixed weapons, gunner covers turret. Great for Catfight 2-person sorties.',role:'HRTs → ERTs (crew)'}}},
+};
+
+function lbLoad(){
+  const shipKey=document.getElementById('lb-ship')?.value;
+  const ship=LB_SHIPS[shipKey];
+  if(!ship)return;
+  const presetSel=document.getElementById('lb-preset');
+  if(!presetSel)return;
+  const currentPreset=presetSel.value;
+  presetSel.innerHTML=Object.keys(ship.presets).map(p=>`<option value="${p}">${p}</option>`).join('');
+  if(ship.presets[currentPreset])presetSel.value=currentPreset;
+  const presetKey=presetSel.value;
+  const preset=ship.presets[presetKey];
+  const fmtA=n=>n>=1e6?(n/1e6).toFixed(2)+'M aUEC':Math.round(n/1000)+'k aUEC';
+  const shipbar=document.getElementById('lb-shipbar');
+  if(shipbar)shipbar.innerHTML=`<span style="font-size:12px;font-weight:500;color:var(--gold)">${ship.name}</span><span style="font-size:11px;color:var(--dim)">${ship.class}</span><span style="font-size:11px;color:var(--dim)">Crew: ${ship.crew}</span><span style="font-size:11px;color:var(--dim)">SCM: ${ship.scm}</span><span style="font-size:11px;color:var(--dim)">Armor: ${ship.armor}</span><span style="font-size:11px;color:var(--teal)">Buy: ${ship.buy}</span><span style="font-size:11px;color:var(--gold)">Ship: ${fmtA(ship.auec)}</span>`;
+  const body=document.getElementById('lb-body');
+  if(body)body.innerHTML=preset.slots.map(s=>{
+    const lineTotal=s.cost*s.qty;
+    return`<tr><td style="font-weight:500">${s.slot}</td><td><span style="background:var(--panel);border:.5px solid var(--border);padding:.1rem .35rem;border-radius:var(--border-radius);font-size:10px">${s.size}</span></td><td style="color:var(--gold)">${s.item}</td><td style="font-size:11px;color:var(--dim)">${s.mfr}</td><td style="color:var(--dim)">${lineTotal>0?'~'+fmtA(lineTotal):'Stock'}</td><td style="font-size:10px;color:var(--dim)">${s.note}</td></tr>`;
+  }).join('');
+  const weapCost=preset.slots.filter(s=>s.slot.toLowerCase().includes('weapon')).reduce((a,s)=>a+s.cost*s.qty,0);
+  const compCost=preset.slots.filter(s=>!s.slot.toLowerCase().includes('weapon')).reduce((a,s)=>a+s.cost*s.qty,0);
+  const totalCost=ship.auec+weapCost+compCost;
+  const summ=document.getElementById('lb-summary');
+  if(summ)summ.innerHTML=`<div style="display:flex;gap:1.5rem;flex-wrap:wrap;font-size:11px"><span><span style="color:var(--dim)">Ship:</span> <span style="color:var(--gold)">${fmtA(ship.auec)}</span></span><span><span style="color:var(--dim)">Weapons:</span> <span style="color:var(--gold)">~${fmtA(weapCost)}</span></span><span><span style="color:var(--dim)">Components:</span> <span style="color:var(--gold)">~${fmtA(compCost)}</span></span><span style="font-weight:500"><span style="color:var(--dim)">Total:</span> <span style="color:var(--gold)">~${fmtA(totalCost)}</span></span><span><span style="color:var(--dim)">Best for:</span> <span style="color:var(--teal)">${preset.role}</span></span></div><div style="font-size:10px;color:var(--dim);margin-top:.35rem">Crafted items require blueprint. Deadbolt V may have limited stock at Lorville. Component prices are 4.7.2 estimates — verify in-game.</div>`;
+  const tipEl=document.getElementById('lb-tip');
+  if(tipEl)tipEl.innerHTML=`<div class="tip">${preset.tip}</div>`;
+  const routeEl=document.getElementById('lb-route');
+  if(routeEl)routeEl.innerHTML=lbBuildRoute(shipKey,preset);
+}
+
+// ===== BUY ROUTE PLANNER =====
+const STOP_ORDER=['Lorville','Grim Hex','Area 18','New Babbage','Orison','Levski','Crafted','Stock'];
+const ITEM_LOC={
+  'ship:gladius':[{loc:'Lorville',area:'New Deal — Teasa Spaceport'},{loc:'Area 18',area:'Astro Armada'}],
+  'ship:arrow':[{loc:'Lorville',area:'New Deal — Teasa Spaceport'},{loc:'Area 18',area:'Astro Armada'}],
+  'ship:hawk':[{loc:'Lorville',area:'New Deal — Teasa Spaceport'}],
+  'ship:f7c':[{loc:'Lorville',area:'New Deal — Teasa Spaceport'},{loc:'Area 18',area:'Astro Armada'}],
+  'ship:f7cm':[{loc:'Area 18',area:'Astro Armada'}],
+  'ship:sabre':[{loc:'Grim Hex',area:"Teach's Ship Shop"}],
+  'ship:vanguard':[{loc:'Lorville',area:'New Deal — Teasa Spaceport'}],
+  'ship:corsair':[{loc:'Grim Hex',area:"Teach's Ship Shop"},{loc:'Lorville',area:'New Deal — Teasa Spaceport'}],
+  'Deadbolt I':[{loc:'Lorville',area:'Centermass (L19)'},{loc:'Grim Hex',area:'Skutters'},{loc:'Area 18',area:"Dumper's Depot"}],
+  'Deadbolt II':[{loc:'Lorville',area:'Centermass (L19)'},{loc:'Grim Hex',area:'Skutters'},{loc:'Area 18',area:"Dumper's Depot"}],
+  'Deadbolt III':[{loc:'Lorville',area:'Centermass (L19)'},{loc:'Area 18',area:"Dumper's Depot"}],
+  'Deadbolt IV':[{loc:'Lorville',area:'Centermass (L19)'}],
+  'Deadbolt V':[{loc:'Lorville',area:'Centermass (L19) — limited stock, check all terminals'}],
+  'Attrition':[{loc:'Lorville',area:'Centermass (L19)'},{loc:'Area 18',area:"Dumper's Depot"}],
+  'FR-66':[{loc:'Crafted',area:'Foxwell event — Blueprint required'}],
+  'FR-76':[{loc:'Crafted',area:'Foxwell event — Blueprint required'}],
+  'Palisade S1':[{loc:'Area 18',area:"Dumper's Depot"},{loc:'New Babbage',area:'Omega Pro'}],
+  'Palisade S2':[{loc:'Area 18',area:"Dumper's Depot"},{loc:'New Babbage',area:'Omega Pro'}],
+  'Palisade S3':[{loc:'Area 18',area:"Dumper's Depot"},{loc:'New Babbage',area:'Omega Pro'}],
+  'QuadraCell S1':[{loc:'Lorville',area:'Centermass (L19)'},{loc:'Area 18',area:"Dumper's Depot"}],
+  'QuadraCell MT S2':[{loc:'Lorville',area:'Centermass (L19)'},{loc:'New Babbage',area:'Omega Pro'}],
+  'SnowBlind S1':[{loc:'Area 18',area:"Dumper's Depot"},{loc:'New Babbage',area:'Omega Pro'}],
+  'SnowBlind S2':[{loc:'Area 18',area:"Dumper's Depot"},{loc:'New Babbage',area:'Omega Pro'}],
+  'Boreal S1':[{loc:'Lorville',area:'Centermass (L19)'},{loc:'Area 18',area:"Dumper's Depot"}],
+  'VK-00':[{loc:'Crafted',area:'Covalex Master rank — Blueprint required'}],
+  'XL-1':[{loc:'Crafted',area:'Covalex Master rank — Blueprint required'}],
+  'Crossfield':[{loc:'Area 18',area:"Dumper's Depot"},{loc:'New Babbage',area:'Omega Pro'}],
+  'Beacon':[{loc:'Stock',area:'Comes with ship — no purchase needed'}],
+};
+const STOP_COLORS={Lorville:'var(--gold)','Grim Hex':'var(--red)','Area 18':'var(--teal)','New Babbage':'var(--blue)',Orison:'var(--green)',Levski:'var(--purple)',Crafted:'var(--amber)',Stock:'var(--dim)'};
+function lbFindLoc(itemName){
+  for(const key of Object.keys(ITEM_LOC)){if(key.startsWith('ship:'))continue;if(itemName.includes(key)||itemName.toLowerCase().includes(key.toLowerCase()))return ITEM_LOC[key];}
+  const first=itemName.split('/')[0].trim();
+  for(const key of Object.keys(ITEM_LOC)){if(key.startsWith('ship:'))continue;if(first.includes(key)||key.toLowerCase().includes(first.split(' ')[0].toLowerCase()))return ITEM_LOC[key];}
+  return [{loc:'Area 18',area:"Dumper's Depot (verify stock)"}];
+}
+function lbBuildRoute(shipKey,preset){
+  const ship=LB_SHIPS[shipKey];
+  const stops={};
+  const addStop=(loc,area,item,cost)=>{if(!stops[loc])stops[loc]=[];stops[loc].push({area,item,cost});};
+  const shipLoc=(ITEM_LOC['ship:'+shipKey]||[{loc:'Lorville',area:'New Deal'}])[0];
+  addStop(shipLoc.loc,shipLoc.area,`Buy ${ship.name}`,ship.auec);
+  preset.slots.forEach(s=>{
+    if(s.cost===0&&(s.item.toLowerCase().includes('stock')||s.item.toLowerCase().includes('built-in')))return;
+    const locs=lbFindLoc(s.item);
+    const best=locs[0];
+    addStop(best.loc,best.area,`${s.qty>1?s.qty+'× ':''}${s.item.split('/')[0].trim()}`,s.cost*s.qty);
+  });
+  const sortedStops=Object.keys(stops).sort((a,b)=>(STOP_ORDER.indexOf(a)<0?99:STOP_ORDER.indexOf(a))-(STOP_ORDER.indexOf(b)<0?99:STOP_ORDER.indexOf(b)));
+  const fmtA=n=>n>=1e6?(n/1e6).toFixed(2)+'M':Math.round(n/1000)+'k';
+  const realStops=sortedStops.filter(s=>s!=='Crafted'&&s!=='Stock');
+  const metaStops=sortedStops.filter(s=>s==='Crafted'||s==='Stock');
+  let html='<div style="display:flex;flex-direction:column;gap:.4rem">';
+  realStops.forEach((stop,i)=>{
+    const color=STOP_COLORS[stop]||'var(--dim)';
+    const items=stops[stop];
+    const stopCost=items.reduce((a,x)=>a+(x.cost||0),0);
+    const byArea={};items.forEach(it=>{if(!byArea[it.area])byArea[it.area]=[];byArea[it.area].push(it);});
+    html+=`<div style="background:var(--panel);border:.5px solid var(--border);border-left:2px solid ${color};border-radius:var(--border-radius);overflow:hidden"><div style="padding:.35rem .75rem;display:flex;align-items:center;gap:.6rem;border-bottom:.5px solid var(--border)"><span style="font-size:11px;font-weight:500;color:var(--dim);min-width:1.4rem">${i+1}</span><span style="font-size:12px;font-weight:500;color:${color}">${stop}</span>${stopCost>0?`<span style="font-size:10px;color:var(--dim);margin-left:auto">~${fmtA(stopCost)} aUEC</span>`:''}</div>`;
+    Object.entries(byArea).forEach(([area,its])=>{html+=`<div style="padding:.3rem .75rem;border-bottom:.5px solid var(--border)"><div style="font-size:10px;color:var(--dim);margin-bottom:.2rem">${area}</div>${its.map(it=>`<div style="font-size:11px;color:var(--gold);padding:.1rem 0">${it.item}</div>`).join('')}</div>`;});
+    html+='</div>';
+    if(i<realStops.length-1)html+=`<div style="text-align:center;font-size:11px;color:var(--dim);padding:.1rem 0">↓ quantum travel</div>`;
+  });
+  if(metaStops.length){metaStops.forEach(stop=>{const color=STOP_COLORS[stop];const items=stops[stop];html+=`<div style="margin-top:.4rem;background:var(--panel);border:.5px solid var(--border);border-left:2px solid ${color};border-radius:var(--border-radius);padding:.35rem .75rem"><div style="font-size:10px;font-weight:500;color:${color};margin-bottom:.25rem">${stop==='Crafted'?'📋 Blueprint required':'📦 Stock items'}</div>${items.map(it=>`<div style="font-size:11px;color:var(--dim);padding:.1rem 0">${it.item} — ${it.area}</div>`).join('')}</div>`;});}
+  html+='</div>';
+  return html;
+}
+
+// ===== BLUEPRINT SOURCES =====
+const BP_SOURCES=[
+  {name:'BHG — FPS Intro Bounty',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'BHG',priority:true,note:'First FPS bounty cert mission. Solo, 1 target on foot.',items:['P8-AR Rifle','P8-AR Rifle Magazine (15 Cap)','Palatino Arms','Palatino Arms Moonfall','Palatino Core','Palatino Core Moonfall','Palatino Helmet','Palatino Helmet Moonfall','Palatino Legs','Palatino Legs Moonfall']},
+  {name:'BHG — QV Breaker Station (Nyx)',loc:'Nyx',sys:'nyx',chance:'Guaranteed',faction:'BHG',priority:true,note:'Standard Claw Salamanders bounty. Dangerous fauna inside. +150 XP.',items:['Monde Arms','Monde Arms Hiro','Monde Core','Monde Core Hiro','Monde Helmet','Monde Helmet Hiro','Monde Legs','Monde Legs Hiro','R97 Shotgun','R97 Shotgun Magazine (18 cap)']},
+  {name:'BHG — Elite Boss QV Breaker (Nyx)',loc:'Nyx',sys:'nyx',chance:'75% chance',faction:'BHG',priority:true,note:'Kill 17 total enemies to draw out boss. +250 XP. Exclusive Crimson/Daimyo variants.',items:['Monde Arms Crimson Camo','Monde Arms Daimyo','Monde Core Crimson Camo','Monde Core Daimyo','Monde Helmet Crimson Camo','Monde Helmet Daimyo','Monde Legs Crimson Camo','Monde Legs Daimyo','R97 "Scorched" Shotgun','R97 Shotgun']},
+  {name:'BHG — Shattered Blade (Nyx)',loc:'Nyx',sys:'nyx',chance:'25% per tier',faction:'BHG',priority:false,note:'5-tier chain bounty vs Shattered Blade gang. +500 to +16,000 XP.',items:['Monde Arms','Monde Arms Hiro','Monde Core','Monde Core Hiro','Monde Helmet','Monde Helmet Hiro','Monde Legs','Monde Legs Hiro','R97 Shotgun']},
+  {name:'BHG — ASD Facility (Engineering)',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'BHG',priority:false,note:'FPS bounty at ASD research facility Engineering wing. 1 target.',items:['Palatino Arms Sunstone','Palatino Core Sunstone','Palatino Helmet Sunstone','Palatino Legs Sunstone']},
+  {name:'BHG — ASD Facility (Research)',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'BHG',priority:false,note:'FPS bounty at ASD research facility Research wing. 5 enemies. More Palatino variants.',items:['Palatino Arms Daystar','Palatino Arms Metropolis','Palatino Core Daystar','Palatino Core Metropolis','Palatino Helmet Daystar','Palatino Helmet Metropolis','Palatino Legs Metropolis','Palatino Legs Sunstone']},
+  {name:'Foxwell — All missions',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'Foxwell',priority:true,note:'Every Foxwell mission drops Antium heavy hunter armor. Wave attacks also drop Parallax rifle variants + MG Scrip.',items:['Antium Arms','Antium Arms Storm','Antium Arms Maroon','Antium Arms Moss Camo','Antium Arms Sand','Antium Arms Jet','Antium Core','Antium Core Storm','Antium Helmet','Antium Legs','Parallax Energy Assault Rifle','Parallax "Shock Trooper" Rifle','Parallax "Sanguine" Rifle','Parallax "Sunstone" Rifle','MG Scrip']},
+  {name:'InterSec — Security Patrol (ERT)',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'InterSec',priority:true,note:'New 4.8 faction. ERT patrol drops Testudo armor Nightveil/Turfwar + Quartz SMG + MG Scrip. Lower tiers drop Testudo Combustion/Earthshake + Pulse Pistol.',items:['Testudo Arms Nightveil','Testudo Arms Turfwar','Testudo Core Nightveil','Testudo Core Turfwar','Testudo Helmet Nightveil','Testudo Legs Nightveil','Testudo Arms Combustion','Testudo Core Combustion','Quartz "Deadfall" Energy SMG','Quartz "Lumen" Energy SMG','Pulse Laser Pistol','Pulse "Rouge" Pistol','MG Scrip']},
+  {name:'InterSec — Ship Bounties',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'InterSec',priority:false,note:'Ship combat contracts drop Monde armor + R97.',items:['Monde Arms','Monde Core','Monde Helmet','Monde Legs','R97 Shotgun']},
+  {name:'Headhunters — Eliminate (Easy/Hard)',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'Headhunters',priority:false,note:'Easy: Morozov-SH + Coda Pistol + Scalpel Sniper. Hard adds Devastator + Morozov Thule variants.',items:['Morozov-SH Arms','Morozov-SH Core','Morozov-SH Helmet','Morozov-SH Legs','Morozov-SH Arms Thule','Morozov-SH Core Thule','Coda Pistol','Coda "Big Boss" Pistol','Coda "Nighthawk" Pistol','Scalpel Sniper Rifle','Devastator Shotgun','Devastator "Midnight" Shotgun','Devastator "Warhawk" Shotgun']},
+  {name:'Headhunters — Eliminate All (Chain)',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'Headhunters',priority:false,note:'Chain elimination drops DustUp armor + Yubarev Pistol + Atzkav Sniper + Calico armor.',items:['DustUp Arms Tactical','DustUp Core Tactical','DustUp Helmet Tactical','DustUp Legs Tactical','Yubarev Pistol','Yubarev "Igniter" Pistol','Atzkav Sniper Rifle','Atzkav "Igniter" Sniper Rifle','Calico Arms Tactical','Calico Core Tactical']},
+  {name:'Black Box Recovery (Hard)',loc:'Stanton',sys:'stanton',chance:'100% (Hard only)',faction:'Generic',priority:false,note:'Hard difficulty drops Arrowhead Sniper + Aves medium combat armor + Lumin V SMG.',items:['Arrowhead Sniper Rifle','Aves Arms','Aves Core','Aves Helmet','Aves Legs','Aves Shrike Arms','Aves Shrike Core','Lumin V SMG']},
+  {name:'CFP — Recover Cargo',loc:'Stanton / Pyro',sys:'stanton',chance:'Guaranteed',faction:'CFP',priority:false,note:'Citizens for Prosperity cargo recovery. All tiers. Need tractor beam + cargo ship.',items:['ORC-mkV Arms','ORC-mkV Core','ORC-mkV Legs','ORC-mkX Arms Woodland','ORC-mkX Core Woodland','ORC-mkX Helmet Woodland','ORC-mkX Legs Woodland','C54 SMG','P8-SC SMG','S71 Rifle','G-2 Helmet Woodland']},
+  {name:'Eckhart — Defend Ship',loc:'Stanton / Pyro',sys:'stanton',chance:'Guaranteed',faction:'Eckhart',priority:false,note:'Eckhart Security defend ship missions drop Monde armor + R97. New in 4.8 live.',items:['Monde Arms','Monde Arms Hiro','Monde Core','Monde Core Hiro','Monde Helmet','Monde Helmet Hiro','Monde Legs','Monde Legs Hiro','R97 Shotgun']},
+  {name:'Shubin — Hand Mining (Intro/Stanton)',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'Shubin',priority:false,note:'Hand mining intro and Stanton missions drop Strata miner armor + Arclight pistols.',items:['Strata Arms','Strata Core','Strata Legs','Strata Helmet Shooting Star','Arclight Pistol','Arclight "Midnight" Pistol']},
+  {name:'Shubin — Hand Mining (Pyro VH)',loc:'Pyro',sys:'pyro',chance:'Guaranteed',faction:'Shubin',priority:false,note:'Pyro VH hand mining drops Novikov + Pembroke cosmonaut exploration suits.',items:['Novikov Exploration Suit','Novikov Helmet','Pembroke Exploration Suit','Pembroke Helmet','Arclight "Desert Shadow" Pistol','Arclight "Herrero" Pistol']},
+  {name:'Shubin — Ship Mining (Stanton Hard)',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'Shubin',priority:false,note:'Ship mining Hard drops Aril salvager armor + Arclight pistols.',items:['Aril Arms','Aril Core','Aril Helmet','Aril Legs','Arclight "Nightstalker" Pistol','Arclight "Warhawk" Pistol']},
+  {name:'Shubin — Ship Mining (Pyro Hard)',loc:'Pyro',sys:'pyro',chance:'Guaranteed',faction:'Shubin',priority:false,note:'Pyro ship mining Hard drops Venture cosmonaut armor + Horizon Helmet + Arclight pistols.',items:['Venture Arms','Venture Core','Venture Legs','Horizon Helmet','Arclight "Stormfall" Pistol']},
+  {name:'Shubin — Rockcracker Solo (Nyx)',loc:'Nyx',sys:'nyx',chance:'Guaranteed',faction:'Shubin',priority:true,note:'Exclusive Monde Delta Camo + Hemlock Camo variants + R97 Kismet/Righteous.',items:['Monde Arms Delta Camo','Monde Arms Hemlock Camo','Monde Core Delta Camo','Monde Core Hemlock Camo','Monde Helmet Delta Camo','Monde Legs Delta Camo','Monde Legs Hemlock Camo','R97 "Kismet" Shotgun','R97 "Righteous" Shotgun']},
+];
+function bpFilter(){
+  const searchEl=document.getElementById('bp-search');
+  const locEl=document.getElementById('bp-loc');
+  const chanceEl=document.getElementById('bp-chance');
+  const container=document.getElementById('bp-cards');
+  if(!container)return;
+  const q=(searchEl?.value||'').toLowerCase();
+  const loc=locEl?.value||'';
+  const chance=chanceEl?.value||'';
+  let filtered=BP_SOURCES.filter(s=>{
+    if(loc&&!s.sys.includes(loc.toLowerCase())&&!s.loc.toLowerCase().includes(loc.toLowerCase()))return false;
+    if(chance&&!s.chance.includes(chance))return false;
+    if(q&&!s.name.toLowerCase().includes(q)&&!s.faction.toLowerCase().includes(q)&&!s.items.some(i=>i.toLowerCase().includes(q))&&!s.note.toLowerCase().includes(q))return false;
+    return true;
+  });
+  if(!filtered.length){container.innerHTML='<div class="warn">No blueprint sources match your filters.</div>';return;}
+  const chanceColor=c=>c.includes('Guaranteed')||c.includes('100')?'var(--teal)':c.includes('75')?'var(--gold)':'var(--amber)';
+  const factionColor=f=>({BHG:'var(--red)',Foxwell:'var(--teal)',InterSec:'var(--blue)',Headhunters:'var(--amber)',Shubin:'var(--gold)',CFP:'var(--purple)',Eckhart:'var(--dim)',Generic:'var(--dim)'}[f]||'var(--dim)');
+  container.innerHTML=filtered.map(s=>`<div style="background:var(--panel);border:.5px solid var(--border);border-left:2px solid ${s.priority?'var(--gold)':'var(--border)'};border-radius:var(--border-radius);margin-bottom:.5rem;overflow:hidden"><div style="padding:.5rem .75rem;border-bottom:.5px solid var(--border);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap"><span style="font-size:10px;font-weight:500;color:${factionColor(s.faction)};min-width:70px">${s.faction}</span><span style="font-size:12px;font-weight:500;color:var(--color-text-primary);flex:1">${s.name}</span><span style="font-size:10px;padding:.1rem .35rem;border:.5px solid var(--border);border-radius:var(--border-radius);color:var(--dim)">${s.loc}</span><span style="font-size:10px;font-weight:500;color:${chanceColor(s.chance)}">${s.chance}</span>${s.priority?'<span style="font-size:10px;color:var(--gold)">★</span>':''}</div><div style="padding:.5rem .75rem"><div style="font-size:11px;color:var(--dim);margin-bottom:.4rem;line-height:1.5">${s.note}</div><div style="display:flex;flex-wrap:wrap;gap:.25rem">${s.items.map(i=>`<span style="font-size:10px;padding:.15rem .4rem;background:var(--color-background-primary);border:.5px solid var(--border);border-radius:var(--border-radius);color:var(--color-text-secondary)">${i}</span>`).join('')}</div></div></div>`).join('');
+}
+
+function setShipTab(t,btn){
+  document.querySelectorAll('#panel-ships .loadout-content').forEach(c=>c.classList.remove('active'));
+  const el=document.querySelector('#ships-'+t);
+  if(el)el.classList.add('active');
+  document.querySelectorAll('#panel-ships .ltab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function setSys(s,btn){
+  document.querySelectorAll('.sys-content').forEach(c=>c.classList.remove('active'));
+  const el=document.querySelector('#sys-'+s);
+  if(el)el.classList.add('active');
+  document.querySelectorAll('.sys-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function tog(hdr){hdr.parentElement.classList.toggle('open');}
+function setBPRole(r,btn){
+  document.querySelectorAll('#panel-bp .ltab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderBP(r);
+}
+
 function setPanel(id){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
-  const btnMap={grind:'nb-grind',ships:'nb-ships',loadout:'nb-loadout',trade:'nb-trade',rep:'nb-rep',bp:'nb-bp',calc:'nb-calc',org:'nb-org',new:'nb-new',navmap:'nb-nav',shipdb:'nb-ships2',mining:'nb-mining',missions:'nb-missions',bpsrc:'nb-bpsrc',shopfind:'nb-shopfind'};
+  const btnMap={grind:'nb-grind',ships:'nb-ships',loadout:'nb-loadout',trade:'nb-trade',rep:'nb-rep',bp:'nb-bp',calc:'nb-calc',org:'nb-org',new:'nb-new',navmap:'nb-nav',shipdb:'nb-ships2',mining:'nb-mining',missions:'nb-missions',bpsrc:'nb-bpsrc'};
   const navBtn=document.querySelector('.'+btnMap[id]);
   if(navBtn)navBtn.classList.add('active');
   if(id==='calc')calcUpdate();
@@ -1930,977 +2298,197 @@ function setShipTab(t,btn){
   btn.classList.add('active');
 }
 // ===== SHOP FINDER =====
-const RENT_DATA=[
-  // Starters
-  {ship:'Aurora LN',role:'Starter',day:'~3k',where:'All major ASSOPs',note:'Cheapest rental — starter combat'},
-  {ship:'Aurora CL',role:'Cargo',day:'~3k',where:'All major ASSOPs',note:'16 SCU cargo variant'},
-  {ship:'Mustang Alpha',role:'Starter',day:'~3k',where:'All major ASSOPs',note:'Fast starter, minimal cargo'},
-  {ship:'Avenger Titan',role:'Starter / Cargo',day:'~5k',where:'Lorville · Area 18 · New Babbage · Checkmate',note:'Best starter rental — 8 SCU, versatile'},
-  {ship:'Cutter',role:'Cargo',day:'~4k',where:'Lorville · Area 18',note:'12 off-grid SCU — good early haul ship'},
-  // Light fighters
-  {ship:'Gladius',role:'Light Fighter',day:'~7k',where:'Lorville · Area 18 · Grim Hex',note:'Best dogfighter rental for learning combat'},
-  {ship:'Arrow',role:'Light Fighter',day:'~6k',where:'Lorville · Area 18',note:'Fixed weapon only — skill ceiling high'},
-  {ship:'Hawk',role:'Light Fighter',day:'~6k',where:'Lorville',note:'Built-in EMP — disable builds'},
-  // Medium fighters
-  {ship:'F7C Hornet Mk II',role:'Medium Fighter',day:'~10k',where:'Lorville · Area 18',note:'Org workhorse — rent before buying'},
-  {ship:'Sabre',role:'Stealth Fighter',day:'~10k',where:'Grim Hex',note:'Rent from Grim Hex specifically'},
-  // Cargo
-  {ship:'Cutlass Black',role:'Cargo / Multi',day:'~8k',where:'All major ASSOPs',note:'Most versatile rental in game'},
-  {ship:'Freelancer',role:'Cargo',day:'~9k',where:'Lorville · New Babbage',note:'Good mid cargo rental'},
-  {ship:'Hull A',role:'Cargo',day:'~5k',where:'Area 18 · Lorville',note:'64 SCU — best small cargo per credit'},
-  {ship:'Zeus Mk II CL',role:'Cargo',day:'~15k',where:'Lorville · Area 18',note:'128 SCU — excellent mid-tier haul'},
-  {ship:'Constellation Taurus',role:'Cargo / Combat',day:'~18k',where:'Lorville · Area 18',note:'174 SCU + 4x S3 guns'},
-  {ship:'C2 Hercules',role:'Large Cargo',day:'~45k',where:'Lorville · Area 18',note:'696 SCU — Covalex senior haul ship'},
-  // Mining
-  {ship:'Prospector',role:'Mining',day:'~12k',where:'Lorville · Area 18',note:'Solo asteroid mining — most common rental'},
-  {ship:'Greycat ROC',role:'Ground Mining',day:'~5k',where:'Lorville · Area 18',note:'Surface gem mining — fits in most ships'},
-  // Salvage
-  {ship:'Vulture',role:'Salvage',day:'~9k',where:'Lorville · Grim Hex',note:'Best solo salvage rental'},
-  // Medical
-  {ship:'Cutlass Red',role:'Medical',day:'~9k',where:'Lorville · Area 18',note:'Org support role rental'},
+// ===== UNIFIED SHOP DIRECTORY =====
+const ITEMS=[
+  // ── SHIPS (Rent & Buy) ──
+  {name:'Avenger Titan',cat:'ship',sub:'Starter / Cargo',loc:'Lorville New Deal · Area 18 Astro Armada · Grim Hex',note:'Best all-round starter — 8 SCU cargo, versatile',rent:'~5k/day',buy:'~1.36M'},
+  {name:'Aurora LN',cat:'ship',sub:'Starter / Combat',loc:'Lorville New Deal · Area 18 Astro Armada',note:'Cheapest combat ship',rent:'~3k/day',buy:'~950k'},
+  {name:'Aurora CL',cat:'ship',sub:'Starter / Cargo',loc:'Lorville New Deal · Area 18 Astro Armada',note:'16 SCU cargo variant',rent:'~3k/day',buy:'~950k'},
+  {name:'Mustang Alpha',cat:'ship',sub:'Starter',loc:'Lorville New Deal · Area 18 Astro Armada',note:'Fast starter, minimal cargo',rent:'~3k/day',buy:'~900k'},
+  {name:'Cutter',cat:'ship',sub:'Cargo',loc:'Lorville New Deal · Area 18 Astro Armada',note:'12 off-grid SCU, good early haul',rent:'~4k/day',buy:'~430k'},
+  {name:'Gladius',cat:'ship',sub:'Light Fighter',loc:'Lorville New Deal · Area 18 Astro Armada · Grim Hex Skutters',note:'Best dogfighter — good learning ship',rent:'~7k/day',buy:'~2.38M'},
+  {name:'Arrow',cat:'ship',sub:'Light Fighter',loc:'Lorville New Deal · Area 18 Astro Armada',note:'Fixed weapons only — high skill ceiling',rent:'~6k/day',buy:'~1.1M'},
+  {name:'Hawk',cat:'ship',sub:'Light Fighter',loc:'Lorville New Deal',note:'Built-in EMP — S3 weapons on light frame',rent:'~6k/day',buy:'~1.2M'},
+  {name:'F7C Hornet Mk II',cat:'ship',sub:'Medium Fighter',loc:'Lorville New Deal · Area 18 Astro Armada',note:'Org combat workhorse — 4x S3 hardpoints',rent:'~10k/day',buy:'~2.8M'},
+  {name:'F7C-M Super Hornet Mk II',cat:'ship',sub:'Medium Fighter',loc:'Area 18 Astro Armada',note:'2-seat version — gunner turret',rent:'~12k/day',buy:'~4M'},
+  {name:'Sabre',cat:'ship',sub:'Stealth Fighter',loc:'Grim Hex — Teach\'s Ship Shop ONLY',note:'Stealth fighter — only at Grim Hex',rent:'~10k/day',buy:'~2.6M'},
+  {name:'Vanguard Harbinger',cat:'ship',sub:'Heavy Fighter',loc:'Lorville New Deal',note:'ERT specialist — built-in bed bay',rent:'~30k/day',buy:'~10.93M'},
+  {name:'Cutlass Black',cat:'ship',sub:'Cargo / Multi-role',loc:'Lorville New Deal · Area 18 Astro Armada · Grim Hex',note:'Most versatile ship in game',rent:'~8k/day',buy:'~1.7M'},
+  {name:'Corsair',cat:'ship',sub:'Combat / Exploration',loc:'Grim Hex — Teach\'s Ship Shop · Lorville New Deal',note:'Multi-role explorer — S4 nose weapons',rent:'~14k/day',buy:'~3.2M'},
+  {name:'Cutlass Red',cat:'ship',sub:'Medical',loc:'Lorville New Deal · Area 18 Astro Armada',note:'Org support — medical ship',rent:'~9k/day',buy:'~1.75M'},
+  {name:'Freelancer',cat:'ship',sub:'Cargo',loc:'Lorville New Deal · Area 18 Astro Armada',note:'Good mid-tier cargo',rent:'~9k/day',buy:'~3.48M'},
+  {name:'Constellation Taurus',cat:'ship',sub:'Cargo / Combat',loc:'Lorville New Deal · Area 18 Astro Armada',note:'174 SCU + 4x S3 guns',rent:'~18k/day',buy:'~5.4M'},
+  {name:'Zeus Mk II CL',cat:'ship',sub:'Cargo',loc:'Lorville New Deal · Area 18 Astro Armada',note:'128 SCU — excellent mid cargo',rent:'~15k/day',buy:'~6.35M'},
+  {name:'C2 Hercules Starlifter',cat:'ship',sub:'Large Cargo',loc:'Lorville New Deal · Area 18 Astro Armada',note:'696 SCU — Covalex senior haul ship',rent:'~45k/day',buy:'~18.9M'},
+  {name:'Prospector',cat:'ship',sub:'Mining',loc:'Lorville New Deal · Area 18 Astro Armada',note:'Solo asteroid mining — standard choice',rent:'~12k/day',buy:'~2.1M'},
+  {name:'MOLE',cat:'ship',sub:'Mining',loc:'Lorville New Deal · Area 18 Astro Armada',note:'3-seat mining ship',rent:'~25k/day',buy:'~9.38M'},
+  {name:'Vulture',cat:'ship',sub:'Salvage',loc:'Lorville New Deal · Grim Hex',note:'Best solo salvage ship',rent:'~9k/day',buy:'~1.9M'},
+  {name:'Reclaimer',cat:'ship',sub:'Large Salvage',loc:'Lorville New Deal · Area 18 Astro Armada',note:'Multi-crew large salvage — org ship',rent:'~60k/day',buy:'~33.34M'},
+  {name:'Greycat ROC',cat:'ship',sub:'Ground Mining',loc:'Lorville New Deal · Area 18 Astro Armada',note:'Surface gem mining vehicle',rent:'~5k/day',buy:'~172k'},
+  {name:'C1 Spirit',cat:'ship',sub:'Cargo / Daily Driver',loc:'Orison — Crusader Showroom',note:'Versatile Crusader daily driver',rent:'~10k/day',buy:'~2.7M'},
+  {name:'Clipper',cat:'ship',sub:'Cargo / Multi-role',loc:'Lorville New Deal · Area 18 Astro Armada',note:'4.8 new — ~3.62M aUEC — best all-round daily driver',rent:'unconfirmed',buy:'~3.62M'},
+  {name:'RSI Perseus',cat:'ship',sub:'Heavy Corvette',loc:'Lorville New Deal',note:'4.8 new — ~40M aUEC — capital anti-ship',rent:'N/A',buy:'~40M'},
+  {name:'RSI Salvation',cat:'ship',sub:'Light Salvage',loc:'Lorville New Deal · Area 18',note:'4.8 new — ~1.1M aUEC — compact solo salvager',rent:'unconfirmed',buy:'~1.1M'},
+  {name:'RSI Hermes',cat:'ship',sub:'Cargo',loc:'Lorville New Deal · Area 18',note:'4.8 new — ~7M aUEC — strong tractor beam, good cargo',rent:'unconfirmed',buy:'~7M'},
+
+  // ── SHIP WEAPONS ──
+  {name:'Deadbolt I Cannon',cat:'ship-weapon',sub:'S1 Ballistic',loc:'Lorville Centermass (L19) · Grim Hex Skutters · Area 18 Dumper\'s Depot',note:'Esperia mfr — meta fixed ballistic'},
+  {name:'Deadbolt II Cannon',cat:'ship-weapon',sub:'S2 Ballistic',loc:'Lorville Centermass (L19) · Grim Hex Skutters · Area 18 Dumper\'s Depot',note:'Meta S2 — Gladius / Arrow / Hawk'},
+  {name:'Deadbolt III Cannon',cat:'ship-weapon',sub:'S3 Ballistic',loc:'Lorville Centermass (L19) · Area 18 Dumper\'s Depot',note:'Meta S3 — F7C Mk II / Sabre / Corsair'},
+  {name:'Deadbolt IV Cannon',cat:'ship-weapon',sub:'S4 Ballistic',loc:'Lorville Centermass (L19)',note:'Corsair nose — limited stock'},
+  {name:'Deadbolt V Cannon',cat:'ship-weapon',sub:'S5 Ballistic',loc:'Lorville Centermass (L19)',note:'Vanguard nose — very limited stock'},
+  {name:'Attrition-3 Laser Cannon',cat:'ship-weapon',sub:'S2 Laser Gimbal',loc:'Lorville Centermass (L19) · Area 18 Dumper\'s Depot',note:'Unlimited ammo — beginner friendly'},
+  {name:'Attrition-5 Laser Cannon',cat:'ship-weapon',sub:'S3 Laser Gimbal',loc:'Lorville Centermass (L19) · Area 18 Dumper\'s Depot',note:'Gimbal S3 laser'},
+  {name:'CF-227 Badger Repeater',cat:'ship-weapon',sub:'S2 Laser',loc:'Area 18 Dumper\'s Depot · Grim Hex Skutters',note:'Drake stock weapon'},
+  {name:'CF-447 Rhino Repeater',cat:'ship-weapon',sub:'S4 Laser',loc:'Area 18 Dumper\'s Depot',note:'Drake — Corsair / Caterpillar'},
+  {name:'Mantis GT-220',cat:'ship-weapon',sub:'S3 Laser',loc:'Area 18 Dumper\'s Depot',note:'Turret upgrade option'},
+
+  // ── SHIP COMPONENTS ──
+  {name:'Palisade Shield S1',cat:'component',sub:'S1 Shield',loc:'Area 18 Dumper\'s Depot · New Babbage Omega Pro',note:'BASL — reliable budget shield'},
+  {name:'Palisade Shield S2',cat:'component',sub:'S2 Shield',loc:'Area 18 Dumper\'s Depot · New Babbage Omega Pro',note:'BASL — Gladius / Arrow / Hawk'},
+  {name:'Palisade Shield S3',cat:'component',sub:'S3 Shield',loc:'Area 18 Dumper\'s Depot · New Babbage Omega Pro',note:'BASL — F7C / Sabre / Corsair'},
+  {name:'Mirage Shield',cat:'component',sub:'S1 Stealth Shield',loc:'New Babbage Omega Pro · Area 18 Dumper\'s Depot',note:'ASAS — STL-1A — lower EM than Palisade — 4.8 confirmed'},
+  {name:'Veil Shield',cat:'component',sub:'S1 Stealth Shield',loc:'New Babbage Omega Pro · Area 18 Dumper\'s Depot',note:'ASAS — STL-1B — stealth variant'},
+  {name:'Obscura Shield',cat:'component',sub:'S2 Stealth Shield',loc:'New Babbage Omega Pro · Area 18 Dumper\'s Depot',note:'ASAS — STL-2C — S2 stealth shield'},
+  {name:'Sheut Shield',cat:'component',sub:'S2 Stealth Shield',loc:'New Babbage Omega Pro · Area 18 Dumper\'s Depot',note:'ASAS — STL-2B — S2 stealth'},
+  {name:'Umbra Shield',cat:'component',sub:'S2 Stealth Shield',loc:'New Babbage Omega Pro · Area 18 Dumper\'s Depot',note:'ASAS — STL-2A — S2 stealth'},
+  {name:'FR-66 Shield',cat:'component',sub:'S1 Shield (crafted)',loc:'Crafted only — Foxwell Blueprint required',note:'Best S1 shield — FR BP from Foxwell missions'},
+  {name:'FR-76 Shield',cat:'component',sub:'S2 Shield (crafted)',loc:'Crafted only — Foxwell Blueprint required',note:'Best S2 shield — FR BP from Foxwell missions'},
+  {name:'QuadraCell S1 Power Plant',cat:'component',sub:'S1 Power Plant',loc:'Lorville Centermass (L19) · Area 18 Dumper\'s Depot',note:'Aegis MIL-1A — confirmed in game files'},
+  {name:'QuadraCell MT S2 Power Plant',cat:'component',sub:'S2 Power Plant',loc:'Lorville Centermass (L19) · New Babbage Omega Pro',note:'Aegis — handles 4-weapon power draw'},
+  {name:'SnowBlind S1 Cooler',cat:'component',sub:'S1 Cooler',loc:'Area 18 Dumper\'s Depot · New Babbage Omega Pro',note:'Tyler Design STL-1A'},
+  {name:'SnowBlind S2 Cooler',cat:'component',sub:'S2 Cooler',loc:'Area 18 Dumper\'s Depot · New Babbage Omega Pro',note:'Tyler Design'},
+  {name:'Boreal S1 Cooler',cat:'component',sub:'S1 Cooler (low EM)',loc:'Lorville Centermass (L19) · Area 18 Dumper\'s Depot',note:'Aegis MIL-2D — low EM for stealth builds'},
+  {name:'Crossfield S2 Quantum Drive',cat:'component',sub:'S2 QD',loc:'Area 18 Dumper\'s Depot · New Babbage Omega Pro',note:'Budget QD — upgrade to XL-1 when able'},
+  {name:'VK-00 Quantum Drive',cat:'component',sub:'S1 QD (crafted)',loc:'Crafted only — Covalex Master rank Blueprint required',note:'Best S1 QD — Wetherstone MIL-1A'},
+  {name:'XL-1 Quantum Drive',cat:'component',sub:'S2 QD (crafted)',loc:'Crafted only — Covalex Master rank Blueprint required',note:'Best S2 QD — fastest QT in class'},
+
+  // ── FPS WEAPONS ──
+  {name:'P8-AR Rifle',cat:'fps-weapon',sub:'Rifle · Ballistic',loc:'Lorville Centermass · Area 18 Dumper\'s Depot · New Babbage Cousin Crows',note:'Standard military rifle — widely stocked'},
+  {name:'Gallant Rifle',cat:'fps-weapon',sub:'Rifle · Laser',loc:'Lorville Centermass · Area 18 Dumper\'s Depot',note:'KLWE energy — unlimited ammo'},
+  {name:'Karna Rifle',cat:'fps-weapon',sub:'Rifle · Laser',loc:'Area 18 Dumper\'s Depot · New Babbage Cousin Crows',note:'Kastak Arms energy rifle'},
+  {name:'S71 Rifle',cat:'fps-weapon',sub:'Rifle · Ballistic',loc:'Lorville Centermass · Area 18 Dumper\'s Depot',note:'CFP mission BP drop'},
+  {name:'Parallax Energy Assault Rifle',cat:'fps-weapon',sub:'Rifle · Laser',loc:'Foxwell vendor terminal (MG Scrip)',note:'Foxwell BP drop — Shock Trooper / Sanguine / Sunstone variants'},
+  {name:'Killshot Rifle',cat:'fps-weapon',sub:'Rifle · Ballistic',loc:'Grim Hex Skutters · Levski Live Fire Weapons',note:'Outlaw vendor — Pyro/Nyx'},
+  {name:'P4-AR Rifle',cat:'fps-weapon',sub:'Rifle · Ballistic',loc:'Lorville Centermass · Area 18 Dumper\'s Depot',note:'Common ballistic rifle'},
+  {name:'Custodian SMG',cat:'fps-weapon',sub:'SMG · Laser',loc:'Lorville Centermass · Area 18 Dumper\'s Depot · New Babbage Cousin Crows · Grim Hex',note:'Most common SMG — good CQB'},
+  {name:'C54 SMG',cat:'fps-weapon',sub:'SMG · Ballistic',loc:'Lorville Centermass · Area 18 Dumper\'s Depot',note:'CFP mission BP drop'},
+  {name:'P8-SC SMG',cat:'fps-weapon',sub:'SMG · Ballistic',loc:'Lorville Centermass · Area 18 Dumper\'s Depot',note:'CFP mission BP drop'},
+  {name:'Ripper SMG',cat:'fps-weapon',sub:'SMG · Ballistic',loc:'Grim Hex Skutters · Levski Live Fire Weapons',note:'Outlaw vendor'},
+  {name:'Lumin V SMG',cat:'fps-weapon',sub:'SMG · Laser',loc:'Lorville Centermass · Area 18 Dumper\'s Depot',note:'Black box recovery BP drop'},
+  {name:'Quartz Energy SMG',cat:'fps-weapon',sub:'SMG · Laser',loc:'InterSec vendor terminal (MG Scrip)',note:'InterSec BP drop — Deadfall / Lumen variants'},
+  {name:'LH86 Pistol',cat:'fps-weapon',sub:'Pistol · Ballistic',loc:'Lorville Centermass · Area 18 · New Babbage · Grim Hex',note:'Most common pistol — widely available'},
+  {name:'S-38 Pistol',cat:'fps-weapon',sub:'Pistol · Ballistic',loc:'Lorville Centermass · Area 18 Dumper\'s Depot',note:'Standard ballistic sidearm'},
+  {name:'Arclight Pistol',cat:'fps-weapon',sub:'Pistol · Laser',loc:'Shubin vendor terminal',note:'Shubin BP drop — multiple variants'},
+  {name:'Coda Pistol',cat:'fps-weapon',sub:'Pistol · Ballistic',loc:'Headhunters vendor / loot',note:'Headhunters easy elimination BP drop'},
+  {name:'Yubarev Pistol',cat:'fps-weapon',sub:'Pistol · Ballistic',loc:'Headhunters vendor / loot',note:'Headhunters chain elimination BP drop'},
+  {name:'Pulse Laser Pistol',cat:'fps-weapon',sub:'Pistol · Laser',loc:'Lorville Centermass · Area 18 · Grim Hex',note:'Common energy sidearm — InterSec also drops variants'},
+  {name:'Devastator Shotgun',cat:'fps-weapon',sub:'Shotgun · Ballistic',loc:'Lorville Centermass · Area 18 Dumper\'s Depot',note:'Headhunters hard elimination BP drop'},
+  {name:'R97 Shotgun',cat:'fps-weapon',sub:'Shotgun · Ballistic',loc:'BHG Nyx QV Breaker Station — BP drop / loot',note:'Best shotgun — guaranteed BP from Nyx bounties'},
+  {name:'Ravager-212 Twin Shotgun',cat:'fps-weapon',sub:'Shotgun · Ballistic',loc:'Headhunters loot / Grim Hex',note:'Headhunters asteroid elimination BP drop'},
+  {name:'Scalpel Sniper Rifle',cat:'fps-weapon',sub:'Sniper · Ballistic',loc:'Headhunters vendor / loot',note:'Headhunters hard eliminate BP drop'},
+  {name:'Atzkav Sniper Rifle',cat:'fps-weapon',sub:'Sniper · Laser',loc:'Headhunters chain vendor / loot',note:'Headhunters chain elimination BP drop'},
+  {name:'Arrowhead Sniper Rifle',cat:'fps-weapon',sub:'Sniper · Ballistic',loc:'Black box recovery (Hard) — loot / BP drop',note:'Hard difficulty black box missions only'},
+  {name:'Zenith Laser Sniper Rifle',cat:'fps-weapon',sub:'Sniper · Laser',loc:'Area 18 Dumper\'s Depot · New Babbage Omega Pro',note:'Precision energy sniper'},
+  {name:'Demeco LMG',cat:'fps-weapon',sub:'LMG · Ballistic',loc:'Lorville Centermass · Area 18 Dumper\'s Depot',note:'Standard ballistic LMG'},
+  {name:'FS-9 LMG',cat:'fps-weapon',sub:'LMG · Ballistic',loc:'Grim Hex Skutters · Levski Live Fire Weapons',note:'Outlaw vendor LMG'},
+  {name:'Fresnel Energy LMG',cat:'fps-weapon',sub:'LMG · Laser',loc:'Area 18 Dumper\'s Depot · New Babbage Omega Pro',note:'High-end energy LMG'},
+
+  // ── ARMOR ──
+  {name:'ORC-mkV Armor',cat:'armor',sub:'Light Combat',loc:'Area 18 conscientious objects · Lorville Garrity Defence',note:'CFP Recover Cargo BP drop'},
+  {name:'ORC-mkX Armor (Woodland)',cat:'armor',sub:'Medium Combat',loc:'Area 18 conscientious objects',note:'CFP Recover Cargo BP drop — woodland camo'},
+  {name:'Palatino Armor',cat:'armor',sub:'Medium Combat',loc:'BHG FPS Intro mission BP drop · ASD Facility missions',note:'Multiple variants: Moonfall, Sunstone, Daystar, Metropolis'},
+  {name:'Monde Armor',cat:'armor',sub:'Medium Combat',loc:'BHG QV Breaker Station (Nyx) BP drop — guaranteed',note:'Hiro / Crimson Camo / Daimyo / Delta Camo / Hemlock variants'},
+  {name:'Antium Armor',cat:'armor',sub:'Heavy Hunter',loc:'Foxwell vendor terminal (MG Scrip)',note:'Every Foxwell mission drops BP — Storm / Maroon / Moss / Sand / Jet variants'},
+  {name:'Testudo Armor',cat:'armor',sub:'Medium Combat',loc:'InterSec vendor terminal (MG Scrip)',note:'Nightveil / Turfwar / Combustion / Earthshake variants — 4.8 new'},
+  {name:'Morozov-SH Armor',cat:'armor',sub:'Heavy Hunter',loc:'Headhunters easy eliminate BP drop / loot',note:'Thule variants from hard missions'},
+  {name:'DustUp Armor',cat:'armor',sub:'Light Tactical',loc:'Headhunters chain elimination BP drop',note:'Tactical variant'},
+  {name:'Calico Armor',cat:'armor',sub:'Light Tactical',loc:'Headhunters chain / Xenothreat defense BP drop',note:'Tactical variant'},
+  {name:'Dust Devil Armor',cat:'armor',sub:'Heavy Explorer',loc:'Headhunters asteroid elimination BP drop',note:'Explorer heavy'},
+  {name:'Strata Armor',cat:'armor',sub:'Miner',loc:'Shubin mining missions BP drop',note:'Intro and Stanton hand mining missions'},
+  {name:'Aril Armor',cat:'armor',sub:'Salvager',loc:'Shubin ship mining (Stanton Hard) BP drop',note:'Salvager armor set'},
+  {name:'Venture Armor',cat:'armor',sub:'Cosmonaut',loc:'Shubin ship mining (Pyro Hard) BP drop',note:'Cosmonaut explorer'},
+  {name:'Novikov / Pembroke Suit',cat:'armor',sub:'Cosmonaut / Explorer',loc:'Shubin hand mining (Pyro Very Hard) BP drop',note:'Exploration suits — Pyro missions'},
+  {name:'Aves Armor',cat:'armor',sub:'Medium Combat',loc:'Black box recovery (Hard) BP drop',note:'Shrike variant also drops'},
+  {name:'Light Combat Armor (generic)',cat:'armor',sub:'Light Combat',loc:'Lorville Garrity Defence · Area 18 conscientious objects · Grim Hex · Checkmate',note:'Various generic light armor sets at all major locations'},
+  {name:'Medium Combat Armor (generic)',cat:'armor',sub:'Medium Combat',loc:'Lorville Garrity Defence · Area 18 conscientious objects · Levski · Checkmate',note:'Generic medium sets'},
+
+  // ── TOOLS & ATTACHMENTS ──
+  {name:'Pyro RYT Multi-Tool',cat:'tool',sub:'Base Tool',loc:'Lorville · Area 18 · New Babbage · Grim Hex · Checkmate · most major locations',note:'Greycat — ~900 aUEC — base required for all attachments'},
+  {name:'OreBit Mining Attachment',cat:'tool',sub:'Mining',loc:'Lorville Greycat · Area 18 Greycat · New Babbage · Grim Hex',note:'Turns multi-tool into hand mining laser — required for cave mining'},
+  {name:'Cambio-Lite SRT Attachment',cat:'tool',sub:'Salvage',loc:'Lorville Greycat · Area 18 Greycat',note:'Handheld hull stripping — bring SRT Canisters'},
+  {name:'TruHold Tractor Beam Attachment',cat:'tool',sub:'Tractor Beam',loc:'Lorville · Area 18 · New Babbage · Grim Hex · Checkmate',note:'Essential for CFP cargo missions and Xenothreat Blockade Runner'},
+  {name:'LifeGuard Medical Attachment',cat:'tool',sub:'Medical',loc:'Lorville medical · Area 18 · New Babbage',note:'Field medic tool — LifeGuard Refill sold separately'},
+  {name:'OxyTorch Cutter Attachment',cat:'tool',sub:'Cutter',loc:'Lorville Greycat · Area 18 Greycat',note:'Precision cutting tool'},
+  {name:'MaxLift Tractor Beam',cat:'tool',sub:'Tractor Beam (standalone)',loc:'Lorville · Area 18 · New Babbage',note:'Larger standalone tractor beam — MaxLift Keystone variant also available'},
+
+  // ── MEDICAL ──
+  {name:'Medpen (A-grade)',cat:'medical',sub:'Basic Medpen',loc:'All major cities and stations · Medical clinics',note:'Common healing injector — stock 4+ before every session'},
+  {name:'Medpen (B-grade)',cat:'medical',sub:'Better Medpen',loc:'Lorville General Hospital · Area 18 · New Babbage · Grim Hex',note:'More effective than A-grade'},
+  {name:'Medpen (C-grade)',cat:'medical',sub:'Best Medpen',loc:'Lorville General Hospital · New Babbage medical',note:'Most effective — stock these if available'},
+  {name:'MedGel Refill (LifeGuard)',cat:'medical',sub:'LifeGuard consumable',loc:'Lorville medical district · Area 18 · New Babbage',note:'Refills the LifeGuard medical attachment — consumable'},
+  {name:'Trauma Pack',cat:'medical',sub:'Trauma kit',loc:'Lorville General Hospital · Area 18 · New Babbage',note:'Revive incapacitated players'},
+
+  // ── FOOD & DRINK ──
+  {name:'Food & Beverages',cat:'food',sub:'Consumable',loc:'All major cities — food stalls and convenience shops',note:'Lorville L19 food stalls · Area 18 shops · New Babbage · Checkmate · Levski — keeps stamina up'},
+  {name:'Stims',cat:'food',sub:'Performance',loc:'Commodity terminals (buy) · some shops',note:'Boosts stamina and movement — use carefully'},
+
+  // ── MISC ──
+  {name:'Commodity Terminal (sell minerals/cargo)',cat:'misc',sub:'Trade terminal',loc:'All major stations and cities — every landing zone',note:'Sell mined ore, salvage, looted cargo here. Prices vary by location.'},
+  {name:'ASOP Terminal (ship management)',cat:'misc',sub:'Ship terminal',loc:'Every station and city hangar',note:'Claim ships, swap loadouts, access rented ships'},
+  {name:'Refinery (sell refined ore)',cat:'misc',sub:'Refinery',loc:'Lorville · Area 18 · New Babbage · Orison · Levski · Lagrange stations',note:'Refine mined ore for better sell prices. Better margin than raw ore.'},
+  {name:'Cargo Kiosk (buy trade goods)',cat:'misc',sub:'Trade',loc:'All major trade hubs',note:'Buy commodities for trade runs — check UEX for best routes'},
 ];
 
-const WEAPON_DATA=[
-  // Ship weapons
-  {name:'Deadbolt I Cannon',type:'ship',size:'S1',dmg:'Ballistic',where:"Lorville Centermass (L19) · Grim Hex Skutters · Area 18 Dumper's Depot",note:'Esperia mfr — meta ballistic cannon'},
-  {name:'Deadbolt II Cannon',type:'ship',size:'S2',dmg:'Ballistic',where:"Lorville Centermass (L19) · Grim Hex Skutters · Area 18 Dumper's Depot",note:'Meta S2 — Gladius / Arrow / Hawk'},
-  {name:'Deadbolt III Cannon',type:'ship',size:'S3',dmg:'Ballistic',where:"Lorville Centermass (L19) · Area 18 Dumper's Depot",note:'Meta S3 — F7C Mk II / Sabre / Corsair'},
-  {name:'Deadbolt IV Cannon',type:'ship',size:'S4',dmg:'Ballistic',where:'Lorville Centermass (L19)',note:'Corsair nose — limited stock, check terminals'},
-  {name:'Deadbolt V Cannon',type:'ship',size:'S5',dmg:'Ballistic',where:'Lorville Centermass (L19)',note:'Vanguard Harbinger nose — very limited stock'},
-  {name:'Attrition-3 Laser Cannon',type:'ship',size:'S2',dmg:'Laser',where:"Lorville Centermass (L19) · Area 18 Dumper's Depot",note:'Gimbal laser — unlimited ammo, beginner friendly'},
-  {name:'Attrition-5 Laser Cannon',type:'ship',size:'S3',dmg:'Laser',where:"Lorville Centermass (L19) · Area 18 Dumper's Depot",note:'Gimbal S3 laser'},
-  {name:'CF-227 Badger Repeater',type:'ship',size:'S2',dmg:'Laser',where:"Area 18 Dumper's Depot · Grim Hex",note:'Drake stock — fast fire rate'},
-  {name:'CF-447 Rhino Repeater',type:'ship',size:'S4',dmg:'Laser',where:"Area 18 Dumper's Depot",note:'Drake stock — Corsair / Caterpillar'},
-  {name:'Mantis GT-220',type:'ship',size:'S3',dmg:'Laser',where:"Area 18 Dumper's Depot",note:'F7C-M turret upgrade option'},
-  // FPS weapons — base variants only (confirmed from 4.8 global.ini)
-  {name:'P8-AR Rifle',type:'rifle',size:'—',dmg:'Ballistic',where:'Lorville · Area 18 · New Babbage',note:'Standard military rifle — reliable, widely stocked'},
-  {name:'Gallant Rifle',type:'rifle',size:'—',dmg:'Laser',where:'Lorville · Area 18',note:'KLWE energy rifle — unlimited ammo'},
-  {name:'Karna Rifle',type:'rifle',size:'—',dmg:'Laser',where:'Area 18 · New Babbage',note:'Kastak Arms energy rifle'},
-  {name:'S71 Rifle',type:'rifle',size:'—',dmg:'Ballistic',where:'Lorville · Area 18',note:'Reliable ballistic — CFP BP drop'},
-  {name:'Parallax Energy Assault Rifle',type:'rifle',size:'—',dmg:'Laser',where:'Foxwell vendor terminals',note:'Foxwell BP drop — buy with MG Scrip or find in game'},
-  {name:'Killshot Rifle',type:'rifle',size:'—',dmg:'Ballistic',where:'Grim Hex · Levski',note:'Outlaw vendor — Pyro/Nyx'},
-  {name:'P4-AR Rifle',type:'rifle',size:'—',dmg:'Ballistic',where:'Lorville · Area 18',note:'Common ballistic rifle'},
-  {name:'Custodian SMG',type:'smg',size:'—',dmg:'Laser',where:'Lorville · Area 18 · New Babbage',note:'Most common SMG — good for CQB'},
-  {name:'C54 SMG',type:'smg',size:'—',dmg:'Ballistic',where:'Lorville · Area 18',note:'CFP BP drop'},
-  {name:'P8-SC SMG',type:'smg',size:'—',dmg:'Ballistic',where:'Lorville · Area 18',note:'CFP BP drop — compact ballistic'},
-  {name:'Ripper SMG',type:'smg',size:'—',dmg:'Ballistic',where:'Grim Hex · Levski',note:'Outlaw vendor'},
-  {name:'Lumin V SMG',type:'smg',size:'—',dmg:'Laser',where:'Lorville · Area 18',note:'Black box recovery BP drop'},
-  {name:'Quartz Energy SMG',type:'smg',size:'—',dmg:'Laser',where:'InterSec vendor terminals',note:'InterSec BP drop — Deadfall / Lumen variants'},
-  {name:'LH86 Pistol',type:'pistol',size:'—',dmg:'Ballistic',where:'Lorville · Area 18 · New Babbage · Grim Hex',note:'Most common pistol — widely available'},
-  {name:'S-38 Pistol',type:'pistol',size:'—',dmg:'Ballistic',where:'Lorville · Area 18',note:'Standard ballistic sidearm'},
-  {name:'Arclight Pistol',type:'pistol',size:'—',dmg:'Laser',where:'Shubin vendor terminals',note:'Shubin BP drop — laser pistol'},
-  {name:'Coda Pistol',type:'pistol',size:'—',dmg:'Ballistic',where:'Headhunters vendor / loot',note:'Headhunters BP drop'},
-  {name:'Yubarev Pistol',type:'pistol',size:'—',dmg:'Ballistic',where:'Headhunters vendor / loot',note:'Headhunters chain elimination BP drop'},
-  {name:'Pulse Laser Pistol',type:'pistol',size:'—',dmg:'Laser',where:'Lorville · Area 18 · Grim Hex',note:'Common energy sidearm — InterSec also drops variants'},
-  {name:'Devastator Shotgun',type:'shotgun',size:'—',dmg:'Ballistic',where:'Lorville · Area 18',note:'Headhunters BP drop — hard/eliminate missions'},
-  {name:'R97 Shotgun',type:'shotgun',size:'—',dmg:'Ballistic',where:'Nyx — QV Breaker Station loot / BHG BP drop',note:'BHG Nyx bounty guaranteed BP — best shotgun'},
-  {name:'Ravager-212 Twin Shotgun',type:'shotgun',size:'—',dmg:'Ballistic',where:'Headhunters loot / Grim Hex',note:'Headhunters asteroid elimination BP drop'},
-  {name:'Scalpel Sniper Rifle',type:'sniper',size:'—',dmg:'Ballistic',where:'Headhunters vendor / loot',note:'Headhunters BP drop — hard eliminate'},
-  {name:'Atzkav Sniper Rifle',type:'sniper',size:'—',dmg:'Laser',where:'Headhunters chain / vendor',note:'Headhunters chain elimination BP drop'},
-  {name:'Arrowhead Sniper Rifle',type:'sniper',size:'—',dmg:'Ballistic',where:'Black box recovery (Hard) loot',note:'Hard black box mission BP drop'},
-  {name:'Zenith Laser Sniper Rifle',type:'sniper',size:'—',dmg:'Laser',where:'Area 18 · New Babbage',note:'Precision energy sniper'},
-  {name:'Demeco LMG',type:'lmg',size:'—',dmg:'Ballistic',where:'Lorville · Area 18',note:'Standard ballistic LMG'},
-  {name:'FS-9 LMG',type:'lmg',size:'—',dmg:'Ballistic',where:'Grim Hex · Levski',note:'Outlaw vendor LMG'},
-  {name:'F55 LMG',type:'lmg',size:'—',dmg:'Laser',where:'Area 18 · New Babbage',note:'Energy LMG'},
-  {name:'Fresnel Energy LMG',type:'lmg',size:'—',dmg:'Laser',where:'Area 18 · New Babbage',note:'High-end energy LMG'},
-];
+const CAT_LABELS={ship:'🚀 Ships',  'ship-weapon':'💥 Ship Weapons','component':'⚙️ Components','fps-weapon':'🔫 FPS Weapons',armor:'🛡️ Armor',tool:'🔧 Tools',medical:'💊 Medical',food:'🍔 Food',misc:'📦 Misc'};
+const CAT_COLORS={ship:'var(--orange)','ship-weapon':'var(--red)','component':'var(--teal)','fps-weapon':'var(--red)',armor:'var(--purple)',tool:'var(--amber)',medical:'var(--green)',food:'var(--mid)',misc:'var(--dim)'};
+let shopActiveCat='';
 
-const ATTACH_DATA=[
-  {name:'Pyro RYT Multi-Tool',category:'Base tool',desc:'Required base — all attachments slot into this. Buy before any attachment.',where:'Lorville · Area 18 · New Babbage · Checkmate · most shops',note:'Greycat Industrial — ~900 aUEC'},
-  {name:'OreBit Mining Attachment',category:'Mining',desc:'Turns the Multi-Tool into a hand mining laser. Scans rocks and extracts ore. Required for Janalite/Hadanite cave mining.',where:'Lorville · Area 18 · New Babbage',note:'Must own base Multi-Tool first'},
-  {name:'Cambio-Lite SRT Attachment',category:'Salvage',desc:'Light salvage and repair attachment. Strips hull material into RMC. Not as powerful as Vulture/Reclaimer beams but handheld.',where:'Lorville · Area 18',note:'Cambio-Lite SRT Canister sold separately — consumable'},
-  {name:'TruHold Tractor Beam Attachment',category:'Cargo / Utility',desc:'Handheld tractor beam. Essential for cargo recovery missions, Zeta-Prolanide runs, and moving crates without ATLS.',where:'Lorville · Area 18 · New Babbage · most major stations',note:'Required for CFP Recover Cargo missions and Xenothreat Blockade Runner'},
-  {name:'LifeGuard Medical Attachment',category:'Medical',desc:'Emergency medical treatment tool. Administers MedGel for field healing. LifeGuard Refill sold separately.',where:'Lorville medical district · Area 18 · New Babbage',note:'LifeGuard Refill (MedGel) must be restocked separately'},
-  {name:'OxyTorch Cutter Attachment',category:'Utility',desc:'Precision cutter for slicing through materials. Used in salvage and engineering.',where:'Lorville · Area 18',note:'Niche utility — primarily salvage/engineering use'},
-  {name:'MaxLift Tractor Beam',category:'Cargo',desc:'Standalone handheld tractor beam (not a multitool attachment). Larger capacity than TruHold — better for heavy cargo ops.',where:'Lorville · Area 18 · New Babbage',note:'MaxLift Keystone variant also available'},
-];
-
-function setShopTab(t,btn){
-  document.querySelectorAll('#panel-shopfind .miss-tab').forEach(c=>c.classList.remove('active'));
-  const el=document.querySelector('#shop-'+t);
-  if(el)el.classList.add('active');
-  btn.closest('.cftabs').querySelectorAll('.ltab').forEach(b=>b.classList.remove('active'));
+function shopFilter(){
+  const q=(document.getElementById('shop-search')?.value||'').toLowerCase();
+  renderShop(q,shopActiveCat);
+}
+function shopCat(cat,btn){
+  shopActiveCat=cat;
+  document.querySelectorAll('#shop-cats .ltab').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
+  const q=(document.getElementById('shop-search')?.value||'').toLowerCase();
+  renderShop(q,cat);
 }
-
-function filterRent(){
-  const q=(document.getElementById('rent-search')?.value||'').toLowerCase();
-  const body=document.getElementById('rent-body');
-  if(!body)return;
-  const filtered=RENT_DATA.filter(r=>!q||r.ship.toLowerCase().includes(q)||r.role.toLowerCase().includes(q)||r.where.toLowerCase().includes(q));
-  body.innerHTML=filtered.map(r=>`<tr>
-    <td style="font-weight:500;color:var(--gold)">${r.ship}</td>
-    <td style="font-size:11px">${r.role}</td>
-    <td style="color:var(--teal);font-size:11px">${r.day}</td>
-    <td style="font-size:11px;color:var(--dim)">${r.where}</td>
-    <td style="font-size:10px;color:var(--dim)">${r.note}</td>
-  </tr>`).join('');
-}
-
-function filterWeapons(){
-  const q=(document.getElementById('weap-search')?.value||'').toLowerCase();
-  const type=(document.getElementById('weap-type')?.value||'');
-  const body=document.getElementById('weap-body');
-  const count=document.getElementById('weap-count');
-  if(!body)return;
-  const filtered=WEAPON_DATA.filter(w=>{
-    if(type&&w.type!==type)return false;
-    if(q&&!w.name.toLowerCase().includes(q)&&!w.where.toLowerCase().includes(q)&&!w.note.toLowerCase().includes(q))return false;
-    return true;
-  });
-  if(count)count.textContent=filtered.length+' results';
-  const typeColor={ship:'var(--red)',rifle:'var(--teal)',smg:'var(--teal)',pistol:'var(--teal)',shotgun:'var(--teal)',sniper:'var(--teal)',lmg:'var(--teal)'};
-  body.innerHTML=filtered.map(w=>`<tr>
-    <td style="font-weight:500;color:var(--gold)">${w.name}</td>
-    <td><span style="font-size:10px;padding:.1rem .3rem;border:.5px solid var(--border);border-radius:var(--border-radius);color:${typeColor[w.type]||'var(--dim)'}">${w.type==='ship'?'Ship':w.type.toUpperCase()}</span></td>
-    <td style="font-size:11px;color:var(--dim)">${w.size!=='—'?'S'+w.size+' · ':''  }${w.dmg}</td>
-    <td style="font-size:11px;color:var(--dim)">${w.where}</td>
-    <td style="font-size:10px;color:var(--dim)">${w.note}</td>
-  </tr>`).join('');
-}
-
-function renderAttachments(){
-  const container=document.getElementById('attach-cards');
+function renderShop(q='',cat=''){
+  const container=document.getElementById('shop-cards');
   if(!container)return;
-  const catColors={'Base tool':'var(--gold)','Mining':'var(--teal)','Salvage':'var(--amber)','Cargo / Utility':'var(--blue)','Medical':'var(--red)','Utility':'var(--dim)','Cargo':'var(--blue)'};
-  container.innerHTML=ATTACH_DATA.map(a=>`
-    <div style="background:var(--panel);border:.5px solid var(--border);border-left:2px solid ${catColors[a.category]||'var(--dim)'};border-radius:var(--border-radius);margin-bottom:.4rem;overflow:hidden">
-      <div style="padding:.4rem .75rem;border-bottom:.5px solid var(--border);display:flex;align-items:center;gap:.75rem;flex-wrap:wrap">
-        <span style="font-size:10px;color:${catColors[a.category]||'var(--dim)'};font-weight:500;min-width:80px">${a.category}</span>
-        <span style="font-size:12px;font-weight:500;color:var(--gold)">${a.name}</span>
-      </div>
-      <div style="padding:.4rem .75rem;display:grid;grid-template-columns:1fr 1fr;gap:.5rem;font-size:11px">
-        <div style="color:var(--dim)">${a.desc}</div>
-        <div>
-          <div style="color:var(--teal);margin-bottom:.2rem">${a.where}</div>
-          <div style="font-size:10px;color:var(--dim)">${a.note}</div>
-        </div>
-      </div>
-    </div>`).join('');
-}
-
-document.addEventListener('DOMContentLoaded',function(){
-  filterRent();
-  filterWeapons();
-  renderAttachments();
-  minFilter();
-  renderBHG();
-  lbLoad();
-  bpFilter();
-});
-const BP_SOURCES=[
-  {name:'BHG — FPS Intro Bounty',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'BHG',priority:true,
-   note:'First FPS bounty cert mission. Solo, 1 target on foot.',
-   items:['P8-AR Rifle','P8-AR Rifle Magazine (15 Cap)','Palatino Arms','Palatino Arms Moonfall','Palatino Core','Palatino Core Moonfall','Palatino Helmet','Palatino Helmet Moonfall','Palatino Legs','Palatino Legs Moonfall']},
-  {name:'BHG — QV Breaker Station (Nyx)',loc:'Nyx',sys:'nyx',chance:'Guaranteed',faction:'BHG',priority:true,
-   note:'Standard Claw Salamanders bounty. Dangerous fauna inside. +150 XP.',
-   items:['Monde Arms','Monde Arms Hiro','Monde Core','Monde Core Hiro','Monde Helmet','Monde Helmet Hiro','Monde Legs','Monde Legs Hiro','R97 Shotgun','R97 Shotgun Magazine (18 cap)']},
-  {name:'BHG — Elite Boss QV Breaker (Nyx)',loc:'Nyx',sys:'nyx',chance:'75% chance',faction:'BHG',priority:true,
-   note:'Kill 17 total enemies to draw out boss. +250 XP. Exclusive Crimson/Daimyo variants.',
-   items:['Monde Arms Crimson Camo','Monde Arms Daimyo','Monde Core Crimson Camo','Monde Core Daimyo','Monde Helmet Crimson Camo','Monde Helmet Daimyo','Monde Legs Crimson Camo','Monde Legs Daimyo','R97 "Scorched" Shotgun','R97 Shotgun']},
-  {name:'BHG — Shattered Blade (Nyx)',loc:'Nyx',sys:'nyx',chance:'25% per tier',faction:'BHG',priority:false,
-   note:'5-tier chain bounty vs Shattered Blade gang. +500 to +16,000 XP.',
-   items:['Monde Arms','Monde Arms Hiro','Monde Core','Monde Core Hiro','Monde Helmet','Monde Helmet Hiro','Monde Legs','Monde Legs Hiro','R97 Shotgun']},
-  {name:'BHG — ASD Facility (Engineering)',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'BHG',priority:false,
-   note:'FPS bounty at ASD research facility Engineering wing. 1 target.',
-   items:['Palatino Arms Sunstone','Palatino Core Sunstone','Palatino Helmet Sunstone','Palatino Legs Sunstone']},
-  {name:'BHG — ASD Facility (Research)',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'BHG',priority:false,
-   note:'FPS bounty at ASD research facility Research wing. 5 enemies. More Palatino variants.',
-   items:['Palatino Arms Daystar','Palatino Arms Metropolis','Palatino Core Daystar','Palatino Core Metropolis','Palatino Helmet Daystar','Palatino Helmet Metropolis','Palatino Legs Metropolis','Palatino Legs Sunstone']},
-  {name:'Foxwell — All missions',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'Foxwell',priority:true,
-   note:'Every Foxwell mission drops Antium heavy hunter armor. Wave attacks also drop Parallax rifle variants + MG Scrip. Best Antium source in the game.',
-   items:['Antium Arms','Antium Arms Storm','Antium Arms Maroon','Antium Arms Moss Camo','Antium Arms Sand','Antium Arms Jet','Antium Core','Antium Core Storm','Antium Helmet','Antium Legs','Parallax Energy Assault Rifle','Parallax "Shock Trooper" Rifle','Parallax "Sanguine" Rifle','Parallax "Sunstone" Rifle','MG Scrip']},
-  {name:'InterSec — Security Patrol (ERT)',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'InterSec',priority:true,
-   note:'New 4.8 faction. ERT patrol (51 enemies C:7/7) drops Testudo armor Nightveil/Turfwar + Quartz SMG + MG Scrip. Lower tiers drop Testudo Combustion/Earthshake + Pulse Pistol.',
-   items:['Testudo Arms Nightveil','Testudo Arms Turfwar','Testudo Core Nightveil','Testudo Core Turfwar','Testudo Helmet Nightveil','Testudo Legs Nightveil','Testudo Arms Combustion','Testudo Core Combustion','Quartz "Deadfall" Energy SMG','Quartz "Lumen" Energy SMG','Pulse Laser Pistol','Pulse "Rouge" Pistol','MG Scrip']},
-  {name:'InterSec — Ship Bounties',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'InterSec',priority:false,
-   note:'Ship combat contracts drop Monde armor + R97 same as QV Breaker. New 4.8 live source.',
-   items:['Monde Arms','Monde Core','Monde Helmet','Monde Legs','R97 Shotgun']},
-  {name:'Headhunters — Eliminate (Easy/Hard)',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'Headhunters',priority:false,
-   note:'Easy drops Morozov-SH + Coda Pistol + Scalpel Sniper. Hard adds Devastator Shotgun + Morozov Thule variants.',
-   items:['Morozov-SH Arms','Morozov-SH Core','Morozov-SH Helmet','Morozov-SH Legs','Morozov-SH Arms Thule','Morozov-SH Core Thule','Coda Pistol','Coda "Big Boss" Pistol','Coda "Nighthawk" Pistol','Scalpel Sniper Rifle','Devastator Shotgun','Devastator "Midnight" Shotgun','Devastator "Warhawk" Shotgun']},
-  {name:'Headhunters — Eliminate All (Chain)',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'Headhunters',priority:false,
-   note:'Chain elimination drops DustUp armor + Yubarev Pistol + Atzkav Sniper + Calico armor.',
-   items:['DustUp Arms Tactical','DustUp Core Tactical','DustUp Helmet Tactical','DustUp Legs Tactical','Yubarev Pistol','Yubarev "Igniter" Pistol','Atzkav Sniper Rifle','Atzkav "Igniter" Sniper Rifle','Calico Arms Tactical','Calico Core Tactical']},
-  {name:'Headhunters — Asteroid Elimination (Med)',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'Headhunters',priority:false,
-   note:'Asteroid site mission drops Dust Devil heavy explorer armor + Ravager-212 Shotgun + Ripper SMG.',
-   items:['Dust Devil Armor Arms','Dust Devil Armor Core','Dust Devil Armor Legs','Manticore Helmet','Ravager-212 Twin Shotgun','Ripper "Sunblock" SMG']},
-  {name:'Headhunters — Defend vs XenoThreat (VH)',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'Headhunters',priority:false,
-   note:'Xenothreat defense contract drops Atzkav sniper variants + Calico armor.',
-   items:['Atzkav "Igniter" Sniper Rifle','Atzkav "Mirage" Sniper Rifle','Atzkav Sniper Rifle','Calico Arms Tactical','Calico Core Tactical','Calico Helmet Tactical','Calico Legs Tactical']},
-  {name:'Black Box Recovery (Hard)',loc:'Stanton',sys:'stanton',chance:'100% (Hard only)',faction:'Generic',priority:false,
-   note:'Hard difficulty black box missions drop Arrowhead Sniper + Aves medium combat armor + Lumin V SMG.',
-   items:['Arrowhead Sniper Rifle','Aves Arms','Aves Core','Aves Helmet','Aves Legs','Aves Shrike Arms','Aves Shrike Core','Aves Shrike Helmet','Aves Shrike Legs','Lumin V SMG']},
-  {name:'CFP — Recover Cargo',loc:'Stanton / Pyro',sys:'stanton',chance:'Guaranteed',faction:'CFP',priority:false,
-   note:'Citizens for Prosperity cargo recovery. All tiers. Need tractor beam + cargo ship.',
-   items:['ORC-mkV Arms','ORC-mkV Core','ORC-mkV Legs','ORC-mkX Arms Woodland','ORC-mkX Core Woodland','ORC-mkX Helmet Woodland','ORC-mkX Legs Woodland','C54 SMG','P8-SC SMG','S71 Rifle','G-2 Helmet Woodland']},
-  {name:'Eckhart — Defend Ship (HRT/MRT)',loc:'Stanton / Pyro',sys:'stanton',chance:'Guaranteed',faction:'Eckhart',priority:false,
-   note:'Eckhart Security defend ship missions drop Monde armor + R97. New in 4.8 live.',
-   items:['Monde Arms','Monde Arms Hiro','Monde Core','Monde Core Hiro','Monde Helmet','Monde Helmet Hiro','Monde Legs','Monde Legs Hiro','R97 Shotgun']},
-  {name:'Shubin — Hand Mining (Intro/Stanton)',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'Shubin',priority:false,
-   note:'Hand mining intro and Stanton missions drop Strata miner armor + Arclight pistols.',
-   items:['Strata Arms','Strata Core','Strata Legs','Strata Helmet Shooting Star','Arclight Pistol','Arclight "Midnight" Pistol']},
-  {name:'Shubin — Hand Mining (Pyro VH)',loc:'Pyro',sys:'pyro',chance:'Guaranteed',faction:'Shubin',priority:false,
-   note:'Pyro VH hand mining drops Novikov + Pembroke cosmonaut exploration suits.',
-   items:['Novikov Exploration Suit','Novikov Helmet','Pembroke Exploration Suit','Pembroke Helmet','Arclight "Desert Shadow" Pistol','Arclight "Herrero" Pistol']},
-  {name:'Shubin — Ship Mining (Stanton Hard)',loc:'Stanton',sys:'stanton',chance:'Guaranteed',faction:'Shubin',priority:false,
-   note:'Ship mining Hard drops Aril salvager armor + Arclight pistols.',
-   items:['Aril Arms','Aril Core','Aril Helmet','Aril Legs','Arclight "Nightstalker" Pistol','Arclight "Warhawk" Pistol']},
-  {name:'Shubin — Ship Mining (Pyro Hard)',loc:'Pyro',sys:'pyro',chance:'Guaranteed',faction:'Shubin',priority:false,
-   note:'Pyro ship mining Hard drops Venture cosmonaut armor + Horizon Helmet + Arclight pistols.',
-   items:['Venture Arms','Venture Core','Venture Legs','Horizon Helmet','Arclight "Stormfall" Pistol']},
-  {name:'Shubin — Rockcracker Solo (Nyx)',loc:'Nyx',sys:'nyx',chance:'Guaranteed',faction:'Shubin',priority:true,
-   note:'Shubin QV Rockcracker solo contract. Exclusive Monde Delta Camo + Hemlock Camo variants + R97 Kismet/Righteous.',
-   items:['Monde Arms Delta Camo','Monde Arms Hemlock Camo','Monde Core Delta Camo','Monde Core Hemlock Camo','Monde Helmet Delta Camo','Monde Legs Delta Camo','Monde Legs Hemlock Camo','R97 "Kismet" Shotgun','R97 "Righteous" Shotgun']},
-];
-function bpFilter(){
-  const searchEl=document.getElementById('bp-search');
-  const locEl=document.getElementById('bp-loc');
-  const chanceEl=document.getElementById('bp-chance');
-  const container=document.getElementById('bp-cards');
-  if(!container)return;
-  const q=(searchEl?.value||'').toLowerCase();
-  const loc=locEl?.value||'';
-  const chance=chanceEl?.value||'';
-  let filtered=BP_SOURCES.filter(s=>{
-    if(loc&&!s.sys.includes(loc.toLowerCase())&&!s.loc.toLowerCase().includes(loc.toLowerCase()))return false;
-    if(chance&&!s.chance.includes(chance))return false;
-    if(q&&!s.name.toLowerCase().includes(q)&&!s.faction.toLowerCase().includes(q)&&!s.items.some(i=>i.toLowerCase().includes(q))&&!s.note.toLowerCase().includes(q))return false;
+  const filtered=ITEMS.filter(item=>{
+    if(cat&&item.cat!==cat)return false;
+    if(q){
+      const hay=(item.name+item.sub+item.loc+(item.note||'')).toLowerCase();
+      if(!hay.includes(q))return false;
+    }
     return true;
   });
-  if(!filtered.length){container.innerHTML='<div class="warn">No blueprint sources match your filters.</div>';return;}
-  const chanceColor=c=>c.includes('Guaranteed')||c.includes('100')?'var(--teal)':c.includes('75')?'var(--gold)':'var(--amber)';
-  const factionColor=f=>({BHG:'var(--red)',Foxwell:'var(--teal)',InterSec:'var(--blue)',Headhunters:'var(--amber)',Shubin:'var(--gold)',CFP:'var(--purple)',Eckhart:'var(--dim)',Generic:'var(--dim)'}[f]||'var(--dim)');
-  container.innerHTML=filtered.map(s=>`
-    <div style="background:var(--panel);border:.5px solid var(--border);border-left:2px solid ${s.priority?'var(--gold)':'var(--border)'};border-radius:var(--border-radius);margin-bottom:.5rem;overflow:hidden">
-      <div style="padding:.5rem .75rem;border-bottom:.5px solid var(--border);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
-        <span style="font-size:10px;font-weight:500;color:${factionColor(s.faction)};min-width:70px">${s.faction}</span>
-        <span style="font-size:12px;font-weight:500;color:var(--color-text-primary);flex:1">${s.name}</span>
-        <span style="font-size:10px;padding:.1rem .35rem;border:.5px solid var(--border);border-radius:var(--border-radius);color:var(--dim)">${s.loc}</span>
-        <span style="font-size:10px;font-weight:500;color:${chanceColor(s.chance)}">${s.chance}</span>
-        ${s.priority?'<span style="font-size:10px;color:var(--gold)">★</span>':''}
+  const count=document.getElementById('shop-count');
+  if(count)count.textContent=filtered.length+' items';
+  if(!filtered.length){container.innerHTML='<div class="warn">Nothing matches — try a different search or category.</div>';return;}
+  container.innerHTML=filtered.map(item=>{
+    const color=CAT_COLORS[item.cat]||'var(--dim)';
+    const rentBadge=item.rent?`<span style="font-size:10px;color:var(--dim)">Rent: ${item.rent}</span>`:'';
+    const buyBadge=item.buy?`<span style="font-size:10px;color:var(--gold)">Buy: ${item.buy}</span>`:'';
+    return`<div style="display:grid;grid-template-columns:180px 1fr auto;gap:.5rem;align-items:start;padding:.45rem .6rem;border-bottom:.5px solid var(--border);background:var(--panel)">
+      <div>
+        <div style="font-size:12px;font-weight:500;color:var(--bright)">${item.name}</div>
+        <div style="font-size:10px;color:${color};margin-top:.1rem">${item.sub}</div>
       </div>
-      <div style="padding:.5rem .75rem">
-        <div style="font-size:11px;color:var(--dim);margin-bottom:.4rem;line-height:1.5">${s.note}</div>
-        <div style="display:flex;flex-wrap:wrap;gap:.25rem">
-          ${s.items.map(i=>`<span style="font-size:10px;padding:.15rem .4rem;background:var(--color-background-primary);border:.5px solid var(--border);border-radius:var(--border-radius);color:var(--color-text-secondary)">${i}</span>`).join('')}
-        </div>
+      <div>
+        <div style="font-size:11px;color:var(--mid)">${item.loc}</div>
+        ${item.note?`<div style="font-size:10px;color:var(--dim);margin-top:.1rem;font-style:italic">${item.note}</div>`:''}
       </div>
-    </div>`).join('');
-}
-
-const MINERALS=[
-  {name:'Janalite',type:'hand',value:'very-high',sys:['stanton'],locs:'Daymar, Hurston, Ita, Magda Sand Caves, Wala',craft:''},
-  {name:'Hadanite',type:'hand',value:'high',sys:['stanton','pyro'],locs:'All Moons/Planets/Caves',craft:''},
-  {name:'Aphorite',type:'hand',value:'low',sys:['stanton','pyro'],locs:'All Moons/Planets/Caves',craft:''},
-  {name:'Dolivine',type:'hand',value:'low',sys:['stanton','pyro'],locs:'All Moons/Planets/Caves',craft:''},
-  {name:'Quantainium',type:'ship',value:'high',sys:['stanton'],locs:'Found in All Stanton Deposits (Rare) — explosive, handle carefully',craft:''},
-  {name:'Lindinium',type:'ship',value:'high',sys:['nyx'],locs:'Glaciem Ring, Keeger Belt',craft:'Aves/Shrike/Talon armor, Aztalan stealth armor, F55/FS-9/Pulverizer LMG, pistols'},
-  {name:'Savrilium',type:'ship',value:'high',sys:['nyx'],locs:'Glaciem Ring, Keeger Belt, QV Breaker Stations (Nyx)',craft:'Monde armor, Palatino armor, R97 Shotgun, P8-SC SMG'},
-  {name:'Sadaryx',type:'hand',value:'medium',sys:['nyx'],locs:'QV Breaker Stations (Nyx) — exclusive to Nyx',craft:'Sadaryx Focus Lens (crafting component)'},
-  {name:'Laranite',type:'ship',value:'high',sys:['stanton','pyro'],locs:'HUR-L1, HUR-L4, HUR-L5, Lyria, Pyro IV, Wala',craft:'Corbel/Palatino engineer armor, Morozov/Inquisitor hunter armor, Chiron medic armor'},
-  {name:'Bexalite',type:'ship',value:'high',sys:['stanton','pyro','nyx'],locs:'CRU-L1, CRU-L2, Fairo, Fuego, Glaciem Ring, HUR-L3, Keeger Belt, Pyro Asteroid Clusters, Vuur',craft:''},
-  {name:'Agricium',type:'ship',value:'medium',sys:['stanton','pyro'],locs:'ARC-L3, Cellin, CRU-L5, Daymar, MIC-L4, Pyro Asteroid Clusters, Terminus, Vuur, Yela',craft:'CBH-3, Calico, PAB-1 light combat armor'},
-  {name:'Taranite',type:'ship',value:'medium',sys:['stanton','pyro'],locs:'ARC-L1, ARC-L2, ARC-L4, Cellin, Clio, Euterpe, HUR-L2, Pyro Asteroid Clusters, Yela',craft:'Horizon/MacFlex/Venture cosmonaut armor, Dust Devil/Manticore explorer armor, sniper rifles'},
-  {name:'Hephaestanite',type:'ship',value:'medium',sys:['stanton','pyro'],locs:'Arial, ARC-L1, ARC-L2, ARC-L4, Calliope, CRU-L3, Fuego, HUR-L1, HUR-L2, HUR-L4, HUR-L5, MIC-L1, microTech, MIC-L2, MIC-L5, Monox, Pyro Asteroid Clusters, Vuur',craft:'Ballistic/Electron/Laser/Plasma ammo, multiple FPS weapons'},
-  {name:'Beryl',type:'ship',value:'medium',sys:['stanton','pyro'],locs:'Aaron Halo, ARC-L3, CRU-L5, MIC-L4, Pyro Asteroid Clusters, Wala',craft:'Karna Rifle'},
-  {name:'Aslarite',type:'ship',value:'medium',sys:['stanton','pyro'],locs:'Aaron Halo, ARC-L5, CRU-L4, Fuego, Ita, Magda, MIC-L4, Pyro Asteroid Clusters, Vuur',craft:'Heavy/Medium/Light combat armor sets, cosmonaut/explorer/hunter/medic/miner/salvager/stealth armor'},
-  {name:'Ouratite',type:'ship',value:'medium',sys:['stanton'],locs:'Aberdeen, Arial, Hurston, Yela Ring',craft:'Heavy/Light/Medium combat armor sets'},
-  {name:'Stileron',type:'ship',value:'medium',sys:['pyro'],locs:'All Pyro Planets, Akiro Cluster, Pyro Asteroid Clusters',craft:'Testudo medium combat, environment/hunter/medic/radiation/stealth armor, P8-AR Rifle'},
-  {name:'Borase',type:'ship',value:'low',sys:['stanton','pyro'],locs:'Adir, Bloom, Fuego, HUR-L1, HUR-L4, HUR-L5, Pyro Asteroid Clusters, Pyro IV',craft:''},
-  {name:'Riccite',type:'ship',value:'low',sys:['stanton','pyro'],locs:'Adir, Akiro Cluster, Bloom, Ignis, Pyro Asteroid Clusters, Terminus, Vatra',craft:'Dust Devil explorer, Strata miner armor, Karna Rifle, Lumin V SMG'},
-  {name:'Titanium',type:'ship',value:'low',sys:['stanton','pyro'],locs:'Aaron Halo, Aberdeen, CRU-L1, CRU-L2, HUR-L3, Magda, Pyro Asteroid Clusters, Terminus, Yela Ring',craft:'Citadel/Fortifier heavy combat, Corbel heavy engineer armor'},
-  {name:'Tungsten',type:'ship',value:'low',sys:['stanton','pyro'],locs:'Adir, ARC-L1, ARC-L2, ARC-L4, Fairo, HUR-L2, Pyro Asteroid Clusters',craft:'Ballistic ammo, ORC-mkX medium combat, Antium/Morozov/Inquisitor hunter armor, Aril salvager, energy weapons'},
-  {name:'Copper',type:'ship',value:'low',sys:['stanton','pyro'],locs:'Aaron Halo, Akiro Cluster, ARC-L3, ARC-L5, Clio, CRU-L1, CRU-L2, CRU-L4, CRU-L5, Euterpe, Lyria, MIC-L3, MIC-L4, Pyro Asteroid Clusters, Pyro I, Pyro IV, Terminus, Wala, Yela Ring',craft:'Plasma Ammo, Arclight/Yubarev pistol, Gallant Rifle, Devastator Shotgun, Custodian/Lumin V/Ripper SMG, sniper rifles'},
-  {name:'Corundum',type:'ship',value:'low',sys:['stanton','pyro'],locs:'Aberdeen, ARC-L1, ARC-L2, ARC-L4, Arial, CRU-L3, Hurston, HUR-L1, HUR-L2, HUR-L4, HUR-L5, MIC-L1, MIC-L2, MIC-L5, Pyro Asteroid Clusters',craft:'Strata miner, Aril salvager armor, Demeco LMG, Gallant Rifle, Custodian SMG'},
-  {name:'Gold',type:'ship',value:'low',sys:['stanton','pyro'],locs:'ARC-L5, CRU-L4, Fairo, Ignis, MIC-L3, Pyro Asteroid Clusters, Terminus, Vatra',craft:'Electron Ammo, Fresnel LMG, Pulse/Parallax energy weapons, Zenith laser sniper'},
-  {name:'Iron',type:'ship',value:'low',sys:['stanton','pyro','nyx'],locs:'Aaron Halo, Adir, Akiro Cluster, ARC-L3, ARC-L5, Bloom, Calliope, CRU-L1, CRU-L2, CRU-L4, CRU-L5, Fairo, Fuego, Glaciem Ring, HUR-L3, Keeger Belt, Lyria, Magda, microTech, MIC-L3, MIC-L4, Monox, Pyro Asteroid Clusters, Pyro I, Pyro IV, Vatra, Vuur, Wala, Yela Ring',craft:'Ballistic ammo, FPS weapons (multiple)'},
-  {name:'Silicon',type:'ship',value:'low',sys:['stanton','pyro'],locs:'Aaron Halo, Akiro Cluster, Cellin, Daymar, Fairo, Ignis, Pyro Asteroid Clusters, Vatra, Yela',craft:'Xanthule flightsuit, Mirai racing armor, undersuit armor sets'},
-  {name:'Aluminium',type:'ship',value:'low',sys:['stanton','pyro','nyx'],locs:'Aaron Halo, Aberdeen, ARC-L1, ARC-L2, Arial, CRU-L3, Glaciem Ring, HUR-L1, HUR-L2, HUR-L4, HUR-L5, Ita, Keeger Belt, Magda, MIC-L1, MIC-L2, MIC-L5, Pyro Asteroid Clusters',craft:''},
-  {name:'Tin',type:'ship',value:'low',sys:['stanton','pyro'],locs:'Arial, Hurston, Ignis, Ita, Monox, Pyro Asteroid Clusters, Pyro I',craft:'CSP-68L light stealth armor'},
-  {name:'Torite',type:'ship',value:'low',sys:['stanton','pyro','nyx'],locs:'Akiro Cluster, CRU-L3, Glaciem Ring, Keeger Belt, MIC-L1, MIC-L2, MIC-L5, Pyro Asteroid Clusters, QV Breaker Stations (Nyx)',craft:'Ballistic ammo, shotguns, Ripper SMG'},
-  {name:'Quartz',type:'ship',value:'low',sys:['stanton','pyro'],locs:'Bloom, Cellin, Daymar, Pyro Asteroid Clusters, Yela',craft:'Laser Ammo'},
-  {name:'Caranite',type:'ship',value:'low',sys:['stanton'],locs:'Aberdeen, Daymar',craft:''},
-  {name:'Ice',type:'ship',value:'low',sys:['stanton','pyro','nyx'],locs:'Aaron Halo, Akiro Cluster, ARC-L3, ARC-L5, Calliope, Clio, Euterpe, Glaciem Ring, HUR-L3, Keeger Belt, microTech, MIC-L3, MIC-L4, Pyro Asteroid Clusters, Yela Ring',craft:''},
-  {name:'Beradon',type:'ship',value:'low',sys:['pyro'],locs:'Bloom, Pyro I',craft:''},
-  {name:'Feynmaline',type:'ship',value:'rare',sys:['pyro'],locs:'Pyro IV — rare',craft:''},
-  {name:'Glacosite',type:'ship',value:'low',sys:['pyro'],locs:'Monox',craft:''},
-];
-
-const VALUE_COLORS={'very-high':'var(--gold)','high':'var(--teal)','medium':'var(--amber)','low':'var(--dim)','rare':'var(--red)'};
-const VALUE_LABELS={'very-high':'Very High','high':'High','medium':'Medium','low':'Low','rare':'Rare'};
-let minSortDir=1;
-
-function minFilter(){
-  const q=document.getElementById('min-search').value.toLowerCase();
-  const sys=document.getElementById('min-sys').value;
-  const type=document.getElementById('min-type').value;
-  let filtered=MINERALS.filter(m=>{
-    if(q&&!m.name.toLowerCase().includes(q)&&!m.locs.toLowerCase().includes(q)&&!m.craft.toLowerCase().includes(q))return false;
-    if(sys&&!m.sys.includes(sys))return false;
-    if(type==='hand'&&m.type!=='hand')return false;
-    if(type==='ship'&&m.type!=='ship')return false;
-    if(type==='rare'&&m.value!=='very-high'&&m.value!=='high'&&m.value!=='rare')return false;
-    return true;
-  });
-  const body=document.getElementById('min-body');
-  const none=document.getElementById('min-none');
-  document.getElementById('min-count').textContent=filtered.length+' minerals';
-  if(!filtered.length){body.innerHTML='';none.style.display='block';return;}
-  none.style.display='none';
-  const typeIcon={hand:'👤',ship:'🚀'};
-  body.innerHTML=filtered.map(m=>`<tr>
-    <td style="font-weight:500">${m.name}</td>
-    <td style="font-size:11px">${typeIcon[m.type]||''} ${m.type==='hand'?'Hand':'Ship'}</td>
-    <td><span style="color:${VALUE_COLORS[m.value]};font-size:11px;font-weight:500">${VALUE_LABELS[m.value]}</span></td>
-    <td style="font-size:11px;color:var(--dim);max-width:280px">${m.locs}</td>
-    <td style="font-size:10px;color:var(--dim);max-width:200px">${m.craft||'—'}</td>
-  </tr>`).join('');
-}
-function minSort(col){minSortDir*=-1;minFilter();}
-
-// ===== MISSIONS REFERENCE =====
-const BHG_TIERS=[
-  {tier:'VLRT',name:'Very Low-Risk Target',cert:'Tracker Training Permit',unlock:'Starting tier — no cert needed',enemies:'1–2 ships, minimal escort',approxPay:'5k–15k aUEC',xp:'+50 XP cert',risk:'Low',color:'var(--teal)'},
-  {tier:'LRT',name:'Low-Risk Target',cert:'Tracker Beginner\'s Permit',unlock:'Complete VLRT cert mission',enemies:'2–4 ships, small escort',approxPay:'15k–30k aUEC',xp:'+50 XP cert',risk:'Low-Med',color:'var(--teal)'},
-  {tier:'MRT',name:'Moderate-Risk Target',cert:'Tracker License',unlock:'Complete LRT cert mission',enemies:'4 ships, medium escort',approxPay:'30k–50k aUEC',xp:'+50 XP cert',risk:'Medium',color:'var(--amber)'},
-  {tier:'HRT',name:'High-Risk Target',cert:'Journeyman Tracker License',unlock:'Complete MRT cert mission',enemies:'6 ships, heavy escort',approxPay:'42k–80k aUEC',xp:'+50 XP cert',risk:'Medium-High',color:'var(--amber)'},
-  {tier:'VHRT',name:'Very High-Risk Target',cert:'Advanced Tracker License',unlock:'Complete HRT cert mission',enemies:'4+ ships, heavy multicrew',approxPay:'60k–120k aUEC',xp:'+50 XP cert',risk:'High',color:'var(--gold)'},
-  {tier:'ERT',name:'Extreme-Risk Target',cert:'Master Tracker License',unlock:'Complete VHRT cert mission',enemies:'4+ sub-capital + escorts',approxPay:'100k–300k+ aUEC',xp:'+50 XP cert',risk:'Very High',color:'var(--red)'},
-];
-
-function renderBHG(){
-  document.getElementById('bhg-tiers').innerHTML=BHG_TIERS.map((t,i)=>`
-    <div style="background:var(--panel);border:.5px solid var(--border);border-left:2px solid ${t.color};border-radius:var(--border-radius);overflow:hidden">
-      <div style="padding:.4rem .75rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;cursor:pointer;user-select:none" onclick="this.parentElement.querySelector('.bhg-body').style.display=this.parentElement.querySelector('.bhg-body').style.display==='none'?'block':'none'">
-        <span style="font-size:11px;font-weight:500;color:${t.color};min-width:2.5rem">${t.tier}</span>
-        <span style="font-size:12px;font-weight:500;color:var(--color-text-primary)">${t.name}</span>
-        <span style="font-size:10px;color:var(--gold);margin-left:auto">${t.approxPay}</span>
-        <span style="font-size:10px;color:var(--dim)">▼</span>
+      <div style="text-align:right;white-space:nowrap;display:flex;flex-direction:column;gap:.15rem;align-items:flex-end">
+        ${buyBadge}${rentBadge}
       </div>
-      <div class="bhg-body" style="display:${i===0?'block':'none'};border-top:.5px solid var(--border);padding:.5rem .75rem">
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.5rem;font-size:11px">
-          <div><span style="color:var(--dim)">Cert required:</span> <span style="color:var(--color-text-primary)">${t.cert}</span></div>
-          <div><span style="color:var(--dim)">Unlocked by:</span> <span style="color:var(--color-text-primary)">${t.unlock}</span></div>
-          <div><span style="color:var(--dim)">Enemy composition:</span> <span style="color:var(--color-text-primary)">${t.enemies}</span></div>
-          <div><span style="color:var(--dim)">Risk tier:</span> <span style="color:${t.color}">${t.risk}</span></div>
-          <div><span style="color:var(--dim)">Payout range:</span> <span style="color:var(--gold)">${t.approxPay}</span></div>
-          <div><span style="color:var(--dim)">Cert XP:</span> <span style="color:var(--dim)">${t.xp}</span></div>
-        </div>
-      </div>
-    </div>`).join('');
-}
-// init deferred — see DOMContentLoaded below
-
-function setMissTab(t,btn){
-  document.querySelectorAll('.miss-tab').forEach(c=>c.classList.remove('active'));
-  const el=document.querySelector('#miss-'+t);
-  if(el)el.classList.add('active');
-  const tabs=btn.closest('.cftabs');
-  if(tabs)tabs.querySelectorAll('.ltab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-}
-const LB_SHIPS={
-  gladius:{
-    name:'Anvil Gladius',class:'Light Fighter',crew:1,scm:'226 m/s',armor:'4,125 HP',
-    role:'VLRTs through HRTs · New player dogfighter · Best budget fighter',
-    auec:2381400,buy:'Lorville / Area 18',
-    presets:{
-      'Deadbolt Fixed (meta)':{
-        slots:[
-          {slot:'3× S2 Weapon',size:'S2',item:'Deadbolt II Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18 / Grim Hex',cost:42000,qty:3,note:'Fixed mount — high skill ceiling, best DPS'},
-          {slot:'S2 Shield',size:'S2',item:'FR-66 (crafted) / Palisade S2',mfr:'Foxwell / BASL',src:'Crafted (BP req) / Area 18',cost:80000,qty:1,note:'FR-66 if you have BP, Palisade otherwise'},
-          {slot:'S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville / Area 18',cost:55000,qty:1,note:'Military grade, handles weapon heat well'},
-          {slot:'2× S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18 / New Babbage',cost:18000,qty:2,note:'Keep it cool under sustained fire'},
-          {slot:'S1 Quantum Drive',size:'S1',item:'VK-00 (crafted) / Beacon',mfr:'Wetherstone / stock',src:'Crafted (BP req) / stock',cost:35000,qty:1,note:'VK-00 if you have BP, stock QD otherwise'},
-        ],
-        tip:'Best new-player combat ship. Cheap to buy, cheap to repair. Run gimbals while learning aim, switch to fixed Deadbolts once you can hit consistently. Three S2 Deadbolts tear through light-to-medium targets at HRT tier.',
-        role:'VLRTs → HRTs'
-      },
-      'Gimbal Laser (beginner)':{
-        slots:[
-          {slot:'3× S2 Weapon',size:'S2',item:'Attrition-3 Laser Cannon',mfr:'JOKER',src:'Lorville / Area 18',cost:28000,qty:3,note:'Gimbal — forgiving for new pilots, unlimited ammo'},
-          {slot:'S2 Shield',size:'S2',item:'Palisade S2',mfr:'BASL',src:'Area 18',cost:75000,qty:1,note:'Reliable budget shield'},
-          {slot:'S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:1,note:''},
-          {slot:'2× S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18',cost:18000,qty:2,note:'Lasers run hot — coolers matter'},
-          {slot:'S1 Quantum Drive',size:'S1',item:'Beacon (stock)',mfr:'stock',src:'Stock',cost:0,qty:1,note:'Upgrade when you have credits'},
-        ],
-        tip:'Zero pressure option for players learning the game. Gimbals auto-track targets so you can focus on flying. Attrition-3 infinite ammo means no reload anxiety. Swap to Deadbolts once comfortable.',
-        role:'VLRTs → MRTs'
-      }
-    }
-  },
-  arrow:{
-    name:'Anvil Arrow',class:'Light Fighter',crew:1,scm:'229 m/s',armor:'4,125 HP',
-    role:'HRT / VHRT solo grind · Best value fixed-weapon platform',
-    auec:1100000,buy:'Lorville / Area 18',
-    presets:{
-      'Deadbolt Fixed (meta)':{
-        slots:[
-          {slot:'2× S2 Weapon',size:'S2',item:'Deadbolt II Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18 / Grim Hex',cost:42000,qty:2,note:'Fixed only — Arrow has no gimbal mounts'},
-          {slot:'S2 Shield',size:'S2',item:'FR-66 (crafted) / Palisade S2',mfr:'Foxwell / BASL',src:'Crafted / Area 18',cost:80000,qty:1,note:''},
-          {slot:'S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:1,note:''},
-          {slot:'S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18',cost:18000,qty:1,note:'Arrow runs one cooler slot'},
-          {slot:'S1 Quantum Drive',size:'S1',item:'VK-00 (crafted) / Beacon',mfr:'Wetherstone',src:'Crafted / stock',cost:35000,qty:1,note:''},
-        ],
-        tip:'Fastest light fighter in class. Only 2 weapons but fixed-mount only — Arrow forces you to learn fixed aim which pays off massively at HRT/VHRT. Very low repair cost means profitable even with damage taken. Best aUEC/hr per credit invested at this tier.',
-        role:'HRTs → VHRTs'
-      }
-    }
-  },
-  hawk:{
-    name:'Anvil Hawk',class:'Light Fighter',crew:1,scm:'225 m/s',armor:'4,125 HP',
-    role:'Bounty hunting · EMP / disable builds · Solo HRT-VHRT',
-    auec:1200000,buy:'Lorville',
-    presets:{
-      'Deadbolt Fixed (meta)':{
-        slots:[
-          {slot:'2× S3 Weapon',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:2,note:'S3 on a light fighter — hits above weight class'},
-          {slot:'2× S2 Shield',size:'S2',item:'Palisade S2',mfr:'BASL',src:'Area 18',cost:75000,qty:2,note:'Hawk runs dual S2 shields'},
-          {slot:'S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:1,note:''},
-          {slot:'2× S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18',cost:18000,qty:2,note:''},
-          {slot:'S1 Quantum Drive',size:'S1',item:'VK-00 (crafted) / Beacon',mfr:'Wetherstone',src:'Crafted / stock',cost:35000,qty:1,note:''},
-        ],
-        tip:'Underrated ship. S3 Deadbolts on a light frame punch way above the Hawk\'s price tag. Dual shields give it more staying power than the Arrow or Gladius. Great for bounty hunters who want alpha damage over sustained DPS.',
-        role:'HRTs → VHRTs'
-      },
-      'EMP / Disable (non-lethal)':{
-        slots:[
-          {slot:'2× S3 Weapon',size:'S3',item:'Attrition-5 Laser Cannon (gimbal)',mfr:'JOKER',src:'Lorville / Area 18',cost:55000,qty:2,note:'Lasers for shield strip then disable'},
-          {slot:'S3 EMP (built-in)',size:'S3',item:'Hawk EMP Generator',mfr:'Hawk built-in',src:'Built-in — cannot remove',cost:0,qty:1,note:'Fire after shields down to disable target'},
-          {slot:'2× S2 Shield',size:'S2',item:'Palisade S2',mfr:'BASL',src:'Area 18',cost:75000,qty:2,note:''},
-          {slot:'S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:1,note:''},
-          {slot:'2× S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18',cost:18000,qty:2,note:''},
-        ],
-        tip:'Hawk\'s built-in EMP disables targets completely — useful for bounty capture contracts or stripping ships before boarding. Strip shields with lasers, EMP, board. Niche but effective.',
-        role:'Capture / Disable'
-      }
-    }
-  },
-  f7c:{
-    name:'Anvil F7C Hornet Mk II',class:'Medium Fighter',crew:1,scm:'220 m/s',armor:'8,250 HP',
-    role:'HRT–ERT · Xenothreat · Catfight org combat sessions',
-    auec:2800000,buy:'Lorville / Area 18',
-    presets:{
-      'Full Deadbolt (meta)':{
-        slots:[
-          {slot:'4× S3 Weapon',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:4,note:'Fixed — 4× S3 is brutal alpha damage'},
-          {slot:'S3 Shield',size:'S3',item:'FR-76 (crafted) / Palisade S3',mfr:'Foxwell / BASL',src:'Crafted / Area 18',cost:145000,qty:1,note:'FR-76 if you have BP'},
-          {slot:'S2 Power Plant',size:'S2',item:'QuadraCell MT S2',mfr:'Aegis',src:'Lorville / New Babbage',cost:90000,qty:1,note:'Military grade handles 4-weapon draw'},
-          {slot:'2× S2 Cooler',size:'S2',item:'SnowBlind S2',mfr:'Tyler Design',src:'Area 18',cost:32000,qty:2,note:''},
-          {slot:'S2 Quantum Drive',size:'S2',item:'XL-1 (crafted) / Crossfield',mfr:'Wetherstone',src:'Crafted / Area 18',cost:55000,qty:1,note:'XL-1 fastest if you have BP'},
-        ],
-        tip:'The Catfight org workhorse. Four S3 fixed Deadbolts delete medium targets in seconds. Survivable enough to absorb multi-ship escort fire. Buy the ship + weapons first, upgrade components as you earn more aUEC.',
-        role:'HRTs → ERTs'
-      },
-      'Mixed (budget start)':{
-        slots:[
-          {slot:'2× S3 Weapon (wing)',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville',cost:68000,qty:2,note:'Fixed wing hardpoints'},
-          {slot:'2× S3 Weapon (nose)',size:'S3',item:'Attrition-5 Laser Cannon',mfr:'JOKER',src:'Lorville / Area 18',cost:55000,qty:2,note:'Gimballed nose — easier to hit with'},
-          {slot:'S3 Shield',size:'S3',item:'Palisade S3',mfr:'BASL',src:'Area 18',cost:130000,qty:1,note:'Budget alternative to FR-76'},
-          {slot:'S2 Power Plant',size:'S2',item:'QuadraCell MT S2',mfr:'Aegis',src:'Lorville',cost:90000,qty:1,note:''},
-          {slot:'2× S2 Cooler',size:'S2',item:'SnowBlind S2',mfr:'Tyler Design',src:'Area 18',cost:32000,qty:2,note:''},
-          {slot:'S2 Quantum Drive',size:'S2',item:'Crossfield S2',mfr:'stock',src:'Area 18',cost:40000,qty:1,note:'Upgrade to XL-1 when able'},
-        ],
-        tip:'Good stepping stone if you can\'t afford full fixed Deadbolts yet. Gimballed nose makes hitting easier while you practice. Swap nose to Deadbolts as your aim improves.',
-        role:'HRTs → VHRTs'
-      }
-    }
-  },
-  f7cm:{
-    name:'Anvil F7C-M Super Hornet Mk II',class:'Medium Fighter',crew:2,scm:'215 m/s',armor:'8,250 HP',
-    role:'Crew combat · Org multi-crew · Higher sustained DPS than F7C',
-    auec:4000000,buy:'Area 18',
-    presets:{
-      'Full Deadbolt (meta)':{
-        slots:[
-          {slot:'4× S3 Weapon (pilot)',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:4,note:'Pilot fixed weapons'},
-          {slot:'S4 Ball Turret (gunner)',size:'S4',item:'Stock / Mantis GT-220',mfr:'stock / JOKER',src:'Stock or Area 18',cost:0,qty:1,note:'Gunner seat — use stock or upgrade later'},
-          {slot:'3× S1 Shield',size:'S1',item:'Palisade S1 (×3)',mfr:'BASL',src:'Area 18',cost:45000,qty:3,note:'Super Hornet runs 3× S1 shields'},
-          {slot:'S2 Power Plant',size:'S2',item:'QuadraCell MT S2',mfr:'Aegis',src:'Lorville',cost:90000,qty:1,note:''},
-          {slot:'2× S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18',cost:18000,qty:2,note:''},
-          {slot:'S1 Quantum Drive',size:'S1',item:'VK-00 (crafted) / Beacon',mfr:'Wetherstone',src:'Crafted / stock',cost:35000,qty:1,note:''},
-        ],
-        tip:'Two-seat org ship. Pilot handles fixed weapons, gunner covers the ball turret. More total DPS than the F7C but needs a crewmate to get full value. Great for Catfight 2-person sorties.',
-        role:'HRTs → ERTs (crew)'
-      }
-    }
-  },
-  sabre:{
-    name:'Aegis Sabre',class:'Stealth Fighter',crew:1,scm:'223 m/s',armor:'3,465 HP',
-    role:'Solo PvE bounties · Stealth ops · High alpha damage',
-    auec:2600000,buy:'Grim Hex',
-    presets:{
-      'Full Deadbolt (meta)':{
-        slots:[
-          {slot:'4× S3 Weapon',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Grim Hex',cost:68000,qty:4,note:'Fixed wing mounts — very high alpha'},
-          {slot:'S3 Shield',size:'S3',item:'FR-76 (crafted) / Palisade S3',mfr:'Foxwell / BASL',src:'Crafted / Area 18',cost:145000,qty:1,note:''},
-          {slot:'2× S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:2,note:'Sabre runs dual S1 power'},
-          {slot:'2× S1 Cooler',size:'S1',item:'Boreal S1',mfr:'Aegis',src:'Lorville / Area 18',cost:25000,qty:2,note:'Low EM cooler — confirmed MIL-2D in game files'},
-          {slot:'S1 Quantum Drive',size:'S1',item:'XL-1 (crafted) / Beacon',mfr:'Wetherstone',src:'Crafted / stock',cost:35000,qty:1,note:''},
-        ],
-        tip:'Four S3 Deadbolts on an agile frame. Same firepower as the F7C but faster and lower profile. Thin armor is the trade-off — pick fights on your terms, don\'t brawl. Ideal for players who want to control engagement distance.',
-        role:'HRTs → VHRTs'
-      },
-      'Stealth build':{
-        slots:[
-          {slot:'4× S3 Weapon',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Grim Hex / Lorville',cost:68000,qty:4,note:'Ballistic = low EM signature'},
-          {slot:'S3 Shield',size:'S3',item:'Palisade S3',mfr:'BASL',src:'Area 18',cost:130000,qty:1,note:'Lower EM than FR-76'},
-          {slot:'2× S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:2,note:'Run at low draw to reduce signature'},
-          {slot:'2× S1 Cooler',size:'S1',item:'Boreal S1',mfr:'Aegis',src:'Lorville',cost:25000,qty:2,note:'Best EM cooler for Sabre — key to stealth'},
-          {slot:'S1 Quantum Drive',size:'S1',item:'Beacon',mfr:'stock',src:'Stock',cost:0,qty:1,note:'Stock QD has low signature'},
-        ],
-        tip:'Low EM build for running under radar. Ballistic weapons don\'t generate energy signature, Boreal coolers suppress heat EM. <strong>4.8 confirms new stealth shields: Mirage (STL-1A S1), Veil (STL-1B S1), Obscura (STL-2C S2), Sheut (STL-2B S2), Umbra (STL-2A S2)</strong> — check Area 18 / New Babbage for stock. Lower EM than Palisade for true stealth config.',
-        role:'Stealth / Nyx ops'
-      }
-    }
-  },
-  vanguard:{
-    name:'Aegis Vanguard Harbinger',class:'Heavy Fighter',crew:2,scm:'212 m/s',armor:'12,375 HP',
-    role:'ERT specialist · Long patrols · Nyx ops · Built-in bed bay',
-    auec:10934595,buy:'Lorville',
-    presets:{
-      'Full Deadbolt (meta)':{
-        slots:[
-          {slot:'2× S5 Nose (fixed)',size:'S5',item:'Deadbolt V Ballistic Cannon',mfr:'Esperia',src:'Lorville (limited stock)',cost:185000,qty:2,note:'Primary firepower — S5 hits extremely hard'},
-          {slot:'2× S3 Wing',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:2,note:'Secondary hardpoints'},
-          {slot:'2× S3 Shield',size:'S3',item:'FR-76 (crafted) / Palisade S3',mfr:'Foxwell / BASL',src:'Crafted / Area 18',cost:145000,qty:2,note:'Vanguard runs dual S3 shields'},
-          {slot:'S2 Power Plant',size:'S2',item:'QuadraCell MT S2',mfr:'Aegis',src:'Lorville',cost:90000,qty:1,note:''},
-          {slot:'2× S2 Cooler',size:'S2',item:'SnowBlind S2',mfr:'Tyler Design',src:'Area 18',cost:32000,qty:2,note:''},
-          {slot:'S2 Quantum Drive',size:'S2',item:'XL-1 (crafted) / Crossfield',mfr:'Wetherstone',src:'Crafted / Area 18',cost:55000,qty:1,note:''},
-        ],
-        tip:'ERT and long patrol specialist. Built-in bed bay means you respawn inside — no flying back to a station mid-session. Tanky enough to absorb escort fire while S5 nose cannons delete primary targets. Best Catfight solo ERT platform.',
-        role:'VHRTs → ERTs'
-      },
-      'Budget start':{
-        slots:[
-          {slot:'2× S5 Nose (fixed)',size:'S5',item:'Deadbolt V Ballistic Cannon',mfr:'Esperia',src:'Lorville',cost:185000,qty:2,note:'Get these first — they\'re what makes Vanguard dangerous'},
-          {slot:'2× S3 Wing',size:'S3',item:'Attrition-5 Laser Cannon',mfr:'JOKER',src:'Lorville / Area 18',cost:55000,qty:2,note:'Gimballed laser secondary while you save for Deadbolt IIIs'},
-          {slot:'2× S3 Shield',size:'S3',item:'Palisade S3',mfr:'BASL',src:'Area 18',cost:130000,qty:2,note:'Budget alternative'},
-          {slot:'S2 Power Plant',size:'S2',item:'QuadraCell MT S2',mfr:'Aegis',src:'Lorville',cost:90000,qty:1,note:''},
-          {slot:'2× S2 Cooler',size:'S2',item:'SnowBlind S2',mfr:'Tyler Design',src:'Area 18',cost:32000,qty:2,note:''},
-          {slot:'S2 Quantum Drive',size:'S2',item:'Crossfield S2',mfr:'stock',src:'Area 18',cost:40000,qty:1,note:'Upgrade later'},
-        ],
-        tip:'Prioritise the S5 Deadbolt Vs first — that\'s where the Vanguard\'s damage comes from. Use gimballed lasers on the wings while you grind for the S3 Deadbolts. Ship is still effective at HRT with just the nose weapons.',
-        role:'HRTs → VHRTs'
-      }
-    }
-  },
-  corsair:{
-    name:'Drake Corsair',class:'Exploration / Combat',crew:4,scm:'217 m/s',armor:'8,250 HP',
-    role:'Long range patrols · Org multi-role · Nyx / Pyro sorties',
-    auec:3200000,buy:'Grim Hex / Lorville',
-    presets:{
-      'Combat loadout':{
-        slots:[
-          {slot:'2× S4 Weapon (nose)',size:'S4',item:'Deadbolt IV Ballistic Cannon',mfr:'Esperia',src:'Lorville (limited)',cost:120000,qty:2,note:'Fixed nose — main firepower'},
-          {slot:'2× S3 Weapon (wing)',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:2,note:'Fixed wing hardpoints'},
-          {slot:'S3 Turret (manned)',size:'S3',item:'Stock turret',mfr:'Stock',src:'Stock',cost:0,qty:1,note:'Rear turret — crew if possible'},
-          {slot:'2× S3 Shield',size:'S3',item:'Palisade S3',mfr:'BASL',src:'Area 18',cost:130000,qty:2,note:'Corsair runs dual S3 shields'},
-          {slot:'S3 Power Plant',size:'S3',item:'Stock S3',mfr:'Stock',src:'Stock / Lorville',cost:0,qty:1,note:'Upgrade when able'},
-          {slot:'S2 Quantum Drive',size:'S2',item:'XL-1 (crafted) / Crossfield',mfr:'Wetherstone',src:'Crafted / Area 18',cost:55000,qty:1,note:'Long range QD — essential for Corsair role'},
-        ],
-        tip:'Corsair is the Catfight multi-role workhorse for longer ops. Big enough for 4-man crew, tough enough for VHRT, fast enough to reach Nyx and back. S4 nose weapons hit harder than most medium fighters. Upgrade QD first — Corsair earns its keep on range.',
-        role:'HRTs → VHRTs (multi-role)'
-      }
-    }
-  }
-};
-
-function lbLoad(){
-  const shipKey=document.getElementById('lb-ship').value;
-  const ship=LB_SHIPS[shipKey];
-  if(!ship)return;
-  // Update preset dropdown
-  const presetSel=document.getElementById('lb-preset');
-  const currentPreset=presetSel.value;
-  presetSel.innerHTML=Object.keys(ship.presets).map(p=>`<option value="${p}">${p}</option>`).join('');
-  // Try to keep same preset if exists in new ship
-  if(ship.presets[currentPreset])presetSel.value=currentPreset;
-  const presetKey=presetSel.value;
-  const preset=ship.presets[presetKey];
-  // Ship info bar
-  const fmtA=n=>n>=1e6?(n/1e6).toFixed(2)+'M aUEC':Math.round(n/1000)+'k aUEC';
-  document.getElementById('lb-shipbar').innerHTML=
-    `<span style="font-size:12px;font-weight:500;color:var(--gold)">${ship.name}</span>`+
-    `<span style="font-size:11px;color:var(--dim)">${ship.class}</span>`+
-    `<span style="font-size:11px;color:var(--dim)">Crew: ${ship.crew}</span>`+
-    `<span style="font-size:11px;color:var(--dim)">SCM: ${ship.scm}</span>`+
-    `<span style="font-size:11px;color:var(--dim)">Armor: ${ship.armor}</span>`+
-    `<span style="font-size:11px;color:var(--teal)">Buy: ${ship.buy}</span>`+
-    `<span style="font-size:11px;color:var(--gold)">Ship price: ${fmtA(ship.auec)}</span>`;
-  // Table
-  const body=document.getElementById('lb-body');
-  body.innerHTML=preset.slots.map(s=>{
-    const lineTotal=s.cost*s.qty;
-    return`<tr>
-      <td style="font-weight:500">${s.slot}</td>
-      <td><span style="background:var(--panel);border:.5px solid var(--border);padding:.1rem .35rem;border-radius:var(--border-radius);font-size:10px">${s.size}</span></td>
-      <td style="color:var(--gold)">${s.item}</td>
-      <td style="font-size:11px;color:var(--dim)">${s.mfr}</td>
-      <td style="color:var(--dim)">${lineTotal>0?'~'+fmtA(lineTotal):'Stock'}</td>
-      <td style="font-size:10px;color:var(--dim)">${s.note}</td>
-    </tr>`;
+    </div>`;
   }).join('');
-  // Summary
-  const weaponCost=preset.slots.filter(s=>s.slot.toLowerCase().includes('weapon')).reduce((a,s)=>a+s.cost*s.qty,0);
-  const compCost=preset.slots.filter(s=>!s.slot.toLowerCase().includes('weapon')).reduce((a,s)=>a+s.cost*s.qty,0);
-  const totalCost=ship.auec+weaponCost+compCost;
-  document.getElementById('lb-summary').innerHTML=
-    `<div style="display:flex;gap:1.5rem;flex-wrap:wrap;font-size:11px">
-      <span><span style="color:var(--dim)">Ship:</span> <span style="color:var(--gold)">${fmtA(ship.auec)}</span></span>
-      <span><span style="color:var(--dim)">Weapons:</span> <span style="color:var(--gold)">~${fmtA(weaponCost)}</span></span>
-      <span><span style="color:var(--dim)">Components:</span> <span style="color:var(--gold)">~${fmtA(compCost)}</span></span>
-      <span style="font-weight:500"><span style="color:var(--dim)">Total:</span> <span style="color:var(--gold)">~${fmtA(totalCost)}</span></span>
-      <span><span style="color:var(--dim)">Best for:</span> <span style="color:var(--teal)">${preset.role}</span></span>
-    </div>
-    <div style="font-size:10px;color:var(--dim);margin-top:.35rem">Crafted items (FR shields, VK-00, XL-1) require blueprint — base alternatives shown. Deadbolt V may have limited stock at Lorville — check multiple terminals.</div>`;
-  // Tip
-  document.getElementById('lb-tip').innerHTML=`<div class="tip">${preset.tip}</div>`;
-  // Buy route
-  document.getElementById('lb-route').innerHTML=lbBuildRoute(shipKey,preset);
-}
-// Init on load
-// ===== BUY ROUTE PLANNER =====
-const STOP_ORDER=['Lorville','Grim Hex','Area 18','New Babbage','Orison','Levski','Crafted','Stock'];
-const ITEM_LOC={
-  'ship:gladius':   [{loc:'Lorville',area:'New Deal — Teasa Spaceport'},{loc:'Area 18',area:'Astro Armada'}],
-  'ship:arrow':     [{loc:'Lorville',area:'New Deal — Teasa Spaceport'},{loc:'Area 18',area:'Astro Armada'}],
-  'ship:hawk':      [{loc:'Lorville',area:'New Deal — Teasa Spaceport'}],
-  'ship:f7c':       [{loc:'Lorville',area:'New Deal — Teasa Spaceport'},{loc:'Area 18',area:'Astro Armada'}],
-  'ship:f7cm':      [{loc:'Area 18',area:'Astro Armada'}],
-  'ship:sabre':     [{loc:'Grim Hex',area:"Teach's Ship Shop"}],
-  'ship:vanguard':  [{loc:'Lorville',area:'New Deal — Teasa Spaceport'}],
-  'ship:corsair':   [{loc:'Grim Hex',area:"Teach's Ship Shop"},{loc:'Lorville',area:'New Deal — Teasa Spaceport'}],
-  'Deadbolt I':     [{loc:'Lorville',area:'Centermass (L19)'},{loc:'Grim Hex',area:'Skutters'},{loc:'Area 18',area:"Dumper's Depot"}],
-  'Deadbolt II':    [{loc:'Lorville',area:'Centermass (L19)'},{loc:'Grim Hex',area:'Skutters'},{loc:'Area 18',area:"Dumper's Depot"}],
-  'Deadbolt III':   [{loc:'Lorville',area:'Centermass (L19)'},{loc:'Area 18',area:"Dumper's Depot"}],
-  'Deadbolt IV':    [{loc:'Lorville',area:'Centermass (L19)'}],
-  'Deadbolt V':     [{loc:'Lorville',area:'Centermass (L19) — limited stock, check all terminals'}],
-  'Attrition':      [{loc:'Lorville',area:'Centermass (L19)'},{loc:'Area 18',area:"Dumper's Depot"}],
-  'Mantis':         [{loc:'Area 18',area:"Dumper's Depot"}],
-  'FR-66':          [{loc:'Crafted',area:'Foxwell event — Blueprint required'}],
-  'FR-76':          [{loc:'Crafted',area:'Foxwell event — Blueprint required'}],
-  'Mirage':     [{loc:'Area 18',area:"Dumper's Depot"},{loc:'New Babbage',area:'Omega Pro'}],
-  'Veil':       [{loc:'Area 18',area:"Dumper's Depot"}],
-  'Obscura':    [{loc:'Area 18',area:"Dumper's Depot"}],
-  'Sheut':      [{loc:'Area 18',area:"Dumper's Depot"}],
-  'Umbra':      [{loc:'Area 18',area:"Dumper's Depot"}],
-  'Palisade S1':    [{loc:'Area 18',area:"Dumper's Depot"},{loc:'New Babbage',area:'Omega Pro'}],
-  'Palisade S2':    [{loc:'Area 18',area:"Dumper's Depot"},{loc:'New Babbage',area:'Omega Pro'}],
-  'Palisade S3':    [{loc:'Area 18',area:"Dumper's Depot"},{loc:'New Babbage',area:'Omega Pro'}],
-  'QuadraCell S1':  [{loc:'Lorville',area:'Centermass (L19)'},{loc:'Area 18',area:"Dumper's Depot"}],
-  'QuadraCell MT S2':[{loc:'Lorville',area:'Centermass (L19)'},{loc:'New Babbage',area:'Omega Pro'}],
-  'SnowBlind S1':   [{loc:'Area 18',area:"Dumper's Depot"},{loc:'New Babbage',area:'Omega Pro'}],
-  'SnowBlind S2':   [{loc:'Area 18',area:"Dumper's Depot"},{loc:'New Babbage',area:'Omega Pro'}],
-  'Boreal S1':      [{loc:'Lorville',area:'Centermass (L19)'},{loc:'Area 18',area:"Dumper's Depot"}],
-  'CoolMaster':     [{loc:'Area 18',area:"Dumper's Depot"}],
-  'VK-00':          [{loc:'Crafted',area:'Covalex Master rank — Blueprint required'}],
-  'XL-1':           [{loc:'Crafted',area:'Covalex Master rank — Blueprint required'}],
-  'Crossfield':     [{loc:'Area 18',area:"Dumper's Depot"},{loc:'New Babbage',area:'Omega Pro'}],
-  'Beacon':         [{loc:'Stock',area:'Comes with ship — no purchase needed'}],
-};
-const STOP_COLORS={Lorville:'var(--gold)','Grim Hex':'var(--red)','Area 18':'var(--teal)','New Babbage':'var(--blue)',Orison:'var(--green)',Levski:'var(--purple)',Crafted:'var(--amber)',Stock:'var(--dim)'};
-
-function lbFindLoc(itemName){
-  for(const key of Object.keys(ITEM_LOC)){
-    if(key.startsWith('ship:'))continue;
-    if(itemName.includes(key)||itemName.toLowerCase().includes(key.toLowerCase()))
-      return ITEM_LOC[key];
-  }
-  // Try first part of alternative items (e.g. "FR-66 / Palisade")
-  const first=itemName.split('/')[0].trim();
-  for(const key of Object.keys(ITEM_LOC)){
-    if(key.startsWith('ship:'))continue;
-    if(first.includes(key)||key.toLowerCase().includes(first.split(' ')[0].toLowerCase()))
-      return ITEM_LOC[key];
-  }
-  return [{loc:'Area 18',area:"Dumper's Depot (verify stock)"}];
 }
 
-function lbBuildRoute(shipKey,preset){
-  const ship=LB_SHIPS[shipKey];
-  const stops={};
-  const addStop=(loc,area,item,cost,crafted)=>{
-    if(!stops[loc])stops[loc]=[];
-    stops[loc].push({area,item,cost,crafted});
-  };
-  // Ship purchase
-  const shipLoc=(ITEM_LOC['ship:'+shipKey]||[{loc:'Lorville',area:'New Deal'}])[0];
-  addStop(shipLoc.loc,shipLoc.area,`Buy ${ship.name}`,ship.auec,false);
-  // Each component
-  preset.slots.forEach(s=>{
-    const skip=s.cost===0&&(s.item.toLowerCase().includes('stock')||s.item.toLowerCase().includes('built-in'));
-    if(skip)return;
-    const locs=lbFindLoc(s.item);
-    const best=locs[0];
-    // Merge into existing stop if same location already buying ship there
-    addStop(best.loc,best.area,`${s.qty>1?s.qty+'× ':''}${s.item.split('/')[0].trim()}`,s.cost*s.qty,best.loc==='Crafted'||best.loc==='Stock');
-  });
-  // Sort by priority
-  const sortedStops=Object.keys(stops).sort((a,b)=>{
-    const ai=STOP_ORDER.indexOf(a)<0?99:STOP_ORDER.indexOf(a);
-    const bi=STOP_ORDER.indexOf(b)<0?99:STOP_ORDER.indexOf(b);
-    return ai-bi;
-  });
-  const fmtA=n=>n>=1e6?(n/1e6).toFixed(2)+'M':Math.round(n/1000)+'k';
-  const realStops=sortedStops.filter(s=>s!=='Crafted'&&s!=='Stock');
-  const metaStops=sortedStops.filter(s=>s==='Crafted'||s==='Stock');
-  let html='<div style="display:flex;flex-direction:column;gap:.4rem">';
-  // Real stops with arrows
-  realStops.forEach((stop,i)=>{
-    const color=STOP_COLORS[stop]||'var(--dim)';
-    const items=stops[stop];
-    const stopCost=items.reduce((a,x)=>a+(x.cost||0),0);
-    // Group items by shop area
-    const byArea={};
-    items.forEach(it=>{if(!byArea[it.area])byArea[it.area]=[];byArea[it.area].push(it);});
-    html+=`<div style="background:var(--panel);border:.5px solid var(--border);border-left:2px solid ${color};border-radius:var(--border-radius);overflow:hidden">
-      <div style="padding:.35rem .75rem;display:flex;align-items:center;gap:.6rem;border-bottom:.5px solid var(--border)">
-        <span style="font-size:11px;font-weight:500;color:var(--dim);min-width:1.4rem">${i+1}</span>
-        <span style="font-size:12px;font-weight:500;color:${color}">${stop}</span>
-        ${stopCost>0?`<span style="font-size:10px;color:var(--dim);margin-left:auto">~${fmtA(stopCost)} aUEC</span>`:''}
-      </div>`;
-    Object.entries(byArea).forEach(([area,its])=>{
-      html+=`<div style="padding:.3rem .75rem;border-bottom:.5px solid var(--border)">
-        <div style="font-size:10px;color:var(--dim);margin-bottom:.2rem;letter-spacing:.06em">${area}</div>
-        ${its.map(it=>`<div style="font-size:11px;color:var(--gold);padding:.1rem 0">${it.item}</div>`).join('')}
-      </div>`;
-    });
-    html+='</div>';
-    if(i<realStops.length-1)html+=`<div style="text-align:center;font-size:11px;color:var(--dim);padding:.1rem 0">↓ quantum travel</div>`;
-  });
-  // Crafted/stock notes
-  if(metaStops.length){
-    metaStops.forEach(stop=>{
-      const color=STOP_COLORS[stop];
-      const items=stops[stop];
-      html+=`<div style="margin-top:.4rem;background:var(--panel);border:.5px solid var(--border);border-left:2px solid ${color};border-radius:var(--border-radius);padding:.35rem .75rem">
-        <div style="font-size:10px;font-weight:500;color:${color};margin-bottom:.25rem">${stop==='Crafted'?'📋 Blueprint required':'📦 Stock items'}</div>
-        ${items.map(it=>`<div style="font-size:11px;color:var(--dim);padding:.1rem 0">${it.item} — ${it.area}</div>`).join('')}
-      </div>`;
-    });
-  }
-  html+='</div>';
-  return html;
-}
-function setBPRole(r,btn){
-  document.querySelectorAll('#panel-bp .ltab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderBP(r);
-}
-function tog(hdr){hdr.parentElement.classList.toggle('open')}
-function setSys(s,btn){
-  document.querySelectorAll('.sys-content').forEach(c=>c.classList.remove('active'));
-  const el=document.querySelector('#sys-'+s);
-  if(el)el.classList.add('active');
-  document.querySelectorAll('.sys-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-}
-
-// ===== CALCULATOR =====
-const calcData={
-  vlrt:{base:60000,risk:'Low',solo:'Solo'},mrt:{base:140000,risk:'Low-Med',solo:'Solo'},
-  hrt:{base:280000,risk:'Medium',solo:'Solo'},vhrt:{base:380000,risk:'Med-High',solo:'Solo'},
-  ert:{base:600000,risk:'High',solo:'Solo/Duo'},gauntlet:{base:900000,risk:'Low (instanced)',solo:'Solo'},
-  salvage2k:{base:80000,risk:'Low',solo:'Solo'},salvage5k:{base:250000,risk:'Low',solo:'Solo'},
-  cov_rookie:{base:120000,risk:'Low',solo:'Solo'},cov_member:{base:280000,risk:'Low',solo:'Solo'},
-  cov_senior:{base:500000,risk:'Low',solo:'Solo'},
-  trade_med:{base:400000,risk:'Med (piracy)',solo:'Solo'},trade_large:{base:1200000,risk:'High (piracy)',solo:'Org recommended'},
-  hand_mining:{base:1500000,risk:'Low',solo:'Solo'},gem_mining:{base:1900000,risk:'Low',solo:'Solo'},
-  roc:{base:150000,risk:'Low',solo:'Solo'},prospector:{base:400000,risk:'Low-Med',solo:'Solo'}
-};
-function fmt(n){return n>=1000000?(n/1000000).toFixed(1)+'M aUEC':n>=1000?(n/1000).toFixed(0)+'k aUEC':n+' aUEC'}
-function calcUpdate(){
-  const act=document.getElementById('calcActivity').value;
-  const q=parseFloat(document.getElementById('calcQuality').value);
-  const srv=parseFloat(document.getElementById('calcServer').value);
-  const exp=parseFloat(document.getElementById('calcExp').value);
-  const d=calcData[act];
-  const hr=Math.round(d.base*q*srv*exp);
-  document.getElementById('resHr').textContent=fmt(hr);
-  document.getElementById('res3h').textContent=fmt(hr*3);
-  document.getElementById('res5m').textContent=Math.ceil(5000000/hr/3)+' sessions (3hr)';
-  document.getElementById('resGlad').textContent=Math.ceil(950000/hr/3)+' sessions (3hr)';
-  document.getElementById('resProsp').textContent=Math.ceil(2100000/hr/3)+' sessions (3hr)';
-  document.getElementById('resRisk').textContent=d.risk;
-  document.getElementById('resSolo').textContent=d.solo;
-}
-
-// ===== REP TRACKER =====
-const repFactions=[
-  {id:'bhg',name:'Bounty Hunters Guild',color:'var(--blue)',ranks:['Operative','Journeyman','Veteran','Expert','Master','Guild Member'],unlocks:['LRT access','MRT access','HRT access','VHRT access','ERT access','Elite contracts']},
-  {id:'covalex',name:'Covalex Shipping',color:'var(--green)',ranks:['Trainee','Rookie','Junior','Member','Experienced','Senior','Master'],unlocks:['Intro job','Small hauling','Medium hauling','10-mission stacks','Everus Harbor routes','C2-tier jobs','Interstellar + QD blueprints']},
-  {id:'pa',name:"People's Alliance (Nyx)",color:'var(--purple)',ranks:['Unknown','Neutral','Associate','Member','Trusted','Champion'],unlocks:['—','Basic Levski access','Local contracts','Better contracts','Priority access','Exclusive Nyx content']},
-  {id:'foxwell',name:'Foxwell Security',color:'var(--amber)',ranks:['Unknown','Orange-tier','Red-tier','Gold-tier'],unlocks:['—','S1 shield/power BPs','S2 shield/power BPs','Best Foxwell BPs']},
-  {id:'headhunters',name:'Headhunters',color:'var(--orange)',ranks:['Unknown','Associate','Agent','Operative','Senior'],unlocks:['—','Basic contracts','NN-5 BP access','S2 weapon BPs','Top-tier combat BPs']},
-  {id:'shubin',name:'Shubin Mining',color:'var(--teal)',ranks:['Unknown','Neutral','Associate','Contractor','Senior Contractor'],unlocks:['—','Mining missions','Helix BP access','S2 mining lasers','Senior mining BPs']},
-  {id:'intersec',name:'Intersec (TSG)',color:'var(--red)',ranks:['Unknown','Operative','Agent','Elite'],unlocks:['—','Regular missions','S3 power/shields','Tactical Strike Group access']},
-];
-function renderRep(){
-  const grid=document.getElementById('repGrid');
-  grid.innerHTML='';
-  repFactions.forEach(f=>{
-    const saved=JSON.parse(localStorage.getItem('rep_'+f.id)||'[]');
-    const done=saved.length;
-    const pct=Math.round(done/f.ranks.length*100);
-    let html=`<div class="rep-card"><div class="rep-hdr"><div class="rep-name" style="color:${f.color}">${f.name}</div><div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--dim)">${done}/${f.ranks.length}</div></div>`;
-    html+=`<div class="rep-bar-wrap"><div class="rep-bar" style="width:${pct}%;background:${f.color}"></div></div>`;
-    html+=`<div class="rep-ranks">`;
-    f.ranks.forEach((r,i)=>{
-      const checked=saved.includes(i);
-      html+=`<div class="rep-rank ${checked?'done':''}" onclick="toggleRep('${f.id}',${i},this)"><div class="chk">${checked?'✓':''}</div><span>${r}</span><span class="rep-unlock">${f.unlocks[i]||''}</span></div>`;
-    });
-    html+=`</div><button class="rep-reset" onclick="resetRep('${f.id}')">↺ RESET</button></div>`;
-    grid.innerHTML+=html;
-  });
-}
-function toggleRep(fid,idx,el){
-  const saved=JSON.parse(localStorage.getItem('rep_'+fid)||'[]');
-  const i=saved.indexOf(idx);
-  if(i>-1)saved.splice(i,1);else saved.push(idx);
-  localStorage.setItem('rep_'+fid,JSON.stringify(saved));
-  renderRep();
-}
-function resetRep(fid){localStorage.removeItem('rep_'+fid);renderRep();}
-renderRep();
-
-// ===== BLUEPRINT ROADMAP =====
-const bpData={
-  solo:[
-    {name:'Phase 1 — Foxwell Event',src:'Foxwell Event missions',items:[{name:'FR-66 Shield',desc:'S1 shield — saves bad fights, landings, ambushes. First priority.',role:'all'},{name:'Quadracell S1',desc:'Military power plant. Solo-friendly, avoids group requirements.',role:'all'},{name:'VK-00 QD',desc:'Not just travel. Saves minutes every session in the long run.',role:'all'}]},
-    {name:'Phase 2 — Covalex Rep',src:'Covalex Shipping missions → Master rank',items:[{name:'VK-00 QD (confirm)',desc:'Covalex Master grants military QD blueprint progression.',role:'all'},{name:'XL-1 QD',desc:'Faster interstellar travel — critical for multi-system ops.',role:'all'},{name:'TS-2 QD',desc:'Top-tier quantum drive from Master Covalex unlock.',role:'all'}]},
-    {name:'Phase 3 — Headhunters',src:'Headhunters faction missions',items:[{name:'NN-5 Cannon',desc:'Flexible S2 weapon. Good if already farming Headhunters.',role:'combat'},{name:'NDB-30',desc:'Flexible weapon pick. Good across multiple ship sizes.',role:'combat'}]},
-    {name:'Phase 4 — Ling Family / Shubin',src:'MAL Eart / Ling Family / Shubin missions',items:[{name:'Helix Mining Laser',desc:'Core mining upgrade. Only relevant if you mine.',role:'miner'},{name:'S2 Coolers',desc:'Avalanche line — add if build runs hot or power-heavy.',role:'all'}]},
-    {name:'Phase 5 — Intersec',src:'Intersec regular missions → Tactical Strike Group',items:[{name:'Quadracell MX',desc:'S3 military power plant. Requires TSG content — delay if solo.',role:'combat'},{name:'FR-86 Shield',desc:'S3 shield. Mandatory for large ships under pressure.',role:'cargo'}]},
-  ],
-  combat:[
-    {name:'Priority 1 — Shields First',src:'Foxwell Event',items:[{name:'FR-66',desc:'S1 shield. Shields save bad fights, bad landings, bad ambushes.',role:'all'},{name:'FR-76',desc:'S2 shield. Core upgrade for medium fighters.',role:'all'},{name:'FR-86',desc:'S3 shield. Big ships are slow targets — shields matter most.',role:'all'}]},
-    {name:'Priority 2 — Power & Weapons',src:'Foxwell + Headhunters',items:[{name:'Quadracell line',desc:'Military power plant for your ship size. Early priority.',role:'all'},{name:'Deadbolt BPs',desc:'PvE damage king. Farm if mission-unlockable in live.',role:'all'},{name:'NDB-30',desc:'Flexible weapon pick if Deadbolt BPs not available.',role:'all'}]},
-    {name:'Priority 3 — QD + Coolers',src:'Covalex + Shubin',items:[{name:'VK-00 / XL-1',desc:'QD upgrades save time in every session.',role:'all'},{name:'Avalanche Cooler',desc:'Add if running heavy weapons or shields causes heat issues.',role:'all'}]},
-  ],
-  hauler:[
-    {name:'Priority 1 — QDs First',src:'Covalex → Master',items:[{name:'VK-00',desc:'Faster QD immediately reduces time between hauls.',role:'all'},{name:'XL-1',desc:'Upgrade from VK-00. Covalex Master unlock.',role:'all'},{name:'TS-2',desc:'Top QD from Covalex Master. Reduces all travel grind.',role:'all'}]},
-    {name:'Priority 2 — Shields',src:'Foxwell Event',items:[{name:'FR-76',desc:'S2 shield for medium/large haulers. Survivability on risky routes.',role:'all'},{name:'FR-86',desc:'S3 shield for C2/Hull C class ships.',role:'all'}]},
-    {name:'Priority 3 — Power',src:'Foxwell + Shubin',items:[{name:'Quadracell MT',desc:'Stable power plant for large cargo ships.',role:'all'}]},
-  ],
-  miner:[
-    {name:'Priority 1 — Mining Laser',src:'Shubin Interstellar missions',items:[{name:'Helix Mining Laser',desc:'Core mining upgrade. Get this first if you mine.',role:'miner'},{name:'S2 Helix',desc:'Upgrade for Prospector-scale operations.',role:'miner'}]},
-    {name:'Priority 2 — Shields & QD',src:'Foxwell Event + Covalex',items:[{name:'FR-66',desc:'Even miners need shields. Bad landings destroy mining sessions.',role:'all'},{name:'VK-00 / XL-1',desc:'Faster travel to mining sites. Saves cumulative hours.',role:'all'}]},
-    {name:'Priority 3 — Power',src:'Foxwell + Ling Family',items:[{name:'Quadracell S1/MT',desc:'Stable power for mining laser + shield operation.',role:'all'}]},
-  ],
-};
-function renderBP(role){
-  const flow=document.getElementById('bpFlow');
-  const phases=bpData[role];
-  flow.innerHTML='';
-  phases.forEach((p,i)=>{
-    let items='';
-    p.items.forEach(it=>{
-      items+=`<div class="bp-item"><div class="bp-item-name">${it.name}</div><div class="bp-item-desc">${it.desc}</div></div>`;
-    });
-    flow.innerHTML+=`<div class="bp-phase open"><div class="bp-phase-hdr" onclick="this.parentElement.classList.toggle('open')"><div class="bp-num">${i+1}</div><div class="bp-phase-name">${p.name}</div><div class="bp-phase-src">${p.src}</div><div class="bp-tog">▼</div></div><div class="bp-body"><div class="bp-items">${items}</div></div></div>`;
-  });
-}
-renderBP('solo');
-
-// ===== ORG OPS PLANNER =====
-const orgRoles=[
-  {min:2,icon:'🎯',name:'Fighter Pilot',desc:'Primary DPS on bounties, escort, Xenothreat defense. Handles ERT-tier threats and pirate suppression on cargo/mining ops.',ship:'Gladius / Arrow / F7C Mk II / Vanguard',req:'BHG: Operative+'},
-  {min:2,icon:'📦',name:'Cargo Runner',desc:'Hauls freight on Covalex routes or trade runs. Runs the income baseline for the session. Manages route planning and commodity selection.',ship:'Argo RAFT / Cutlass / C2 Hercules',req:'Covalex: Rookie+'},
-  {min:3,icon:'⛏️',name:'Miner',desc:'Prospector or Mole operator. Handles ore scanning, fracturing, and collection. Coordinates refinery runs to Levski/Stanton.',ship:'Prospector / Mole',req:'Shubin: Neutral+'},
-  {min:3,icon:'🏥',name:'Medical / Support',desc:'Cutlass Red operator. Provides respawn bed, medical treatment, and consumable resupply to fighters. Critical for extended operations.',ship:'Cutlass Red / Freelancer MIS',req:'Any player with medical ship'},
-  {min:4,icon:'🚢',name:'Hauler (Large)',desc:'Operates C2/Hull C on bulk cargo runs with fighter escort. Responsible for load planning, cargo sorting, and route timing.',ship:'C2 Hercules / Caterpillar',req:'Covalex: Member+ · ~5M aUEC capital'},
-  {min:4,icon:'🔭',name:'Scout / Interdiction',desc:'Forward scout for gate crossings, Nyx belt patrols, and pirate detection. Calls targets for fighters. Monitors comms traffic.',ship:'Mustang Delta / 300i / Avenger Stalker',req:'Any fast ship'},
-  {min:5,icon:'⚗️',name:'Salvager',desc:'Vulture or Reclaimer operator. Strips wrecks from combat ops for RMC. Feeds crafting materials back into org economy.',ship:'Drake Vulture / Reclaimer',req:'Adagio: Neutral+'},
-  {min:6,icon:'⛽',name:'Fuel Runner',desc:'Starfarer operator for 4.8 refuelling missions. Keeps combat ships in the fight longer. New income loop in 4.8.',ship:'Starfarer',req:'4.8 new: Refuelling missions'},
-];
-function orgUpdate(){
-  const count=parseInt(document.getElementById('orgCount').value);
-  const container=document.getElementById('orgRoles');
-  const active=orgRoles.filter(r=>r.min<=count);
-  container.innerHTML=active.map(r=>`
-    <div class="role-row">
-      <div class="role-icon">${r.icon}</div>
-      <div class="role-info">
-        <div class="role-name">${r.name}</div>
-        <div class="role-desc">${r.desc}</div>
-        <div class="role-ship">Ship: ${r.ship}</div>
-      </div>
-      <div class="role-req">${r.req}</div>
-    </div>`).join('');
-  const incEst=count<=2?'500k–2M/session':count<=4?'2M–8M/session':count<=6?'8M–20M/session':'20M+/session';
-  document.getElementById('orgIncome').innerHTML=`<div class="tip" style="margin-top:.75rem">Estimated org session income (${count} players, 3hrs, average performance): <strong>${incEst} aUEC combined</strong></div>`;
-}
-orgUpdate();
-
-// ===== NEW PLAYER CHECKLIST =====
-const checkData=[
-  {section:'FIRST 5 MINUTES — SPAWN & SETUP',items:[
-    {text:'Set spawn at Checkmate Station (Pyro) — no UEE jurisdiction, central to Pyro content, best 4.8 starting hub',pri:'p-crit',key:'c0'},
-    {text:'Open mobiGlas → Contracts → accept the BHG intro mission immediately — starts your cert chain, one-time only',pri:'p-crit',key:'c2'},
-    {text:'Accept the Covalex intro haul mission from the contract board — one-time, +50 XP, unlocks the full haul chain',pri:'p-high',key:'c3'},
-    {text:'Stock up on medpens (x4) and food at Checkmate shops before leaving',pri:'p-med',key:'c4'},
-  ]},
-  {section:'FIRST SESSION — VLRT GRIND (0–200k aUEC)',items:[
-    {text:'Complete the VLRT Cert mission from BHG board — one-time, required to unlock LRT tier',pri:'p-crit',key:'c5'},
-    {text:'Stack 5+ VLRT bounties and complete in one loop — enemies cluster near same nav markers',pri:'p-crit',key:'c6'},
-    {text:'Loot every downed pilot — sell components and cargo at commodity terminal after each loop',pri:'p-high',key:'c7'},
-    {text:'Do NOT spend anything until you have 100k aUEC buffer — ship repairs and respawns cost money',pri:'p-high',key:'c8'},
-    {text:'Check Foxwell contracts — Very Easy Defend Location missions are open immediately, drop Antium armor BPs + MG Scrip every run',pri:'p-med',key:'c9'},
-  ]},
-  {section:'CERT CHAIN — DO THESE IN ORDER',items:[
-    {text:'Complete LRT Cert mission when BHG Junior rank unlocks — check mobiGlas → Reputation for rank progress',pri:'p-crit',key:'c10'},
-    {text:'Complete MRT Cert mission at Member rank',pri:'p-crit',key:'c11'},
-    {text:'Complete HRT Cert mission at Guild Member rank — biggest income jump in the game',pri:'p-crit',key:'c12'},
-    {text:'Complete VHRT Cert mission at Senior rank',pri:'p-high',key:'c13'},
-    {text:'Complete ERT Cert mission at Veteran rank — endgame bounty content unlocked',pri:'p-high',key:'c14'},
-    {text:'Cert missions are one-time only — complete each immediately when rank unlocks, do not skip',pri:'p-crit',key:'c15'},
-  ]},
-  {section:'DAY ONE PRIORITIES (200k–1M aUEC)',items:[
-    {text:'Buy a Gladius or Arrow from Lorville for dedicated combat — prices unconfirmed for 4.8, check UEX before buying',pri:'p-crit',key:'c16'},
-    {text:'Buy Deadbolt II Ballistic Cannons from Lorville Centermass (L19) — current meta S2 weapon',pri:'p-high',key:'c17'},
-    {text:'Buy Palisade S2 shield from Area 18 Dumper\'s Depot as a base component while saving for crafted FR-66',pri:'p-high',key:'c18'},
-    {text:'If hand mining: buy Pyro RYT Multi-Tool + OreBit mining attachment — fly to Daymar or Magda Sand Caves for Janalite',pri:'p-high',key:'c19'},
-    {text:'Stack Covalex Haul Raw Ore contracts (+1,000 XP each) between combat sessions — no combat, passive rep',pri:'p-med',key:'c20'},
-    {text:'Run Foxwell Easy/Medium missions alongside BHG — all drop Antium armor BPs + MG Scrip',pri:'p-med',key:'c21'},
-  ]},
-  {section:'WEEK ONE GOALS',items:[
-    {text:'Push BHG to Guild Member rank — HRTs available, first serious income begins here',pri:'p-high',key:'c22'},
-    {text:'Push Covalex to unlock Interstellar Haul contracts (+2,000 XP per run)',pri:'p-high',key:'c23'},
-    {text:'Run InterSec Security Patrol Hard (54 enemies) — drops Testudo armor BPs + MG Scrip every run',pri:'p-high',key:'c24'},
-    {text:'Have 3M+ aUEC banked before buying anything larger than a light fighter',pri:'p-high',key:'c25'},
-    {text:'Run BHG QV Breaker Station bounties in Nyx — guaranteed Monde armor + R97 Shotgun BPs every run',pri:'p-med',key:'c26'},
-    {text:'Scout Nyx with Catfight — fly to Levski, set it as secondary spawn, learn the layout',pri:'p-med',key:'c27'},
-  ]},
-];
-function renderChecklist(){
-  const el=document.getElementById('checklist');
-  const saved=JSON.parse(localStorage.getItem('checklist4_8')||'{}');
-  let total=0,done=0;
-  let html='';
-  checkData.forEach(s=>{
-    html+=`<div class="check-section"><div class="check-section-title">${s.section}</div>`;
-    s.items.forEach(item=>{
-      total++;
-      const checked=!!saved[item.key];
-      if(checked)done++;
-      html+=`<div class="check-item ${checked?'done':''}" onclick="toggleCheck('${item.key}',this)"><div class="check-box">${checked?'✓':''}</div><div class="check-text">${item.text}</div><div class="check-priority ${item.pri}">${item.pri==='p-crit'?'CRITICAL':item.pri==='p-high'?'HIGH':'MED'}</div></div>`;
-    });
-    html+='</div>';
-  });
-  const pct=Math.round(done/total*100);
-  html+=`<div class="check-progress">${done}/${total} complete (${pct}%)</div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>`;
-  el.innerHTML=html;
-}
-function toggleCheck(key,el){
-  const saved=JSON.parse(localStorage.getItem('checklist4_8')||'{}');
-  saved[key]=!saved[key];
-  localStorage.setItem('checklist4_8',JSON.stringify(saved));
-  renderChecklist();
-}
-function resetChecklist(){localStorage.removeItem('checklist4_8');renderChecklist();}
-renderChecklist();
 
 // ===== SYSTEM NAVIGATOR =====
 const locData={
@@ -3388,9 +2976,14 @@ sdbBuildRoleFilters();
 sdbUpdateStats();
 sdbFilterShips();
 
-sdbBuildRoleFilters();
-sdbUpdateStats();
-sdbFilterShips();
+document.addEventListener('DOMContentLoaded',function(){
+  renderShop();
+  minFilter();
+  renderBHG();
+  lbLoad();
+  bpFilter();
+  calcUpdate();
+});
 </script>
 </body>
 </html>
