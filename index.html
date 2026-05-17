@@ -1877,46 +1877,160 @@ footer{text-align:center;padding:1.25rem;font-family:'Share Tech Mono',monospace
 <script>
 // ===== NAV =====
 // ===== CALCULATOR =====
-const calcActivities=[
-  {id:'vlrt',label:'VLRT Bounty',base:10000,unit:'mission'},
-  {id:'lrt',label:'LRT Bounty',base:22000,unit:'mission'},
-  {id:'mrt',label:'MRT Bounty',base:42000,unit:'mission'},
-  {id:'hrt',label:'HRT Bounty',base:65000,unit:'mission'},
-  {id:'vhrt',label:'VHRT Bounty',base:100000,unit:'mission'},
-  {id:'ert',label:'ERT Bounty',base:225000,unit:'mission'},
-  {id:'janalite',label:'Janalite Hand Mining',base:180000,unit:'hr'},
-  {id:'prospector',label:'Prospector Ship Mining',base:350000,unit:'hr'},
-  {id:'mole',label:'MOLE Ship Mining (3 crew)',base:900000,unit:'hr'},
-  {id:'vulture',label:'Vulture Solo Salvage',base:200000,unit:'hr'},
-  {id:'reclaimer',label:'Reclaimer Salvage (crew)',base:800000,unit:'hr'},
-  {id:'covalex_haul',label:'Covalex Raw Ore Haul',base:120000,unit:'hr'},
-  {id:'covalex_inter',label:'Covalex Interstellar Haul',base:280000,unit:'hr'},
-  {id:'c2_trade',label:'C2 Trade Route',base:600000,unit:'hr'},
-  {id:'cfp_cargo',label:'CFP Recover Cargo',base:85000,unit:'mission'},
-  {id:'gauntlet',label:'Gauntlet Scenario 6',base:150000,unit:'mission'},
-  {id:'xenothreat',label:'Xenothreat Phase 1',base:280000,unit:'hr'},
-];
-const calcQuality={avg:1,good:1.25,great:1.5};
-const calcServer={full:1,medium:1.15,low:1.25};
-const calcExp={solo:1,duo:0.75,group:0.6};
+const calcRates={
+  vlrt:{label:'Combat — VLRT/LRT bounties',hr:40000,risk:'Low',solo:'Solo'},
+  mrt:{label:'Combat — MRT bounties',hr:120000,risk:'Medium',solo:'Solo'},
+  hrt:{label:'Combat — HRT bounties',hr:220000,risk:'Med-High',solo:'Solo'},
+  vhrt:{label:'Combat — VHRT bounties',hr:380000,risk:'High',solo:'Solo/Duo'},
+  ert:{label:'Combat — ERT bounties',hr:700000,risk:'Very High',solo:'Duo/Org'},
+  gauntlet:{label:'Combat — Gauntlet Scenario 6',hr:550000,risk:'Low',solo:'Solo'},
+  salvage2k:{label:'Cargo — Salvage (2k tier)',hr:80000,risk:'Low',solo:'Solo'},
+  salvage5k:{label:'Cargo — Salvage (5k tier)',hr:180000,risk:'Low',solo:'Solo'},
+  cov_rookie:{label:'Cargo — Covalex Rookie',hr:60000,risk:'Low',solo:'Solo'},
+  cov_member:{label:'Cargo — Covalex Member',hr:180000,risk:'Low',solo:'Solo'},
+  cov_senior:{label:'Cargo — Covalex Senior',hr:400000,risk:'Low',solo:'Solo'},
+  trade_med:{label:'Cargo — Medium trade route',hr:300000,risk:'Low',solo:'Solo'},
+  trade_large:{label:'Cargo — Large trade route',hr:700000,risk:'Low',solo:'Solo/Duo'},
+  hand_mining:{label:'Mining — Hand mining (Janalite)',hr:180000,risk:'Low',solo:'Solo'},
+  gem_mining:{label:'Mining — Gem mining',hr:120000,risk:'Low',solo:'Solo'},
+  roc:{label:'Mining — ROC surface',hr:150000,risk:'Low',solo:'Solo'},
+  prospector:{label:'Mining — Prospector solo',hr:350000,risk:'Low',solo:'Solo'},
+};
 function calcUpdate(){
-  const act=calcActivities.find(a=>a.id===(document.getElementById('calcActivity')?.value||'vlrt'))||calcActivities[0];
-  const q=calcQuality[document.getElementById('calcQuality')?.value||'avg']||1;
-  const s=calcServer[document.getElementById('calcServer')?.value||'full']||1;
-  const e=calcExp[document.getElementById('calcExp')?.value||'solo']||1;
-  const base=act.base*q*s*e;
-  const hr=act.unit==='mission'?base*4:base;
-  const day=hr*3;
+  const act=document.getElementById('calcActivity')?.value||'hrt';
+  const q=parseFloat(document.getElementById('calcQuality')?.value||'1.0');
+  const s=parseFloat(document.getElementById('calcServer')?.value||'0.8');
+  const e=parseFloat(document.getElementById('calcExp')?.value||'1.0');
+  const data=calcRates[act]||calcRates.hrt;
+  const hr=Math.round(data.hr*q*s*e);
+  const fmt=n=>n>=1e6?(n/1e6).toFixed(2)+'M':(n>=1e3?Math.round(n/1000)+'k':n)+' aUEC';
   const setEl=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};
-  setEl('calcResult',fmtAuec(base));
-  setEl('calcUnit','per '+act.unit);
-  setEl('calcHr',fmtAuec(hr)+'/hr');
-  setEl('calcDay',fmtAuec(day)+'/day (3hr session)');
-  setEl('calcNotes',act.unit==='mission'?'Assumes ~4 missions/hr average':'Based on active play, not AFK');
+  setEl('resHr',fmt(hr));
+  setEl('res3h',fmt(hr*3));
+  setEl('res5m',(5000000/(hr*3)).toFixed(1)+' sessions');
+  setEl('resGlad',(950000/(hr*3)).toFixed(1)+' sessions');
+  setEl('resProsp',(2100000/(hr*3)).toFixed(1)+' sessions');
+  setEl('resRisk',data.risk);
+  setEl('resSolo',data.solo);
 }
-function fmtAuec(n){if(n>=1e6)return(n/1e6).toFixed(2)+'M aUEC';if(n>=1e3)return Math.round(n/1e3)+'k aUEC';return Math.round(n)+' aUEC';}
-calcUpdate();
 
+// ===== ORG OPS PLANNER =====
+const orgConfigs={
+  2:[{role:'Fighter Pilot',ships:'Gladius / Arrow / F7C Mk II',task:'Combat — HRT/VHRT bounties',icon:'✈'},
+     {role:'Support / Cargo',ships:'Cutlass Black / Zeus CL',task:'Loot recovery + rep contracts',icon:'📦'}],
+  3:[{role:'Fighter Pilot ×2',ships:'Gladius / Arrow / F7C Mk II',task:'Combat — VHRT/ERT bounties',icon:'✈'},
+     {role:'Support',ships:'Cutlass Black / Cutlass Red',task:'Medical + loot recovery',icon:'🏥'}],
+  4:[{role:'Fighter Pilot ×2',ships:'F7C Mk II / Vanguard',task:'Combat — ERT bounties',icon:'✈'},
+     {role:'Cargo / Loot',ships:'Cutlass Black / Zeus CL',task:'Loot recovery + Covalex hauls',icon:'📦'},
+     {role:'Medical Support',ships:'Cutlass Red',task:'Respawn ferry + field medic',icon:'🏥'}],
+  5:[{role:'Fighter Pilot ×3',ships:'F7C Mk II / Vanguard / Corsair',task:'ERT + Xenothreat combat',icon:'✈'},
+     {role:'Cargo Runner',ships:'C2 Hercules / Zeus CL',task:'Zeta-Prolanide + loot recovery',icon:'📦'},
+     {role:'Medical Support',ships:'Cutlass Red',task:'Respawn ferry + healing',icon:'🏥'}],
+  6:[{role:'Fighter Pilot ×3',ships:'F7C Mk II / Vanguard / Corsair',task:'ERT + Xenothreat ship combat',icon:'✈'},
+     {role:'FPS Team ×2',ships:'On foot — Palatino/Monde armor',task:'Boarding / UGF / Xenothreat PH3',icon:'🔫'},
+     {role:'Medical / Cargo',ships:'Cutlass Red + Zeus CL',task:'Support + loot recovery',icon:'🏥'}],
+  8:[{role:'Fighter Pilot ×4',ships:'F7C Mk II / Vanguard / Corsair',task:'Fleet combat — ERT/Xenothreat',icon:'✈'},
+     {role:'FPS Team ×2',ships:'On foot — heavy armor',task:'Boarding + UGF clears',icon:'🔫'},
+     {role:'Cargo × 1',ships:'C2 Hercules',task:'Zeta-Prolanide recovery + loot',icon:'📦'},
+     {role:'Medical Support',ships:'Cutlass Red',task:'Full fleet medic',icon:'🏥'}],
+};
+function orgUpdate(){
+  const count=parseInt(document.getElementById('orgCount')?.value||'4');
+  const key=count<=2?2:count<=3?3:count<=4?4:count<=5?5:count<=6?6:8;
+  const roles=orgConfigs[key]||orgConfigs[4];
+  const rolesEl=document.getElementById('orgRoles');
+  const incomeEl=document.getElementById('orgIncome');
+  if(!rolesEl)return;
+  rolesEl.innerHTML=`<div style="display:flex;flex-direction:column;gap:.4rem;margin-top:.75rem">`+
+    roles.map(r=>`<div style="background:var(--panel);border:.5px solid var(--border);border-radius:var(--border-radius);padding:.5rem .75rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap">
+      <span style="font-size:1.2rem">${r.icon}</span>
+      <span style="font-size:12px;font-weight:500;color:var(--bright);flex:1">${r.role}</span>
+      <span style="font-size:11px;color:var(--gold)">${r.ships}</span>
+      <span style="font-size:11px;color:var(--dim)">${r.task}</span>
+    </div>`).join('')+`</div>`;
+  if(incomeEl)incomeEl.innerHTML=`<div class="tip" style="margin-top:.5rem">Org sessions multiply income vs solo — ERT bounties at ${count} players yield far more per hour than equivalent solo VHRT grinding. Coordinate contract stacking before the session starts.</div>`;
+}
+
+// ===== REP TRACKER =====
+const REP_FACTIONS=[
+  {id:'bhg',name:'Bounty Hunters Guild',color:'var(--red)',ranks:['Not Eligible','Probation','Applicant','Junior','Member','Guild Member','Senior','Veteran','Master']},
+  {id:'covalex',name:'Covalex Shipping',color:'var(--purple)',ranks:['Newcomer','Trainee','Rookie','Member','Senior','Master']},
+  {id:'foxwell',name:'Foxwell Security',color:'var(--teal)',ranks:['Recruit','Operative','Agent','Senior Agent','Specialist','Commander']},
+  {id:'intersec',name:'InterSec',color:'var(--blue)',ranks:['Unaffiliated','Prospect','Associate','Operative','Senior','Chief']},
+  {id:'headhunters',name:'Headhunters',color:'var(--amber)',ranks:['Unknown','Introductory','Low','Medium','High','Very High']},
+  {id:'shubin',name:'Shubin Interstellar',color:'var(--gold)',ranks:['Newcomer','Trainee','Prospector','Senior Prospector','Master Prospector']},
+  {id:'peoples',name:'People\'s Alliance',color:'var(--green)',ranks:['Citizen','Volunteer','Contributor','Advocate','Champion']},
+  {id:'blacjac',name:'BlacJac Security',color:'var(--orange)',ranks:['Uncleared','Provisional','Licensed','Certified','Elite']},
+];
+function repSave(){localStorage.setItem('rep_4_8',JSON.stringify(window._repState||{}));}
+function repLoad(){try{return JSON.parse(localStorage.getItem('rep_4_8')||'{}')}catch{return{};}}
+function repClick(fid,rank){
+  if(!window._repState)window._repState=repLoad();
+  window._repState[fid]=rank;
+  repSave();renderRep();
+}
+function repReset(fid){
+  if(!window._repState)window._repState=repLoad();
+  delete window._repState[fid];
+  repSave();renderRep();
+}
+function renderRep(){
+  const el=document.getElementById('repGrid');
+  if(!el)return;
+  if(!window._repState)window._repState=repLoad();
+  el.innerHTML=REP_FACTIONS.map(f=>{
+    const cur=window._repState[f.id]||0;
+    const pct=Math.round((cur/(f.ranks.length-1))*100);
+    return`<div class="rep-card">
+      <div class="rep-hdr"><span class="rep-name" style="color:${f.color}">${f.name}</span><button onclick="repReset('${f.id}')" style="background:none;border:none;color:var(--dim);cursor:pointer;font-size:11px">↺</button></div>
+      <div style="font-size:11px;color:var(--gold);margin-bottom:.3rem">${f.ranks[cur]}</div>
+      <div class="rep-bar-wrap"><div style="height:100%;width:${pct}%;background:${f.color};transition:width .3s"></div></div>
+      <div style="display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.4rem">
+        ${f.ranks.map((r,i)=>`<button onclick="repClick('${f.id}',${i})" style="font-size:10px;padding:.15rem .4rem;border:.5px solid ${i===cur?f.color:'var(--border)'};background:${i===cur?f.color+'22':'none'};color:${i===cur?f.color:'var(--dim)'};cursor:pointer;border-radius:var(--border-radius)">${r}</button>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ===== BLUEPRINT ROADMAP =====
+const BP_ROLES={
+  solo:[
+    {step:'1',priority:'CRITICAL',item:'VK-00 Quantum Drive (S1)',faction:'Covalex — Master rank',why:'Fastest QT — game-changer for solo bounty loops'},
+    {step:'2',priority:'CRITICAL',item:'FR-66 Shield (S1)',faction:'Foxwell — all missions',why:'Best S1 shield — major survivability upgrade'},
+    {step:'3',priority:'HIGH',item:'XL-1 Quantum Drive (S2)',faction:'Covalex — Master rank',why:'Fastest S2 QD — essential for larger ships'},
+    {step:'4',priority:'HIGH',item:'FR-76 Shield (S2)',faction:'Foxwell — all missions',why:'Best S2 shield for medium fighters'},
+    {step:'5',priority:'MED',item:'Antium Heavy Armor set',faction:'Foxwell — all missions (BP)',why:'Best FPS survivability for solo UGF runs'},
+  ],
+  combat:[
+    {step:'1',priority:'CRITICAL',item:'FR-66 Shield (S1)',faction:'Foxwell — all missions',why:'Essential for Gladius/Arrow/Hawk — biggest combat upgrade'},
+    {step:'2',priority:'CRITICAL',item:'FR-76 Shield (S2)',faction:'Foxwell — all missions',why:'Essential for F7C Mk II/Sabre/Corsair'},
+    {step:'3',priority:'CRITICAL',item:'VK-00 Quantum Drive (S1)',faction:'Covalex — Master rank',why:'Best QD for light fighters — fastest return to combat'},
+    {step:'4',priority:'HIGH',item:'XL-1 Quantum Drive (S2)',faction:'Covalex — Master rank',why:'Best QD for medium/heavy fighters'},
+    {step:'5',priority:'HIGH',item:'Monde Armor set',faction:'BHG — Nyx QV Breaker (guaranteed BP)',why:'Best FPS armor for boarding/Xenothreat PH3'},
+  ],
+  hauler:[
+    {step:'1',priority:'CRITICAL',item:'XL-1 Quantum Drive (S2)',faction:'Covalex — Master rank',why:'Fastest S2 QD — cuts transit time on every haul'},
+    {step:'2',priority:'CRITICAL',item:'VK-00 Quantum Drive (S1)',faction:'Covalex — Master rank',why:'Fastest S1 QD for support ships'},
+    {step:'3',priority:'HIGH',item:'FR-76 Shield (S2)',faction:'Foxwell — all missions',why:'Haulers get shot at — better shield means less downtime'},
+    {step:'4',priority:'HIGH',item:'ORC-mkX Armor (Woodland)',faction:'CFP — Recover Cargo (guaranteed BP)',why:'Good combat armor if hauler needs to fight'},
+    {step:'5',priority:'MED',item:'Antium Heavy Armor set',faction:'Foxwell — all missions (BP)',why:'Heavy protection for high-risk Pyro/Nyx hauls'},
+  ],
+  miner:[
+    {step:'1',priority:'CRITICAL',item:'VK-00 Quantum Drive (S1)',faction:'Covalex — Master rank',why:'Fastest route to/from mining sites — massive time saving'},
+    {step:'2',priority:'HIGH',item:'FR-66 Shield (S1)',faction:'Foxwell — all missions',why:'Prospector shield — pirates target miners'},
+    {step:'3',priority:'HIGH',item:'Strata Miner Armor set',faction:'Shubin — hand mining missions (BP)',why:'Miner flavor + practical protection in caves'},
+    {step:'4',priority:'HIGH',item:'Aril Salvager Armor set',faction:'Shubin — ship mining Hard (BP)',why:'Good all-round industrial protection'},
+    {step:'5',priority:'MED',item:'XL-1 Quantum Drive (S2)',faction:'Covalex — Master rank',why:'For MOLE and larger mining ships'},
+  ],
+};
+function renderBP(role){
+  const el=document.getElementById('bpFlow');
+  if(!el)return;
+  const items=BP_ROLES[role]||BP_ROLES.solo;
+  const prioColor={CRITICAL:'var(--red)',HIGH:'var(--gold)',MED:'var(--amber)'};
+  el.innerHTML=`<div style="display:flex;flex-direction:column;gap:.4rem;margin-top:.25rem">`+
+    items.map(item=>`<div style="background:var(--panel);border:.5px solid var(--border);border-left:2px solid ${prioColor[item.priority]||'var(--dim)'};border-radius:var(--border-radius);padding:.5rem .75rem;display:grid;grid-template-columns:1.5rem 80px 1fr 1fr;gap:.5rem;align-items:start">
+      <span style="font-size:11px;color:var(--dim)">${item.step}</span>
 // ===== MINERALS =====
 const MINERALS=[
   {name:'Janalite',type:'hand',value:'very-high',sys:['stanton'],locs:'Daymar, Hurston, Ita, Magda Sand Caves, Wala — cave nodes',craft:''},
@@ -2290,13 +2404,7 @@ function setGrindTab(t,btn){
   document.querySelectorAll('#panel-grind .ltab').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
 }
-function setShipTab(t,btn){
-  document.querySelectorAll('#panel-ships .loadout-content').forEach(c=>c.classList.remove('active'));
-  const el=document.querySelector('#ships-'+t);
-  if(el)el.classList.add('active');
-  document.querySelectorAll('#panel-ships .ltab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-}
+
 // ===== SHOP FINDER =====
 // ===== UNIFIED SHOP DIRECTORY =====
 const ITEMS=[
@@ -2537,10 +2645,6 @@ function renderLocs(){
     }).join('');
   });
 }
-renderLocs();
-
-// Init calculator
-calcUpdate();
 
 // ===== SHIP DATABASE =====
 const SDB_SHIPS = [
@@ -2983,6 +3087,10 @@ document.addEventListener('DOMContentLoaded',function(){
   lbLoad();
   bpFilter();
   calcUpdate();
+  orgUpdate();
+  renderRep();
+  renderBP('solo');
+  renderLocs();
 });
 </script>
 </body>
