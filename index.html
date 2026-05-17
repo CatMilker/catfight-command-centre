@@ -1225,35 +1225,43 @@ footer{text-align:center;padding:1.25rem;font-family:'Share Tech Mono',monospace
 <!-- PANEL: LOADOUTS -->
 <!-- ============================================================ -->
 <div class="panel" id="panel-loadout">
-  <div class="sec-hdr"><div class="sec-title" style="color:var(--red)">LOADOUT BUILDER</div><div class="sec-sub">aUEC-ONLY · NO PLEDGE ITEMS · DEADBOLT META · 4.8 LIVE VERIFIED</div></div>
+  <div class="sec-hdr"><div class="sec-title" style="color:var(--red)">LOADOUT BUILDER</div><div class="sec-sub">aUEC-ONLY · NO PLEDGE ITEMS · 4.8 LIVE · 19 SHIPS</div></div>
 
-  <div class="info" style="margin-bottom:.75rem">Select a ship and loadout preset. All weapons and components are purchasable in-game with aUEC. Crafted items (FR shields, VK-00 QD) require blueprint — base alternatives shown where applicable. <strong>Deadbolts are Esperia-manufactured</strong> — buy from Lorville, Grim Hex, or Area 18 ship weapon shops.</div>
-
-  <div class="warn" style="margin-bottom:.75rem">
-    <strong>⚠ Beta testers — please verify the following when 4.8 goes live:</strong><br>
-    <span style="font-size:11px;line-height:1.8">
-    · Component prices are community estimates from 4.7.2 — confirm actual aUEC costs in-game<br>
-    · Deadbolt V (S5) stock at Lorville Centermass — historically limited, may need server hopping<br>
-    · F7C-M Super Hornet shield config — listed as 3× S1, verify actual slots in game<br>
-    · Corsair hardpoint sizes — listed as 2× S4 nose + 2× S3 wing, confirm in ship loadout screen<br>
-    · Shop locations — confirm which terminals stock which items, especially after patch changes<br>
-    · Drop findings in Discord and they'll go into v0.4
-    </span>
-  </div>
+  <div class="info" style="margin-bottom:.75rem">All weapons and components purchasable with aUEC. Crafted items (FR shields, VK-00, XL-1 QD) require blueprint — base alternatives shown. Prices are 4.7.2 estimates — verify on UEX before buying. <strong>Deadbolts are Esperia-manufactured.</strong></div>
 
   <!-- Ship selector -->
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:.75rem">
     <div style="flex:1;min-width:180px">
       <label style="font-size:10px;color:var(--dim);font-weight:500;letter-spacing:.08em;display:block;margin-bottom:.3rem">SELECT SHIP</label>
       <select id="lb-ship" onchange="lbLoad()" style="width:100%;font-size:12px">
-        <option value="gladius">Anvil Gladius</option>
-        <option value="arrow">Anvil Arrow</option>
-        <option value="hawk">Anvil Hawk</option>
-        <option value="f7c">Anvil F7C Hornet Mk II</option>
-        <option value="f7cm">Anvil F7C-M Super Hornet Mk II</option>
-        <option value="sabre">Aegis Sabre</option>
-        <option value="vanguard">Aegis Vanguard Harbinger</option>
-        <option value="corsair">Drake Corsair</option>
+        <optgroup label="── Light Fighters ──">
+          <option value="gladius">Anvil Gladius</option>
+          <option value="arrow">Anvil Arrow</option>
+          <option value="hawk">Anvil Hawk</option>
+          <option value="buccaneer">Drake Buccaneer</option>
+          <option value="mustang_delta">Consolidated Mustang Delta</option>
+        </optgroup>
+        <optgroup label="── Medium Fighters ──">
+          <option value="f7c">Anvil F7C Hornet Mk II</option>
+          <option value="f7cm">Anvil F7C-M Super Hornet Mk II</option>
+          <option value="sabre">Aegis Sabre</option>
+          <option value="hurricane">Anvil Hurricane</option>
+          <option value="cutlass_black">Drake Cutlass Black</option>
+        </optgroup>
+        <optgroup label="── Heavy Fighters ──">
+          <option value="vanguard">Aegis Vanguard Harbinger</option>
+          <option value="vanguard_sentinel">Aegis Vanguard Sentinel</option>
+          <option value="eclipse">Aegis Eclipse</option>
+        </optgroup>
+        <optgroup label="── Multicrew / Org ──">
+          <option value="corsair">Drake Corsair</option>
+          <option value="constellation">RSI Constellation Andromeda</option>
+        </optgroup>
+        <optgroup label="── Industrial ──">
+          <option value="prospector">MISC Prospector (Mining)</option>
+          <option value="vulture">Drake Vulture (Salvage)</option>
+          <option value="cutlass_red">Drake Cutlass Red (Medical)</option>
+        </optgroup>
       </select>
     </div>
     <div style="flex:1;min-width:180px">
@@ -2029,8 +2037,8 @@ function renderBP(role){
   const items=BP_ROLES[role]||BP_ROLES.solo;
   const prioColor={CRITICAL:'var(--red)',HIGH:'var(--gold)',MED:'var(--amber)'};
   el.innerHTML=`<div style="display:flex;flex-direction:column;gap:.4rem;margin-top:.25rem">`+
-    items.map(item=>`<div style="background:var(--panel);border:.5px solid var(--border);border-left:2px solid ${prioColor[item.priority]||'var(--dim)'};border-radius:var(--border-radius);padding:.5rem .75rem;display:grid;grid-template-columns:1.5rem 80px 1fr 1fr;gap:.5rem;align-items:start">
-      <span style="font-size:11px;color:var(--dim)">${item.step}</span>
+    items.map(item=>`<div style="background:var(--panel);border:.5px solid var(--border);border-left:2px solid ${prioColor[item.priority]||'var(--dim)'};border-radius:var(--border-radius);padding:.5rem .75rem;display:grid;grid-template-columns:1.5rem 80px 1fr 1fr;gap:.5rem;align-items:start"><span style="font-size:11px;color:var(--dim)">${item.step}</span><span style="font-size:10px;font-weight:500;color:${prioColor[item.priority]}">${item.priority}</span><div><div style="font-size:12px;font-weight:500;color:var(--bright)">${item.item}</div><div style="font-size:10px;color:var(--teal);margin-top:.15rem">${item.faction}</div></div><div style="font-size:11px;color:var(--dim)">${item.why}</div></div>`).join('')+`</div>`;
+}
 // ===== MINERALS =====
 const MINERALS=[
   {name:'Janalite',type:'hand',value:'very-high',sys:['stanton'],locs:'Daymar, Hurston, Ita, Magda Sand Caves, Wala — cave nodes',craft:''},
@@ -2148,79 +2156,199 @@ function renderBHG(){
 const LB_SHIPS={
   gladius:{name:'Anvil Gladius',class:'Light Fighter',crew:1,scm:'226 m/s',armor:'4,125 HP',role:'VLRTs → HRTs · Best beginner combat ship',auec:2381400,buy:'Lorville / Area 18',
     presets:{'Deadbolt Fixed (meta)':{slots:[
-      {slot:'3× S2 Weapon',size:'S2',item:'Deadbolt II Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18 / Grim Hex',cost:42000,qty:3,note:'Fixed mount — best DPS'},
-      {slot:'S2 Shield',size:'S2',item:'FR-66 (crafted) / Palisade S2',mfr:'Foxwell / BASL',src:'Crafted (BP req) / Area 18',cost:80000,qty:1,note:'FR-66 if you have BP'},
+      {slot:'3× S2 Weapon',size:'S2',item:'Deadbolt II Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18 / Grim Hex',cost:42000,qty:3,note:'Fixed — best DPS'},
+      {slot:'S2 Shield',size:'S2',item:'FR-66 (crafted) / Palisade S2',mfr:'Foxwell/BASL',src:'Crafted / Area 18',cost:80000,qty:1,note:'FR-66 if you have BP'},
       {slot:'S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville / Area 18',cost:55000,qty:1,note:''},
-      {slot:'2× S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18 / New Babbage',cost:18000,qty:2,note:''},
-      {slot:'S1 Quantum Drive',size:'S1',item:'VK-00 (crafted) / Beacon',mfr:'Wetherstone',src:'Crafted (BP req) / stock',cost:35000,qty:1,note:''},
+      {slot:'2× S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18',cost:18000,qty:2,note:''},
+      {slot:'S1 Quantum Drive',size:'S1',item:'VK-00 (crafted) / Beacon',mfr:'Wetherstone',src:'Crafted / stock',cost:35000,qty:1,note:''},
     ],tip:'Best new-player combat ship. Cheap to repair. Run gimbals while learning aim, switch to fixed Deadbolts once consistent.',role:'VLRTs → HRTs'},
     'Gimbal Laser (beginner)':{slots:[
       {slot:'3× S2 Weapon',size:'S2',item:'Attrition-3 Laser Cannon',mfr:'JOKER',src:'Lorville / Area 18',cost:28000,qty:3,note:'Gimbal — unlimited ammo'},
       {slot:'S2 Shield',size:'S2',item:'Palisade S2',mfr:'BASL',src:'Area 18',cost:75000,qty:1,note:''},
       {slot:'S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:1,note:''},
-      {slot:'2× S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18',cost:18000,qty:2,note:'Lasers run hot'},
+      {slot:'2× S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18',cost:18000,qty:2,note:''},
       {slot:'S1 Quantum Drive',size:'S1',item:'Beacon (stock)',mfr:'stock',src:'Stock',cost:0,qty:1,note:''},
-    ],tip:'Zero pressure — gimbals auto-track. Swap to Deadbolts once comfortable.',role:'VLRTs → MRTs'}}},
+    ],tip:'Zero pressure — gimbals auto-track. Upgrade to Deadbolts once comfortable.',role:'VLRTs → MRTs'}}},
   arrow:{name:'Anvil Arrow',class:'Light Fighter',crew:1,scm:'229 m/s',armor:'4,125 HP',role:'HRT / VHRT solo grind',auec:1100000,buy:'Lorville / Area 18',
     presets:{'Deadbolt Fixed (meta)':{slots:[
       {slot:'2× S2 Weapon',size:'S2',item:'Deadbolt II Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18 / Grim Hex',cost:42000,qty:2,note:'Fixed only — Arrow has no gimbal mounts'},
-      {slot:'S2 Shield',size:'S2',item:'FR-66 (crafted) / Palisade S2',mfr:'Foxwell / BASL',src:'Crafted / Area 18',cost:80000,qty:1,note:''},
+      {slot:'S2 Shield',size:'S2',item:'FR-66 (crafted) / Palisade S2',mfr:'Foxwell/BASL',src:'Crafted / Area 18',cost:80000,qty:1,note:''},
       {slot:'S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:1,note:''},
-      {slot:'S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18',cost:18000,qty:1,note:''},
+      {slot:'S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18',cost:18000,qty:1,note:'Arrow runs one cooler'},
       {slot:'S1 Quantum Drive',size:'S1',item:'VK-00 (crafted) / Beacon',mfr:'Wetherstone',src:'Crafted / stock',cost:35000,qty:1,note:''},
-    ],tip:'Fastest light fighter. Only 2 weapons but fixed-mount forces you to learn fixed aim — pays off massively at HRT/VHRT. Low repair cost.',role:'HRTs → VHRTs'}}},
-  hawk:{name:'Anvil Hawk',class:'Light Fighter',crew:1,scm:'225 m/s',armor:'4,125 HP',role:'Bounty hunting · EMP / disable builds',auec:1200000,buy:'Lorville',
+    ],tip:'Fastest light fighter. Fixed-only forces precision aim — pays off massively at HRT/VHRT. Lowest repair cost of any fighter.',role:'HRTs → VHRTs'}}},
+  hawk:{name:'Anvil Hawk',class:'Light Fighter',crew:1,scm:'225 m/s',armor:'4,125 HP',role:'Bounty hunting · EMP disable builds',auec:1200000,buy:'Lorville',
     presets:{'Deadbolt Fixed (meta)':{slots:[
-      {slot:'2× S3 Weapon',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:2,note:'S3 on a light fighter'},
+      {slot:'2× S3 Weapon',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:2,note:'S3 on a light frame — punches above weight'},
       {slot:'2× S2 Shield',size:'S2',item:'Palisade S2',mfr:'BASL',src:'Area 18',cost:75000,qty:2,note:'Hawk runs dual S2 shields'},
       {slot:'S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:1,note:''},
       {slot:'2× S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18',cost:18000,qty:2,note:''},
       {slot:'S1 Quantum Drive',size:'S1',item:'VK-00 (crafted) / Beacon',mfr:'Wetherstone',src:'Crafted / stock',cost:35000,qty:1,note:''},
-    ],tip:'Underrated ship. S3 Deadbolts on a light frame. Dual shields give it more staying power than Arrow or Gladius.',role:'HRTs → VHRTs'}}},
-  f7c:{name:'Anvil F7C Hornet Mk II',class:'Medium Fighter',crew:1,scm:'220 m/s',armor:'8,250 HP',role:'HRT–ERT · Xenothreat · Org combat sessions',auec:2800000,buy:'Lorville / Area 18',
+    ],tip:'Underrated ship. S3 Deadbolts on a light frame with dual shields. More staying power than Arrow or Gladius.',role:'HRTs → VHRTs'},
+    'EMP Disable Build':{slots:[
+      {slot:'2× S3 Weapon',size:'S3',item:'Attrition-5 Laser Cannon',mfr:'JOKER',src:'Lorville / Area 18',cost:55000,qty:2,note:'Laser to strip shields before EMP'},
+      {slot:'S3 EMP (built-in)',size:'S3',item:'Hawk EMP Generator',mfr:'built-in',src:'Cannot remove',cost:0,qty:1,note:'Fire after shields down'},
+      {slot:'2× S2 Shield',size:'S2',item:'Palisade S2',mfr:'BASL',src:'Area 18',cost:75000,qty:2,note:''},
+      {slot:'S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:1,note:''},
+      {slot:'2× S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18',cost:18000,qty:2,note:''},
+    ],tip:'Strip shields with lasers then EMP to disable. Good for bounty capture contracts.',role:'Capture / Disable'}}},
+  buccaneer:{name:'Drake Buccaneer',class:'Light Fighter',crew:1,scm:'220 m/s',armor:'3,465 HP',role:'Aggressive light fighter · High damage glass cannon',auec:1550000,buy:'Grim Hex / Lorville',
+    presets:{'Deadbolt Fixed (meta)':{slots:[
+      {slot:'2× S3 Weapon (nose)',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:2,note:'Primary fixed — high alpha'},
+      {slot:'2× S1 Weapon (wing)',size:'S1',item:'Deadbolt I Ballistic Cannon',mfr:'Esperia',src:'Lorville / Grim Hex',cost:28000,qty:2,note:'Secondary fixed wing'},
+      {slot:'S2 Shield',size:'S2',item:'Palisade S2',mfr:'BASL',src:'Area 18',cost:75000,qty:1,note:'Buc armor is thin — shield matters more'},
+      {slot:'S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:1,note:''},
+      {slot:'S1 Cooler',size:'S1',item:'Boreal S1',mfr:'Aegis',src:'Lorville',cost:25000,qty:1,note:'Low EM'},
+      {slot:'S1 Quantum Drive',size:'S1',item:'VK-00 (crafted) / Beacon',mfr:'Wetherstone',src:'Crafted / stock',cost:35000,qty:1,note:''},
+    ],tip:'Glass cannon. Hit hard and don\'t get hit. S3 nose + S1 wings gives excellent alpha. Thin armor is punishing if you take a hit. Not for beginners.',role:'HRTs → VHRTs'}}},
+  mustang_delta:{name:'Consolidated Mustang Delta',class:'Light Fighter',crew:1,scm:'215 m/s',armor:'2,750 HP',role:'Entry combat · Budget stepping stone',auec:950000,buy:'Lorville / Area 18',
+    presets:{'Budget Combat':{slots:[
+      {slot:'2× S2 Weapon',size:'S2',item:'Deadbolt II Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:42000,qty:2,note:'Fixed — cheapest viable combat setup'},
+      {slot:'S2 Shield',size:'S2',item:'Palisade S2',mfr:'BASL',src:'Area 18',cost:75000,qty:1,note:''},
+      {slot:'S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:1,note:''},
+      {slot:'S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18',cost:18000,qty:1,note:''},
+      {slot:'S1 Quantum Drive',size:'S1',item:'Beacon (stock)',mfr:'stock',src:'Stock',cost:0,qty:1,note:'Upgrade later'},
+    ],tip:'Cheapest combat ship. Good for learning fixed weapons. Only 2 hardpoints limits damage — move to Gladius when you can afford it.',role:'VLRTs → MRTs'}}},
+  f7c:{name:'Anvil F7C Hornet Mk II',class:'Medium Fighter',crew:1,scm:'220 m/s',armor:'8,250 HP',role:'HRT–ERT · Xenothreat · Org combat workhorse',auec:2800000,buy:'Lorville / Area 18',
     presets:{'Full Deadbolt (meta)':{slots:[
       {slot:'4× S3 Weapon',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:4,note:'Fixed — brutal alpha damage'},
-      {slot:'S3 Shield',size:'S3',item:'FR-76 (crafted) / Palisade S3',mfr:'Foxwell / BASL',src:'Crafted / Area 18',cost:145000,qty:1,note:''},
+      {slot:'S3 Shield',size:'S3',item:'FR-76 (crafted) / Palisade S3',mfr:'Foxwell/BASL',src:'Crafted / Area 18',cost:145000,qty:1,note:'FR-76 if you have BP'},
       {slot:'S2 Power Plant',size:'S2',item:'QuadraCell MT S2',mfr:'Aegis',src:'Lorville / New Babbage',cost:90000,qty:1,note:''},
       {slot:'2× S2 Cooler',size:'S2',item:'SnowBlind S2',mfr:'Tyler Design',src:'Area 18',cost:32000,qty:2,note:''},
       {slot:'S2 Quantum Drive',size:'S2',item:'XL-1 (crafted) / Crossfield',mfr:'Wetherstone',src:'Crafted / Area 18',cost:55000,qty:1,note:''},
-    ],tip:'Catfight org workhorse. Four S3 fixed Deadbolts delete medium targets fast. Buy ship + weapons first, upgrade components as you earn.',role:'HRTs → ERTs'}}},
-  sabre:{name:'Aegis Sabre',class:'Stealth Fighter',crew:1,scm:'223 m/s',armor:'3,465 HP',role:'Solo PvE · Stealth ops · High alpha damage',auec:2600000,buy:'Grim Hex',
-    presets:{'Full Deadbolt (meta)':{slots:[
-      {slot:'4× S3 Weapon',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Grim Hex',cost:68000,qty:4,note:'Fixed wing mounts'},
-      {slot:'S3 Shield',size:'S3',item:'FR-76 (crafted) / Palisade S3',mfr:'Foxwell / BASL',src:'Crafted / Area 18',cost:145000,qty:1,note:''},
-      {slot:'2× S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:2,note:'Sabre runs dual S1 power'},
-      {slot:'2× S1 Cooler',size:'S1',item:'Boreal S1',mfr:'Aegis',src:'Lorville / Area 18',cost:25000,qty:2,note:'Low EM — confirmed MIL-2D in game files'},
-      {slot:'S1 Quantum Drive',size:'S1',item:'XL-1 (crafted) / Beacon',mfr:'Wetherstone',src:'Crafted / stock',cost:35000,qty:1,note:''},
-    ],tip:'Four S3 Deadbolts on an agile frame. Thin armor — pick fights on your terms. <strong>4.8 confirms new stealth shields: Mirage (S1), Veil (S1), Obscura/Sheut/Umbra (S2) — lower EM than Palisade for true stealth.</strong>',role:'HRTs → VHRTs'}}},
-  vanguard:{name:'Aegis Vanguard Harbinger',class:'Heavy Fighter',crew:2,scm:'212 m/s',armor:'12,375 HP',role:'ERT specialist · Long patrols · Built-in bed bay',auec:10934595,buy:'Lorville',
-    presets:{'Full Deadbolt (meta)':{slots:[
-      {slot:'2× S5 Nose (fixed)',size:'S5',item:'Deadbolt V Ballistic Cannon',mfr:'Esperia',src:'Lorville (limited stock)',cost:185000,qty:2,note:'Primary firepower'},
-      {slot:'2× S3 Wing',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:2,note:''},
-      {slot:'2× S3 Shield',size:'S3',item:'FR-76 (crafted) / Palisade S3',mfr:'Foxwell / BASL',src:'Crafted / Area 18',cost:145000,qty:2,note:'Vanguard runs dual S3 shields'},
+    ],tip:'Catfight org workhorse. Four S3 Deadbolts delete medium targets fast. Buy ship + weapons first, upgrade components as you earn.',role:'HRTs → ERTs'},
+    'Mixed Budget':{slots:[
+      {slot:'2× S3 Weapon (wing)',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville',cost:68000,qty:2,note:'Fixed wing'},
+      {slot:'2× S3 Weapon (nose)',size:'S3',item:'Attrition-5 Laser Cannon',mfr:'JOKER',src:'Lorville / Area 18',cost:55000,qty:2,note:'Gimbal nose — easier to hit while learning'},
+      {slot:'S3 Shield',size:'S3',item:'Palisade S3',mfr:'BASL',src:'Area 18',cost:130000,qty:1,note:''},
       {slot:'S2 Power Plant',size:'S2',item:'QuadraCell MT S2',mfr:'Aegis',src:'Lorville',cost:90000,qty:1,note:''},
       {slot:'2× S2 Cooler',size:'S2',item:'SnowBlind S2',mfr:'Tyler Design',src:'Area 18',cost:32000,qty:2,note:''},
-      {slot:'S2 Quantum Drive',size:'S2',item:'XL-1 (crafted) / Crossfield',mfr:'Wetherstone',src:'Crafted / Area 18',cost:55000,qty:1,note:''},
-    ],tip:'ERT and long patrol specialist. Built-in bed bay — respawn inside. Tanky enough to absorb escort fire while S5 nose cannons delete primary targets.',role:'VHRTs → ERTs'}}},
-  corsair:{name:'Drake Corsair',class:'Exploration / Combat',crew:4,scm:'217 m/s',armor:'8,250 HP',role:'Long range patrols · Org multi-role · Nyx / Pyro sorties',auec:3200000,buy:'Grim Hex / Lorville',
-    presets:{'Combat loadout':{slots:[
-      {slot:'2× S4 Weapon (nose)',size:'S4',item:'Deadbolt IV Ballistic Cannon',mfr:'Esperia',src:'Lorville (limited)',cost:120000,qty:2,note:'Fixed nose — main firepower'},
-      {slot:'2× S3 Weapon (wing)',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:2,note:'Fixed wing'},
-      {slot:'S3 Turret (manned)',size:'S3',item:'Stock turret',mfr:'Stock',src:'Stock',cost:0,qty:1,note:'Rear turret'},
-      {slot:'2× S3 Shield',size:'S3',item:'Palisade S3',mfr:'BASL',src:'Area 18',cost:130000,qty:2,note:'Dual S3 shields'},
-      {slot:'S3 Power Plant',size:'S3',item:'Stock S3',mfr:'Stock',src:'Stock / Lorville',cost:0,qty:1,note:''},
-      {slot:'S2 Quantum Drive',size:'S2',item:'XL-1 (crafted) / Crossfield',mfr:'Wetherstone',src:'Crafted / Area 18',cost:55000,qty:1,note:'Long range QD essential'},
-    ],tip:'Catfight multi-role workhorse for longer ops. 4-crew, S4 nose weapons hit harder than most medium fighters. Upgrade QD first.',role:'HRTs → VHRTs (multi-role)'}}},
-  f7cm:{name:'Anvil F7C-M Super Hornet Mk II',class:'Medium Fighter',crew:2,scm:'215 m/s',armor:'8,250 HP',role:'Crew combat · Org multi-crew',auec:4000000,buy:'Area 18',
+      {slot:'S2 Quantum Drive',size:'S2',item:'Crossfield S2',mfr:'stock',src:'Area 18',cost:40000,qty:1,note:'Upgrade to XL-1 when able'},
+    ],tip:'Stepping stone before full fixed build. Swap nose to Deadbolts as aim improves.',role:'HRTs → VHRTs'}}},
+  f7cm:{name:'Anvil F7C-M Super Hornet Mk II',class:'Medium Fighter',crew:2,scm:'215 m/s',armor:'8,250 HP',role:'Crew combat · Org 2-seat',auec:4000000,buy:'Area 18',
     presets:{'Full Deadbolt (meta)':{slots:[
       {slot:'4× S3 Weapon (pilot)',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:4,note:'Pilot fixed weapons'},
-      {slot:'S4 Ball Turret (gunner)',size:'S4',item:'Stock / Mantis GT-220',mfr:'stock / JOKER',src:'Stock or Area 18',cost:0,qty:1,note:'Gunner seat'},
+      {slot:'S4 Ball Turret (gunner)',size:'S4',item:'Stock / Mantis GT-220',mfr:'Stock/JOKER',src:'Stock or Area 18',cost:0,qty:1,note:'Gunner covers rear'},
       {slot:'3× S1 Shield',size:'S1',item:'Palisade S1 (×3)',mfr:'BASL',src:'Area 18',cost:45000,qty:3,note:'Super Hornet runs 3× S1 shields'},
       {slot:'S2 Power Plant',size:'S2',item:'QuadraCell MT S2',mfr:'Aegis',src:'Lorville',cost:90000,qty:1,note:''},
       {slot:'2× S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18',cost:18000,qty:2,note:''},
       {slot:'S1 Quantum Drive',size:'S1',item:'VK-00 (crafted) / Beacon',mfr:'Wetherstone',src:'Crafted / stock',cost:35000,qty:1,note:''},
     ],tip:'Two-seat org ship. Pilot handles fixed weapons, gunner covers turret. Great for Catfight 2-person sorties.',role:'HRTs → ERTs (crew)'}}},
+  sabre:{name:'Aegis Sabre',class:'Stealth Fighter',crew:1,scm:'223 m/s',armor:'3,465 HP',role:'Solo PvE · Stealth ops · High alpha',auec:2600000,buy:'Grim Hex ONLY',
+    presets:{'Full Deadbolt (meta)':{slots:[
+      {slot:'4× S3 Weapon',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Grim Hex',cost:68000,qty:4,note:'Fixed wing mounts'},
+      {slot:'S3 Shield',size:'S3',item:'FR-76 (crafted) / Palisade S3',mfr:'Foxwell/BASL',src:'Crafted / Area 18',cost:145000,qty:1,note:''},
+      {slot:'2× S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:2,note:'Sabre runs dual S1 power'},
+      {slot:'2× S1 Cooler',size:'S1',item:'Boreal S1',mfr:'Aegis',src:'Lorville / Area 18',cost:25000,qty:2,note:'Low EM — MIL-2D confirmed'},
+      {slot:'S1 Quantum Drive',size:'S1',item:'XL-1 (crafted) / Beacon',mfr:'Wetherstone',src:'Crafted / stock',cost:35000,qty:1,note:''},
+    ],tip:'Four S3 Deadbolts on an agile stealth frame. Thin armor — pick fights on your terms.',role:'HRTs → VHRTs'},
+    'Stealth Build':{slots:[
+      {slot:'4× S3 Weapon',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Grim Hex / Lorville',cost:68000,qty:4,note:'Ballistic = low EM signature'},
+      {slot:'S3 Shield',size:'S3',item:'Obscura STL-2C (stealth S2)',mfr:'ASAS',src:'New Babbage Omega Pro / Area 18',cost:120000,qty:1,note:'4.8 confirmed — lower EM than Palisade'},
+      {slot:'2× S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:2,note:'Run at low draw'},
+      {slot:'2× S1 Cooler',size:'S1',item:'Boreal S1',mfr:'Aegis',src:'Lorville',cost:25000,qty:2,note:'Best EM suppression — key to stealth'},
+      {slot:'S1 Quantum Drive',size:'S1',item:'Beacon (stock)',mfr:'stock',src:'Stock',cost:0,qty:1,note:'Low EM stock QD'},
+    ],tip:'New 4.8 stealth shields confirmed: Mirage/Veil (S1), Obscura/Sheut/Umbra (S2) — available at Omega Pro New Babbage. Ballistic + Boreal + stealth shield = near-silent signature.',role:'Stealth / Nyx ops'}}},
+  hurricane:{name:'Anvil Hurricane',class:'Medium Fighter',crew:2,scm:'210 m/s',armor:'5,775 HP',role:'Turret fighter · Org air defense · Anti-fighter',auec:1850000,buy:'Lorville / Area 18',
+    presets:{'Combat Config':{slots:[
+      {slot:'S3 Chin Weapon (pilot fixed)',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:1,note:'Fixed chin gun'},
+      {slot:'4× S2 Turret (gunner)',size:'S2',item:'CF-227 Badger Repeater (stock)',mfr:'Drake',src:'Stock / Area 18',cost:0,qty:4,note:'Gunner quad turret — stock is decent'},
+      {slot:'S3 Shield',size:'S3',item:'Palisade S3',mfr:'BASL',src:'Area 18',cost:130000,qty:1,note:''},
+      {slot:'S2 Power Plant',size:'S2',item:'QuadraCell MT S2',mfr:'Aegis',src:'Lorville',cost:90000,qty:1,note:'Powers pilot + turret draw'},
+      {slot:'2× S2 Cooler',size:'S2',item:'SnowBlind S2',mfr:'Tyler Design',src:'Area 18',cost:32000,qty:2,note:''},
+      {slot:'S2 Quantum Drive',size:'S2',item:'Crossfield S2',mfr:'stock',src:'Area 18',cost:40000,qty:1,note:''},
+    ],tip:'Best org anti-fighter at this price. Gunner quad covers almost every angle. Pilot chases slow targets for the gunner — don\'t try to dogfight other agile ships.',role:'Anti-fighter / Org escort'}}},
+  cutlass_black:{name:'Drake Cutlass Black',class:'Medium Fighter / Cargo',crew:2,scm:'217 m/s',armor:'5,500 HP',role:'Versatile daily driver · Combat + 46 SCU cargo',auec:1700000,buy:'Lorville / Area 18 / Grim Hex',
+    presets:{'Combat Config':{slots:[
+      {slot:'2× S3 Weapon (nose)',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:2,note:'Fixed nose — main firepower'},
+      {slot:'2× S2 Turret (manned)',size:'S2',item:'CF-227 Badger (stock)',mfr:'Drake',src:'Stock',cost:0,qty:2,note:'Side turrets — crew optional'},
+      {slot:'S3 Shield',size:'S3',item:'Palisade S3',mfr:'BASL',src:'Area 18',cost:130000,qty:1,note:''},
+      {slot:'S2 Power Plant',size:'S2',item:'QuadraCell MT S2',mfr:'Aegis',src:'Lorville',cost:90000,qty:1,note:''},
+      {slot:'2× S2 Cooler',size:'S2',item:'SnowBlind S2',mfr:'Tyler Design',src:'Area 18',cost:32000,qty:2,note:''},
+      {slot:'S2 Quantum Drive',size:'S2',item:'XL-1 (crafted) / Crossfield',mfr:'Wetherstone',src:'Crafted / Area 18',cost:55000,qty:1,note:''},
+    ],tip:'Most versatile ship in the game. 46 SCU cargo + 2× S3 nose + manned turrets. Best first "real" ship for players who want to do everything.',role:'HRTs → VHRTs (multi-role)'}}},
+  vanguard:{name:'Aegis Vanguard Harbinger',class:'Heavy Fighter',crew:2,scm:'212 m/s',armor:'12,375 HP',role:'ERT specialist · Long patrols · Built-in bed bay',auec:10934595,buy:'Lorville',
+    presets:{'Full Deadbolt (meta)':{slots:[
+      {slot:'2× S5 Nose (fixed)',size:'S5',item:'Deadbolt V Ballistic Cannon',mfr:'Esperia',src:'Lorville Centermass — limited stock',cost:185000,qty:2,note:'Primary firepower'},
+      {slot:'2× S3 Wing',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:2,note:'Secondary hardpoints'},
+      {slot:'2× S3 Shield',size:'S3',item:'FR-76 (crafted) / Palisade S3',mfr:'Foxwell/BASL',src:'Crafted / Area 18',cost:145000,qty:2,note:'Dual S3 shields'},
+      {slot:'S2 Power Plant',size:'S2',item:'QuadraCell MT S2',mfr:'Aegis',src:'Lorville',cost:90000,qty:1,note:''},
+      {slot:'2× S2 Cooler',size:'S2',item:'SnowBlind S2',mfr:'Tyler Design',src:'Area 18',cost:32000,qty:2,note:''},
+      {slot:'S2 Quantum Drive',size:'S2',item:'XL-1 (crafted) / Crossfield',mfr:'Wetherstone',src:'Crafted / Area 18',cost:55000,qty:1,note:''},
+    ],tip:'ERT and long patrol specialist. Built-in bed bay — respawn inside. Best solo ERT platform in Catfight.',role:'VHRTs → ERTs'},
+    'Budget Start':{slots:[
+      {slot:'2× S5 Nose (fixed)',size:'S5',item:'Deadbolt V Ballistic Cannon',mfr:'Esperia',src:'Lorville Centermass',cost:185000,qty:2,note:'Get these first'},
+      {slot:'2× S3 Wing',size:'S3',item:'Attrition-5 Laser Cannon',mfr:'JOKER',src:'Lorville / Area 18',cost:55000,qty:2,note:'Gimbal secondary while saving for Deadbolt IIIs'},
+      {slot:'2× S3 Shield',size:'S3',item:'Palisade S3',mfr:'BASL',src:'Area 18',cost:130000,qty:2,note:''},
+      {slot:'S2 Power Plant',size:'S2',item:'QuadraCell MT S2',mfr:'Aegis',src:'Lorville',cost:90000,qty:1,note:''},
+      {slot:'2× S2 Cooler',size:'S2',item:'SnowBlind S2',mfr:'Tyler Design',src:'Area 18',cost:32000,qty:2,note:''},
+      {slot:'S2 Quantum Drive',size:'S2',item:'Crossfield S2',mfr:'stock',src:'Area 18',cost:40000,qty:1,note:''},
+    ],tip:'Prioritise S5 Deadbolt Vs first — that\'s the damage. Use gimbal lasers on wings while grinding for S3 Deadbolts.',role:'HRTs → VHRTs'}}},
+  vanguard_sentinel:{name:'Aegis Vanguard Sentinel',class:'Heavy Fighter / EMP',crew:2,scm:'212 m/s',armor:'12,375 HP',role:'EMP disable · Electronic warfare · Boarding support',auec:13100000,buy:'Lorville',
+    presets:{'EMP Disable Config':{slots:[
+      {slot:'2× S3 Nose (fixed)',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:2,note:'Strip shields before EMP'},
+      {slot:'S3 Wing (fixed)',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville',cost:68000,qty:1,note:''},
+      {slot:'S5 EMP Array (built-in)',size:'S5',item:'Sentinel EMP Array',mfr:'built-in',src:'Cannot remove',cost:0,qty:1,note:'Fire after shields stripped — disables everything'},
+      {slot:'2× S3 Shield',size:'S3',item:'Palisade S3',mfr:'BASL',src:'Area 18',cost:130000,qty:2,note:''},
+      {slot:'S2 Power Plant',size:'S2',item:'QuadraCell MT S2',mfr:'Aegis',src:'Lorville',cost:90000,qty:1,note:'EMP draws significant power'},
+      {slot:'2× S2 Cooler',size:'S2',item:'SnowBlind S2',mfr:'Tyler Design',src:'Area 18',cost:32000,qty:2,note:''},
+      {slot:'S2 Quantum Drive',size:'S2',item:'XL-1 (crafted) / Crossfield',mfr:'Wetherstone',src:'Crafted / Area 18',cost:55000,qty:1,note:''},
+    ],tip:'Sentinel sacrifices the S5 nose cannon for a massive EMP array. Strip shields then EMP — disables target completely. Coordinate with boarding/FPS team. Essential for ship heist missions.',role:'Disable / Boarding ops'}}},
+  eclipse:{name:'Aegis Eclipse',class:'Stealth Bomber',crew:1,scm:'195 m/s',armor:'3,465 HP',role:'Capital ship killer · Stealth torpedo strike',auec:13900000,buy:'Lorville',
+    presets:{'Torpedo Config':{slots:[
+      {slot:'3× S9 Torpedo',size:'S9',item:'Size 9 Torpedo (Caterpillar/Arrester)',mfr:'Various',src:'Lorville / Area 18 missile shops',cost:150000,qty:3,note:'Each torpedo devastates a capital ship'},
+      {slot:'2× S2 Weapon (defense)',size:'S2',item:'Deadbolt II Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:42000,qty:2,note:'Self-defense only — Eclipse cannot dogfight'},
+      {slot:'S3 Shield',size:'S3',item:'Palisade S3',mfr:'BASL',src:'Area 18',cost:130000,qty:1,note:''},
+      {slot:'2× S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:2,note:'Eclipse runs dual S1 power'},
+      {slot:'2× S1 Cooler',size:'S1',item:'Boreal S1',mfr:'Aegis',src:'Lorville',cost:25000,qty:2,note:'Low EM — maintain stealth approach'},
+      {slot:'S1 Quantum Drive',size:'S1',item:'Beacon (stock)',mfr:'stock',src:'Stock',cost:0,qty:1,note:'Low EM'},
+    ],tip:'Pure bomber — approach under stealth, fire, escape. NEVER dogfight in an Eclipse. Essential for Catfight capital engagements and Xenothreat ERT fleet ops.',role:'Capital ship strikes'}}},
+  corsair:{name:'Drake Corsair',class:'Exploration / Combat',crew:4,scm:'217 m/s',armor:'8,250 HP',role:'Long range · Org multi-role · Nyx / Pyro sorties',auec:3200000,buy:'Grim Hex / Lorville',
+    presets:{'Combat Loadout':{slots:[
+      {slot:'2× S4 Weapon (nose)',size:'S4',item:'Deadbolt IV Ballistic Cannon',mfr:'Esperia',src:'Lorville (limited)',cost:120000,qty:2,note:'Fixed nose — main firepower'},
+      {slot:'2× S3 Weapon (wing)',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:2,note:'Fixed wing'},
+      {slot:'S3 Turret (manned)',size:'S3',item:'Stock turret',mfr:'Stock',src:'Stock',cost:0,qty:1,note:'Rear turret — crew up'},
+      {slot:'2× S3 Shield',size:'S3',item:'Palisade S3',mfr:'BASL',src:'Area 18',cost:130000,qty:2,note:'Dual S3 shields'},
+      {slot:'S3 Power Plant',size:'S3',item:'Stock S3',mfr:'Stock',src:'Stock / Lorville',cost:0,qty:1,note:''},
+      {slot:'S2 Quantum Drive',size:'S2',item:'XL-1 (crafted) / Crossfield',mfr:'Wetherstone',src:'Crafted / Area 18',cost:55000,qty:1,note:'Long range QD essential'},
+    ],tip:'Catfight multi-role workhorse. S4 nose weapons hit harder than most medium fighters. Upgrade QD first — Corsair earns its keep on range.',role:'HRTs → VHRTs (multi-role)'}}},
+  constellation:{name:'RSI Constellation Andromeda',class:'Multi-crew Frigate',crew:4,scm:'175 m/s',armor:'20,000 HP',role:'Org heavy combat · ERT fleet · 4-crew',auec:7300000,buy:'Lorville / Area 18',
+    presets:{'Full Combat':{slots:[
+      {slot:'4× S3 Weapon (wing fixed)',size:'S3',item:'Deadbolt III Ballistic Cannon',mfr:'Esperia',src:'Lorville / Area 18',cost:68000,qty:4,note:'Fixed wing — main broadside'},
+      {slot:'2× S3 Turret (manned)',size:'S3',item:'CF-447 Rhino (stock)',mfr:'Stock',src:'Stock / Area 18',cost:0,qty:2,note:'Top + belly turrets — need crew'},
+      {slot:'P-52 Merlin (snub)',size:'S4',item:'P-52 Merlin (included)',mfr:'RSI',src:'Comes with ship',cost:0,qty:1,note:'Snub fighter — deploy for fighter coverage'},
+      {slot:'2× S4 Shield',size:'S4',item:'Palisade S4 / stock',mfr:'BASL/stock',src:'Area 18 / stock',cost:180000,qty:2,note:'Dual S4 shields'},
+      {slot:'S3 Power Plant',size:'S3',item:'Stock S3',mfr:'Stock',src:'Lorville',cost:0,qty:1,note:''},
+      {slot:'S2 Quantum Drive',size:'S2',item:'XL-1 (crafted) / Crossfield',mfr:'Wetherstone',src:'Crafted / Area 18',cost:55000,qty:1,note:''},
+    ],tip:'Needs full crew to shine: pilot, co-pilot/snub, 2 turret gunners. Four fixed S3 wing + two manned turrets + snub fighter. Best org fleet combat ship at this price point.',role:'ERTs / Org fleet (4 crew)'}}},
+  prospector:{name:'MISC Prospector',class:'Mining',crew:1,scm:'165 m/s',armor:'3,200 HP',role:'Solo asteroid mining',auec:2100000,buy:'Lorville / Area 18',
+    presets:{'Standard Mining Config':{slots:[
+      {slot:'S2 Mining Laser',size:'S2',item:'Hofstede S2 / Arbor MasterMass (stock)',mfr:'Various',src:'Lorville / Area 18 mining shops',cost:45000,qty:1,note:'Arbor stock is decent — upgrade when funds allow'},
+      {slot:'S1 Mining Laser (secondary)',size:'S1',item:'Lancet LB-10 (stock)',mfr:'Various',src:'Stock / Lorville',cost:0,qty:1,note:'Stock is fine for secondary fracture'},
+      {slot:'S2 Shield',size:'S2',item:'Palisade S2',mfr:'BASL',src:'Area 18',cost:75000,qty:1,note:'Pirates occasionally target miners'},
+      {slot:'S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:1,note:''},
+      {slot:'S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18',cost:18000,qty:1,note:''},
+      {slot:'S1 Quantum Drive',size:'S1',item:'VK-00 (crafted) / Beacon',mfr:'Wetherstone',src:'Crafted / stock',cost:35000,qty:1,note:'Fast QD cuts transit time significantly'},
+    ],tip:'Standard solo mining ship. Target Quantainium for max value — explosive but worth it. Use refinery for better margins. VK-00 QD cuts the dead time between rocks.',role:'Asteroid mining — solo'}}},
+  vulture:{name:'Drake Vulture',class:'Solo Salvage',crew:1,scm:'175 m/s',armor:'3,465 HP',role:'Solo hull stripping · RMC farming · Adagio contracts',auec:1900000,buy:'Lorville / Grim Hex',
+    presets:{'Standard Salvage Config':{slots:[
+      {slot:'2× S2 Salvage Beams',size:'S2',item:'Cambio SRT-Type (stock)',mfr:'Stock/Greycat',src:'Stock',cost:0,qty:2,note:'Stock beams are decent — upgrade to Cambio Pro later'},
+      {slot:'S2 Shield',size:'S2',item:'Palisade S2',mfr:'BASL',src:'Area 18',cost:75000,qty:1,note:''},
+      {slot:'S1 Power Plant',size:'S1',item:'QuadraCell S1',mfr:'Aegis',src:'Lorville',cost:55000,qty:1,note:''},
+      {slot:'S1 Cooler',size:'S1',item:'SnowBlind S1',mfr:'Tyler Design',src:'Area 18',cost:18000,qty:1,note:''},
+      {slot:'S1 Quantum Drive',size:'S1',item:'VK-00 (crafted) / Beacon',mfr:'Wetherstone',src:'Crafted / stock',cost:35000,qty:1,note:'Fast QD for wreck-to-wreck transit'},
+    ],tip:'Strips hull material into RMC — sell at commodity terminals. Carry Cambio-Lite SRT Canisters (consumable). Bring a TruHold tractor beam for interior component pulls on Adagio contracts.',role:'Solo salvage'}}},
+  cutlass_red:{name:'Drake Cutlass Red',class:'Medical',crew:3,scm:'200 m/s',armor:'5,500 HP',role:'Org medical support · Respawn ferry · Field medic',auec:1750000,buy:'Lorville / Area 18',
+    presets:{'Support Config':{slots:[
+      {slot:'2× S3 Weapon (nose)',size:'S3',item:'Attrition-5 Laser Cannon',mfr:'JOKER',src:'Lorville / Area 18',cost:55000,qty:2,note:'Self-defense only — do not engage fighters'},
+      {slot:'Medical Bay (built-in)',size:'—',item:'MedBay — crew respawn + treatment',mfr:'built-in',src:'Built-in',cost:0,qty:1,note:'Keep stocked with MedGel — it\'s consumable'},
+      {slot:'S3 Shield',size:'S3',item:'Palisade S3',mfr:'BASL',src:'Area 18',cost:130000,qty:1,note:''},
+      {slot:'S2 Power Plant',size:'S2',item:'QuadraCell MT S2',mfr:'Aegis',src:'Lorville',cost:90000,qty:1,note:''},
+      {slot:'2× S2 Cooler',size:'S2',item:'SnowBlind S2',mfr:'Tyler Design',src:'Area 18',cost:32000,qty:2,note:''},
+      {slot:'S2 Quantum Drive',size:'S2',item:'XL-1 (crafted) / Crossfield',mfr:'Wetherstone',src:'Crafted / Area 18',cost:55000,qty:1,note:'Fast QD for emergency respawn runs'},
+    ],tip:'Critical org support. Park near the fight, not in it. MedBay lets downed org members respawn in field rather than flying back to station. One Red significantly extends how long Catfight can run an ERT session.',role:'Org medical support'}}},
 };
+
 
 function lbLoad(){
   const shipKey=document.getElementById('lb-ship')?.value;
