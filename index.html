@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CATFIGHT // 4.8 COMMAND CENTRE RC 1</title>
+<title>CATFIGHT // 4.8 COMMAND CENTRE</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap');
 
@@ -1642,13 +1642,22 @@ footer {
             <option value="hrt" selected>BHG — HRT bounties</option>
             <option value="vhrt">BHG — VHRT bounties</option>
             <option value="ert">BHG — ERT bounties</option>
-            <option value="gauntlet">BHG — Gauntlet Scenario 6</option>
             <option value="xenothreat">Xenothreat event (active)</option>
             <option value="blacjac">BlacJac — ship bounties (flat)</option>
             <option value="foxwell_ve">Foxwell — Very Easy / Easy</option>
             <option value="foxwell_vh">Foxwell — Very Hard / ERT</option>
             <option value="intersec_h">InterSec — Hard patrol</option>
             <option value="intersec_ert">InterSec — ERT patrol</option>
+          </optgroup>
+          <optgroup label="── Gilly's Flight School ──">
+            <option value="gilly_1">Gilly's — Scenario 1 (unlock only)</option>
+            <option value="gilly_2">Gilly's — Scenario 2 (unlock only)</option>
+            <option value="gilly_3">Gilly's — Scenario 3 (unlock only)</option>
+            <option value="gilly_4">Gilly's — Scenario 4</option>
+            <option value="gilly_5">Gilly's — Scenario 5 ⭐ best loop</option>
+            <option value="gilly_6">Gilly's — Scenario 6</option>
+            <option value="gilly_7">Gilly's — Scenario 7</option>
+            <option value="gilly_8">Gilly's — Scenario 8 (not efficient)</option>
           </optgroup>
           <optgroup label="── Cargo / Hauling ──">
             <option value="cov_trainee">Covalex — Trainee / Rookie</option>
@@ -3103,7 +3112,14 @@ const CALC_ACTS = {
   hrt:            {label:'BHG — HRT bounties',            base:220000, xp:600,   risk:'Medium', crew:'Solo',  ship:'Light/medium fighter',      desc:'First real income tier. Loot every kill.'},
   vhrt:           {label:'BHG — VHRT bounties',           base:380000, xp:1000,  risk:'Medium', crew:'Solo',  ship:'Medium fighter',            desc:'Heavy multicrew targets. Duo recommended.'},
   ert:            {label:'BHG — ERT bounties',            base:700000, xp:1500,  risk:'High',   crew:'Solo/Duo', ship:'Heavy fighter',          desc:'Best solo income in game. Stack 10+ contracts.'},
-  gauntlet:       {label:'BHG — Gauntlet Scenario 6',     base:550000, xp:0,     risk:'None',   crew:'Solo',  ship:'Any',                       desc:'~150k per 15min run. Instanced — no PvP. No BP drops.'},
+  gilly_1:        {label:"Gilly's — Scenario 1 (unlock only)",  base:8000,    xp:0, risk:'None',   crew:'Solo', ship:'Any fighter',        desc:'One-time unlock only. Trivial enemies. Complete once to unlock S2, never repeat.'},
+  gilly_2:        {label:"Gilly's — Scenario 2 (unlock only)",  base:12000,   xp:0, risk:'None',   crew:'Solo', ship:'Any fighter',        desc:'One-time unlock. Easy wave. Complete once to unlock S3.'},
+  gilly_3:        {label:"Gilly's — Scenario 3 (unlock only)",  base:18000,   xp:0, risk:'None',   crew:'Solo', ship:'Any fighter',        desc:'One-time unlock. Small fighter wave. Complete once to unlock S4.'},
+  gilly_4:        {label:"Gilly's — Scenario 4",               base:45000,   xp:0, risk:'Low',    crew:'Solo', ship:'Light fighter',      desc:'Easy aUEC. Weak ship wave, clears fast. Good warm-up before the S5/S7 loop.'},
+  gilly_5:        {label:"Gilly's — Scenario 5 ⭐ best loop",  base:1224000, xp:0, risk:'Low',    crew:'Solo', ship:'Medium fighter',     desc:'Best efficiency in game. ~102k per 5min run = 1.2M+/hr. Freelancers/Vanguards/Sabres. Stack with S7 for ~500k per full cycle. Real danger is ramming not DPS.'},
+  gilly_6:        {label:"Gilly's — Scenario 6",               base:900000,  xp:0, risk:'Medium', crew:'Solo', ship:'Heavy fighter (high DPS)', desc:'151k per run but slower — Constellation boss is tanky. Only worth it if your ship kills the Connie fast. Otherwise skip and repeat S5/S7.'},
+  gilly_7:        {label:"Gilly's — Scenario 7",               base:1100000, xp:0, risk:'Medium', crew:'Solo', ship:'Medium/heavy fighter', desc:'Stack with S5 for best loop. ~500k per full S5+S7 cycle. Good payout vs difficulty balance.'},
+  gilly_8:        {label:"Gilly's — Scenario 8 (not efficient)", base:400000, xp:0, risk:'High',   crew:'Solo', ship:'Heavy fighter',      desc:'Harder, slower, less reliable than repeating S5/S7. Not efficient for farming. Do it for the experience then skip.'},
   xenothreat:     {label:'Xenothreat event (when active)',base:450000, xp:16000, risk:'High',   crew:'Org fleet', ship:'Combat',                desc:'Best XP in game when active. Org fleet event.'},
   blacjac:        {label:'BlacJac — ship bounties',       base:8000,   xp:250,   risk:'Low',    crew:'Solo',  ship:'Any fighter',               desc:'Flat +250 XP regardless of tier. Run easiest for XP speed.'},
   foxwell_ve:     {label:'Foxwell — Very Easy/Easy',      base:20000,  xp:200,   risk:'Low',    crew:'Solo',  ship:'Starter',                   desc:'No cert required. Guaranteed Antium armor BP every run.'},
@@ -3352,6 +3368,96 @@ function renderBP(role){
     </div>`).join('');
 }
 
+
+const MINERAL_DATA=[
+  {name:'Quantainium',grade:'A',type:'volatile',locations:['Yela (Stanton)','Cellin (Stanton)'],note:'Explosive — handle with care. Highest value ore in game'},
+  {name:'Bexalite',grade:'A',type:'rare',locations:['Yela (Stanton)'],note:'Very high value. Rare asteroid finds'},
+  {name:'Taranite',grade:'A',type:'rare',locations:['Wala (Stanton)','Yela (Stanton)'],note:'High value crafting material'},
+  {name:'Hadanite',grade:'A',type:'rare',locations:['Nyx caves','Aberdeen caves (Stanton)'],note:'High value hand-mine — caves only. Cannot ship mine.'},
+  {name:'Borase',grade:'B',type:'uncommon',locations:['Daymar (Stanton)','Aberdeen (Stanton)'],note:'Good mid-tier value'},
+  {name:'Stileron',grade:'B',type:'uncommon',locations:['Magda (Pyro)','Bloom (Pyro)'],note:'Required for FR-66/FR-76 shield BPs'},
+  {name:'Feynmaline',grade:'B',type:'uncommon',locations:['Terminus (Pyro)','Nyx caves'],note:'Required for multiple shield BPs'},
+  {name:'Riccite',grade:'B',type:'uncommon',locations:['Yela (Stanton)','Magda (Pyro)'],note:'Shield BP ingredient'},
+  {name:'Laranite',grade:'B',type:'uncommon',locations:['Wala (Stanton)','Magda (Pyro)'],note:'Good mid-tier value'},
+  {name:'Agricium',grade:'B',type:'uncommon',locations:['Wala (Stanton)','Calliope (Crusader)'],note:'Mid-tier value'},
+  {name:'Diamond',grade:'B',type:'uncommon',locations:['Yela (Stanton)','Aberdeen (Stanton)'],note:'High value hand mining find'},
+  {name:'Dolivine',grade:'B',type:'uncommon',locations:['Pyro moons'],note:'Pyro mid-tier'},
+  {name:'Pezurite',grade:'B',type:'uncommon',locations:['Magda (Pyro)','Bloom (Pyro)'],note:'Pyro uncommon'},
+  {name:'Dinegrite',grade:'B',type:'uncommon',locations:['Pyro moons'],note:'Pyro uncommon mineral'},
+  {name:'Revenant',grade:'B',type:'uncommon',locations:['Nyx (Hexis)'],note:'Nyx exclusive — good value'},
+  {name:'Janalite',grade:'C',type:'common',locations:['Daymar caves','Magda caves (Pyro)','Wala caves'],note:'Best hand mining — Daymar Sand Caves. ~180k/hr solo.'},
+  {name:'Titanium',grade:'C',type:'common',locations:['Cellin (Stanton)','Daymar (Stanton)','Pyro (multiple)'],note:'Adagio Titanium haul — 3M+/hr with RAFT'},
+  {name:'Tungsten',grade:'C',type:'common',locations:['Wala (Stanton)','Aberdeen (Stanton)'],note:'Common crafting material'},
+  {name:'Beryl',grade:'C',type:'common',locations:['Lyria (Stanton)','Cellin (Stanton)'],note:'Common mineral'},
+  {name:'Hephaestanite',grade:'C',type:'common',locations:['Wala (Stanton)','Lyria (Stanton)'],note:'Base crafting ingredient'},
+  {name:'Gold',grade:'C',type:'common',locations:['Yela (Stanton)','Magda (Pyro)'],note:'Common metal, decent value'},
+  {name:'Inertite',grade:'C',type:'common',locations:['Magda (Pyro)','Bloom (Pyro)'],note:'Pyro common mineral'},
+  {name:'Aphorite',grade:'C',type:'common',locations:['Pyro (multiple moons)'],note:'Pyro common mineral'},
+  {name:'Glacite',grade:'C',type:'common',locations:['Nyx (Hexis)','Pyro caves'],note:'Common in Nyx system'},
+  {name:'Corundum',grade:'C',type:'common',locations:['Wala (Stanton)','Lyria (Stanton)'],note:'Common metal'},
+  {name:'Quartz',grade:'C',type:'common',locations:['Daymar (Stanton)','Aberdeen (Stanton)'],note:'Common rock mineral'},
+  {name:'Iron',grade:'C',type:'common',locations:['Daymar (Stanton)','Cellin (Stanton)'],note:'Very common metal'},
+  {name:'Copper',grade:'C',type:'common',locations:['Cellin (Stanton)','Aberdeen (Stanton)'],note:'Common base metal'},
+  {name:'Aluminium',grade:'C',type:'common',locations:['Aberdeen (Stanton)','Daymar (Stanton)'],note:'Very common light metal'},
+  {name:'Carbon',grade:'C',type:'common',locations:['Wala caves','Daymar caves'],note:'Basic crafting ingredient'},
+  {name:'Chlorine',grade:'C',type:'gas',locations:['Gas clouds (various)'],note:'Industrial gas — low value'},
+  {name:'Hydrogen',grade:'C',type:'gas',locations:['Gas clouds','orbit (various)'],note:'Common fuel component'},
+  {name:'Felsic',grade:'C',type:'common',locations:['Stanton asteroids','Pyro rocks'],note:'Common base rock'},
+];
+
+function minFilter(){
+  const q=(document.getElementById('min-search')?.value||'').toLowerCase();
+  const sys=document.getElementById('min-sys')?.value||'';
+  const type=document.getElementById('min-type')?.value||'';
+  const body=document.getElementById('min-body');
+  if(!body)return;
+  const filtered=MINERAL_DATA.filter(m=>{
+    if(q&&!m.name.toLowerCase().includes(q)&&!m.locations.join(' ').toLowerCase().includes(q))return false;
+    if(sys&&!m.locations.join(' ').includes(sys))return false;
+    if(type&&m.type!==type)return false;
+    return true;
+  });
+  const GRADE_COL={A:'var(--gold)',B:'var(--ember)',C:'var(--t2)'};
+  body.innerHTML=filtered.map(m=>`<tr>
+    <td style="font-weight:500">${m.name}</td>
+    <td><span style="font-family:'Share Tech Mono',monospace;font-weight:700;color:${GRADE_COL[m.grade]||'var(--t2)'}">${m.grade}</span></td>
+    <td style="font-size:.75rem;color:var(--t2)">${m.type}</td>
+    <td style="font-size:.75rem;color:var(--t2)">${m.locations.join(' · ')}</td>
+    <td style="font-size:.75rem;color:var(--t3)">${m.note}</td>
+  </tr>`).join('');
+}
+
+function orgUpdate(){
+  const count=parseInt(document.getElementById('orgCount')?.value||'4');
+  const el=document.getElementById('orgRoles');
+  if(!el)return;
+  const roleIncome={combat:700000,cargo:285000,mining:350000,salvage:200000,support:0,flex:300000};
+  let html='';
+  for(let i=1;i<=count;i++){
+    const prev=document.getElementById('orgRole'+i)?.value||'flex';
+    html+=`<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+      <span style="font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--t3);min-width:60px">Player ${i}</span>
+      <select id="orgRole${i}" onchange="orgUpdate()" style="font-size:.75rem;flex:1">
+        <option value="combat"${prev==='combat'?' selected':''}>⚔️ Combat</option>
+        <option value="cargo"${prev==='cargo'?' selected':''}>📦 Cargo</option>
+        <option value="mining"${prev==='mining'?' selected':''}>⛏️ Mining</option>
+        <option value="salvage"${prev==='salvage'?' selected':''}>🔧 Salvage</option>
+        <option value="support"${prev==='support'?' selected':''}>🏥 Support</option>
+        <option value="flex"${prev==='flex'?' selected':''}>🔀 Flex</option>
+      </select>
+    </div>`;
+  }
+  el.innerHTML=html;
+  const total=Array.from({length:count},(_,i)=>{
+    const sel=document.getElementById('orgRole'+(i+1));
+    return roleIncome[sel?.value||'flex']||0;
+  }).reduce((a,b)=>a+b,0);
+  const incEl=document.getElementById('orgIncome');
+  if(incEl){
+    const fmt=n=>n>=1000000?(n/1000000).toFixed(2)+'M':Math.round(n/1000)+'k';
+    incEl.textContent=fmt(total)+' aUEC/hr estimated';
+  }
+}
 
 document.addEventListener('DOMContentLoaded',function(){
   renderShop();
