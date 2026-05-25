@@ -606,6 +606,67 @@ footer {
 .sys-content { display: none; }
 .sys-content.active { display: block; }
 
+/* ===== SYSTEMS NAVIGATOR ===== */
+.sys-selector {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 1rem;
+  background: var(--b1);
+  border: 1px solid var(--b1);
+  border-radius: 2px;
+  overflow: hidden;
+  width: fit-content;
+}
+.sys-btn {
+  background: var(--s2);
+  border: none;
+  color: var(--t3);
+  font-family: 'Orbitron', sans-serif;
+  font-size: .62rem;
+  letter-spacing: .15em;
+  padding: .4rem 1.1rem;
+  cursor: pointer;
+  transition: all var(--ease);
+}
+.sys-btn:hover { color: var(--t2); background: rgba(255,255,255,.03); }
+.sys-btn.active { background: rgba(255,107,26,.12); color: var(--ember); }
+
+.loc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: .5rem;
+}
+.loc-card {
+  background: var(--s2);
+  border: 1px solid var(--b1);
+  border-radius: 2px;
+  padding: .7rem .85rem;
+  transition: border-color var(--ease);
+}
+.loc-card:hover { border-color: var(--b2); }
+.loc-name {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: .92rem;
+  color: var(--t1);
+  margin-bottom: .15rem;
+}
+.loc-type {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .62rem;
+  color: var(--t3);
+  letter-spacing: .06em;
+  margin-bottom: .45rem;
+}
+.loc-services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem;
+}
+.svc-missions { color: var(--gold);   border-color: rgba(255,187,68,.25);  background: rgba(255,187,68,.06); }
+.svc-ships    { color: var(--ember);  border-color: rgba(255,107,26,.25);  background: rgba(255,107,26,.06); }
+.svc-ammo     { color: var(--fire);   border-color: rgba(255,60,0,.25);    background: rgba(255,60,0,.06); }
+
 /* ===== MINING ===== */
 .min-card { background:var(--s2); border:1px solid var(--b1); padding:.7rem .85rem; border-radius:2px; }
 
@@ -627,7 +688,7 @@ footer {
     </div>
     <div class="badges">
       <div class="badge badge-gold">LIVE 4.8</div>
-      <div class="badge" style="color:var(--teal);border-color:var(--teal)">BETA v0.7</div>
+      <div class="badge" style="color:var(--teal);border-color:var(--teal)">BETA v0.8</div>
     </div>
   </div>
 </header>
@@ -1344,100 +1405,106 @@ footer {
 </div>
   </div>
 
-  <div id="ship-tab-meta" style="display:none">
-    <!-- QUICK REFERENCE TABS -->
-  <div style="font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--dim);margin-bottom:.5rem;letter-spacing:.08em">// QUICK REFERENCE — META PICKS BY ROLE //</div>
-  <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem">
-    <button class="ltab active" onclick="setShipTab('combat',this)">🎯 Combat Meta</button>
-    <button class="ltab" onclick="setShipTab('cargo',this)">📦 Cargo Meta</button>
-    <button class="ltab" onclick="setShipTab('mining',this)">⛏️ Mining Meta</button>
-    <button class="ltab" onclick="setShipTab('util',this)">🔧 Utility Meta</button>
+      <div id="ship-tab-meta" style="display:none">
+  <div style="font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--t3);margin-bottom:.5rem;letter-spacing:.08em">// 4.8 META PICKS — VERIFIED COMMUNITY DATA //</div>
+  <div class="cftabs">
+    <button class="ltab active" onclick="setShipTab('combat',this)">⚔️ Combat</button>
+    <button class="ltab" onclick="setShipTab('cargo',this)">📦 Cargo</button>
+    <button class="ltab" onclick="setShipTab('mining',this)">⛏️ Mining</button>
+    <button class="ltab" onclick="setShipTab('salvage',this)">🔧 Salvage</button>
+    <button class="ltab" onclick="setShipTab('util',this)">🛠️ Utility</button>
   </div>
+
+  <!-- COMBAT -->
   <div class="loadout-content active" id="ships-combat">
     <table class="tbl">
-      <tr><th>SHIP</th><th>ROLE</th><th>HARDPOINTS</th><th>aUEC (LORVILLE)</th><th>PLEDGE</th><th>4.8 VERDICT</th></tr>
-      <tr><td>Aurora LN</td><td>Starter fighter</td><td>2x S1</td><td class="tg" style="color:var(--green)">Free w/ package</td><td style="color:var(--teal)">$40</td><td>Day zero only — upgrade fast</td></tr>
-      <tr><td>Avenger Titan</td><td>Starter/cargo</td><td>3x S2</td><td class="md">~1.36M</td><td style="color:var(--teal)">$60</td><td>Best budget starter, 8 SCU cargo</td></tr>
-      <tr><td>Gladius</td><td>Light fighter</td><td>3x S2</td><td class="md">~2.38M</td><td style="color:var(--teal)">$90</td><td>Best solo dogfighter, affordable</td></tr>
-      <tr><td>Arrow</td><td>Light fighter</td><td>2x S2 fixed</td><td class="md">~1.1M</td><td style="color:var(--teal)">$75</td><td>Top value fixed-weapon platform</td></tr>
-      <tr><td>Buccaneer</td><td>Light fighter</td><td>3x S3</td><td class="md">~1.5M</td><td style="color:var(--teal)">$110</td><td>High DPS, fragile, skill-dependent</td></tr>
-      <tr><td>Hawk</td><td>Light fighter</td><td>2x S3</td><td class="md">~1.2M</td><td style="color:var(--teal)">$90</td><td>Good for EMP/disable builds</td></tr>
-      <tr><td>Aegis Sabre</td><td>Stealth/DPS</td><td>4x S3</td><td class="hi">~2.6M</td><td style="color:var(--teal)">$170</td><td>High alpha, stealth options</td></tr>
-      <tr><td>F7C Hornet Mk II</td><td>Medium fighter</td><td>4x S3</td><td class="hi">~2.8M</td><td style="color:var(--teal)">$130</td><td>Org workhorse — most flexible</td></tr>
-      <tr><td>Scorpius</td><td>Heavy fighter</td><td>6x S3</td><td class="hi">Pledge/Game</td><td style="color:var(--teal)">$220</td><td>High DPS, 2-crew advantage</td></tr>
-      <tr><td>Vanguard Harbinger</td><td>Heavy fighter</td><td>2x S5 + 2x S3</td><td class="hi">~10.93M</td><td style="color:var(--teal)">$310</td><td>ERT specialist — bed, tanky</td></tr>
-      <tr><td>Vanguard Warden</td><td>Heavy fighter</td><td>2x S5 + 2x S3</td><td class="hi">~9.8M</td><td style="color:var(--teal)">$250</td><td>Best value Vanguard</td></tr>
-      <tr><td>Constellation Taurus</td><td>Combat hauler</td><td>4x S3</td><td class="hi">~8M</td><td style="color:var(--teal)">$210</td><td>Fight + haul — versatile</td></tr>
-      <tr><td>Hammerhead</td><td>Gunship</td><td>6x S4 turrets</td><td class="hi">~45.56M</td><td style="color:var(--teal)">$725</td><td>Anti-fighter platform, org play</td></tr>
-      <tr><td>Aegis Eclipse</td><td>Torpedo bomber</td><td>3x S10 torp</td><td class="hi">~7.54M</td><td style="color:var(--teal)">$300</td><td>Capital ship killer</td></tr>
-      <tr><td>Retaliator Bomber</td><td>Bomber</td><td>Torpedoes</td><td class="hi">~7.54M</td><td style="color:var(--teal)">$275</td><td>Multi-crew bomber</td></tr>
-      <tr><td>Polaris</td><td>Corvette</td><td>Torpedoes + turrets</td><td class="hi">Limited</td><td style="color:var(--teal)">$975</td><td>New flagship — org ops only</td></tr>
+      <tr><th>Ship</th><th>Class</th><th>Hardpoints</th><th>aUEC</th><th>4.8 Verdict</th></tr>
+      <tr><td>Gladius</td><td>Light Fighter</td><td>3× S3 pilot</td><td class="md">~2.38M</td><td>Best ship to learn dogfighting. 2× S1 shields = forgiving. Dual engines. Go-to budget combat ship.</td></tr>
+      <tr><td>Arrow</td><td>Light Fighter</td><td>3× S3 pilot (fixed)</td><td class="tg" style="color:var(--green)">~1.1M</td><td>Fastest light fighter. Fixed-weapon platform — high skill ceiling. Single S1 shield. Fragile but lethal in the right hands.</td></tr>
+      <tr><td>Buccaneer</td><td>Light Fighter</td><td>S4 ventral + 2× S3 chin + 2× S1 nose</td><td class="md">~1.55M</td><td>Glass cannon. Highest burst DPS for a light fighter. 240 SCM speed. One shield. Get the hit in first or die.</td></tr>
+      <tr><td>Hawk</td><td>Light Fighter</td><td>2× S3 chin + 4× S2 wing</td><td class="tg" style="color:var(--green)">~1.2M</td><td>6 hardpoints + built-in EMP. Good disable/bounty builds. Better in PvE than its rep suggests.</td></tr>
+      <tr><td>Shiv (Grey's Market)</td><td>Heavy Multi-role</td><td>4× S3 pilot + S3 remote turret</td><td class="md">~5.5M</td><td>4.8 top solo pick. Heavy firepower + 32 SCU cargo + bed. Does combat, haul, log out anywhere. Best all-rounder in game right now.</td></tr>
+      <tr><td>Banu Defender</td><td>Medium Fighter</td><td>4× S3 pilot + 2× S2 turret</td><td class="hi">~6M</td><td>Underrated 4.8 pick. Massive capacitor, great sustained DPS. ~6M aUEC. Worth the alien tax for daily PvE.</td></tr>
+      <tr><td>Aegis Sabre</td><td>Stealth Fighter</td><td>4× S3 pilot (fixed)</td><td class="hi">~2.6M</td><td>Best alpha burst of any medium fighter. Run stealth components (Zephyr QD, low-EM power). Levski only.</td></tr>
+      <tr><td>F7C Hornet Mk II</td><td>Medium Fighter</td><td>S3 nose + 2× S4 wing + S5 centre + 2× S1 turret</td><td class="hi">~2.8M</td><td>Org workhorse. Upgrade the S5 centre first (M8A Cannon or Deadbolt V). 2× S1 shields. Most flexible medium fighter.</td></tr>
+      <tr><td>F7C-M Super Hornet Mk II</td><td>Medium Fighter</td><td>S3 nose + 2× S4 wing + S5 centre + 2× S1 turret</td><td class="hi">~4M</td><td>2-seat F7C. 3× S1 shields vs F7C's 2. Gunner turret adds sustained DPS. Best 2-seat medium fighter for org play.</td></tr>
+      <tr><td>Asgard</td><td>Heavy Fighter</td><td>4× S4 pilot + 2× S3 wing</td><td class="hi">~17.86M</td><td>4.8 breakout ship. 4× S4 main guns. Takes hits well. Good for bunkers with a Medical Ursa in the cargo bay.</td></tr>
+      <tr><td>Vanguard Harbinger</td><td>Heavy Fighter</td><td>S5 nose + 4× S2 nose + 2× S1 turret</td><td class="hi">~10.93M</td><td>ERT specialist. Dual S2 shields = very tanky. Bed for deep solo sessions. Park it near the action.</td></tr>
+      <tr><td>Scorpius</td><td>Heavy Fighter</td><td>4× S3 + 3× S4 pilot + 2× S3 turret</td><td class="hi">~5.17M</td><td>Best value heavy fighter. 9 hardpoints total. 2-crew advantage for sustained fights. Great org combat ship.</td></tr>
+      <tr><td>Constellation Andromeda</td><td>Multi-crew Fighter</td><td>4× S5 pilot + 2× S3 turrets</td><td class="hi">~9.65M</td><td>96 SCU cargo + serious firepower. Run HRTs solo, stack cargo from loot. Best solo ERT + haul combo.</td></tr>
+      <tr><td>RSI Perseus</td><td>Heavy Corvette</td><td>2× S5 pilot + 4× S7 turrets</td><td class="hi">~39.68M</td><td>4.8 new. 7-crew gunship. Capital-class firepower. Org-only investment — needs full crew to unlock potential.</td></tr>
+      <tr><td>Aegis Eclipse</td><td>Stealth Bomber</td><td>3× S9 torpedo</td><td class="hi">~7.54M</td><td>Capital ship killer. Stealth approach, dump torpedoes, exit. Never dogfight in this. Pure assassination tool.</td></tr>
+      <tr><td>Hammerhead</td><td>Gunship</td><td>6× S4 manned turrets</td><td class="hi">~45.56M</td><td>Org anti-fighter platform. All turrets need crew to be worth it. Devastating with full gunners.</td></tr>
     </table>
-    <div class="info" style="margin-top:.75rem">4.8 meta: Deadbolt Ballistic Cannons (S2/S3) dominate PvE. Fixed weapons reward skill over gimbals at HRT+. Buy route: Lorville → New Babbage → Area 18 for full aUEC loadout.</div>
+    <div class="info" style="margin-top:.75rem">4.8 weapons meta: Mixed loadout (CF repeaters + M6A/M8A cannons) is current consensus. Repeaters handle light fighters, cannons strip armour on larger targets. Shields regen faster in 4.8 — aggressive hit-and-run is rewarded. FR-66 shield BP (Foxwell Priority) is first crafting priority for any combat pilot.</div>
   </div>
+
+  <!-- CARGO -->
   <div class="loadout-content" id="ships-cargo">
     <table class="tbl">
-      <tr><th>SHIP</th><th>CARGO SCU</th><th>CREW</th><th>aUEC (CHEAPEST)</th><th>PLEDGE</th><th>BEST FOR</th></tr>
-      <tr><td>Drake Cutter</td><td>12 (off-grid)</td><td>1</td><td class="tg" style="color:var(--green)">~430k</td><td style="color:var(--teal)">$55</td><td>Day zero / gem mining hauls</td></tr>
-      <tr><td>Avenger Titan</td><td>8</td><td>1</td><td class="tg" style="color:var(--green)">~1.36M</td><td style="color:var(--teal)">$60</td><td>Contraband / speed runs</td></tr>
-      <tr><td>RSI Aurora CL</td><td>16</td><td>1</td><td class="tg" style="color:var(--green)">~250k</td><td style="color:var(--teal)">$30</td><td>Absolute zero capital start</td></tr>
-      <tr><td>Mustang Beta</td><td>4</td><td>1</td><td class="tg" style="color:var(--green)">~300k</td><td style="color:var(--teal)">$65</td><td>Cheapest flyable cargo</td></tr>
-      <tr><td>MISC Hull A</td><td>64</td><td>1</td><td class="tg" style="color:var(--green)">~500k</td><td style="color:var(--teal)">$50</td><td>Best small cargo per aUEC</td></tr>
-      <tr><td>Cutlass Black</td><td>46</td><td>2</td><td class="md">~1.7M</td><td style="color:var(--teal)">$100</td><td>Best all-purpose starter hauler</td></tr>
-      <tr><td>Freelancer MAX</td><td>120</td><td>4</td><td class="md">~2.5M</td><td style="color:var(--teal)">$155</td><td>Mid-tier bulk without heavy cost</td></tr>
-      <tr><td>Zeus Mk II CL</td><td>128</td><td>2</td><td class="md">~6.35M</td><td style="color:var(--teal)">$200</td><td>Solid mid-tier, new ship</td></tr>
-      <tr><td>Argo RAFT</td><td>192</td><td>1</td><td class="md">Rental ~70k/day</td><td style="color:var(--teal)">$165</td><td>Covalex grind rental king</td></tr>
-      <tr><td>Constellation Taurus</td><td>174</td><td>4</td><td class="hi">~8.04M</td><td style="color:var(--teal)">$210</td><td>Combat-capable mid hauler</td></tr>
-      <tr><td>Drake Caterpillar</td><td>576</td><td>5</td><td class="hi">~11.85M</td><td style="color:var(--teal)">$330</td><td>Org modular cargo ops</td></tr>
-      <tr><td>MISC Starlancer MAX</td><td>224</td><td>3</td><td class="hi">~8.82M</td><td style="color:var(--teal)">$325</td><td>Newer mid-large option</td></tr>
-      <tr><td>Crusader C2 Hercules</td><td>696</td><td>3</td><td class="hi">~18.9M</td><td style="color:var(--teal)">$360</td><td>Senior+ Covalex / large trade</td></tr>
-      <tr><td>Crusader M2 Hercules</td><td>522</td><td>3</td><td class="hi">~28.75M</td><td style="color:var(--teal)">$520</td><td>Combat + large cargo</td></tr>
-      <tr><td>MISC Hull C</td><td>4608</td><td>3</td><td class="hi">~15.71M</td><td style="color:var(--teal)">$325</td><td>Max cargo — BUGGED 4.8 LIVE</td></tr>
-      <tr><td>Banu Merchantman</td><td>2880</td><td>8</td><td>Concept</td><td style="color:var(--teal)">$650</td><td>Concept — trader dream ship</td></tr>
+      <tr><th>Ship</th><th>SCU</th><th>Crew</th><th>aUEC</th><th>4.8 Verdict</th></tr>
+      <tr><td>Drake Cutter</td><td>4</td><td>1</td><td class="tg" style="color:var(--green)">~430k</td><td>Day zero starter. 4 SCU on-grid. Upgrade fast — it's a stepping stone.</td></tr>
+      <tr><td>RSI Aurora CL</td><td>16</td><td>1</td><td class="tg" style="color:var(--green)">starter</td><td>Free with starter package. 16 SCU is solid for early Covalex Trainee/Rookie runs.</td></tr>
+      <tr><td>Avenger Titan</td><td>8</td><td>1</td><td class="tg" style="color:var(--green)">~1.36M</td><td>Best budget ship in game. 8 SCU + 3× S2 guns. Fight and haul. Excellent Covalex rookie ship.</td></tr>
+      <tr><td>Cutlass Black</td><td>46</td><td>2</td><td class="md">~1.7M</td><td>Best all-round ship in game. 46 SCU + 4× S3 guns. Haul, fight, rescue. First major upgrade for most players.</td></tr>
+      <tr><td>Freelancer MAX</td><td>120</td><td>2</td><td class="md">~2.5M</td><td>120 SCU at 2.5M. Excellent Covalex Member/Senior grind ship. No frills, just cargo.</td></tr>
+      <tr><td>RSI Hermes</td><td>288</td><td>2</td><td class="md">~7.11M</td><td>4.8 new. 288 SCU + excellent tractor beam. Best mid-tier cargo per aUEC in 4.8. Covalex Senior+ ship.</td></tr>
+      <tr><td>Zeus Mk II CL</td><td>128</td><td>2</td><td class="hi">~6.35M</td><td>Cleaner alternative to Freelancer MAX. Better handling. Same crew count, more refined experience.</td></tr>
+      <tr><td>Argo RAFT</td><td>192</td><td>1</td><td class="hi">~rental</td><td>192 SCU solo. Adagio Titanium grind ship — 3M+ aUEC/hr at Senior Contractor rank. Rent until you can buy.</td></tr>
+      <tr><td>Constellation Taurus</td><td>174</td><td>4</td><td class="hi">~8.04M</td><td>Fight + haul. 174 SCU + 4× S5 fixed guns. Best combat-capable mid hauler. Good for contested routes.</td></tr>
+      <tr><td>Crusader C2 Hercules</td><td>696</td><td>3</td><td class="hi">~18.9M</td><td>Covalex Master grind ship. 696 SCU. Most reliable large solo cargo in 4.8. Also runs Adagio Titanium.</td></tr>
+      <tr><td>Drake Caterpillar</td><td>576</td><td>5</td><td class="hi">~11.85M</td><td>Org modular cargo. 576 SCU cheaper than C2. Less versatile but solid for dedicated hauling orgs.</td></tr>
+      <tr><td>MISC Hull C</td><td>4608</td><td>3</td><td class="hi">~15.71M</td><td>⚠ Known 4.8 bug — cargo stacks incorrectly. C2 is the reliable fallback. Check patch notes before buying.</td></tr>
     </table>
-    <div class="warn" style="margin-top:.75rem">Hull C: Known 4.8 bug — cargo stacks incorrectly, can refuse to unload. C2 Hercules is the reliable fallback until patched.</div>
+    <div class="info" style="margin-top:.75rem">Covalex priority: stack Courier + Hauling tracks simultaneously for 2× XP per trip. Target Covalex Master (237,750 XP) for VK-00 + XL-1 + Palisade BPs. Adagio Holdings Titanium at Senior Contractor = 3M+/hr — needs RAFT or C2. Always check UEX for live commodity prices before loading up.</div>
   </div>
+
+  <!-- MINING -->
   <div class="loadout-content" id="ships-mining">
     <table class="tbl">
-      <tr><th>SHIP / VEHICLE</th><th>TYPE</th><th>CREW</th><th>aUEC</th><th>PLEDGE</th><th>BEST FOR</th></tr>
-      <tr><td>Multi-Tool</td><td>Hand mining</td><td>1</td><td class="tg" style="color:var(--green)">~15k</td><td>—</td><td>Janalite (Daymar/Magda) — zero invest</td></tr>
-      <tr><td>Atlas Geo</td><td>Vehicle mining</td><td>1</td><td class="tg" style="color:var(--green)">~120k</td><td>—</td><td>Gem mining loop, 1.9M+/hr</td></tr>
-      <tr><td>Greycat ROC</td><td>Ground vehicle</td><td>1</td><td class="md">~172k</td><td style="color:var(--teal)">$55</td><td>Surface Hadanite — Aberdeen/Daymar</td></tr>
-      <tr><td>Greycat ROC-DS</td><td>Ground vehicle</td><td>2</td><td>Pledge</td><td style="color:var(--teal)">$75</td><td>Dual-seat ROC variant</td></tr>
-      <tr><td>MISC Prospector</td><td>Ship miner</td><td>1</td><td class="hi">~2.1M</td><td style="color:var(--teal)">$140</td><td>Solo asteroid mining</td></tr>
-      <tr><td>Argo Mole</td><td>Ship miner</td><td>3</td><td class="hi">~9.38M</td><td style="color:var(--teal)">$315</td><td>Org mining, Glaciem Ring, best group</td></tr>
-      <tr><td>RSI Orion</td><td>Ship miner</td><td>7</td><td>Concept</td><td style="color:var(--teal)">$650</td><td>Industrial mining — concept only</td></tr>
-      <tr><td>RSI Arrastra</td><td>Ship miner</td><td>5</td><td>Concept</td><td style="color:var(--teal)">$575</td><td>New mining ship — concept only</td></tr>
+      <tr><th>Ship / Tool</th><th>Type</th><th>Crew</th><th>aUEC</th><th>4.8 Verdict</th></tr>
+      <tr><td>Multi-Tool + OreBit</td><td>Hand mining</td><td>1</td><td class="tg" style="color:var(--green)">~15k</td><td>Zero invest. Janalite caves (Daymar Sand Caves / Magda) = ~180k/hr solo. Best starting income in game.</td></tr>
+      <tr><td>ATLS GEO Exosuit</td><td>Exosuit mining</td><td>1</td><td class="tg" style="color:var(--green)">~120k</td><td>4.8 standout. Gem mining loop significantly faster than ROC — ~1.9M+/hr reported. Best new entry-level loop.</td></tr>
+      <tr><td>Greycat ROC</td><td>Ground vehicle</td><td>1</td><td class="md">~172k</td><td>Surface gem mining. Hadanite on Aberdeen/Nyx caves — high value but rare. Needs a cargo ship to haul finds.</td></tr>
+      <tr><td>MISC Prospector</td><td>Ship miner</td><td>1</td><td class="hi">~2.1M</td><td>Solo asteroid mining standard. Target Quantainium (Yela/Cellin) for max value. Always refine before selling.</td></tr>
+      <tr><td>Argo MOLE</td><td>Ship miner</td><td>3</td><td class="hi">~9.38M</td><td>Best group mining. Quantainium split 3 ways = 300-400k each per load. Glaciem Ring (Nyx) for best ore quality.</td></tr>
     </table>
-    <div class="info" style="margin-top:.75rem">4.7/4.8 mining: Mole received major update (cargo elevator, new scan interface). Materials denser Nyx Rockbreaker ore = best quality. Hand mining Janalite still top solo aUEC/hr.</div>
+    <div class="info" style="margin-top:.75rem">4.8 mining: ATLS GEO is the breakout pick — gem loop faster and cheaper than ROC. Quantainium on Yela still best ship mining target. Nyx Glaciem Ring ore density is higher quality. Always refine — raw ore sells for significantly less. Shubin missions stack well alongside mining for bonus XP + BP drops.</div>
   </div>
+
+  <!-- SALVAGE -->
+  <div class="loadout-content" id="ships-salvage">
+    <table class="tbl">
+      <tr><th>Ship</th><th>Crew</th><th>aUEC</th><th>4.8 Verdict</th></tr>
+      <tr><td>RSI Salvation</td><td>1</td><td class="tg" style="color:var(--green)">~1.19M</td><td>4.8 new. Cheapest entry to salvage. Solo compact design. Good for learning the loop before stepping up to Vulture.</td></tr>
+      <tr><td>Drake Vulture</td><td>1</td><td class="md">~1.9M</td><td>Best solo salvage ship. 3× S1 shields. Good RMC farming. Bring Cambio SRT canisters. Stable 4.8 income.</td></tr>
+      <tr><td>Aegis Reclaimer</td><td>5</td><td class="hi">~33.34M</td><td>Fastest RMC per hour at full crew. Org salvage endgame ship. 3 beam operators + 1 coordinator = max efficiency.</td></tr>
+    </table>
+    <div class="info" style="margin-top:.75rem">4.8 salvage note: Adagio Holdings Titanium runs (Senior Contractor rank) currently beat pure hull salvage for aUEC/hr. Pure salvage: Vulture RMC farming is reliable mid-tier income. Reclaimer needs 3–5 active crew to justify the cost. RSI Salvation is worth buying just to unlock the Adagio chain early.</div>
+  </div>
+
+  <!-- UTILITY -->
   <div class="loadout-content" id="ships-util">
     <table class="tbl">
-      <tr><th>SHIP</th><th>ROLE</th><th>KEY FEATURE</th><th>aUEC</th><th>PLEDGE</th><th>4.8 VERDICT</th></tr>
-      <tr><td>Drake Vulture</td><td>Salvage solo</td><td>Abrade modules, compact</td><td class="md">~1.9M</td><td style="color:var(--teal)">$110</td><td>Best solo salvage / RMC farm</td></tr>
-      <tr><td>Aegis Reclaimer</td><td>Salvage group</td><td>Trawler modules, massive</td><td class="hi">~33.34M</td><td style="color:var(--teal)">$400</td><td>Fastest RMC if you own one</td></tr>
-      <tr><td>Drake Cutlass Red</td><td>Medical</td><td>Medical beds, rescue</td><td class="md">~2.2M</td><td style="color:var(--teal)">$155</td><td>Org medical support</td></tr>
-      <tr><td>RSI Apollo Triage</td><td>Medical</td><td>Multiple beds, larger</td><td class="hi">~7.54M</td><td style="color:var(--teal)">$275</td><td>Dedicated medical ops</td></tr>
-      <tr><td>RSI Apollo Medivac</td><td>Medical</td><td>Full medical bay</td><td class="hi">~8.3M</td><td style="color:var(--teal)">$300</td><td>Best medical ship in game</td></tr>
-      <tr><td>MISC Starfarer</td><td>Refuel/Cargo</td><td>4.8 refuelling missions</td><td class="hi">~13.89M</td><td style="color:var(--teal)">$295</td><td>New 4.8 income loop</td></tr>
-      <tr><td>MISC Starfarer Gemini</td><td>Refuel/Combat</td><td>Refuel + fighter</td><td class="hi">~14.24M</td><td style="color:var(--teal)">$340</td><td>Combat-capable refueller</td></tr>
-      <tr><td>Anvil Carrack</td><td>Exploration</td><td>Multi-role, long range</td><td class="hi">~34.4M</td><td style="color:var(--teal)">$600</td><td>Best exploration ship</td></tr>
-      <tr><td>RSI Mantis</td><td>Interdiction</td><td>Quantum enforcement</td><td class="md">~1.5M</td><td style="color:var(--teal)">$150</td><td>Gate camping / piracy</td></tr>
-      <tr><td>ATLS Exosuit</td><td>Cargo tool</td><td>Loading speed</td><td class="md">~390k</td><td>—</td><td>Essential for large cargo ops</td></tr>
-      <tr><td>Anvil Valkyrie</td><td>Boarding/Cargo</td><td>90 SCU + dropship</td><td class="hi">~19.85M</td><td style="color:var(--teal)">$375</td><td>Org boarding / troop transport</td></tr>
-      <tr><td>Esperia Prowler</td><td>Boarding</td><td>Stealth boarding</td><td class="hi">~18.71M</td><td style="color:var(--teal)">$425</td><td>Elite boarding ops</td></tr>
+      <tr><th>Ship</th><th>Role</th><th>aUEC</th><th>4.8 Verdict</th></tr>
+      <tr><td>ATLS Exosuit</td><td>Cargo loading</td><td class="tg" style="color:var(--green)">~390k</td><td>Buy this early. Loads cargo dramatically faster. Essential for any serious cargo operation.</td></tr>
+      <tr><td>RSI Mantis</td><td>Interdiction</td><td class="md">~3.23M</td><td>Quantum enforcement — pull ships out of QT. Gate control, org piracy, security ops.</td></tr>
+      <tr><td>Drake Cutlass Red</td><td>Medical</td><td class="md">~2.2M</td><td>Org field respawn ship. Park near the action. MedBay lets org members respawn in-field. Keep MedGel stocked.</td></tr>
+      <tr><td>MISC Starfarer</td><td>Refuel / Cargo</td><td class="hi">~13.89M</td><td>4.8 refuelling missions are a new income loop. Data still thin — first-mover advantage worth grabbing early.</td></tr>
+      <tr><td>RSI Apollo Triage</td><td>Medical</td><td class="hi">~7.54M</td><td>Dedicated medical ops. Multiple beds + proper medical bay. For orgs running extended multi-hour operations.</td></tr>
+      <tr><td>Anvil Valkyrie</td><td>Dropship / Cargo</td><td class="hi">~19.85M</td><td>90 SCU + troop transport. Org boarding and FPS insert ops. Land troops then provide air support.</td></tr>
+      <tr><td>Anvil Carrack</td><td>Exploration</td><td class="hi">~34.4M</td><td>Best exploration ship. Long range, repair drones, snub fighter, 456 SCU. Org expedition flagship.</td></tr>
     </table>
-    <div class="tip" style="margin-top:.75rem">4.8 new: Refuelling Missions via Starfarer are a new income loop. Data still thin — worth testing early for first-mover advantage for first-mover advantage.</div>
+    <div class="tip" style="margin-top:.75rem">4.8 new aUEC ships: RSI Salvation (1.19M), Drake Clipper (3.62M), RSI Hermes (7.11M), RSI Perseus (39.68M), Grey's Market Shiv (5.5M), Greycat MDC (127k). All purchasable in-game now.</div>
   </div>
 
   <div class="links" style="margin-top:1rem">
-    <a class="ext" href="https://uexcorp.space/vehicles/home" target="_blank">↗ UEX Corp — Live Ship Prices</a>
-    <a class="ext" href="https://robertsspaceindustries.com/en/pledge/ships" target="_blank">↗ RSI Pledge Store</a>
+    <a class="ext" href="https://uexcorp.space/vehicles/home" target="_blank">↗ UEX Corp — Live Prices</a>
+    <a class="ext" href="https://finder.cstone.space" target="_blank">↗ CStone — Item Finder</a>
     <a class="ext" href="https://scfocus.org/ship-sale-rental-locations-history/" target="_blank">↗ SC Focus — Ship Locations</a>
   </div>
   </div>
-  </div>
-</div>
+
 
 <!-- PANEL: TRADE -->
 <!-- ============================================================ -->
@@ -1466,12 +1533,12 @@ footer {
       <table class="data-tbl" id="trade-table" style="min-width:600px">
         <thead>
           <tr>
-            <th>Commodity</th>
-            <th>Ticker</th>
-            <th>Value/unit</th>
+            <th onclick="tradeSort('n')" style="cursor:pointer">Name ↕</th>
             <th>Category</th>
-            <th>Best sell location</th>
-            <th>Notes</th>
+            <th onclick="tradeSort('b')" style="cursor:pointer">Buy ↕</th>
+            <th onclick="tradeSort('s')" style="cursor:pointer">Sell ↕</th>
+            <th onclick="tradeSort('mp')" style="cursor:pointer">Margin% ↕</th>
+            <th onclick="tradeSort('m')" style="cursor:pointer">Profit/SCU ↕</th>
           </tr>
         </thead>
         <tbody id="trade-body"></tbody>
@@ -2159,6 +2226,12 @@ function bpFilter(){
 }
 
 function setShipTab(t,btn){
+  document.querySelectorAll('#ship-tab-meta .loadout-content').forEach(c=>c.classList.remove('active'));
+  const el=document.getElementById('ships-'+t);
+  if(el)el.classList.add('active');
+  if(btn){btn.closest('.cftabs').querySelectorAll('.ltab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+}
+function _setShipTab_disabled(t,btn){
   document.querySelectorAll('#panel-ships .loadout-content').forEach(c=>c.classList.remove('active'));
   const el=document.querySelector('#ships-'+t);
   if(el)el.classList.add('active');
@@ -2198,63 +2271,48 @@ function setGrindTab(t,btn){
 }
 
 // ===== TRADE PANEL =====
-const COMMODITIES=[
-  {name:'Janalite',ticker:'JANA',val:8500000,valStr:'8.5M/total',cat:'mining',legal:true,bestSell:'Any TDD (Lorville/Area 18/New Babbage)',note:'Hand mined — Daymar, Hurston, Magda Sand Caves, Wala caves'},
-  {name:'Luminite',ticker:'LUMG',val:5100000,valStr:'5.1M/total',cat:'rare',legal:true,bestSell:'Major TDDs',note:'Ultra-rare — check stock on UEX before travelling'},
-  {name:'Feynmaline',ticker:'FEYN',val:341200,valStr:'341k/unit',cat:'rare',legal:true,bestSell:'Stanton TDDs',note:'Extremely rare — Pyro IV only. Verify stock first.'},
-  {name:'Osoian Hides',ticker:'OSOH',val:870000,valStr:'870k/total',cat:'contraband',legal:false,bestSell:'Grim Hex / Levski / Nyx',note:'Contraband — CrimeStat in Stanton if scanned'},
-  {name:'Hadanite',ticker:'HADA',val:547300,valStr:'547k/total',cat:'mining',legal:true,bestSell:'Any TDD',note:'Hand mined — Aberdeen, Daymar caves. Reliable supply.'},
-  {name:'Dolivine',ticker:'DOLI',val:145900,valStr:'145.9k/total',cat:'mining',legal:true,bestSell:'Any TDD',note:'Hand mined — all moons and planets'},
-  {name:'Aphorite',ticker:'APHO',val:101800,valStr:'101.8k/total',cat:'mining',legal:true,bestSell:'Any TDD',note:'Hand mined — all moons and planets'},
-  {name:'Glacosite',ticker:'GLAC',val:98900,valStr:'98.9k/total',cat:'rare',legal:true,bestSell:'Stanton TDDs',note:'Pyro IV — Monox. Rare.'},
-  {name:'Atlasium',ticker:'ATLA',val:92500,valStr:'92.5k/unit',cat:'rare',legal:true,bestSell:'Stanton TDDs',note:'Bloom (Pyro) — very low stock, drains fast'},
-  {name:'Neon',ticker:'NEON',val:18700,valStr:'18.7k/total',cat:'contraband',legal:false,bestSell:'Grim Hex / Levski',note:'Contraband — Pyro source, sell outside Stanton jurisdiction'},
-  {name:'Quantainium',ticker:'QUAN',val:149500,valStr:'149.5k/unit',cat:'mining',legal:true,bestSell:'Any refinery or TDD',note:'EXPLOSIVE — handle with care. Ship mining Stanton asteroid fields.'},
-  {name:'Bexalite',ticker:'BEXA',val:28900,valStr:'28.9k/unit',cat:'mining',legal:true,bestSell:'Major TDDs',note:'Ship mining — Glaciem Ring, HUR-L3, CRU-L1/L2'},
-  {name:'Laranite',ticker:'LARA',val:8700,valStr:'8.7k/unit',cat:'mining',legal:true,bestSell:'Major TDDs — Lorville premium',note:'Ship mining — HUR-L1/L4/L5, Lyria, Pyro IV, Wala'},
-  {name:'Taranite',ticker:'TARA',val:8400,valStr:'~8.4k/unit',cat:'mining',legal:true,bestSell:'Major TDDs',note:'Ship mining — ARC-L1/L2, Cellin, Euterpe'},
-  {name:'Agricium',ticker:'AGRI',val:9700,valStr:'9.7k/unit',cat:'mining',legal:true,bestSell:'Levski (premium) / TDDs',note:'Ship mining — ARC-L3, Cellin, Daymar, Yela'},
-  {name:'Gold',ticker:'GOLD',val:30100,valStr:'30.1k/unit',cat:'mining',legal:true,bestSell:'Major TDDs',note:'Ship mining — ARC-L5, CRU-L4, MIC-L3'},
-  {name:'Hephaestanite',ticker:'HEPH',val:4700,valStr:'4.7k/unit',cat:'mining',legal:true,bestSell:'Stanton TDDs',note:'Pyro gateway buy — sell in Stanton for margin'},
-  {name:'Beryl',ticker:'BERY',val:19800,valStr:'19.8k/unit',cat:'mining',legal:true,bestSell:'Major TDDs',note:'Ship mining — Aaron Halo, ARC-L3, Wala'},
-  {name:'Lindinium',ticker:'LIND',val:47300,valStr:'47.3k/unit',cat:'mining',legal:true,bestSell:'Stanton TDDs',note:'Nyx exclusive — Glaciem Ring, Keeger Belt'},
-  {name:'Savrilium',ticker:'SAVR',val:28000,valStr:'~28k/unit',cat:'mining',legal:true,bestSell:'Stanton TDDs',note:'Nyx exclusive — Glaciem Ring, QV Breaker Stations'},
-  {name:'Cobalt',ticker:'COBA',val:21000,valStr:'21k/unit',cat:'mining',legal:true,bestSell:'Major TDDs',note:'Higher value industrial mineral'},
-  {name:'Titanium',ticker:'TITM',val:3300,valStr:'3.3k/unit',cat:'industrial',legal:true,bestSell:'Any TDD',note:'Mid-tier industrial — great for Adagio wreck cargo runs (3M+/hr)'},
-  {name:'Tungsten',ticker:'TUNG',val:3100,valStr:'~3.1k/unit',cat:'industrial',legal:true,bestSell:'Any TDD',note:'ARC-L1/L2, Fairo, HUR-L2. Reliable mid-route.'},
-  {name:'Copper',ticker:'COPP',val:3800,valStr:'3.8k/unit',cat:'industrial',legal:true,bestSell:'Any TDD',note:'Widely available — ARC, CRU, MIC fields'},
-  {name:'Aluminium',ticker:'ALUM',val:3700,valStr:'3.7k/unit',cat:'industrial',legal:true,bestSell:'Any TDD',note:'Common across all three systems'},
-  {name:'Iron',ticker:'IRON',val:3300,valStr:'3.3k/unit',cat:'industrial',legal:true,bestSell:'Any TDD',note:'Universal — Stanton, Pyro, Nyx'},
-  {name:'Silicon',ticker:'SILI',val:2800,valStr:'~2.8k/unit',cat:'industrial',legal:true,bestSell:'Any TDD',note:'Cellin, Daymar, Aaron Halo'},
-  {name:'RMC',ticker:'DCSR',val:1200,valStr:'1.2k/unit',cat:'salvage',legal:true,bestSell:'Any commodity terminal',note:'Salvage output — bulk volume. Repair facilities pay well.'},
-  {name:'Construction Material',ticker:'CMAT',val:13500,valStr:'13.5k/unit',cat:'salvage',legal:true,bestSell:'Construction outposts / TDDs',note:'Salvage by-product'},
-  {name:'Agricultural Supplies',ticker:'AGRS',val:1400,valStr:'1.4k/unit',cat:'trade',legal:true,bestSell:'Mining outposts / remote stations',note:'Safe starter commodity. City → outpost loop.'},
-  {name:'Medical Supplies',ticker:'MEDS',val:5100,valStr:'5.1k/unit',cat:'trade',legal:true,bestSell:'Remote outposts / Nyx',note:'Good Stanton → Levski cargo leg'},
-  {name:'Processed Food',ticker:'PFOO',val:1400,valStr:'~1.4k/unit',cat:'trade',legal:true,bestSell:'Outposts / remote stations',note:'Safe beginner trade good'},
-  {name:'Maze',ticker:'MAZE',val:230000,valStr:'230k/unit',cat:'contraband',legal:false,bestSell:'Pyro stations',note:'Contraband — extremely high value, extremely high risk'},
-  {name:'Altruciatoxin',ticker:'ALTR',val:6400,valStr:'~6.4k/unit',cat:'contraband',legal:false,bestSell:'Grim Hex / Levski / Pyro',note:'Contraband — CrimeStat risk in Stanton'},
-  {name:'Neon Gas',ticker:'NEOG',val:94800,valStr:'94.8k/unit',cat:'contraband',legal:false,bestSell:'Grim Hex / Pyro',note:'Contraband — Pyro source'},
-];
-const CAT_COLORS_TRADE={mining:'var(--teal)',industrial:'var(--amber)',rare:'var(--gold)',salvage:'var(--purple)',trade:'var(--green)',contraband:'var(--red)'};
-let tradeSearchStr='';
+const COMMODITIES=[{n:"Janalite",k:"Mineral",b:0,s:3646390,m:0,mp:0,ill:false,vol:false,min:true,w:1.0},{n:"Osoian Hides",k:"Vice",b:290647,s:870000,m:579353,mp:199.3,ill:true,vol:false,min:false,w:1.0},{n:"Maze",k:"Drug",b:0,s:230000,m:0,mp:0,ill:true,vol:false,min:false,w:1.0},{n:"Quantainium",k:"Mineral",b:0,s:151935,m:0,mp:0,ill:false,vol:false,min:true,w:1.0},{n:"Stileron",k:"Mineral",b:122850,s:136814,m:13964,mp:11.4,ill:false,vol:false,min:false,w:1.0},{n:"Atlasium",k:"Metal",b:73273,s:92673,m:19400,mp:26.5,ill:false,vol:false,min:false,w:1.0},{n:"Partillium",k:"Gas",b:82192,s:90958,m:8766,mp:10.7,ill:false,vol:false,min:false,w:1.0},{n:"Diamond Laminate",k:"Man-made",b:73909,s:87482,m:13573,mp:18.4,ill:false,vol:false,min:false,w:1.0},{n:"Sunset Berries",k:"Natural",b:70476,s:82901,m:12425,mp:17.6,ill:false,vol:false,min:false,w:1.0},{n:"Gasping Weevil Eggs",k:"Natural",b:47044,s:64650,m:17606,mp:37.4,ill:true,vol:false,min:false,w:1.0},{n:"Pitambu",k:"Food",b:53579,s:60645,m:7066,mp:13.2,ill:false,vol:false,min:false,w:1},{n:"Degnous Root",k:"Natural",b:46540,s:59885,m:13345,mp:28.7,ill:false,vol:false,min:false,w:1.0},{n:"Golden Medmon",k:"Natural",b:57735,s:59735,m:2000,mp:3.5,ill:false,vol:false,min:false,w:1.0},{n:"Ranta Dung",k:"Agricultural",b:34473,s:37055,m:2582,mp:7.5,ill:false,vol:false,min:false,w:1.0},{n:"Audio Visual Equipment",k:"Temporary",b:26085,s:35458,m:9373,mp:35.9,ill:false,vol:false,min:false,w:1.0},{n:"Tritium",k:"Gas",b:16408,s:32966,m:16558,mp:100.9,ill:false,vol:false,min:false,w:1.0},{n:"Gold",k:"Metal",b:27652,s:29802,m:2150,mp:7.8,ill:false,vol:false,min:true,w:1.25},{n:"Compboard",k:"Scrap",b:28967,s:29792,m:825,mp:2.8,ill:false,vol:false,min:false,w:1.0},{n:"Bexalite",k:"Mineral",b:23894,s:28776,m:4882,mp:20.4,ill:false,vol:false,min:true,w:1.1},{n:"Borase",k:"Metal",b:0,s:27416,m:0,mp:0,ill:false,vol:false,min:true,w:1.0},{n:"Taranite",k:"Mineral",b:20739,s:25925,m:5186,mp:25.0,ill:false,vol:false,min:true,w:1.0},{n:"Fresh Food",k:"Food",b:21950,s:24848,m:2898,mp:13.2,ill:false,vol:false,min:false,w:0.938},{n:"Amioshi Plague",k:"Natural",b:17389,s:23984,m:6595,mp:37.9,ill:false,vol:false,min:false,w:1.0},{n:"E'tam",k:"Drug",b:18038,s:23295,m:5257,mp:29.1,ill:true,vol:false,min:false,w:1.0},{n:"Dymantium",k:"Explosive",b:21101,s:23173,m:2072,mp:9.8,ill:false,vol:false,min:false,w:1.0},{n:"Cobalt",k:"Mineral",b:18963,s:20783,m:1820,mp:9.6,ill:false,vol:false,min:false,w:1.0},{n:"Carbon-Silk",k:"Natural",b:18071,s:20694,m:2623,mp:14.5,ill:false,vol:false,min:false,w:1.0},{n:"Beryl",k:"Mineral",b:15442,s:19823,m:4381,mp:28.4,ill:false,vol:false,min:true,w:1.1},{n:"Neon",k:"Drug",b:14851,s:18664,m:3813,mp:25.7,ill:true,vol:false,min:false,w:1.0},{n:"Organics",k:"Organics",b:9814,s:12929,m:3115,mp:31.7,ill:false,vol:false,min:false,w:1.0},{n:"Construction Materials",k:"Scrap",b:9712,s:12733,m:3021,mp:31.1,ill:false,vol:false,min:false,w:1.0},{n:"Iodine",k:"Halogen",b:9515,s:11522,m:2007,mp:21.1,ill:false,vol:false,min:false,w:1},{n:"Tungsten",k:"Metal",b:8547,s:10212,m:1665,mp:19.5,ill:false,vol:false,min:true,w:1.2},{n:"Agricium",k:"Metal",b:8329,s:9658,m:1329,mp:16.0,ill:false,vol:false,min:true,w:1.2},{n:"Laranite",k:"Metal",b:7415,s:8631,m:1216,mp:16.4,ill:false,vol:false,min:true,w:1.0},{n:"Titanium",k:"Metal",b:7282,s:8028,m:746,mp:10.2,ill:false,vol:false,min:true,w:1.0},{n:"Bioplastic",k:"Man-made",b:6454,s:7600,m:1146,mp:17.8,ill:false,vol:false,min:false,w:1},{n:"Diamond",k:"Metal",b:6014,s:7469,m:1455,mp:24.2,ill:false,vol:false,min:true,w:1.1},{n:"WiDoW",k:"Drug",b:6016,s:7367,m:1351,mp:22.5,ill:true,vol:false,min:false,w:1.0},{n:"Altruciatoxin",k:"Drug",b:5459,s:6378,m:919,mp:16.8,ill:true,vol:false,min:false,w:1.0},{n:"Thermalfoam",k:"Man-made",b:5106,s:6335,m:1229,mp:24.1,ill:false,vol:false,min:false,w:1.0},{n:"Stims",k:"Vice",b:4175,s:5352,m:1177,mp:28.2,ill:false,vol:false,min:false,w:1},{n:"Pressurized Ice",k:"Raw Materials",b:4553,s:5290,m:737,mp:16.2,ill:false,vol:false,min:false,w:1.0},{n:"Medical Supplies",k:"Medical",b:3669,s:5165,m:1496,mp:40.8,ill:false,vol:false,min:false,w:1},{n:"Xa'Pyen",k:"Alloy",b:3184,s:4850,m:1666,mp:52.3,ill:false,vol:false,min:false,w:1.0},{n:"Hephaestanite",k:"Mineral",b:4111,s:4647,m:536,mp:13.0,ill:false,vol:false,min:true,w:1.1},{n:"Omnapoxy",k:"Man-made",b:3680,s:4614,m:934,mp:25.4,ill:false,vol:false,min:false,w:1.0},{n:"Quartz",k:"Metal",b:3526,s:4347,m:821,mp:23.3,ill:false,vol:false,min:true,w:1.1},{n:"Tin",k:"Metal",b:3337,s:3956,m:619,mp:18.5,ill:false,vol:false,min:false,w:1.0},{n:"Copper",k:"Metal",b:3235,s:3713,m:478,mp:14.8,ill:false,vol:false,min:true,w:1.2},{n:"Aluminum",k:"Metal",b:3455,s:3673,m:218,mp:6.3,ill:false,vol:false,min:true,w:1.2},{n:"Corundum",k:"Mineral",b:2910,s:3644,m:734,mp:25.2,ill:false,vol:false,min:true,w:1.1},{n:"Methane",k:"Gas",b:3064,s:3621,m:557,mp:18.2,ill:false,vol:false,min:false,w:1.0},{n:"Scrap",k:"Scrap",b:3032,s:3530,m:498,mp:16.4,ill:false,vol:false,min:false,w:0.97},{n:"Astatine",k:"Halogen",b:2763,s:3483,m:720,mp:26.1,ill:false,vol:false,min:false,w:1},{n:"Iron",k:"Metal",b:2689,s:3359,m:670,mp:24.9,ill:false,vol:false,min:true,w:1.0},{n:"Nitrogen",k:"Gas",b:2430,s:3041,m:611,mp:25.1,ill:false,vol:false,min:false,w:1.07},{n:"Silicon",k:"Raw Materials",b:1913,s:2428,m:515,mp:26.9,ill:false,vol:false,min:false,w:1.0},{n:"Steel",k:"Alloy",b:1495,s:1976,m:481,mp:32.2,ill:false,vol:false,min:false,w:1.0},{n:"DynaFlex",k:"Man-Made",b:1589,s:1918,m:329,mp:20.7,ill:false,vol:false,min:false,w:1.0},{n:"Distilled Spirits",k:"Vice",b:1508,s:1870,m:362,mp:24.0,ill:false,vol:false,min:false,w:1},{n:"Chlorine",k:"Halogen",b:1254,s:1474,m:220,mp:17.5,ill:false,vol:false,min:false,w:1},{n:"Processed Food",k:"Food",b:1202,s:1443,m:241,mp:20.0,ill:false,vol:false,min:false,w:1},{n:"Agricultural Supplies",k:"Agricultural",b:1101,s:1369,m:268,mp:24.3,ill:false,vol:false,min:false,w:0.94},{n:"Fluorine",k:"Halogen",b:1032,s:1258,m:226,mp:21.9,ill:false,vol:false,min:false,w:1},{n:"Revenant Tree Pollen",k:"Vice",b:980,s:1241,m:261,mp:26.6,ill:false,vol:false,min:false,w:1.0},{n:"Hydrogen",k:"Gas",b:762,s:1045,m:283,mp:37.1,ill:false,vol:false,min:false,w:0.68},{n:"Helium",k:"Gas",b:749,s:1034,m:285,mp:38.1,ill:false,vol:false,min:false,w:0.68},{n:"Ammonia",k:"Raw Materials",b:770,s:1015,m:245,mp:31.8,ill:false,vol:false,min:false,w:1.0},{n:"Mercury",k:"Metal",b:748,s:1001,m:253,mp:33.8,ill:false,vol:false,min:false,w:1.0},{n:"Potassium",k:"Mineral",b:431,s:570,m:139,mp:32.3,ill:false,vol:false,min:false,w:1.0},{n:"Human Food Bars",k:"Commodity",b:410,s:492,m:82,mp:20.0,ill:true,vol:false,min:false,w:1.0},{n:"Argon",k:"Gas",b:313,s:448,m:135,mp:43.1,ill:false,vol:false,min:false,w:1.0},{n:"Carbon",k:"Raw Materials",b:265,s:359,m:94,mp:35.5,ill:false,vol:false,min:false,w:1.0},{n:"Waste",k:"Waste",b:212,s:336,m:124,mp:58.5,ill:false,vol:false,min:false,w:0.97}];
+const CAT_COLORS_TRADE={Metal:'var(--gold)',Mineral:'var(--amber)',Gas:'var(--teal)',Drug:'var(--red)','Man-made':'var(--ember)',Natural:'var(--green)',Food:'var(--green)',Vice:'var(--red)',Agricultural:'var(--green)',Scrap:'var(--mid)',Organics:'var(--green)',Halogen:'var(--ember)',Alloy:'var(--gold)','Raw Materials':'var(--dim)',Medical:'var(--green)',Explosive:'var(--red)',Fuel:'var(--dim)',Commodity:'var(--dim)','Man-Made':'var(--ember)',Waste:'var(--dim)',Temporary:'var(--ember)'};
+let tradeSearchStr='',tradeSortKey='s',tradeSortDir=-1;
 function tradeFilter(){
   tradeSearchStr=(document.getElementById('trade-search')?.value||'').toLowerCase();
+  renderTrade();
+}
+function tradeSort(key){
+  if(tradeSortKey===key)tradeSortDir*=-1;
+  else{tradeSortKey=key;tradeSortDir=-1;}
   renderTrade();
 }
 function renderTrade(){
   const body=document.getElementById('trade-body');
   if(!body)return;
-  const filtered=COMMODITIES.filter(c=>!tradeSearchStr||c.name.toLowerCase().includes(tradeSearchStr)||c.ticker.toLowerCase().includes(tradeSearchStr)||(c.bestSell||'').toLowerCase().includes(tradeSearchStr)||(c.note||'').toLowerCase().includes(tradeSearchStr));
+  const filterIll=document.getElementById('trade-filter-ill')?.checked;
+  const filterMin=document.getElementById('trade-filter-min')?.checked;
+  let filtered=COMMODITIES.filter(c=>{
+    if(tradeSearchStr&&!c.n.toLowerCase().includes(tradeSearchStr)&&!c.k.toLowerCase().includes(tradeSearchStr))return false;
+    if(filterIll&&c.ill)return false;
+    if(filterMin&&!c.min)return false;
+    return true;
+  });
+  filtered.sort((a,b)=>{
+    const av=a[tradeSortKey]||0, bv=b[tradeSortKey]||0;
+    return(av-bv)*tradeSortDir;
+  });
+  const fmt=n=>n>=1000000?(n/1e6).toFixed(2)+'M':n>=1000?(n/1000).toFixed(1)+'k':n||'—';
+  const fmtPct=p=>p>0?`+${p}%`:'—';
   body.innerHTML=filtered.map(c=>{
-    const color=CAT_COLORS_TRADE[c.cat]||'var(--dim)';
-    const legalTag=c.legal?'':`<span style="font-size:9px;color:var(--red);margin-left:.3rem">⚠</span>`;
+    const col=CAT_COLORS_TRADE[c.k]||'var(--t2)';
+    const illTag=c.ill?`<span style="font-size:9px;color:var(--fire);margin-left:.25rem">⚠</span>`:'';
+    const volTag=c.vol?`<span style="font-size:9px;color:var(--gold);margin-left:.2rem">💥</span>`:'';
+    const marginCol=c.mp>30?'var(--gold)':c.mp>15?'var(--ember)':'var(--t2)';
+    const sellCol=c.s>50000?'var(--gold)':c.s>10000?'var(--ember)':'var(--t2)';
     return`<tr>
-      <td style="font-weight:500">${c.name}${legalTag}</td>
-      <td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim)">${c.ticker}</td>
-      <td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:${c.val>50000?'var(--gold)':c.val>10000?'var(--amber)':'var(--dim)'}">${c.valStr}</td>
-      <td><span style="font-size:10px;padding:.1rem .3rem;border:.5px solid ${color};border-radius:var(--border-radius);color:${color}">${c.cat}</span></td>
-      <td style="font-size:11px;color:var(--dim)">${c.bestSell}</td>
-      <td style="font-size:10px;color:var(--dim)">${c.note}</td>
+      <td style="font-weight:500">${c.n}${illTag}${volTag}</td>
+      <td><span style="font-size:.65rem;padding:.05rem .3rem;border:.5px solid ${col};border-radius:2px;color:${col}">${c.k}</span></td>
+      <td style="font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--t2)">${fmt(c.b)}</td>
+      <td style="font-family:'Share Tech Mono',monospace;font-size:.75rem;color:${sellCol}">${fmt(c.s)}</td>
+      <td style="font-family:'Share Tech Mono',monospace;font-size:.75rem;color:${marginCol}">${fmtPct(c.mp)}</td>
+      <td style="font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--t3)">${fmt(c.m)}/SCU</td>
     </tr>`;
   }).join('');
 }
@@ -2270,20 +2328,22 @@ function setTradeTab(t,btn){
 // ===== UNIFIED SHOP DIRECTORY =====
 const ITEMS=[
   // ── SHIPS (Rent & Buy) ──
-  {name:'Avenger Titan',cat:'ship',sub:'Starter / Cargo',loc:'Lorville New Deal · Area 18 Astro Armada · Grim Hex',note:'Best all-round starter — 8 SCU cargo, versatile',rent:'~5k/day',buy:'~1.36M'},
+  {name:'Avenger Titan',cat:'ship',sub:'Starter / Cargo',loc:'Lorville New Deal · Area 18 Astro Armada',note:'Best all-round starter — 8 SCU cargo, versatile',rent:'~5k/day',buy:'~1.36M'},
   {name:'Aurora LN',cat:'ship',sub:'Starter / Combat',loc:'Lorville New Deal · Area 18 Astro Armada',note:'Cheapest combat ship',rent:'~3k/day',buy:'~950k'},
   {name:'Aurora CL',cat:'ship',sub:'Starter / Cargo',loc:'Lorville New Deal · Area 18 Astro Armada',note:'16 SCU cargo variant',rent:'~3k/day',buy:'~950k'},
   {name:'Mustang Alpha',cat:'ship',sub:'Starter',loc:'Lorville New Deal · Area 18 Astro Armada',note:'Fast starter, minimal cargo',rent:'~3k/day',buy:'~900k'},
   {name:'Cutter',cat:'ship',sub:'Cargo',loc:'Lorville New Deal · Area 18 Astro Armada',note:'12 off-grid SCU, good early haul',rent:'~4k/day',buy:'~430k'},
-  {name:'Gladius',cat:'ship',sub:'Light Fighter',loc:'Lorville New Deal · Area 18 Astro Armada · Grim Hex Skutters',note:'Best dogfighter — good learning ship',rent:'~7k/day',buy:'~2.38M'},
+  {name:'Gladius',cat:'ship',sub:'Light Fighter',loc:'Lorville New Deal · Area 18 Astro Armada',note:'Best dogfighter — good learning ship',rent:'~7k/day',buy:'~2.38M'},
   {name:'Arrow',cat:'ship',sub:'Light Fighter',loc:'Lorville New Deal · Area 18 Astro Armada',note:'Fixed weapons only — high skill ceiling',rent:'~6k/day',buy:'~1.1M'},
   {name:'Hawk',cat:'ship',sub:'Light Fighter',loc:'Lorville New Deal',note:'Built-in EMP — S3 weapons on light frame',rent:'~6k/day',buy:'~1.2M'},
   {name:'F7C Hornet Mk II',cat:'ship',sub:'Medium Fighter',loc:'Lorville New Deal · Area 18 Astro Armada',note:'Org combat workhorse — 4x S3 hardpoints',rent:'~10k/day',buy:'~2.8M'},
   {name:'F7C-M Super Hornet Mk II',cat:'ship',sub:'Medium Fighter',loc:'Area 18 Astro Armada',note:'2-seat version — gunner turret',rent:'~12k/day',buy:'~4M'},
-  {name:'Sabre',cat:'ship',sub:'Stealth Fighter',loc:'Grim Hex — Teach\'s Ship Shop ONLY',note:'Stealth fighter — only at Grim Hex',rent:'~10k/day',buy:'~2.6M'},
+  {name:'Sabre',cat:'ship',sub:'Stealth Fighter',loc:'Levski — Teach\'s Ship Shop',note:'Stealth fighter — Levski only (Teach\'s Ship Shop)',rent:'~10k/day',buy:'~2.6M'},
   {name:'Vanguard Harbinger',cat:'ship',sub:'Heavy Fighter',loc:'Lorville New Deal',note:'ERT specialist — built-in bed bay',rent:'~30k/day',buy:'~10.93M'},
-  {name:'Cutlass Black',cat:'ship',sub:'Cargo / Multi-role',loc:'Lorville New Deal · Area 18 Astro Armada · Grim Hex',note:'Most versatile ship in game',rent:'~8k/day',buy:'~1.7M'},
-  {name:'Corsair',cat:'ship',sub:'Combat / Exploration',loc:'Grim Hex — Teach\'s Ship Shop · Lorville New Deal',note:'Multi-role explorer — S4 nose weapons',rent:'~14k/day',buy:'~3.2M'},
+  {name:'Cutlass Black',cat:'ship',sub:'Cargo / Multi-role',loc:'Lorville New Deal · Area 18 Astro Armada',note:'Most versatile ship in game',rent:'~8k/day',buy:'~1.7M'},
+  {name:'Grey\'s Market Shiv',cat:'ship',sub:'Multi-role Fighter',loc:'Levski (Teach\'s Ship Shop) · Lorville',note:'~5.5M aUEC · cobbled-together multi-role · 32 SCU cargo · bed · great solo ship',rent:'~15k/day',buy:'~5.5M'},
+  {name:'Drake Clipper',cat:'ship',sub:'Exploration / Cargo',loc:'Lorville / Area 18',note:'~3.62M aUEC · 4.8 new · versatile explorer/cargo · Drake aesthetic',rent:'~12k/day',buy:'~3.62M'},
+  {name:'Corsair',cat:'ship',sub:'Combat / Exploration',loc:'Lorville New Deal',note:'Multi-role explorer — S4 nose weapons',rent:'~14k/day',buy:'~3.2M'},
   {name:'Cutlass Red',cat:'ship',sub:'Medical',loc:'Lorville New Deal · Area 18 Astro Armada',note:'Org support — medical ship',rent:'~9k/day',buy:'~1.75M'},
   {name:'Freelancer',cat:'ship',sub:'Cargo',loc:'Lorville New Deal · Area 18 Astro Armada',note:'Good mid-tier cargo',rent:'~9k/day',buy:'~3.48M'},
   {name:'Constellation Taurus',cat:'ship',sub:'Cargo / Combat',loc:'Lorville New Deal · Area 18 Astro Armada',note:'174 SCU + 4x S3 guns',rent:'~18k/day',buy:'~5.4M'},
@@ -2291,14 +2351,14 @@ const ITEMS=[
   {name:'C2 Hercules Starlifter',cat:'ship',sub:'Large Cargo',loc:'Lorville New Deal · Area 18 Astro Armada',note:'696 SCU — Covalex senior haul ship',rent:'~45k/day',buy:'~18.9M'},
   {name:'Prospector',cat:'ship',sub:'Mining',loc:'Lorville New Deal · Area 18 Astro Armada',note:'Solo asteroid mining — standard choice',rent:'~12k/day',buy:'~2.1M'},
   {name:'MOLE',cat:'ship',sub:'Mining',loc:'Lorville New Deal · Area 18 Astro Armada',note:'3-seat mining ship',rent:'~25k/day',buy:'~9.38M'},
-  {name:'Vulture',cat:'ship',sub:'Salvage',loc:'Lorville New Deal · Grim Hex',note:'Best solo salvage ship',rent:'~9k/day',buy:'~1.9M'},
+  {name:'Vulture',cat:'ship',sub:'Salvage',loc:'Lorville New Deal',note:'Best solo salvage ship',rent:'~9k/day',buy:'~1.9M'},
   {name:'Reclaimer',cat:'ship',sub:'Large Salvage',loc:'Lorville New Deal · Area 18 Astro Armada',note:'Multi-crew large salvage — org ship',rent:'~60k/day',buy:'~33.34M'},
   {name:'Greycat ROC',cat:'ship',sub:'Ground Mining',loc:'Lorville New Deal · Area 18 Astro Armada',note:'Surface gem mining vehicle',rent:'~5k/day',buy:'~172k'},
   {name:'C1 Spirit',cat:'ship',sub:'Cargo / Daily Driver',loc:'Orison — Crusader Showroom',note:'Versatile Crusader daily driver',rent:'~10k/day',buy:'~2.7M'},
   {name:'Clipper',cat:'ship',sub:'Cargo / Multi-role',loc:'Lorville New Deal · Area 18 Astro Armada',note:'4.8 new — ~3.62M aUEC — best all-round daily driver',rent:'unconfirmed',buy:'~3.62M'},
-  {name:'RSI Perseus',cat:'ship',sub:'Heavy Corvette',loc:'Lorville New Deal',note:'4.8 new — ~40M aUEC — capital anti-ship',rent:'N/A',buy:'~40M'},
-  {name:'RSI Salvation',cat:'ship',sub:'Light Salvage',loc:'Lorville New Deal · Area 18',note:'4.8 new — ~1.1M aUEC — compact solo salvager',rent:'unconfirmed',buy:'~1.1M'},
-  {name:'RSI Hermes',cat:'ship',sub:'Cargo',loc:'Lorville New Deal · Area 18',note:'4.8 new — ~7M aUEC — strong tractor beam, good cargo',rent:'unconfirmed',buy:'~7M'},
+  {name:'RSI Perseus',cat:'ship',sub:'Heavy Corvette / Multi-crew',loc:'Lorville New Deal',note:'~39.68M aUEC · 4.8 new · 7 crew · heavy gunship',rent:'N/A',buy:'~39.68M'},
+  {name:'RSI Salvation',cat:'ship',sub:'Salvage',loc:'Lorville / Area 18',note:'~1.185M aUEC · 4.8 new · solo salvager · cheapest entry to salvage',rent:'~5k/day',buy:'~1.19M'},
+  {name:'RSI Hermes',cat:'ship',sub:'Cargo',loc:'Lorville / Area 18',note:'~7.11M aUEC · 4.8 new · 288 SCU · strong tractor beam',rent:'~20k/day',buy:'~7.11M'},
 
   // ── SHIP WEAPONS ──
   {name:'Deadbolt I Cannon',cat:'ship-weapon',sub:'S1 Ballistic',loc:'Lorville Centermass (L19) · Grim Hex Skutters · Area 18 Dumper\'s Depot',note:'Esperia mfr — meta fixed ballistic'},
@@ -2511,7 +2571,7 @@ function renderLocs(){
 const SDB_SHIPS = [
 // ===== AEGIS DYNAMICS =====
 {name:'Avenger Stalker',mfr:'Aegis',roles:['combat','utility'],crew:'1',scu:0,auec:1508220,pledge:60,avail:'ingame',loc:'Lorville / Area 18'},
-{name:'Avenger Titan',mfr:'Aegis',roles:['cargo','starter'],crew:'1',scu:8,auec:1358280,pledge:60,avail:'ingame',loc:'Lorville / Area 18 / Grim Hex'},
+{name:'Avenger Titan',mfr:'Aegis',roles:['cargo','starter'],crew:'1',scu:8,auec:1358280,pledge:60,avail:'ingame',loc:'Lorville / Area 18'},
 {name:'Avenger Titan Renegade',mfr:'Aegis',roles:['combat','cargo'],crew:'1',scu:8,auec:1759590,pledge:75,avail:'ingame',loc:'Lorville'},
 {name:'Avenger Warlock',mfr:'Aegis',roles:['combat','utility'],crew:'1',scu:0,auec:2136645,pledge:85,avail:'ingame',loc:'Lorville'},
 {name:'Eclipse',mfr:'Aegis',roles:['bomber','stealth'],crew:'1',scu:0,auec:7541100,pledge:300,avail:'ingame',loc:'Lorville'},
@@ -2528,7 +2588,7 @@ const SDB_SHIPS = [
 {name:'Reclaimer',mfr:'Aegis',roles:['industrial','utility'],crew:'5',scu:420,auec:33339600,pledge:400,avail:'ingame',loc:'Lorville / Levski'},
 {name:'Redeemer',mfr:'Aegis',roles:['combat'],crew:'5',scu:2,auec:9803430,pledge:330,avail:'ingame',loc:'Lorville'},
 {name:'Retaliator Bomber',mfr:'Aegis',roles:['bomber'],crew:'5',scu:74,auec:7541100,pledge:275,avail:'ingame',loc:'Lorville'},
-{name:'Sabre',mfr:'Aegis',roles:['combat'],crew:'1',scu:0,auec:2600000,pledge:170,avail:'ingame',loc:'Grim Hex'},
+{name:'Sabre',mfr:'Aegis',roles:['combat'],crew:'1',scu:0,auec:2600000,pledge:170,avail:'ingame',loc:'Levski (Teach\'s Ship Shop)'},
 {name:'Sabre Comet',mfr:'Aegis',roles:['combat'],crew:'1',scu:0,auec:null,pledge:185,avail:'pledge',loc:'Pledge only'},
 {name:'Sabre Raven',mfr:'Aegis',roles:['combat','utility'],crew:'1',scu:0,auec:null,pledge:null,avail:'concept',loc:'Not yet available'},
 {name:'Vanguard Harbinger',mfr:'Aegis',roles:['combat','bomber'],crew:'2',scu:0,auec:10934595,pledge:310,avail:'ingame',loc:'Lorville'},
@@ -2568,7 +2628,7 @@ const SDB_SHIPS = [
 
 // ===== ARGO ASTRONAUTICS =====
 {name:'Mole',mfr:'Argo',roles:['mining'],crew:'3',scu:96,auec:9376763,pledge:315,avail:'ingame',loc:'Lorville / Levski'},
-{name:'MPUV Cargo',mfr:'Argo',roles:['cargo','utility'],crew:'1',scu:16,auec:null,pledge:35,avail:'pledge',loc:'Pledge only'},
+{name:'MPUV Cargo',mfr:'Argo',roles:['cargo','utility'],crew:'1',scu:2,auec:null,pledge:35,avail:'pledge',loc:'Pledge only'},
 {name:'MPUV Personnel',mfr:'Argo',roles:['utility'],crew:'1',scu:0,auec:null,pledge:35,avail:'pledge',loc:'Pledge only'},
 {name:'RAFT',mfr:'Argo',roles:['cargo'],crew:'1',scu:192,auec:null,pledge:165,avail:'ingame',loc:'Lorville'},
 {name:'SRV',mfr:'Argo',roles:['utility'],crew:'1',scu:0,auec:null,pledge:70,avail:'pledge',loc:'Pledge only'},
@@ -2579,7 +2639,7 @@ const SDB_SHIPS = [
 
 // ===== CONSOLIDATED OUTLAND =====
 {name:'HoverQuad',mfr:'Consolidated',roles:['ground'],crew:'1',scu:0,auec:null,pledge:40,avail:'pledge',loc:'Pledge only'},
-{name:'Mustang Alpha',mfr:'Consolidated',roles:['starter'],crew:'1',scu:2,auec:null,pledge:45,avail:'ingame',loc:'Lorville / Grim Hex'},
+{name:'Mustang Alpha',mfr:'Consolidated',roles:['starter'],crew:'1',scu:4,auec:null,pledge:45,avail:'ingame',loc:'Lorville'},
 {name:'Mustang Alpha Vindicator',mfr:'Consolidated',roles:['combat'],crew:'1',scu:0,auec:null,pledge:65,avail:'pledge',loc:'Pledge only'},
 {name:'Mustang Beta',mfr:'Consolidated',roles:['cargo','utility'],crew:'1',scu:4,auec:null,pledge:65,avail:'ingame',loc:'Lorville'},
 {name:'Mustang Delta',mfr:'Consolidated',roles:['combat'],crew:'1',scu:0,auec:null,pledge:65,avail:'ingame',loc:'Lorville'},
@@ -2597,23 +2657,24 @@ const SDB_SHIPS = [
 {name:'Ares Inferno',mfr:'Crusader',roles:['combat'],crew:'1',scu:0,auec:null,pledge:250,avail:'ingame',loc:'Orison'},
 
 // ===== DRAKE INTERPLANETARY =====
-{name:'Buccaneer',mfr:'Drake',roles:['combat'],crew:'1',scu:0,auec:null,pledge:110,avail:'ingame',loc:'Lorville / Grim Hex'},
+{name:'Buccaneer',mfr:'Drake',roles:['combat'],crew:'1',scu:0,auec:null,pledge:110,avail:'ingame',loc:'Lorville'},
 {name:'Caterpillar',mfr:'Drake',roles:['cargo'],crew:'5',scu:576,auec:11850300,pledge:330,avail:'ingame',loc:'Lorville'},
 {name:'Caterpillar Pirate',mfr:'Drake',roles:['cargo','combat'],crew:'5',scu:576,auec:null,pledge:350,avail:'pledge',loc:'Pledge only'},
-{name:'Corsair',mfr:'Drake',roles:['exploration','combat'],crew:'4',scu:96,auec:3200000,pledge:225,avail:'ingame',loc:'Grim Hex / Lorville'},
-{name:'Cutlass Black',mfr:'Drake',roles:['cargo','combat'],crew:'2',scu:46,auec:1700000,pledge:100,avail:'ingame',loc:'Lorville / Area 18 / Grim Hex / Levski'},
-{name:'Cutlass Blue',mfr:'Drake',roles:['combat','utility'],crew:'2',scu:4,auec:null,pledge:155,avail:'ingame',loc:'Lorville / Grim Hex'},
+{name:'Corsair',mfr:'Drake',roles:['exploration','combat'],crew:'4',scu:72,auec:3200000,pledge:225,avail:'ingame',loc:'Lorville'},
+{name:'Cutlass Black',mfr:'Drake',roles:['cargo','combat'],crew:'2',scu:46,auec:1700000,pledge:100,avail:'ingame',loc:'Lorville / Area 18 / Levski'},
+{name:'Cutlass Blue',mfr:'Drake',roles:['combat','utility'],crew:'2',scu:12,auec:null,pledge:155,avail:'ingame',loc:'Lorville'},
 {name:'Cutlass Red',mfr:'Drake',roles:['medical'],crew:'2',scu:0,auec:2200000,pledge:155,avail:'ingame',loc:'Lorville / Area 18'},
-{name:'Cutter',mfr:'Drake',roles:['cargo','starter'],crew:'1',scu:12,auec:430000,pledge:55,avail:'ingame',loc:'Lorville / Grim Hex'},
-{name:'Cutter Rambler',mfr:'Drake',roles:['cargo','exploration'],crew:'1',scu:12,auec:null,pledge:65,avail:'ingame',loc:'Lorville'},
+{name:'Cutter',mfr:'Drake',roles:['cargo','starter'],crew:'1',scu:4,auec:430000,pledge:55,avail:'ingame',loc:'Lorville'},
+{name:'Cutter Rambler',mfr:'Drake',roles:['cargo','exploration'],crew:'1',scu:2,auec:null,pledge:65,avail:'ingame',loc:'Lorville'},
 {name:'Cutter Scout',mfr:'Drake',roles:['exploration'],crew:'1',scu:2,auec:null,pledge:65,avail:'ingame',loc:'Lorville'},
 {name:'Dragonfly',mfr:'Drake',roles:['ground','racing'],crew:'1',scu:0,auec:null,pledge:35,avail:'pledge',loc:'Pledge only'},
 {name:'Dragonfly Black',mfr:'Drake',roles:['ground','racing'],crew:'1',scu:0,auec:null,pledge:35,avail:'pledge',loc:'Pledge only'},
-{name:'Ironclad',mfr:'Drake',roles:['cargo'],crew:'6',scu:2304,auec:null,pledge:460,avail:'pledge',loc:'Pledge only'},
+{name:'Ironclad',mfr:'Drake',roles:['cargo'],crew:'7',scu:2204,auec:null,pledge:460,avail:'pledge',loc:'Pledge only'},
 {name:'Ironclad Assault',mfr:'Drake',roles:['cargo','combat'],crew:'6',scu:1440,auec:null,pledge:535,avail:'pledge',loc:'Pledge only'},
 {name:'Kraken',mfr:'Drake',roles:['cargo','utility'],crew:'10',scu:3792,auec:null,pledge:1650,avail:'concept',loc:'Pledge only'},
 {name:'Kraken Privateer',mfr:'Drake',roles:['cargo','utility'],crew:'10',scu:768,auec:null,pledge:2000,avail:'concept',loc:'Pledge only'},
-{name:'Vulture',mfr:'Drake',roles:['industrial'],crew:'1',scu:12,auec:1900000,pledge:110,avail:'ingame',loc:'Lorville / Grim Hex'},
+{name:'Clipper',mfr:'Drake',roles:['exploration','cargo'],crew:'2',scu:12,auec:3619000,pledge:185,avail:'ingame',loc:'Lorville / Area 18'},
+{name:'Vulture',mfr:'Drake',roles:['industrial'],crew:'1',scu:12,auec:1900000,pledge:110,avail:'ingame',loc:'Lorville'},
 
 // ===== ESPERIA =====
 {name:'Blade',mfr:'Esperia',roles:['combat'],crew:'1',scu:0,auec:7796250,pledge:250,avail:'ingame',loc:'Area 18'},
@@ -2629,7 +2690,9 @@ const SDB_SHIPS = [
 {name:'Syulen',mfr:'Gatac',roles:['combat'],crew:'1',scu:0,auec:null,pledge:90,avail:'ingame',loc:'Area 18'},
 
 // ===== GREYCAT INDUSTRIAL =====
+{name:'Shiv',mfr:'Grey\'s Market',roles:['combat','cargo'],crew:'2',scu:32,auec:5500000,pledge:null,avail:'ingame',loc:'Levski / Lorville'},
 {name:'PTV',mfr:'Greycat',roles:['ground'],crew:'2',scu:0,auec:null,pledge:12,avail:'pledge',loc:'Pledge only'},
+{name:'MDC',mfr:'Greycat',roles:['ground','utility'],crew:'1',scu:0,auec:127000,pledge:40,avail:'ingame',loc:'Lorville / Area 18'},
 {name:'ROC',mfr:'Greycat',roles:['mining','ground'],crew:'1',scu:0.8,auec:172000,pledge:55,avail:'ingame',loc:'Lorville / Outposts'},
 {name:'ROC-DS',mfr:'Greycat',roles:['mining','ground'],crew:'2',scu:0.8,auec:null,pledge:75,avail:'pledge',loc:'Pledge only'},
 {name:'STV',mfr:'Greycat',roles:['ground'],crew:'1',scu:0,auec:null,pledge:35,avail:'pledge',loc:'Pledge only'},
@@ -2648,11 +2711,11 @@ const SDB_SHIPS = [
 
 // ===== MISC =====
 {name:'Freelancer',mfr:'MISC',roles:['cargo','utility'],crew:'4',scu:66,auec:null,pledge:110,avail:'ingame',loc:'Area 18 / Lorville'},
-{name:'Freelancer DUR',mfr:'MISC',roles:['exploration','cargo'],crew:'4',scu:40,auec:null,pledge:140,avail:'ingame',loc:'Area 18'},
+{name:'Freelancer DUR',mfr:'MISC',roles:['exploration','cargo'],crew:'2',scu:36,auec:null,pledge:140,avail:'ingame',loc:'Area 18'},
 {name:'Freelancer MAX',mfr:'MISC',roles:['cargo'],crew:'4',scu:120,auec:null,pledge:155,avail:'ingame',loc:'Area 18'},
 {name:'Freelancer MIS',mfr:'MISC',roles:['combat','utility'],crew:'4',scu:0,auec:null,pledge:165,avail:'ingame',loc:'Area 18'},
 {name:'Hull A',mfr:'MISC',roles:['cargo'],crew:'1',scu:64,auec:null,pledge:50,avail:'ingame',loc:'Area 18'},
-{name:'Hull B',mfr:'MISC',roles:['cargo'],crew:'1',scu:384,auec:null,pledge:90,avail:'ingame',loc:'Area 18'},
+{name:'Hull B',mfr:'MISC',roles:['cargo'],crew:'2',scu:512,auec:null,pledge:90,avail:'ingame',loc:'Area 18'},
 {name:'Hull C',mfr:'MISC',roles:['cargo'],crew:'3',scu:4608,auec:15710625,pledge:325,avail:'ingame',loc:'Lorville'},
 {name:'Hull D',mfr:'MISC',roles:['cargo'],crew:'5',scu:6912,auec:null,pledge:550,avail:'concept',loc:'Pledge only'},
 {name:'Hull E',mfr:'MISC',roles:['cargo'],crew:'5',scu:12000,auec:null,pledge:750,avail:'concept',loc:'Pledge only'},
@@ -2673,9 +2736,9 @@ const SDB_SHIPS = [
 // ===== ORIGIN JUMPWORKS =====
 {name:'100i',mfr:'Origin',roles:['starter','utility'],crew:'1',scu:2,auec:null,pledge:55,avail:'ingame',loc:'Area 18'},
 {name:'125a',mfr:'Origin',roles:['combat'],crew:'1',scu:2,auec:null,pledge:65,avail:'ingame',loc:'Area 18'},
-{name:'135c',mfr:'Origin',roles:['cargo'],crew:'1',scu:8,auec:null,pledge:70,avail:'ingame',loc:'Area 18'},
-{name:'300i',mfr:'Origin',roles:['utility','exploration'],crew:'1',scu:4,auec:null,pledge:70,avail:'ingame',loc:'Area 18'},
-{name:'315p',mfr:'Origin',roles:['exploration'],crew:'1',scu:8,auec:null,pledge:75,avail:'ingame',loc:'Area 18'},
+{name:'135c',mfr:'Origin',roles:['cargo'],crew:'1',scu:6,auec:null,pledge:70,avail:'ingame',loc:'Area 18'},
+{name:'300i',mfr:'Origin',roles:['utility','exploration'],crew:'1',scu:8,auec:null,pledge:70,avail:'ingame',loc:'Area 18'},
+{name:'315p',mfr:'Origin',roles:['exploration'],crew:'1',scu:12,auec:null,pledge:75,avail:'ingame',loc:'Area 18'},
 {name:'325a',mfr:'Origin',roles:['combat'],crew:'1',scu:4,auec:null,pledge:85,avail:'ingame',loc:'Area 18'},
 {name:'350r',mfr:'Origin',roles:['racing'],crew:'1',scu:0,auec:null,pledge:125,avail:'ingame',loc:'Area 18'},
 {name:'400i',mfr:'Origin',roles:['exploration','passenger'],crew:'3',scu:42,auec:11466000,pledge:325,avail:'ingame',loc:'Area 18 / Lorville'},
@@ -2691,25 +2754,25 @@ const SDB_SHIPS = [
 {name:'Apollo Medivac',mfr:'RSI',roles:['medical'],crew:'3',scu:32,auec:8295210,pledge:300,avail:'ingame',loc:'Levski'},
 {name:'Apollo Triage',mfr:'RSI',roles:['medical'],crew:'3',scu:32,auec:7541100,pledge:275,avail:'ingame',loc:'Levski'},
 {name:'Arrastra',mfr:'RSI',roles:['mining'],crew:'5',scu:576,auec:null,pledge:575,avail:'concept',loc:'Pledge only'},
-{name:'Aurora CL',mfr:'RSI',roles:['cargo','starter'],crew:'1',scu:16,auec:null,pledge:30,avail:'ingame',loc:'Lorville / Grim Hex'},
-{name:'Aurora ES',mfr:'RSI',roles:['starter'],crew:'1',scu:6,auec:null,pledge:25,avail:'ingame',loc:'Lorville / Grim Hex'},
-{name:'Aurora LN',mfr:'RSI',roles:['combat','starter'],crew:'1',scu:6,auec:null,pledge:40,avail:'ingame',loc:'Lorville / Grim Hex'},
+{name:'Aurora CL',mfr:'RSI',roles:['cargo','starter'],crew:'1',scu:16,auec:null,pledge:30,avail:'ingame',loc:'Lorville'},
+{name:'Aurora ES',mfr:'RSI',roles:['starter'],crew:'1',scu:6,auec:null,pledge:25,avail:'ingame',loc:'Lorville'},
+{name:'Aurora LN',mfr:'RSI',roles:['combat','starter'],crew:'1',scu:6,auec:null,pledge:40,avail:'ingame',loc:'Lorville'},
 {name:'Aurora LX',mfr:'RSI',roles:['exploration','starter'],crew:'1',scu:6,auec:null,pledge:35,avail:'ingame',loc:'Lorville'},
-{name:'Aurora MR',mfr:'RSI',roles:['starter'],crew:'1',scu:8,auec:null,pledge:30,avail:'ingame',loc:'Lorville / Grim Hex'},
+{name:'Aurora MR',mfr:'RSI',roles:['starter'],crew:'1',scu:8,auec:null,pledge:30,avail:'ingame',loc:'Lorville'},
 {name:'Constellation Andromeda',mfr:'RSI',roles:['cargo','combat'],crew:'4',scu:96,auec:9652608,pledge:250,avail:'ingame',loc:'Lorville'},
 {name:'Constellation Aquila',mfr:'RSI',roles:['exploration','cargo'],crew:'4',scu:96,auec:11577384,pledge:325,avail:'ingame',loc:'Lorville'},
 {name:'Constellation Phoenix',mfr:'RSI',roles:['passenger','cargo'],crew:'4',scu:80,auec:14076720,pledge:350,avail:'ingame',loc:'Lorville'},
 {name:'Constellation Taurus',mfr:'RSI',roles:['cargo','combat'],crew:'4',scu:174,auec:8043840,pledge:210,avail:'ingame',loc:'Lorville / Levski'},
 {name:'Mantis',mfr:'RSI',roles:['utility','combat'],crew:'1',scu:0,auec:null,pledge:150,avail:'ingame',loc:'Lorville / Area 18'},
 {name:'Orion',mfr:'RSI',roles:['mining'],crew:'7',scu:384,auec:null,pledge:650,avail:'concept',loc:'Pledge only'},
-{name:'Perseus',mfr:'RSI',roles:['combat'],crew:'7',scu:96,auec:null,pledge:800,avail:'concept',loc:'Pledge only'},
+{name:'Perseus',mfr:'RSI',roles:['combat'],crew:'7',scu:96,auec:39680000,pledge:800,avail:'ingame',loc:'Lorville New Deal'},
 {name:'Polaris',mfr:'RSI',roles:['combat'],crew:'12',scu:576,auec:null,pledge:975,avail:'ingame',loc:'Area 18 (limited)'},
 {name:'Scorpius',mfr:'RSI',roles:['combat'],crew:'2',scu:0,auec:null,pledge:220,avail:'ingame',loc:'Lorville'},
 {name:'Scorpius Antares',mfr:'RSI',roles:['combat'],crew:'2',scu:0,auec:null,pledge:235,avail:'ingame',loc:'Lorville'},
 {name:'Ursa Rover',mfr:'RSI',roles:['ground','exploration'],crew:'4',scu:0,auec:null,pledge:70,avail:'ingame',loc:'Lorville'},
 {name:'Zeus Mk II CL',mfr:'RSI',roles:['cargo'],crew:'2',scu:128,auec:6350000,pledge:200,avail:'ingame',loc:'Lorville / Area 18'},
-{name:'Zeus Mk II ES',mfr:'RSI',roles:['exploration','cargo'],crew:'2',scu:64,auec:null,pledge:185,avail:'ingame',loc:'Lorville'},
-{name:'Zeus Mk II MR',mfr:'RSI',roles:['cargo','utility'],crew:'2',scu:96,auec:null,pledge:195,avail:'ingame',loc:'Lorville'},
+{name:'Zeus Mk II ES',mfr:'RSI',roles:['exploration','cargo'],crew:'2',scu:32,auec:null,pledge:185,avail:'ingame',loc:'Lorville'},
+{name:'Zeus Mk II MR',mfr:'RSI',roles:['cargo','utility'],crew:'2',scu:16,auec:null,pledge:195,avail:'ingame',loc:'Lorville'},
 
 // ===== TUMBRIL =====
 {name:'Cyclone',mfr:'Tumbril',roles:['ground'],crew:'1',scu:0,auec:null,pledge:55,avail:'ingame',loc:'Area 18'},
@@ -2736,7 +2799,7 @@ const SDB_SHIPS = [
 {name:'Terrapin Medic',mfr:'Anvil',roles:['medical','exploration'],crew:'2',scu:2,auec:null,pledge:235,avail:'pledge',loc:'Pledge only'},
 
 // ===== MISSING ARGO =====
-{name:'MOTH',mfr:'Argo',roles:['industrial'],crew:'3',scu:96,auec:null,pledge:null,avail:'concept',loc:'4.8 new — unconfirmed price'},
+{name:'MOTH',mfr:'Crusader',roles:['cargo','industrial'],crew:'2',scu:224,auec:null,pledge:null,avail:'concept',loc:'4.8 new — unconfirmed price'},
 {name:'CSV Cargo',mfr:'Argo',roles:['cargo'],crew:'2',scu:0,auec:null,pledge:null,avail:'concept',loc:'Not yet available'},
 {name:'ATLS',mfr:'Argo',roles:['utility','ground'],crew:'1',scu:0,auec:390000,pledge:null,avail:'ingame',loc:'Lorville / Area 18'},
 {name:'ATLS GEO',mfr:'Argo',roles:['mining','ground'],crew:'1',scu:0,auec:120000,pledge:null,avail:'ingame',loc:'Lorville / Outposts'},
@@ -2750,8 +2813,7 @@ const SDB_SHIPS = [
 {name:'Intrepid',mfr:'Crusader',roles:['cargo','starter'],crew:'1',scu:8,auec:null,pledge:null,avail:'ingame',loc:'4.8 new — unconfirmed price'},
 
 // ===== MISSING DRAKE =====
-{name:'Clipper',mfr:'Drake',roles:['cargo'],crew:'1',scu:144,auec:null,pledge:null,avail:'ingame',loc:'4.8 new — unconfirmed price'},
-{name:'Herald',mfr:'Drake',roles:['utility'],crew:'1',scu:2,auec:null,pledge:90,avail:'ingame',loc:'Lorville / Grim Hex'},
+{name:'Herald',mfr:'Drake',roles:['utility'],crew:'1',scu:2,auec:null,pledge:90,avail:'ingame',loc:'Lorville'},
 {name:'Cutlass Steel',mfr:'Drake',roles:['combat','utility'],crew:'4',scu:4,auec:null,pledge:195,avail:'pledge',loc:'Pledge only'},
 {name:'Mule',mfr:'Drake',roles:['cargo','ground'],crew:'1',scu:4,auec:null,pledge:35,avail:'ingame',loc:'Lorville'},
 {name:'Golem',mfr:'Drake',roles:['industrial','utility'],crew:'2',scu:0,auec:null,pledge:null,avail:'ingame',loc:'4.8 new — unconfirmed price'},
@@ -2770,7 +2832,7 @@ const SDB_SHIPS = [
 {name:'Fury Miru',mfr:'Mirai',roles:['combat'],crew:'1',scu:0,auec:null,pledge:55,avail:'pledge',loc:'Pledge only'},
 
 // ===== MISSING MISC =====
-{name:'Fortune',mfr:'MISC',roles:['industrial','utility'],crew:'1',scu:32,auec:null,pledge:null,avail:'ingame',loc:'4.8 new — unconfirmed price'},
+{name:'Fortune',mfr:'Banu',roles:['cargo'],crew:'1',scu:12,auec:null,pledge:null,avail:'ingame',loc:'4.8 new — unconfirmed price'},
 {name:'Starlite',mfr:'MISC',roles:['starter','utility'],crew:'1',scu:0,auec:null,pledge:null,avail:'concept',loc:'Leaked — not yet available · 4×S2 · No QD'},
 
 // ===== MISSING ORIGIN =====
@@ -2779,9 +2841,9 @@ const SDB_SHIPS = [
 // ===== MISSING RSI =====
 {name:'Aurora SE',mfr:'RSI',roles:['starter'],crew:'1',scu:6,auec:null,pledge:30,avail:'pledge',loc:'Pledge only'},
 {name:'Aurora Mk2',mfr:'RSI',roles:['starter','utility'],crew:'1',scu:8,auec:null,pledge:null,avail:'ingame',loc:'4.8 new — unconfirmed price'},
-{name:'Hermes',mfr:'RSI',roles:['cargo'],crew:'2',scu:96,auec:null,pledge:null,avail:'ingame',loc:'4.8 new — unconfirmed price'},
+{name:'Hermes',mfr:'RSI',roles:['cargo'],crew:'2',scu:288,auec:7110180,pledge:220,avail:'ingame',loc:'Lorville / Area 18'},
 {name:'Meteor',mfr:'RSI',roles:['combat'],crew:'1',scu:0,auec:null,pledge:null,avail:'ingame',loc:'4.8 new — unconfirmed price'},
-{name:'Salvation',mfr:'RSI',roles:['industrial','starter'],crew:'1',scu:0,auec:null,pledge:null,avail:'ingame',loc:'4.8 new — unconfirmed price'},
+{name:'Salvation',mfr:'RSI',roles:['industrial'],crew:'1',scu:6,auec:1185030,pledge:60,avail:'ingame',loc:'Lorville / Area 18'},
 {name:'Bengal Carrier',mfr:'RSI',roles:['combat'],crew:'800',scu:0,auec:null,pledge:null,avail:'concept',loc:'Not player-purchasable'},
 {name:'Lynx Rover',mfr:'RSI',roles:['ground','exploration'],crew:'2',scu:0,auec:null,pledge:null,avail:'ingame',loc:'Lorville'},
 
@@ -3474,6 +3536,6 @@ document.addEventListener('DOMContentLoaded',function(){
   missFilter();
 });
 </script>
-<footer>CATFIGHT ORG &nbsp;·&nbsp; STAR CITIZEN 4.8 &nbsp;·&nbsp; DATA: SC WIKI API + SC CRAFTER + 4.8.0.11825000 DATAMINE &nbsp;·&nbsp; PRICES: UEX 4.7.2 &nbsp;·&nbsp; BETA v0.7 &nbsp;·&nbsp; NOT FINANCIAL ADVICE</footer>
+<footer>CATFIGHT ORG &nbsp;·&nbsp; STAR CITIZEN 4.8 &nbsp;·&nbsp; DATA: SC WIKI API + SC CRAFTER + 4.8.0.11825000 DATAMINE &nbsp;·&nbsp; PRICES: UEX 4.7.2 &nbsp;·&nbsp; BETA v0.8 &nbsp;·&nbsp; NOT FINANCIAL ADVICE</footer>
 </body>
 </html>
