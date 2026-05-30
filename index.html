@@ -4669,8 +4669,30 @@ function lbLoadShip(){
 
   // Build slot groups from SHIP_LOADOUTS data
   // w=weapons, sh=shields, pw=power, co=coolers, qd=QD, mis=missiles
+  // Build weapon slot groups from verified WEAPON_SLOTS lookup
+  let weaponSlots = [];
+  const knownSlots = WEAPON_SLOTS[ship.slug];
+  if(knownSlots && knownSlots.length){
+    weaponSlots = knownSlots;
+  } else {
+    // Fallback to SHIP_LOADOUTS w array
+    const rawW = ship.w || [];
+    if(rawW.length === 1){
+      const pilotGuns = Math.max(1,(ship.guns||1)-(ship.tman||0)-(ship.trem||0));
+      weaponSlots = [{s:rawW[0].s, q:pilotGuns}];
+    } else {
+      weaponSlots = rawW.map(w=>({s:w.s, q:w.q}));
+    }
+  }
+
   const slotGroups = [
-    { type:'WeaponGun',    slots: ship.w   || [], label:'Weapons',       col:'var(--fire)'  },
+    ...weaponSlots.map(w => ({
+      type:'WeaponGun',
+      slots:[w],
+      label: w.dual ? `Weapons S${w.s} (dual mount)` : `Weapons S${w.s}`,
+      col:'var(--fire)',
+      dual: w.dual || false,
+    })),
     { type:'Shield',       slots: ship.sh  || [], label:'Shield',        col:'var(--ember)' },
     { type:'PowerPlant',   slots: ship.pw  || [], label:'Power Plant',   col:'var(--gold)'  },
     { type:'Cooler',       slots: ship.co  || [], label:'Cooler',        col:'var(--t2)'    },
@@ -4828,7 +4850,45 @@ function lbUpdateStats(){
   } else if(detailEl){ detailEl.style.display='none'; }
 }
 
-// ===== ERKUL LIVE WEAPON DATA =====
+// Verified weapon slot layout per ship slug
+// Format: [{s: size, q: count, dual: true if slot holds 2 guns via gimbal}]
+const WEAPON_SLOTS = {
+  'anvl-arrow':                    [{s:1,q:2,dual:true},{s:3,q:2}],
+  'aegs-gladius':                  [{s:3,q:3}],
+  'aegs-gladius-valiant':          [{s:3,q:3}],
+  'aegs-sabre':                    [{s:3,q:4}],
+  'aegs-sabre-firebird':           [{s:3,q:2}],
+  'anvl-hawk':                     [{s:1,q:2},{s:2,q:4}],
+  'drak-buccaneer':                [{s:4,q:1},{s:3,q:2},{s:1,q:2}],
+  'anvl-f7c-hornet-mk-ii':         [{s:3,q:1},{s:4,q:2},{s:5,q:1}],
+  'anvl-f7c-m-super-hornet-mk-ii': [{s:3,q:1},{s:4,q:2},{s:5,q:1}],
+  'anvl-f7c-s-hornet-ghost-mk-ii': [{s:4,q:2}],
+  'anvl-f7c-r-hornet-tracker-mk-ii':[{s:4,q:2}],
+  'anvl-asgard':                   [{s:4,q:1},{s:3,q:4}],
+  'aegs-vanguard-harbinger':       [{s:5,q:1},{s:2,q:4}],
+  'aegs-vanguard-sentinel':        [{s:5,q:1},{s:2,q:2}],
+  'rsi-scorpius':                  [{s:3,q:4}],
+  'rsi-scorpius-antares':          [{s:3,q:4}],
+  'banu-defender':                 [{s:3,q:4}],
+  'crus-constellation-andromeda':  [{s:5,q:4}],
+  'crus-constellation-taurus':     [{s:5,q:4}],
+  'crus-constellation-aquila':     [{s:5,q:4}],
+  'aegs-eclipse':                  [{s:2,q:2}],
+  'aegs-hammerhead':               [{s:4,q:6}],
+  'rsi-perseus':                   [{s:5,q:2}],
+  'rsi-mantis':                    [{s:3,q:2}],
+  'drak-cutlass-black':            [{s:3,q:4}],
+  'drak-cutlass-blue':             [{s:3,q:4}],
+  'drak-cutlass-red':              [{s:3,q:2}],
+  'drak-corsair':                  [{s:3,q:4}],
+  'misc-freelancer':               [{s:5,q:2}],
+  'misc-freelancer-max':           [{s:3,q:2}],
+  'misc-freelancer-dur':           [{s:3,q:2}],
+  'misc-freelancer-mis':           [{s:5,q:2}],
+  'anvl-valkyrie':                 [{s:4,q:1}],
+  'grayc-shiv':                    [{s:4,q:2},{s:3,q:1}],
+  'anvl-carrack':                  [{s:2,q:2}],
+};
 const ERKUL_PROXY = 'https://catfight-erkul-proxy.unknowngameraus1.workers.dev';
 let erkulDone = false;
 let erkulFetching = false;
@@ -4842,6 +4902,7 @@ async function fetchLiveErkul(){
       fetch(`${ERKUL_PROXY}/weapons`).then(r=>r.json()),
       fetch(`${ERKUL_PROXY}/ships`).then(r=>r.json()),
     ]);
+    window._erkulShips = ships; // cache for builder
 
     // Parse weapons into clean catalogue
     ERKUL_WEAPONS = [];
