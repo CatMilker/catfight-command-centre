@@ -715,7 +715,7 @@ footer {
     </div>
     <div class="badges">
       <div class="badge badge-gold">LIVE 4.8</div>
-      <div class="badge" style="color:var(--teal);border-color:var(--teal)">BETA v0.8.8</div>
+      <div class="badge" style="color:var(--teal);border-color:var(--teal)">BETA v0.8.8 RC1</div>
     </div>
   </div>
 </header>
@@ -1521,6 +1521,8 @@ footer {
       <option value="Mining / Industrial">Mining</option>
       <option value="Unlawful">Unlawful</option>
     </select>
+    <button onclick="repExport()" style="background:none;border:.5px solid var(--b2);color:var(--ember);padding:.25rem .6rem;cursor:pointer;font-size:10px;font-family:'Share Tech Mono',monospace" title="Copy rep data to clipboard — paste into Import to restore">↑ Export</button>
+    <button onclick="repImport()" style="background:none;border:.5px solid var(--b2);color:var(--t3);padding:.25rem .6rem;cursor:pointer;font-size:10px;font-family:'Share Tech Mono',monospace" title="Paste exported rep data to restore progress">↓ Import</button>
     <button onclick="if(confirm('Reset all rep progress?')){window._repState={};repSave();renderRep()}" style="background:none;border:.5px solid var(--border);color:var(--dim);padding:.25rem .6rem;cursor:pointer;font-size:10px;font-family:'Share Tech Mono',monospace">↺ Reset all</button>
     <span style="font-size:10px;color:var(--dim)" id="rep-summary"></span>
   </div>
@@ -3119,6 +3121,60 @@ function missFilter(){
 
 const REP_FACTIONS=[{"id":"bhg","name":"Bounty Hunters Guild","color":"var(--red)","type":"Combat","icon":"\u2694\ufe0f","note":"Primary combat faction. Cert missions are one-time. Stack 8+ contracts per session.","ranks":[{"name":"Not Eligible","xp_req":0,"unlocks":"No BHG contracts available"},{"name":"Probation","xp_req":0,"unlocks":"VLRTs \u00b7 Criminal bounties \u00b7 Klescher fugitives"},{"name":"Applicant","xp_req":0,"unlocks":"LRTs unlocked"},{"name":"Junior","xp_req":50,"unlocks":"LRTs unlocked (50 XP cert)"},{"name":"Member","xp_req":50,"unlocks":"MRTs unlocked"},{"name":"Guild Member","xp_req":50,"unlocks":"HRTs unlocked \u2014 first real income"},{"name":"Senior","xp_req":50,"unlocks":"VHRTs unlocked"},{"name":"Veteran","xp_req":50,"unlocks":"ERTs unlocked"},{"name":"Master","xp_req":50,"unlocks":"Gauntlet \u00b7 Elite bounty chains"}]},{"id":"foxwell","name":"Foxwell Enforcement","color":"var(--teal)","type":"Combat / Event","icon":"\ud83e\udd8a","note":"Event faction \u2014 Priority tab missions always available. Yellow \u2192 Orange \u2192 Red tier. Best BP source in game.","ranks":[{"name":"Recruit","xp_req":0,"unlocks":"Yellow level contracts \u00b7 Antium armor BPs \u00b7 Parallax rifle BPs"},{"name":"Operative","xp_req":5000,"unlocks":"Orange level contracts \u00b7 Glacier/Blizzard cooler BPs \u00b7 Parallax variant BPs"},{"name":"Agent","xp_req":15000,"unlocks":"Red level contracts \u00b7 Avalanche cooler BP \u00b7 FR-86 shield BP"},{"name":"Senior Agent","xp_req":50000,"unlocks":"All Foxwell contracts \u00b7 Full BP pool access"},{"name":"Specialist","xp_req":150000,"unlocks":"Top Foxwell tier \u00b7 Max aUEC scaling"},{"name":"Commander","xp_req":500000,"unlocks":"Max standing \u2014 all contracts available"}]},{"id":"covalex","name":"Covalex Shipping","color":"var(--purple)","type":"Cargo","icon":"\ud83d\udce6","note":"Hauling chain. Run Courier + Hauling tracks simultaneously. Master rank = VK-00/XL-1/Palisade BPs.","ranks":[{"name":"Newcomer","xp_req":0,"unlocks":"Intro courier missions \u00b7 ~6k\u20138k aUEC"},{"name":"Trainee","xp_req":1,"unlocks":"Local delivery routes \u00b7 ~4k\u201315k aUEC \u00b7 500 XP/run"},{"name":"Rookie","xp_req":2500,"unlocks":"Shipment routes \u00b7 ~10k\u201345k aUEC \u00b7 500\u20132000 XP/run"},{"name":"Member","xp_req":5250,"unlocks":"Cross-system hauls \u00b7 ~56k\u201366k aUEC \u00b7 500 XP/run"},{"name":"Senior","xp_req":27750,"unlocks":"Interstellar routes \u00b7 ~96k\u2013127k aUEC \u00b7 1000\u20132000 XP/run"},{"name":"Master","xp_req":237750,"unlocks":"\u2605 VK-00 QD \u00b7 XL-1 QD \u00b7 TS-2 QD \u00b7 Siren \u00b7 Yeager \u00b7 Balandin \u00b7 Palisade \u00b7 Rampart \u00b7 Parapet shields \u00b7 ~260k\u2013313k aUEC \u00b7 4000\u20138000 XP/run"}]},{"id":"intersec","name":"InterSec","color":"var(--blue)","type":"Combat (Nyx)","icon":"\ud83d\udee1\ufe0f","note":"Nyx-based combat faction. Regular patrols drop Testudo armor BPs. TSG = group content for JS-300/JS-400.","ranks":[{"name":"Unaffiliated","xp_req":0,"unlocks":"No contracts"},{"name":"Prospect","xp_req":0,"unlocks":"Intro patrol missions \u00b7 Testudo Combustion/Earthshake BPs \u00b7 Pulse pistol BPs"},{"name":"Associate","xp_req":2000,"unlocks":"Regular patrols \u00b7 Testudo Nightveil/Turfwar BPs \u00b7 Quartz SMG BPs"},{"name":"Operative","xp_req":8000,"unlocks":"Hard patrols \u00b7 Full Testudo set BPs \u00b7 Quartz Deadfall/Lumen BPs"},{"name":"Senior","xp_req":25000,"unlocks":"ERT patrols \u00b7 Tactical Strike Groups available"},{"name":"Chief","xp_req":80000,"unlocks":"\u2605 TSG: JS-300 \u00b7 JS-400 power plant BPs \u00b7 QuadraCell MX BP \u00b7 Omnisky cannon BPs \u00b7 Novian crossbow BPs"}]},{"id":"headhunters","name":"Headhunters","color":"var(--amber)","type":"Combat (Pyro)","icon":"\ud83d\udc80","note":"Unlawful Pyro faction. Cave elimination missions. Atzkav sniper + cooler BPs at all tiers.","ranks":[{"name":"Unknown","xp_req":0,"unlocks":"No contracts"},{"name":"Introductory","xp_req":0,"unlocks":"Cave elimination missions \u00b7 Atzkav sniper BPs \u00b7 Calico armor BPs \u00b7 SnowBlind/VaporBlock cooler BPs"},{"name":"Low","xp_req":3000,"unlocks":"More cave variants \u00b7 Cryo-Star/Winter-Star/Frost-Star cooler BPs \u00b7 Defiant power plant BP"},{"name":"Medium","xp_req":12000,"unlocks":"Ship bounties \u00b7 ArcticStorm/BlastChill cooler BPs \u00b7 DuraJet/Lotus power plant BPs"},{"name":"High","xp_req":50000,"unlocks":"Hard patrols \u00b7 Full cooler BP set \u00b7 SparkJet/TigerLilly/ZapJet power plant BPs"},{"name":"Very High","xp_req":200000,"unlocks":"Top tier \u00b7 All Headhunters BPs available"}]},{"id":"eckhart","name":"Eckhart Security","color":"var(--purple)","type":"Combat (Stanton)","icon":"\ud83d\udd2b","note":"Stanton assassination/elimination. 7 one-time Arlington gang missions first. Stealth shield BPs at all ranks.","ranks":[{"name":"Hostile","xp_req":-500,"unlocks":"Intro missions only"},{"name":"Recruit (R0)","xp_req":0,"unlocks":"Arlington gang chain (7 one-time missions) \u00b7 Shimmer/Obscura/SonicLite BPs"},{"name":"Operative (R1)","xp_req":3500,"unlocks":"Repeatable elimination \u00b7 Veil/Sheut/Cirrus/DeltaMax/GammaMax/SonicLite BPs"},{"name":"Agent (R2)","xp_req":7000,"unlocks":"Hard elimination \u00b7 Mirage/Umbra/Eclipse/Fierell Cascade/MegaFlux/UltraFlux BPs"},{"name":"Senior (R3)","xp_req":14000,"unlocks":"Very Hard \u00b7 Full Eckhart stealth shield set \u00b7 Slipstream BP"},{"name":"Commander (R4)","xp_req":35000,"unlocks":"ERT elimination \u00b7 All Eckhart BPs \u00b7 Max aUEC scaling"},{"name":"Director (R5)","xp_req":105000,"unlocks":"Max standing \u00b7 All Eckhart contracts"}]},{"id":"shubin","name":"Shubin Interstellar","color":"var(--gold)","type":"Mining / Industrial","icon":"\u26cf\ufe0f","note":"Mining faction. Claimjumper missions \u2014 FPS/ship combat at mining sites. All missions drop Strata armor + Arclight pistol BPs (~17%).","ranks":[{"name":"Newcomer","xp_req":0,"unlocks":"Intro claimjumper \u00b7 Strata Arms/Core/Legs/Helmet + Arclight \"Midnight\" Pistol BPs (~17% each) \u00b7 ~5k\u201310k aUEC"},{"name":"Prospector","xp_req":5000,"unlocks":"All Shubin missions \u00b7 ~15k\u201320k aUEC \u00b7 Same BP pool"},{"name":"Senior","xp_req":25000,"unlocks":"Harder variants \u00b7 Same BP pool \u00b7 Higher aUEC"},{"name":"Master","xp_req":100000,"unlocks":"Max standing \u00b7 Helix Mining Laser BP (if available)"}]},{"id":"ling","name":"Ling Family Hauling","color":"var(--green)","type":"Cargo","icon":"\ud83d\ude9a","note":"Small hauling faction. Run alongside Covalex. Zephyr/Spectre stealth QD BPs + Citadel/Barbican shield BPs unlock early.","ranks":[{"name":"New Contractor","xp_req":0,"unlocks":"Intro delivery \u00b7 \u2605 Zephyr/Spectre/Spicule/Bolt stealth QD BPs \u00b7 Citadel/Barbican/Guardian shield BPs \u00b7 100 XP \u00b7 ~5k aUEC"},{"name":"Contractor","xp_req":100,"unlocks":"Local routes \u00b7 500 XP/run \u00b7 ~6k\u20139k aUEC"},{"name":"Senior","xp_req":2500,"unlocks":"Cross-system deliveries \u00b7 500 XP/run \u00b7 ~45k aUEC"}]},{"id":"cfp","name":"Citizens For Prosperity","color":"var(--orange)","type":"Combat / Cargo (Pyro)","icon":"\u270a","note":"Pyro faction. Recover Cargo missions drop guaranteed ORC/C54/S71/Artimex BPs. Security patrols are best CFP XP.","ranks":[{"name":"Sympathiser","xp_req":0,"unlocks":"Intro defend/delivery missions \u00b7 Karna Rifle + Artimex armor BPs (~17%) \u00b7 ~3k\u201310k aUEC"},{"name":"Supporter","xp_req":500,"unlocks":"Recover Cargo missions (guaranteed ORC-mkV/C54/S71 BPs) \u00b7 Security patrols \u00b7 ~37k\u201380k aUEC"},{"name":"Ally","xp_req":5000,"unlocks":"Hard security patrols \u00b7 Xenothreat missions \u00b7 ADP/FS-9 BPs \u00b7 ~80k\u2013150k aUEC"}]},{"id":"ruto","name":"Ruto","color":"var(--red)","type":"Unlawful (Stanton)","icon":"\ud83d\udc8a","note":"Unlawful Stanton faction. Drug/contraband missions. Good early aUEC, CrimeStat risk. No BP drops confirmed.","ranks":[{"name":"Hostile","xp_req":-500,"unlocks":"Intro missions (with CrimeStat)"},{"name":"Prospect","xp_req":0,"unlocks":"Basic contracts \u00b7 ~8k\u201360k aUEC \u00b7 100 XP/run"},{"name":"Associate (R0)","xp_req":250,"unlocks":"Repeatable contracts \u00b7 500 XP/run \u00b7 ~6k\u201340k aUEC"},{"name":"Member (R1)","xp_req":1000,"unlocks":"More variants \u00b7 1000 XP/run \u00b7 ~60k aUEC"},{"name":"Senior (R2)","xp_req":5000,"unlocks":"2000 XP/run \u00b7 ~80k aUEC"},{"name":"Elite (R3)","xp_req":30000,"unlocks":"4000 XP/run \u00b7 ~110k aUEC \u00b7 Top Ruto standing"}]},{"id":"adagio","name":"Adagio Holdings","color":"var(--teal)","type":"Cargo / Salvage (Pyro)","icon":"\ud83d\udc8e","note":"Best aUEC/hr in 4.8 at Senior Contractor rank. RAFT or C2 required for Titanium salvage runs.","ranks":[{"name":"Newcomer","xp_req":0,"unlocks":"Intro salvage contracts \u00b7 ~8k aUEC"},{"name":"Contractor","xp_req":500,"unlocks":"Standard salvage missions"},{"name":"Senior Contractor","xp_req":5000,"unlocks":"\u2605 Adagio Titanium cargo runs \u2014 3M+ aUEC/hr (RAFT/C2 required)"}]}];
 
+function repExport(){
+  const state = window._repState || {};
+  if(!Object.keys(state).length){
+    alert('No rep progress to export yet.');
+    return;
+  }
+  // Build human-readable export with faction names
+  const lines = REP_FACTIONS.map(f => {
+    const rank = f.ranks[state[f.id] || 0];
+    return f.name + ': ' + rank.name;
+  });
+  const payload = JSON.stringify(state);
+  const text = '// Catfight Rep Export — paste into Import to restore\n'
+    + lines.join('\n') + '\n\n' + payload;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied';
+    btn.style.color = 'var(--green)';
+    setTimeout(()=>{ btn.textContent = orig; btn.style.color = 'var(--ember)'; }, 2000);
+  }).catch(()=>{
+    prompt('Copy this rep data:', payload);
+  });
+}
+
+function repImport(){
+  const raw = prompt('Paste your exported rep data here:');
+  if(!raw) return;
+  try {
+    // Strip comment lines, find the JSON object
+    const jsonMatch = raw.match(/\{[^{}]+\}/);
+    if(!jsonMatch) throw new Error('No valid data found');
+    const data = JSON.parse(jsonMatch[0]);
+    // Validate — only accept known faction IDs and numeric rank indices
+    const validIds = new Set(REP_FACTIONS.map(f => f.id));
+    const cleaned = {};
+    for(const [k,v] of Object.entries(data)){
+      if(validIds.has(k) && typeof v === 'number') cleaned[k] = v;
+    }
+    if(!Object.keys(cleaned).length) throw new Error('No valid faction data found');
+    window._repState = cleaned;
+    repSave();
+    renderRep();
+    const count = Object.keys(cleaned).length;
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = '✓ Loaded ' + count;
+    btn.style.color = 'var(--green)';
+    setTimeout(()=>{ btn.textContent = orig; btn.style.color = 'var(--t3)'; }, 2500);
+  } catch(e) {
+    alert('Import failed — make sure you paste the full exported text.\n\n' + e.message);
+  }
+}
+
 function repSave(){try{localStorage.setItem('rep_4_8',JSON.stringify(window._repState||{}))}catch(e){}}
 function repLoad(){try{return JSON.parse(localStorage.getItem('rep_4_8')||'{}')}catch{return {};}}
 function repClick(fid,rank){
@@ -4688,6 +4744,6 @@ document.addEventListener('DOMContentLoaded',function(){
   setTimeout(fetchLiveSCCraft, 2000);
 });
 </script>
-<footer>CATFIGHT ORG &nbsp;·&nbsp; STAR CITIZEN 4.8 &nbsp;·&nbsp; DATA: SC WIKI API + SC CRAFT TOOLS + UEX LIVE + ERKUL LIVE + 4.8.0.11825000 DATAMINE &nbsp;·&nbsp; PRICES: UEX LIVE API &nbsp;·&nbsp; BETA v0.8.8 &nbsp;·&nbsp; NOT FINANCIAL ADVICE</footer>
+<footer>CATFIGHT ORG &nbsp;·&nbsp; STAR CITIZEN 4.8 &nbsp;·&nbsp; DATA: SC WIKI API + SC CRAFT TOOLS + UEX LIVE + ERKUL LIVE + 4.8.0.11825000 DATAMINE &nbsp;·&nbsp; PRICES: UEX LIVE API &nbsp;·&nbsp; BETA v0.8.8 RC1 &nbsp;·&nbsp; NOT FINANCIAL ADVICE</footer>
 </body>
 </html>
