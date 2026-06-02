@@ -8,62 +8,64 @@ Star Citizen 4.8 org tool for the Catfight org. Single-file HTML — no server, 
 
 ## Panels
 
-**⚡ Grind Guide** — Ship-tier based activity guide. Pick your ship class (Starter → Light Fighter → Medium Fighter → Heavy Fighter → Cargo → Mining → Salvage) and see exactly what you can run, what XP/aUEC each activity pays, and what BPs drop. Includes faction tags, system, and next-step upgrade goals.
+**⚡ Grind Guide** — Ship-tier based activity guide rebuilt for 4.8. Pick your ship class (Starter → Salvage) and see what you can run, what it pays, what BPs drop, and what to upgrade to next. Includes Gilly's Flight School scenarios, Adagio Titanium loop, United Wayfarers refuelling, ATLS GEO gem mining, PAF farming.
 
-**💱 Trade** — 75 live commodities from UEX (scraped 4.8 live), sortable by name/buy/sell/margin/profit per SCU. Category badges, illegal flagging, volatile flagging. Plus route guide, Covalex hauling chain, and trade tips including Adagio Titanium method (3M+/hr).
+**💱 Trade** — 6 tabs: Commodities (98 items, live UEX prices), Best Locations (live terminal buy/sell per commodity), Profit Calc (pick ship SCU + terminals, get net profit), Routes, Hauling chain, Trade Tips.
 
-**🏅 Rep Tracker** — 11 factions (BHG, Foxwell, Covalex, InterSec, Headhunters, Eckhart, Shubin, Ling Family, CFP, Ruto, Adagio). Per faction: clickable rank buttons, progress bar, XP thresholds, what unlocks at each tier, BP drops per rank. Saves to browser localStorage.
+**🏅 Rep Tracker** — 11 factions. Clickable rank buttons, XP thresholds, BP drops per tier. Saves to localStorage.
 
-**🧮 Calc** — Session income estimator. 37 activities including all 8 Gilly's Flight School scenarios in their own category. Adjustable session length (1–24hr), crew size, ship quality, server stability, experience. Goals panel with progress bars to ship prices. Top-15 activity comparison bar.
+**🧮 Calc** — 2 tabs: Session Estimator (37 activities, 1–24hr sessions, goals panel) and BHG Stack Calc (tier/stack/cert/loot inputs, total payout + XP + breakdown bar).
 
-**🐱 Org Ops** — Role assignment planner for org sessions. Set player count, assign roles (combat/cargo/mining/salvage/support/flex), see estimated group income.
+**🐱 Org Ops** — Role assignment planner for org sessions.
 
-**🏪 Shops** — 115+ items searchable by name, location or type. Ships, weapons, components, FPS gear, tools, food. All ship locations verified — Grim Hex ship dealer removed (removed post-4.4 live).
+**🏪 Shops** — 115+ items searchable by name, location or type. All ship locations verified for 4.8 (Grim Hex ship dealer removed).
 
-**🗺️ Systems** — Locations and services across Stanton, Pyro and Nyx. Card grid layout with service badges.
+**🗺️ Systems** — Locations and services across Stanton, Pyro and Nyx.
 
-**🗄️ Ship DB** — Two tabs: Full Database (220+ ships searchable/filterable by role, manufacturer, cargo, crew, stats, aUEC prices, pledge prices) and Meta Picks (5 tabs: Combat / Cargo / Mining / Salvage / Utility with verified 4.8 hardpoints and verdicts).
+**🗄️ Ship DB** — 4 tabs: Full Database (220+ ships), Meta Picks (5 tabs: Combat/Cargo/Mining/Salvage/Utility with 4.8 verdicts), Loadouts (208 ships with stock slot data from SC Wiki live), Builder (pick a ship, configure components, see live DPS/shield/power stats update in real time).
 
-**⛏️ Minerals** — 33 minerals with cave/asteroid locations across Stanton, Pyro, Nyx. Grade, type, crafting use per mineral.
+**⛏️ Minerals** — 33 minerals with cave/asteroid locations. Grade, type, crafting use.
 
-**🎯 Missions** — 606 missions across 19 factions from SC Wiki API + SC Crafter. Searchable by name or BP drop name. Filter by faction, system, has BPs, one-time only, unlawful. Sortable by XP and aUEC. Shows BP drops with drop rates.
+**🎯 Missions** — 606 missions across 19 factions. Searchable, filterable, sortable. Shows BP drops with drop rates.
 
-**📋 Blueprints** — Three tabs:
-- *Mission Drop BPs* — 21 confirmed drop sources from 4.8 game files with item lists and drop rates.
-- *Component BPs* — 252 ship component BPs (shields, power plants, coolers, QDs) with ingredients, craft times, and confirmed faction sources.
-- *Priority Roadmap* — Role-based faction order guide (Solo / Combat / Hauler / Miner).
+**📋 Blueprints** — 3 tabs: Mission Drop BPs, Component BPs (252 ship components with ingredients, craft times, confirmed faction sources), Priority Roadmap.
 
 ---
 
-## Data sources
+## Live Data — 3 Cloudflare Workers
 
-**Live scraped (4.8 live):**
-- Commodity prices — UEX API (`uexcorp.space/api/2.0/commodities`) — 75 items, live buy/sell/margin
-- Ship prices — UEX API (`uexcorp.space/api/2.0/vehicles`) — 220+ ships, prices verified
-- All 1478 missions — SC Wiki API (`api.star-citizen.wiki/api/missions`)
-- 252 component BP recipes and craft times — SC Wiki API (`api.star-citizen.wiki/api/blueprints`)
-- 692 contracts with BP drop rates — SC Crafter (`sc-crafter.com/api/contracts`)
-- Faction standing thresholds — SC Crafter
-- Mineral locations — `global.ini` + `all_sc_data.txt`
-- Mission drop tables — `all_sc_data.txt` DCB datamine
+| Worker | Data | Cache |
+|---|---|---|
+| `catfight-uex-proxy` | Commodity prices, terminal locations, ship prices | 15 min |
+| `catfight-erkul-proxy` | Weapon stats (DPS/alpha/RPM/ammo), ship loadout data | 20 min |
+| `catfight-sccraft-proxy` | 1,534 blueprint sources with drop chances | 30 min |
 
-**4.8 new ship prices (community verified — UEX not yet updated):**
-- Grey's Market Shiv — 5.5M aUEC (Levski / Lorville)
-- Drake Clipper — 3.619M aUEC (Lorville / Area 18)
-- RSI Perseus — 39.68M aUEC (Lorville)
-- RSI Hermes — 7.11M aUEC (Lorville / Area 18)
-- RSI Salvation — 1.185M aUEC (Lorville / Area 18)
-- Greycat MDC — 127k aUEC (Lorville / Area 18)
+All three fetch on page load. Silent fallback to baked-in data if any worker is unreachable.
+
+---
+
+## Data Sources
+
+- Commodity prices — UEX API live (`uexcorp.space/api/2.0`)
+- Weapon stats — Erkul.games live (`server.erkul.games/live`)
+- Blueprint drop sources — SC Craft Tools live (`sc-craft.tools/api`)
+- Ship slot data — SC Wiki API (`api.star-citizen.wiki/api/vehicles`) — open CORS, no worker needed
+- Component stats — SC Wiki API (`api.star-citizen.wiki/api/items`)
+- Mission data — SC Wiki API (`api.star-citizen.wiki/api/missions`)
+- Mineral locations — `global.ini` + `all_sc_data.txt` DCB datamine
+- Ship prices — UEX live + community-verified for 4.8 new ships
 
 ---
 
 ## Status
 
-**Beta v0.8** — 4.8 live.
+**Beta v0.8.8** — 4.8 live.
 
-**v0.8 changes:** Full Pyro ember theme rebuild (volcanic black, lava amber, warm ivory text — no cold blues or purples). Commodity data live-scraped from UEX — 75 items with real buy/sell/margin. All 6 new 4.8 ships added with confirmed aUEC prices. Grim Hex removed from all ship purchase locations (shop closed post-4.4). 14 SCU values corrected across SDB (Corsair, Cutter, Zeus MR/ES, Hull B, MOTH, C1 Spirit, Railen, and more). Meta Picks fully rebuilt with verified 4.8 hardpoints and community-confirmed verdicts across 5 tabs (Combat / Cargo / Mining / Salvage / Utility). Calculator extended to 24 session lengths and 37 activities including all 8 Gilly's Flight School scenarios. Systems Navigator styled with card grid layout. All tab-switching bugs fixed.
+**v0.8.8:** Loadout Builder (208 ships, live Erkul weapon pickers, real-time DPS/shield/power stats). 25 curated meta loadouts with verified 4.8 hardpoints and community builds. BHG Stack Calculator. Grind Guide fully rebuilt for 4.8 (Adagio loop, ATLS GEO, Gilly S7, PAF farming, Starfarer refuelling). Trade Profit Calc and Best Locations tabs. 3 Cloudflare workers live (UEX/Erkul/SC Craft). BP drop rates corrected (FR-66/76 at 85%, Red Wind Linehaul confirmed for 3 power plant BPs). Ship DB: 14 SCU fixes, 6 new 4.8 ships, Grim Hex removed.
 
-**v0.7:** Full missions panel (606 missions, 19 factions), Rep Tracker rebuilt (11 factions, rank unlocks, XP thresholds, BP drops per tier), Ships panel merged with Ship DB, both Blueprint panels merged, Grind Guide rebuilt as ship-tier navigator, nav consolidated to 11 buttons.
+**v0.8:** Full Pyro theme rebuild. Live UEX commodity prices. New 4.8 ships with confirmed aUEC prices. Meta Picks rebuilt with correct 4.8 hardpoints. 14 SCU corrections.
+
+**v0.7:** Full missions panel (606 missions, 19 factions), Rep Tracker rebuilt, nav consolidated to 11 buttons, Grind Guide rebuilt as ship-tier navigator.
 
 **v0.6:** Component BPs (252, 129 sourced), session estimator rebuilt, shop directory rebuilt, trade panel rebuilt.
 
