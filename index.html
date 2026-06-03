@@ -715,7 +715,7 @@ footer {
     </div>
     <div class="badges">
       <div class="badge badge-gold">LIVE 4.8</div>
-      <div class="badge" style="color:var(--teal);border-color:var(--teal)">BETA v0.8.8 RC1</div>
+      <div class="badge" style="color:var(--teal);border-color:var(--teal)">BETA v0.8.9</div>
     </div>
   </div>
 </header>
@@ -723,7 +723,7 @@ footer {
 <div class="wipe">
   <div class="wipe-inner" style="border-color:var(--green);background:rgba(142,203,110,.06);color:var(--green)">
     <span>✓</span>
-    <span>4.8 LIVE · <strong style="color:var(--gold)">v0.8.8</strong> · Live prices via UEX · Erkul weapon data · SC Craft BP sources · Loadout Builder (208 ships) · 25 curated meta loadouts · BHG Stack Calc · Grind Guide rebuilt · 3 Cloudflare workers wired in</span>
+    <span>4.8 LIVE · <strong style="color:var(--gold)">v0.8.9</strong> · Live prices via UEX · Erkul weapon data · SC Craft BP sources · Loadout Builder (208 ships) · 25 curated meta loadouts · BHG Stack Calc · Grind Guide rebuilt · 3 Cloudflare workers wired in</span>
   </div>
 </div>
 
@@ -765,7 +765,7 @@ footer {
       <span class="nav-label">SYSTEMS</span>
       <span class="nav-sub">Locations &amp; services</span>
     </button>
-  <button class="nav-btn nb-ships" onclick="setPanel('ships')">
+  <button class="nav-btn nb-ships" onclick="setPanel('ships');if(!sdbLiveDone)fetchLiveShipDB();">
       <span class="nav-icon">🗄️</span>
       <span class="nav-label">SHIP DB</span>
       <span class="nav-sub">200+ ships · All prices</span>
@@ -1521,8 +1521,8 @@ footer {
       <option value="Mining / Industrial">Mining</option>
       <option value="Unlawful">Unlawful</option>
     </select>
-    <button onclick="repExport()" style="background:none;border:.5px solid var(--b2);color:var(--ember);padding:.25rem .6rem;cursor:pointer;font-size:10px;font-family:'Share Tech Mono',monospace" title="Copy rep data to clipboard — paste into Import to restore">↑ Export</button>
-    <button onclick="repImport()" style="background:none;border:.5px solid var(--b2);color:var(--t3);padding:.25rem .6rem;cursor:pointer;font-size:10px;font-family:'Share Tech Mono',monospace" title="Paste exported rep data to restore progress">↓ Import</button>
+    <button onclick="repExport(this)" style="background:none;border:.5px solid var(--b2);color:var(--ember);padding:.25rem .6rem;cursor:pointer;font-size:10px;font-family:'Share Tech Mono',monospace" title="Copy rep data to clipboard — paste into Import to restore">↑ Export</button>
+    <button onclick="repImport(this)" style="background:none;border:.5px solid var(--b2);color:var(--t3);padding:.25rem .6rem;cursor:pointer;font-size:10px;font-family:'Share Tech Mono',monospace" title="Paste exported rep data to restore progress">↓ Import</button>
     <button onclick="if(confirm('Reset all rep progress?')){window._repState={};repSave();renderRep()}" style="background:none;border:.5px solid var(--border);color:var(--dim);padding:.25rem .6rem;cursor:pointer;font-size:10px;font-family:'Share Tech Mono',monospace">↺ Reset all</button>
     <span style="font-size:10px;color:var(--dim)" id="rep-summary"></span>
   </div>
@@ -1917,36 +1917,297 @@ footer {
 <!-- PANEL: MINING COMPENDIUM -->
 <!-- ============================================================ -->
 <div class="panel" id="panel-mining">
-  <div class="sec-hdr"><div class="sec-title" style="color:var(--teal)">MINING COMPENDIUM</div><div class="sec-sub">SOURCE: LIVE 4.8.0.11825000 GAME FILES — CONFIRMED LOCATIONS</div></div>
-  <div class="info" style="margin-bottom:.75rem">All mineral locations extracted directly from game files. Search by mineral name or location. Hand-minable minerals marked separately from ship-minable.</div>
+  <div class="sec-hdr"><div class="sec-title" style="color:var(--teal)">MINING COMPENDIUM</div><div class="sec-sub">4.8 LIVE · MINERALS · SHIPS · LASERS · REFINERY · PROFIT CALC · CREW GUIDE</div></div>
 
-  <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem;align-items:center">
-    <div style="flex:1;min-width:160px;position:relative">
-      <input type="text" id="min-search" placeholder="Search mineral or location..." oninput="minFilter()" style="width:100%;font-size:12px;padding-left:1.6rem">
-      <span style="position:absolute;left:.5rem;top:50%;transform:translateY(-50%);color:var(--dim);font-size:13px">🔍</span>
+  <div class="cftabs" style="margin-bottom:.75rem">
+    <button class="ltab active" onclick="setMineTab('minerals',this)">⛏️ Minerals</button>
+    <button class="ltab" onclick="setMineTab('ships',this)">🚀 Ships</button>
+    <button class="ltab" onclick="setMineTab('lasers',this)">🔆 Lasers</button>
+    <button class="ltab" onclick="setMineTab('refinery',this)">🏭 Refinery</button>
+    <button class="ltab" onclick="setMineTab('calc',this)">🧮 Profit Calc</button>
+    <button class="ltab" onclick="setMineTab('crew',this)">👥 Crew Guide</button>
+  </div>
+
+  <!-- ===== MINERALS TAB ===== -->
+  <div class="miss-tab active" id="mine-minerals">
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.65rem;align-items:center">
+      <div style="flex:1;min-width:160px;position:relative">
+        <input type="text" id="min-search" placeholder="Search mineral or location..." oninput="minFilter()" style="width:100%;font-size:12px;padding-left:1.6rem">
+        <span style="position:absolute;left:.5rem;top:50%;transform:translateY(-50%);color:var(--dim);font-size:13px">🔍</span>
+      </div>
+      <select id="min-sys" onchange="minFilter()" style="font-size:11px">
+        <option value="">All systems</option>
+        <option value="stanton">Stanton</option>
+        <option value="pyro">Pyro</option>
+        <option value="nyx">Nyx</option>
+      </select>
+      <select id="min-type" onchange="minFilter()" style="font-size:11px">
+        <option value="">All types</option>
+        <option value="hand">Hand-minable</option>
+        <option value="ship">Ship-minable</option>
+        <option value="rare">Rare / high value</option>
+      </select>
+      <span style="font-size:10px;color:var(--dim)" id="min-count"></span>
     </div>
-    <select id="min-sys" onchange="minFilter()" style="font-size:11px">
-      <option value="">All systems</option>
-      <option value="stanton">Stanton only</option>
-      <option value="pyro">Pyro only</option>
-      <option value="nyx">Nyx only</option>
-    </select>
-    <select id="min-type" onchange="minFilter()" style="font-size:11px">
-      <option value="">All types</option>
-      <option value="hand">Hand-minable</option>
-      <option value="ship">Ship-minable</option>
-      <option value="rare">Rare / high value</option>
-    </select>
-    <span style="font-size:10px;color:var(--dim)" id="min-count"></span>
+    <div style="overflow-x:auto">
+      <table class="data-tbl" id="min-table" style="min-width:500px">
+        <thead><tr><th onclick="minSort('name')" style="cursor:pointer">Mineral ↕</th><th>Grade</th><th>Raw price/SCU</th><th>Method</th><th>Best locations</th><th>Crafting use</th></tr></thead>
+        <tbody id="min-body"></tbody>
+      </table>
+      <div class="warn" id="min-none" style="display:none;text-align:center;padding:1.5rem">No minerals match.</div>
+    </div>
   </div>
 
-  <div style="overflow-x:auto">
-    <table class="data-tbl" id="min-table" style="min-width:500px">
-      <thead><tr><th onclick="minSort('name')" style="cursor:pointer">Mineral ↕</th><th>Type</th><th>Value tier</th><th>Locations</th><th>Crafting use</th></tr></thead>
-      <tbody id="min-body"></tbody>
-    </table>
-    <div class="warn" id="min-none" style="display:none;text-align:center;padding:1.5rem">No minerals match your search.</div>
+  <!-- ===== SHIPS TAB ===== -->
+  <div class="miss-tab" id="mine-ships">
+    <div class="info" style="margin-bottom:.75rem">All prices current 4.8 live. Cargo capacity is raw ore SCU before refinery. ATLS GEO is an exosuit, not a ship — no cargo of its own, needs a carrier ship.</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.5rem" id="mine-ship-cards"></div>
   </div>
+
+  <!-- ===== LASERS TAB ===== -->
+  <div class="miss-tab" id="mine-lasers">
+    <div class="info" style="margin-bottom:.75rem">Mining heads and modules. Helix = raw power, Hofstede = stability and safety. Pick based on your rock difficulty.</div>
+    <div style="margin-bottom:1rem">
+      <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.15em;color:var(--teal);margin-bottom:.5rem">MINING LASER HEADS</div>
+      <div style="overflow-x:auto">
+        <table class="data-tbl">
+          <thead><tr><th>Laser</th><th>Size</th><th>Mfr</th><th>Power</th><th>Instability</th><th>Best for</th><th>Where to buy</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Helix I/II</strong></td><td>S1/S2</td><td>Thermyte</td><td style="color:var(--gold)">★★★★★</td><td style="color:var(--fire)">High</td><td>High-resistance rocks, cracking tough deposits</td><td>Lorville · Area 18 · Levski</td></tr>
+            <tr><td><strong>Hofstede S1/S2</strong></td><td>S1/S2</td><td>Hofstede</td><td style="color:var(--ember)">★★★☆☆</td><td style="color:var(--green)">Low</td><td>Safer mining, beginners, Quantainium control</td><td>Lorville · Orison · Port Tressler</td></tr>
+            <tr><td><strong>Lancet MH1/MH2</strong></td><td>S1/S2</td><td>Greycat</td><td style="color:var(--t3)">★★☆☆☆</td><td style="color:var(--green)">Very Low</td><td>MOLE support laser — resistance reduction</td><td>Area 18 · Levski</td></tr>
+            <tr><td><strong>Arbor MH1/MH2</strong></td><td>S1/S2</td><td>Greycat</td><td style="color:var(--ember)">★★★☆☆</td><td style="color:var(--t2)">Medium</td><td>Balanced — good all-rounder for solo Prospector</td><td>Lorville · Area 18 · Orison</td></tr>
+            <tr><td><strong>Impact I</strong></td><td>S1</td><td>Thermyte</td><td style="color:var(--gold)">★★★★☆</td><td style="color:var(--fire)">Very High</td><td>Expert only — maximum DPS, tight control window</td><td>Lorville · Port Tressler</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.15em;color:var(--teal);margin-bottom:.5rem">MINING MODULES</div>
+      <div style="overflow-x:auto">
+        <table class="data-tbl">
+          <thead><tr><th>Module</th><th>Effect</th><th>When to use</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Surge</strong></td><td style="color:var(--gold)">Temporary power spike — forces rock past threshold</td><td>Stubborn high-resistance rocks that won't crack</td></tr>
+            <tr><td><strong>Focus II / III</strong></td><td style="color:var(--ember)">Increases optimal charge window size</td><td>Paired with Hofstede for safer Quant extraction</td></tr>
+            <tr><td><strong>Torrent II / III</strong></td><td style="color:var(--ember)">Extends optimal extraction zone</td><td>Maximising yield on medium rocks</td></tr>
+            <tr><td><strong>FLTR / FLTR-L</strong></td><td style="color:var(--green)">Filters inert material — higher ore yield</td><td>Low-grade rocks with high inert content</td></tr>
+            <tr><td><strong>Torpid</strong></td><td style="color:var(--t2)">Reduces instability on volatile ores</td><td>Quantainium — keeps charge stable during extraction</td></tr>
+            <tr><td><strong>Rime</strong></td><td style="color:var(--t2)">Cooling effect — reduces rock instability</td><td>Volatile deposits, pair with Torpid</td></tr>
+            <tr><td><strong>Optimum</strong></td><td style="color:var(--green)">Widens optimal extraction window</td><td>General use — best budget module for beginners</td></tr>
+            <tr><td><strong>Vaux / Vaux-C2</strong></td><td style="color:var(--t2)">Resistance reduction on target</td><td>Support role on MOLE alongside Lancet</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="margin-top:1rem">
+      <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.15em;color:var(--teal);margin-bottom:.5rem">RECOMMENDED LOADOUTS</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.5rem">
+        <div class="card">
+          <div class="card-title" style="color:var(--teal)">PROSPECTOR — BEGINNER</div>
+          <div class="card-body">Hofstede S1 + Focus III module<br><span style="color:var(--t3);font-size:.72rem">Wide charge window, forgiving for Quant. Use Surge when rocks resist. Best for learning.</span></div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="color:var(--gold)">PROSPECTOR — ADVANCED</div>
+          <div class="card-body">Helix I + Focus II + Surge module<br><span style="color:var(--t3);font-size:.72rem">Maximum cracking power. Tight control window. Pair Torpid for Quantainium runs.</span></div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="color:var(--ember)">MOLE — FRONT TURRET</div>
+          <div class="card-body">Helix II + Surge × 2<br><span style="color:var(--t3);font-size:.72rem">Primary breaker. Handles all high-resistance rocks the other turrets can't move.</span></div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="color:var(--t2)">MOLE — SIDE TURRETS</div>
+          <div class="card-body">Hofstede S2 + Torrent II<br><span style="color:var(--t3);font-size:.72rem">Sustained extraction. Stabilises rock after front turret cracks it. Both sides same loadout.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== REFINERY TAB ===== -->
+  <div class="miss-tab" id="mine-refinery">
+    <div class="info" style="margin-bottom:.75rem">Always refine before selling — raw ore sells for 30–40% less. Refinery jobs persist offline. Submit jobs before logging out.</div>
+
+    <div style="margin-bottom:1rem">
+      <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.15em;color:var(--teal);margin-bottom:.5rem">REFINERY METHODS</div>
+      <div style="overflow-x:auto">
+        <table class="data-tbl">
+          <thead><tr><th>Method</th><th>Yield</th><th>Time</th><th>Cost</th><th>Verdict</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Dinyx Solventation</strong></td><td style="color:var(--gold)">Highest (~100%)</td><td style="color:var(--fire)">Longest (~7 days Quant)</td><td style="color:var(--ember)">Moderate</td><td>Best profit — use when not in a rush and no wipe imminent</td></tr>
+            <tr><td><strong>Ferron Exchange</strong></td><td style="color:var(--ember)">High (~90%)</td><td style="color:var(--t2)">Medium (~2 days Quant)</td><td style="color:var(--t2)">Moderate</td><td>Best balance — 2.4% less than Dinyx, 3× faster. <span style="color:var(--gold)">Daily driver.</span></td></tr>
+            <tr><td><strong>Electrostarolysis</strong></td><td style="color:var(--t2)">Medium (~80%)</td><td style="color:var(--t2)">Medium</td><td style="color:var(--green)">Low</td><td>Good when Ferron is expensive or stations are busy</td></tr>
+            <tr><td><strong>XCR Reaction</strong></td><td style="color:var(--t2)">Medium (~75%)</td><td style="color:var(--green)">Fast</td><td style="color:var(--green)">Low</td><td>Quick turnaround — use if selling fast before a wipe</td></tr>
+            <tr><td><strong>Gaskin Process</strong></td><td style="color:var(--t3)">Low (~65%)</td><td style="color:var(--green)">Fast</td><td style="color:var(--green)">Very Low</td><td>Emergency use only — bad yield, low cost</td></tr>
+            <tr><td><strong>Cormack Method</strong></td><td style="color:var(--fire)">Lowest (~50%)</td><td style="color:var(--green)">Fastest</td><td style="color:var(--green)">Cheapest</td><td>Avoid unless you need credits in the next hour</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="margin-bottom:1rem">
+      <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.15em;color:var(--teal);margin-bottom:.5rem">REFINERY LOCATIONS — 4.8</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.5rem">
+        <div class="card"><div class="card-title" style="color:var(--t2)">STANTON</div><div class="card-body" style="font-size:.78rem">
+          Cru-L1 · Cru-L4 · Cru-L5 (Crusader)<br>HUR-L1 · HUR-L2 (Hurston)<br>ARC-L1 (ArcCorp)<br>MIC-L1 (Microtech)<br>Port Tressler · Everus Harbor<br>
+          <span style="color:var(--t3);font-size:.68rem">Each station has different specialisations — yield varies. CRU-L1 and HUR-L1 most popular.</span>
+        </div></div>
+        <div class="card"><div class="card-title" style="color:var(--fire)">PYRO</div><div class="card-body" style="font-size:.78rem">
+          Pyro Gateway Station (Pyro I orbit)<br>Ruin Station (Pyro III)<br>Checkmate Station (Pyro IV)<br>
+          <span style="color:var(--t3);font-size:.68rem">Less congested than Stanton refineries. Good for Pyro ore loops.</span>
+        </div></div>
+        <div class="card"><div class="card-title" style="color:var(--ember)">NYX</div><div class="card-body" style="font-size:.78rem">
+          Levski (Delamar)<br>
+          <span style="color:var(--t3);font-size:.68rem">Only one refinery in Nyx. Glaciem Ring nearby for high-density ore. Low congestion.</span>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="tip">💡 <strong>Wipe tip:</strong> If a patch wipe is incoming, switch to Ferron Exchange or faster methods. Completed refinery jobs are typically wiped — don't leave high-value ore in a 7-day Dinyx job before a known wipe window.</div>
+  </div>
+
+  <!-- ===== PROFIT CALC TAB ===== -->
+  <div class="miss-tab" id="mine-calc">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <div>
+        <div class="form-group">
+          <label>ORE TYPE</label>
+          <select id="mc-ore" onchange="mineCalcUpdate()" style="width:100%">
+            <option value="">— Select ore —</option>
+            <option value="quant">Quantainium (volatile)</option>
+            <option value="bexalite">Bexalite</option>
+            <option value="taranite">Taranite</option>
+            <option value="hadanite">Hadanite (gem)</option>
+            <option value="janalite">Janalite (gem)</option>
+            <option value="borase">Borase</option>
+            <option value="laranite">Laranite</option>
+            <option value="agricium">Agricium</option>
+            <option value="diamond">Diamond</option>
+            <option value="gold">Gold</option>
+            <option value="titanium">Titanium</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>RAW ORE MINED (SCU)</label>
+          <input type="number" id="mc-scu" value="32" min="1" max="500" oninput="mineCalcUpdate()" style="width:100%">
+          <div style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--t3);margin-top:.2rem">Prospector = 32 SCU · MOLE = 96 SCU · ROC = 2 SCU</div>
+        </div>
+        <div class="form-group">
+          <label>ORE CONCENTRATION (%)</label>
+          <input type="range" id="mc-conc" min="5" max="100" value="30" oninput="mineCalcUpdate();document.getElementById('mc-conc-val').textContent=this.value+'%'" style="width:100%;margin:.3rem 0">
+          <div style="display:flex;justify-content:space-between;font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--t3)">
+            <span>5%</span><span id="mc-conc-val" style="color:var(--gold)">30%</span><span>100%</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>REFINERY METHOD</label>
+          <select id="mc-method" onchange="mineCalcUpdate()" style="width:100%">
+            <option value="1.0">Dinyx Solventation — ~100% yield (7 days)</option>
+            <option value="0.9" selected>Ferron Exchange — ~90% yield (2 days) ★</option>
+            <option value="0.8">Electrostarolysis — ~80% yield</option>
+            <option value="0.75">XCR Reaction — ~75% yield (fast)</option>
+            <option value="0.65">Gaskin Process — ~65% yield</option>
+            <option value="0.5">Cormack Method — ~50% yield (fastest)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>CREW SIZE (for MOLE / split calc)</label>
+          <select id="mc-crew" onchange="mineCalcUpdate()" style="width:100%">
+            <option value="1">Solo</option>
+            <option value="2">2 crew</option>
+            <option value="3" selected>3 crew (MOLE full)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>REFINERY FEE ESTIMATE (%)</label>
+          <input type="range" id="mc-fee" min="5" max="25" value="12" oninput="mineCalcUpdate();document.getElementById('mc-fee-val').textContent=this.value+'%'" style="width:100%;margin:.3rem 0">
+          <div style="display:flex;justify-content:space-between;font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--t3)">
+            <span>5%</span><span id="mc-fee-val" style="color:var(--ember)">12%</span><span>25%</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="result-panel" id="mine-calc-results">
+          <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.12em;color:var(--t3);margin-bottom:.6rem">ESTIMATED YIELD</div>
+          <div id="mc-res-content" style="color:var(--t3);font-size:.75rem">Select ore and enter SCU to calculate</div>
+        </div>
+        <div class="tip" style="margin-top:.5rem;font-size:.68rem">Ore prices shift with supply. Always check <a href="https://uexcorp.space/mining" target="_blank" style="color:var(--ember)">UEX Mining</a> or <a href="https://www.uverse.space/mining" target="_blank" style="color:var(--ember)">UVerse</a> before a large run. Quantainium explodes after ~15 mins raw — refine immediately.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CREW GUIDE TAB ===== -->
+  <div class="miss-tab" id="mine-crew">
+    <div class="info" style="margin-bottom:.75rem">Org mining sessions. Coordinate roles before undocking — clear comms and defined jobs are worth more aUEC/hr than having the best loadout.</div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.5rem;margin-bottom:1rem">
+      <div class="card">
+        <div class="card-title" style="color:var(--gold)">MOLE — PILOT / COORDINATOR</div>
+        <div class="card-body" style="font-size:.8rem">
+          Responsible for: ship navigation, rock scanning, target selection, refinery submission, hauling to sell.<br><br>
+          <span style="color:var(--t3);font-size:.72rem">Call rocks on comms: "Target locked — 18% Quant, mass 4,200, medium resistance. Front turret take primary."</span><br><br>
+          Laser: Hofstede S2 (pilot position — stabilise, don't crack)
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--fire)">MOLE — FRONT TURRET (BREAKER)</div>
+        <div class="card-body" style="font-size:.8rem">
+          Primary rock cracker. Handles high-resistance deposits the other turrets can't move.<br><br>
+          <span style="color:var(--t3);font-size:.72rem">Call "Surge ready" before firing. Do NOT surge without coordinator approval on volatile rocks.</span><br><br>
+          Laser: Helix II + 2× Surge module
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--ember)">MOLE — SIDE TURRETS (EXTRACTORS)</div>
+        <div class="card-body" style="font-size:.8rem">
+          Sustained extraction after breaker cracks the rock. Maintain charge in green zone.<br><br>
+          <span style="color:var(--t3);font-size:.72rem">Call charge % on comms. "Left at 45%, holding." Don't compete — stagger your power.</span><br><br>
+          Laser: Hofstede S2 + Torrent II or Focus II
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--teal)">RECLAIMER + ATLS GEO — SURFACE OPS</div>
+        <div class="card-body" style="font-size:.8rem">
+          ATLS GEO operator mines cave gems while Reclaimer coordinates surface salvage. Bring a cargo ship to collect ATLS output.<br><br>
+          <span style="color:var(--t3);font-size:.72rem">ATLS has limited internal storage — pilot meets the exosuit operator at cave exit to load cargo regularly.</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--green)">HAULER / REFINERY RUNNER</div>
+        <div class="card-body" style="font-size:.8rem">
+          Dedicated cargo ship operator. Transfers ore from MOLE/Prospector to refinery, submits jobs, collects and sells completed orders.<br><br>
+          <span style="color:var(--t3);font-size:.72rem">Eliminates downtime for miners — MOLE stays in the belt while hauler runs the ore loop. 20–30% efficiency gain vs mining ship doing own logistics.</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--t2)">ESCORT FIGHTER</div>
+        <div class="card-body" style="font-size:.8rem">
+          Mining ships are defenseless. An escort Gladius/Arrow/Shiv adds significant survivability in Pyro and contested Stanton belts.<br><br>
+          <span style="color:var(--t3);font-size:.72rem">Run Shubin claimjumper missions between engagements for bonus BP drops. Escort earns aUEC from missions while the miners earn from ore.</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:1rem">
+      <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.15em;color:var(--teal);margin-bottom:.5rem">COMMS CALLOUTS — ORG STANDARD</div>
+      <div style="overflow-x:auto">
+        <table class="data-tbl">
+          <thead><tr><th>Callout</th><th>Meaning</th><th>Response</th></tr></thead>
+          <tbody>
+            <tr><td><strong>"Target locked"</strong></td><td>Coordinator has selected a rock, sharing stats</td><td>All turrets confirm ready</td></tr>
+            <tr><td><strong>"Surge ready"</strong></td><td>Breaker has Surge module charged</td><td>Coordinator gives "Go" or "Hold"</td></tr>
+            <tr><td><strong>"Rock cracked"</strong></td><td>Fracture point hit, rock splitting</td><td>All turrets switch to extraction mode</td></tr>
+            <tr><td><strong>"Green zone"</strong></td><td>Rock in optimal extraction range — extract now</td><td>All lasers on full extraction</td></tr>
+            <tr><td><strong>"Overcharge warning"</strong></td><td>Charge above 85% — back off</td><td>All turrets reduce power immediately</td></tr>
+            <tr><td><strong>"Volatile"</strong></td><td>Rock contains Quantainium — extra caution</td><td>Torpid modules active, no Surge without coordinator</td></tr>
+            <tr><td><strong>"Cargo full"</strong></td><td>Ship at capacity</td><td>Head to refinery or call hauler</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- PANEL: MISSIONS REFERENCE -->
@@ -3121,57 +3382,75 @@ function missFilter(){
 
 const REP_FACTIONS=[{"id":"bhg","name":"Bounty Hunters Guild","color":"var(--red)","type":"Combat","icon":"\u2694\ufe0f","note":"Primary combat faction. Cert missions are one-time. Stack 8+ contracts per session.","ranks":[{"name":"Not Eligible","xp_req":0,"unlocks":"No BHG contracts available"},{"name":"Probation","xp_req":0,"unlocks":"VLRTs \u00b7 Criminal bounties \u00b7 Klescher fugitives"},{"name":"Applicant","xp_req":0,"unlocks":"LRTs unlocked"},{"name":"Junior","xp_req":50,"unlocks":"LRTs unlocked (50 XP cert)"},{"name":"Member","xp_req":50,"unlocks":"MRTs unlocked"},{"name":"Guild Member","xp_req":50,"unlocks":"HRTs unlocked \u2014 first real income"},{"name":"Senior","xp_req":50,"unlocks":"VHRTs unlocked"},{"name":"Veteran","xp_req":50,"unlocks":"ERTs unlocked"},{"name":"Master","xp_req":50,"unlocks":"Gauntlet \u00b7 Elite bounty chains"}]},{"id":"foxwell","name":"Foxwell Enforcement","color":"var(--teal)","type":"Combat / Event","icon":"\ud83e\udd8a","note":"Event faction \u2014 Priority tab missions always available. Yellow \u2192 Orange \u2192 Red tier. Best BP source in game.","ranks":[{"name":"Recruit","xp_req":0,"unlocks":"Yellow level contracts \u00b7 Antium armor BPs \u00b7 Parallax rifle BPs"},{"name":"Operative","xp_req":5000,"unlocks":"Orange level contracts \u00b7 Glacier/Blizzard cooler BPs \u00b7 Parallax variant BPs"},{"name":"Agent","xp_req":15000,"unlocks":"Red level contracts \u00b7 Avalanche cooler BP \u00b7 FR-86 shield BP"},{"name":"Senior Agent","xp_req":50000,"unlocks":"All Foxwell contracts \u00b7 Full BP pool access"},{"name":"Specialist","xp_req":150000,"unlocks":"Top Foxwell tier \u00b7 Max aUEC scaling"},{"name":"Commander","xp_req":500000,"unlocks":"Max standing \u2014 all contracts available"}]},{"id":"covalex","name":"Covalex Shipping","color":"var(--purple)","type":"Cargo","icon":"\ud83d\udce6","note":"Hauling chain. Run Courier + Hauling tracks simultaneously. Master rank = VK-00/XL-1/Palisade BPs.","ranks":[{"name":"Newcomer","xp_req":0,"unlocks":"Intro courier missions \u00b7 ~6k\u20138k aUEC"},{"name":"Trainee","xp_req":1,"unlocks":"Local delivery routes \u00b7 ~4k\u201315k aUEC \u00b7 500 XP/run"},{"name":"Rookie","xp_req":2500,"unlocks":"Shipment routes \u00b7 ~10k\u201345k aUEC \u00b7 500\u20132000 XP/run"},{"name":"Member","xp_req":5250,"unlocks":"Cross-system hauls \u00b7 ~56k\u201366k aUEC \u00b7 500 XP/run"},{"name":"Senior","xp_req":27750,"unlocks":"Interstellar routes \u00b7 ~96k\u2013127k aUEC \u00b7 1000\u20132000 XP/run"},{"name":"Master","xp_req":237750,"unlocks":"\u2605 VK-00 QD \u00b7 XL-1 QD \u00b7 TS-2 QD \u00b7 Siren \u00b7 Yeager \u00b7 Balandin \u00b7 Palisade \u00b7 Rampart \u00b7 Parapet shields \u00b7 ~260k\u2013313k aUEC \u00b7 4000\u20138000 XP/run"}]},{"id":"intersec","name":"InterSec","color":"var(--blue)","type":"Combat (Nyx)","icon":"\ud83d\udee1\ufe0f","note":"Nyx-based combat faction. Regular patrols drop Testudo armor BPs. TSG = group content for JS-300/JS-400.","ranks":[{"name":"Unaffiliated","xp_req":0,"unlocks":"No contracts"},{"name":"Prospect","xp_req":0,"unlocks":"Intro patrol missions \u00b7 Testudo Combustion/Earthshake BPs \u00b7 Pulse pistol BPs"},{"name":"Associate","xp_req":2000,"unlocks":"Regular patrols \u00b7 Testudo Nightveil/Turfwar BPs \u00b7 Quartz SMG BPs"},{"name":"Operative","xp_req":8000,"unlocks":"Hard patrols \u00b7 Full Testudo set BPs \u00b7 Quartz Deadfall/Lumen BPs"},{"name":"Senior","xp_req":25000,"unlocks":"ERT patrols \u00b7 Tactical Strike Groups available"},{"name":"Chief","xp_req":80000,"unlocks":"\u2605 TSG: JS-300 \u00b7 JS-400 power plant BPs \u00b7 QuadraCell MX BP \u00b7 Omnisky cannon BPs \u00b7 Novian crossbow BPs"}]},{"id":"headhunters","name":"Headhunters","color":"var(--amber)","type":"Combat (Pyro)","icon":"\ud83d\udc80","note":"Unlawful Pyro faction. Cave elimination missions. Atzkav sniper + cooler BPs at all tiers.","ranks":[{"name":"Unknown","xp_req":0,"unlocks":"No contracts"},{"name":"Introductory","xp_req":0,"unlocks":"Cave elimination missions \u00b7 Atzkav sniper BPs \u00b7 Calico armor BPs \u00b7 SnowBlind/VaporBlock cooler BPs"},{"name":"Low","xp_req":3000,"unlocks":"More cave variants \u00b7 Cryo-Star/Winter-Star/Frost-Star cooler BPs \u00b7 Defiant power plant BP"},{"name":"Medium","xp_req":12000,"unlocks":"Ship bounties \u00b7 ArcticStorm/BlastChill cooler BPs \u00b7 DuraJet/Lotus power plant BPs"},{"name":"High","xp_req":50000,"unlocks":"Hard patrols \u00b7 Full cooler BP set \u00b7 SparkJet/TigerLilly/ZapJet power plant BPs"},{"name":"Very High","xp_req":200000,"unlocks":"Top tier \u00b7 All Headhunters BPs available"}]},{"id":"eckhart","name":"Eckhart Security","color":"var(--purple)","type":"Combat (Stanton)","icon":"\ud83d\udd2b","note":"Stanton assassination/elimination. 7 one-time Arlington gang missions first. Stealth shield BPs at all ranks.","ranks":[{"name":"Hostile","xp_req":-500,"unlocks":"Intro missions only"},{"name":"Recruit (R0)","xp_req":0,"unlocks":"Arlington gang chain (7 one-time missions) \u00b7 Shimmer/Obscura/SonicLite BPs"},{"name":"Operative (R1)","xp_req":3500,"unlocks":"Repeatable elimination \u00b7 Veil/Sheut/Cirrus/DeltaMax/GammaMax/SonicLite BPs"},{"name":"Agent (R2)","xp_req":7000,"unlocks":"Hard elimination \u00b7 Mirage/Umbra/Eclipse/Fierell Cascade/MegaFlux/UltraFlux BPs"},{"name":"Senior (R3)","xp_req":14000,"unlocks":"Very Hard \u00b7 Full Eckhart stealth shield set \u00b7 Slipstream BP"},{"name":"Commander (R4)","xp_req":35000,"unlocks":"ERT elimination \u00b7 All Eckhart BPs \u00b7 Max aUEC scaling"},{"name":"Director (R5)","xp_req":105000,"unlocks":"Max standing \u00b7 All Eckhart contracts"}]},{"id":"shubin","name":"Shubin Interstellar","color":"var(--gold)","type":"Mining / Industrial","icon":"\u26cf\ufe0f","note":"Mining faction. Claimjumper missions \u2014 FPS/ship combat at mining sites. All missions drop Strata armor + Arclight pistol BPs (~17%).","ranks":[{"name":"Newcomer","xp_req":0,"unlocks":"Intro claimjumper \u00b7 Strata Arms/Core/Legs/Helmet + Arclight \"Midnight\" Pistol BPs (~17% each) \u00b7 ~5k\u201310k aUEC"},{"name":"Prospector","xp_req":5000,"unlocks":"All Shubin missions \u00b7 ~15k\u201320k aUEC \u00b7 Same BP pool"},{"name":"Senior","xp_req":25000,"unlocks":"Harder variants \u00b7 Same BP pool \u00b7 Higher aUEC"},{"name":"Master","xp_req":100000,"unlocks":"Max standing \u00b7 Helix Mining Laser BP (if available)"}]},{"id":"ling","name":"Ling Family Hauling","color":"var(--green)","type":"Cargo","icon":"\ud83d\ude9a","note":"Small hauling faction. Run alongside Covalex. Zephyr/Spectre stealth QD BPs + Citadel/Barbican shield BPs unlock early.","ranks":[{"name":"New Contractor","xp_req":0,"unlocks":"Intro delivery \u00b7 \u2605 Zephyr/Spectre/Spicule/Bolt stealth QD BPs \u00b7 Citadel/Barbican/Guardian shield BPs \u00b7 100 XP \u00b7 ~5k aUEC"},{"name":"Contractor","xp_req":100,"unlocks":"Local routes \u00b7 500 XP/run \u00b7 ~6k\u20139k aUEC"},{"name":"Senior","xp_req":2500,"unlocks":"Cross-system deliveries \u00b7 500 XP/run \u00b7 ~45k aUEC"}]},{"id":"cfp","name":"Citizens For Prosperity","color":"var(--orange)","type":"Combat / Cargo (Pyro)","icon":"\u270a","note":"Pyro faction. Recover Cargo missions drop guaranteed ORC/C54/S71/Artimex BPs. Security patrols are best CFP XP.","ranks":[{"name":"Sympathiser","xp_req":0,"unlocks":"Intro defend/delivery missions \u00b7 Karna Rifle + Artimex armor BPs (~17%) \u00b7 ~3k\u201310k aUEC"},{"name":"Supporter","xp_req":500,"unlocks":"Recover Cargo missions (guaranteed ORC-mkV/C54/S71 BPs) \u00b7 Security patrols \u00b7 ~37k\u201380k aUEC"},{"name":"Ally","xp_req":5000,"unlocks":"Hard security patrols \u00b7 Xenothreat missions \u00b7 ADP/FS-9 BPs \u00b7 ~80k\u2013150k aUEC"}]},{"id":"ruto","name":"Ruto","color":"var(--red)","type":"Unlawful (Stanton)","icon":"\ud83d\udc8a","note":"Unlawful Stanton faction. Drug/contraband missions. Good early aUEC, CrimeStat risk. No BP drops confirmed.","ranks":[{"name":"Hostile","xp_req":-500,"unlocks":"Intro missions (with CrimeStat)"},{"name":"Prospect","xp_req":0,"unlocks":"Basic contracts \u00b7 ~8k\u201360k aUEC \u00b7 100 XP/run"},{"name":"Associate (R0)","xp_req":250,"unlocks":"Repeatable contracts \u00b7 500 XP/run \u00b7 ~6k\u201340k aUEC"},{"name":"Member (R1)","xp_req":1000,"unlocks":"More variants \u00b7 1000 XP/run \u00b7 ~60k aUEC"},{"name":"Senior (R2)","xp_req":5000,"unlocks":"2000 XP/run \u00b7 ~80k aUEC"},{"name":"Elite (R3)","xp_req":30000,"unlocks":"4000 XP/run \u00b7 ~110k aUEC \u00b7 Top Ruto standing"}]},{"id":"adagio","name":"Adagio Holdings","color":"var(--teal)","type":"Cargo / Salvage (Pyro)","icon":"\ud83d\udc8e","note":"Best aUEC/hr in 4.8 at Senior Contractor rank. RAFT or C2 required for Titanium salvage runs.","ranks":[{"name":"Newcomer","xp_req":0,"unlocks":"Intro salvage contracts \u00b7 ~8k aUEC"},{"name":"Contractor","xp_req":500,"unlocks":"Standard salvage missions"},{"name":"Senior Contractor","xp_req":5000,"unlocks":"\u2605 Adagio Titanium cargo runs \u2014 3M+ aUEC/hr (RAFT/C2 required)"}]}];
 
-function repExport(){
+function repExport(btn){
+  if(!window._repState) window._repState = repLoad();
   const state = window._repState || {};
   if(!Object.keys(state).length){
-    alert('No rep progress to export yet.');
+    alert('No rep progress to export yet — set some ranks first.');
     return;
   }
-  // Build human-readable export with faction names
+
   const lines = REP_FACTIONS.map(f => {
-    const rank = f.ranks[state[f.id] || 0];
+    const idx  = state[f.id] || 0;
+    const rank = f.ranks[idx] || f.ranks[0];
     return f.name + ': ' + rank.name;
   });
   const payload = JSON.stringify(state);
-  const text = '// Catfight Rep Export — paste into Import to restore\n'
-    + lines.join('\n') + '\n\n' + payload;
-  navigator.clipboard.writeText(text).then(()=>{
-    const btn = event.target;
+  const text = '// Catfight Rep Export\n' + lines.join('\n') + '\n\n' + payload;
+
+  const flash = (ok) => {
+    if(!btn) return;
     const orig = btn.textContent;
-    btn.textContent = '✓ Copied';
+    const origCol = btn.style.color;
+    btn.textContent = ok ? '\u2713 Copied' : '\u2713 See prompt';
     btn.style.color = 'var(--green)';
-    setTimeout(()=>{ btn.textContent = orig; btn.style.color = 'var(--ember)'; }, 2000);
-  }).catch(()=>{
-    prompt('Copy this rep data:', payload);
-  });
+    setTimeout(() => { btn.textContent = orig; btn.style.color = origCol; }, 2000);
+  };
+
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text)
+      .then(() => flash(true))
+      .catch(() => { prompt('Copy this rep data:', text); flash(false); });
+  } else {
+    prompt('Copy this rep data:', text);
+    flash(false);
+  }
 }
 
-function repImport(){
-  const raw = prompt('Paste your exported rep data here:');
-  if(!raw) return;
+function repImport(btn){
+  const raw = prompt('Paste your exported rep data:');
+  if(!raw || !raw.trim()) return;
+
   try {
-    // Strip comment lines, find the JSON object
-    const jsonMatch = raw.match(/\{[^{}]+\}/);
-    if(!jsonMatch) throw new Error('No valid data found');
-    const data = JSON.parse(jsonMatch[0]);
-    // Validate — only accept known faction IDs and numeric rank indices
+    // Find the last {...} block in the pasted text — handles comment lines above it
+    const matches = raw.match(/\{[\s\S]*\}/g);
+    if(!matches) throw new Error('No JSON object found in pasted text');
+    const data = JSON.parse(matches[matches.length - 1]);
+
     const validIds = new Set(REP_FACTIONS.map(f => f.id));
-    const cleaned = {};
-    for(const [k,v] of Object.entries(data)){
-      if(validIds.has(k) && typeof v === 'number') cleaned[k] = v;
+    const cleaned  = {};
+    for(const [k, v] of Object.entries(data)){
+      if(validIds.has(k) && typeof v === 'number'){
+        const faction = REP_FACTIONS.find(f => f.id === k);
+        cleaned[k] = Math.max(0, Math.min(v, (faction?.ranks?.length || 1) - 1));
+      }
     }
-    if(!Object.keys(cleaned).length) throw new Error('No valid faction data found');
+
+    if(!Object.keys(cleaned).length) throw new Error('No recognised faction IDs found');
+
     window._repState = cleaned;
     repSave();
     renderRep();
-    const count = Object.keys(cleaned).length;
-    const btn = event.target;
-    const orig = btn.textContent;
-    btn.textContent = '✓ Loaded ' + count;
-    btn.style.color = 'var(--green)';
-    setTimeout(()=>{ btn.textContent = orig; btn.style.color = 'var(--t3)'; }, 2500);
+
+    if(btn){
+      const orig = btn.textContent;
+      const origCol = btn.style.color;
+      btn.textContent = '\u2713 Loaded ' + Object.keys(cleaned).length;
+      btn.style.color = 'var(--green)';
+      setTimeout(() => { btn.textContent = orig; btn.style.color = origCol; }, 2500);
+    }
   } catch(e) {
-    alert('Import failed — make sure you paste the full exported text.\n\n' + e.message);
+    alert('Import failed: ' + e.message + '\n\nMake sure you paste the full text from Export.');
   }
 }
 
@@ -3947,63 +4226,7 @@ function renderBP(role){
 }
 
 
-const MINERAL_DATA=[
-  {name:'Quantainium',grade:'A',type:'volatile',locations:['Yela (Stanton)','Cellin (Stanton)'],note:'Explosive — handle with care. Highest value ore in game'},
-  {name:'Bexalite',grade:'A',type:'rare',locations:['Yela (Stanton)'],note:'Very high value. Rare asteroid finds'},
-  {name:'Taranite',grade:'A',type:'rare',locations:['Wala (Stanton)','Yela (Stanton)'],note:'High value crafting material'},
-  {name:'Hadanite',grade:'A',type:'rare',locations:['Nyx caves','Aberdeen caves (Stanton)'],note:'High value hand-mine — caves only. Cannot ship mine.'},
-  {name:'Borase',grade:'B',type:'uncommon',locations:['Daymar (Stanton)','Aberdeen (Stanton)'],note:'Good mid-tier value'},
-  {name:'Stileron',grade:'B',type:'uncommon',locations:['Magda (Pyro)','Bloom (Pyro)'],note:'Required for FR-66/FR-76 shield BPs'},
-  {name:'Feynmaline',grade:'B',type:'uncommon',locations:['Terminus (Pyro)','Nyx caves'],note:'Required for multiple shield BPs'},
-  {name:'Riccite',grade:'B',type:'uncommon',locations:['Yela (Stanton)','Magda (Pyro)'],note:'Shield BP ingredient'},
-  {name:'Laranite',grade:'B',type:'uncommon',locations:['Wala (Stanton)','Magda (Pyro)'],note:'Good mid-tier value'},
-  {name:'Agricium',grade:'B',type:'uncommon',locations:['Wala (Stanton)','Calliope (Crusader)'],note:'Mid-tier value'},
-  {name:'Diamond',grade:'B',type:'uncommon',locations:['Yela (Stanton)','Aberdeen (Stanton)'],note:'High value hand mining find'},
-  {name:'Dolivine',grade:'B',type:'uncommon',locations:['Pyro moons'],note:'Pyro mid-tier'},
-  {name:'Pezurite',grade:'B',type:'uncommon',locations:['Magda (Pyro)','Bloom (Pyro)'],note:'Pyro uncommon'},
-  {name:'Dinegrite',grade:'B',type:'uncommon',locations:['Pyro moons'],note:'Pyro uncommon mineral'},
-  {name:'Revenant',grade:'B',type:'uncommon',locations:['Nyx (Hexis)'],note:'Nyx exclusive — good value'},
-  {name:'Janalite',grade:'C',type:'common',locations:['Daymar caves','Magda caves (Pyro)','Wala caves'],note:'Best hand mining — Daymar Sand Caves. ~180k/hr solo.'},
-  {name:'Titanium',grade:'C',type:'common',locations:['Cellin (Stanton)','Daymar (Stanton)','Pyro (multiple)'],note:'Adagio Titanium haul — 3M+/hr with RAFT'},
-  {name:'Tungsten',grade:'C',type:'common',locations:['Wala (Stanton)','Aberdeen (Stanton)'],note:'Common crafting material'},
-  {name:'Beryl',grade:'C',type:'common',locations:['Lyria (Stanton)','Cellin (Stanton)'],note:'Common mineral'},
-  {name:'Hephaestanite',grade:'C',type:'common',locations:['Wala (Stanton)','Lyria (Stanton)'],note:'Base crafting ingredient'},
-  {name:'Gold',grade:'C',type:'common',locations:['Yela (Stanton)','Magda (Pyro)'],note:'Common metal, decent value'},
-  {name:'Inertite',grade:'C',type:'common',locations:['Magda (Pyro)','Bloom (Pyro)'],note:'Pyro common mineral'},
-  {name:'Aphorite',grade:'C',type:'common',locations:['Pyro (multiple moons)'],note:'Pyro common mineral'},
-  {name:'Glacite',grade:'C',type:'common',locations:['Nyx (Hexis)','Pyro caves'],note:'Common in Nyx system'},
-  {name:'Corundum',grade:'C',type:'common',locations:['Wala (Stanton)','Lyria (Stanton)'],note:'Common metal'},
-  {name:'Quartz',grade:'C',type:'common',locations:['Daymar (Stanton)','Aberdeen (Stanton)'],note:'Common rock mineral'},
-  {name:'Iron',grade:'C',type:'common',locations:['Daymar (Stanton)','Cellin (Stanton)'],note:'Very common metal'},
-  {name:'Copper',grade:'C',type:'common',locations:['Cellin (Stanton)','Aberdeen (Stanton)'],note:'Common base metal'},
-  {name:'Aluminium',grade:'C',type:'common',locations:['Aberdeen (Stanton)','Daymar (Stanton)'],note:'Very common light metal'},
-  {name:'Carbon',grade:'C',type:'common',locations:['Wala caves','Daymar caves'],note:'Basic crafting ingredient'},
-  {name:'Chlorine',grade:'C',type:'gas',locations:['Gas clouds (various)'],note:'Industrial gas — low value'},
-  {name:'Hydrogen',grade:'C',type:'gas',locations:['Gas clouds','orbit (various)'],note:'Common fuel component'},
-  {name:'Felsic',grade:'C',type:'common',locations:['Stanton asteroids','Pyro rocks'],note:'Common base rock'},
-];
 
-function minFilter(){
-  const q=(document.getElementById('min-search')?.value||'').toLowerCase();
-  const sys=document.getElementById('min-sys')?.value||'';
-  const type=document.getElementById('min-type')?.value||'';
-  const body=document.getElementById('min-body');
-  if(!body)return;
-  const filtered=MINERAL_DATA.filter(m=>{
-    if(q&&!m.name.toLowerCase().includes(q)&&!m.locations.join(' ').toLowerCase().includes(q))return false;
-    if(sys&&!m.locations.join(' ').includes(sys))return false;
-    if(type&&m.type!==type)return false;
-    return true;
-  });
-  const GRADE_COL={A:'var(--gold)',B:'var(--ember)',C:'var(--t2)'};
-  body.innerHTML=filtered.map(m=>`<tr>
-    <td style="font-weight:500">${m.name}</td>
-    <td><span style="font-family:'Share Tech Mono',monospace;font-weight:700;color:${GRADE_COL[m.grade]||'var(--t2)'}">${m.grade}</span></td>
-    <td style="font-size:.75rem;color:var(--t2)">${m.type}</td>
-    <td style="font-size:.75rem;color:var(--t2)">${m.locations.join(' · ')}</td>
-    <td style="font-size:.75rem;color:var(--t3)">${m.note}</td>
-  </tr>`).join('');
-}
 
 function orgUpdate(){
   const count=parseInt(document.getElementById('orgCount')?.value||'4');
@@ -4566,6 +4789,102 @@ const WEAPON_SLOTS = {
   'grayc-shiv':                    [{s:4,q:2},{s:3,q:1}],
   'anvl-carrack':                  [{s:2,q:2}],
 };
+// ===== LIVE SHIP DB FETCH — SC WIKI =====
+// Direct fetch — SC Wiki has open CORS, no worker needed
+let sdbLiveDone = false;
+
+async function fetchLiveShipDB(){
+  if(sdbLiveDone) return;
+  try {
+    // Fetch all pages
+    const allVehicles = [];
+    for(let page = 1; page <= 4; page++){
+      const d = await fetch(
+        `https://api.star-citizen.wiki/api/vehicles?limit=100&page=${page}`
+      ).then(r=>r.json());
+      const batch = d.data || [];
+      if(!batch.length) break;
+      allVehicles.push(...batch);
+      const total = d.meta?.total || 0;
+      if(allVehicles.length >= total) break;
+    }
+
+    if(!allVehicles.length) return;
+
+    // Build slug → live data lookup
+    const lookup = {};
+    for(const v of allVehicles){
+      const slug = v.slug;
+      if(!slug) continue;
+      const purchases = v.uex_prices?.purchase || [];
+      const prices    = purchases.map(p=>p.price_buy).filter(Boolean);
+      const skus      = v.skus || [];
+      const pledges   = skus.map(s=>s.price).filter(Boolean);
+      lookup[slug] = {
+        scm:    v.speed?.scm    || null,
+        spd:    v.speed?.max    || null,
+        shp:    v.shield_hp     || null,
+        cargo:  v.cargo_capacity|| null,
+        crew:   v.crew?.max     || null,
+        dps:    v.weaponry?.pilot_dps   ? Math.round(v.weaponry.pilot_dps*10)/10 : null,
+        alp:    v.weaponry?.pilot_alpha ? Math.round(v.weaponry.pilot_alpha*10)/10 : null,
+        price:  prices.length  ? Math.min(...prices)  : 0,
+        pledge: pledges.length ? Math.min(...pledges) : 0,
+        ver:    v.version || '',
+      };
+    }
+
+    // Hot-swap SHIP_LOADOUTS entries (loadout builder)
+    let updated = 0;
+    for(const ship of SHIP_LOADOUTS){
+      const live = lookup[ship.slug];
+      if(!live) continue;
+      if(live.scm   !== null) ship.scm  = live.scm;
+      if(live.spd   !== null) ship.spd  = live.spd;
+      if(live.shp   !== null) ship.shp  = live.shp;
+      if(live.cargo !== null) ship.carg = live.cargo;
+      if(live.crew  !== null) ship.crew = live.crew;
+      if(live.dps   !== null) ship.dps  = live.dps;
+      if(live.alp   !== null) ship.alp  = live.alp;
+      if(live.price  > 0) ship.buy  = live.price;
+      if(live.pledge > 0) ship.pled = live.pledge;
+      ship.ver = live.ver;
+      updated++;
+    }
+
+    // Also build a name-based lookup for SDB_SHIPS (uses name not slug)
+    const nameToSlug = {};
+    for(const v of allVehicles){
+      if(v.name && v.slug) nameToSlug[v.name.toLowerCase()] = v.slug;
+    }
+
+    // Patch SDB_SHIPS with live prices
+    let sdbUpdated = 0;
+    if(typeof SDB_SHIPS !== 'undefined'){
+      for(const ship of SDB_SHIPS){
+        const slug = nameToSlug[ship.name.toLowerCase()];
+        const live = slug ? lookup[slug] : null;
+        if(!live) continue;
+        if(live.price  > 0) ship.auec   = live.price;
+        if(live.pledge > 0) ship.pledge = live.pledge;
+        sdbUpdated++;
+      }
+    }
+
+    sdbLiveDone = true;
+
+    // Re-render Ship DB if it's open
+    if(document.getElementById('panel-ships')?.style.display !== 'none'){
+      sdbFilterShips();
+    }
+
+    console.log(`Ship DB: ${updated}/${SHIP_LOADOUTS.length} loadout ships + ${sdbUpdated} SDB ships updated from SC Wiki ${allVehicles[0]?.version||''}`);
+
+  } catch(e){
+    // Silent fail — baked-in data still works
+  }
+}
+
 // ===== SC CRAFT LIVE FETCH =====
 const SCCRAFT_PROXY = 'https://catfight-sccraft-proxy.unknowngameraus1.workers.dev';
 let scrDone = false;
@@ -4723,10 +5042,166 @@ function renderWeaponPicker(size, containerId){
 
 
 
+function setMineTab(t, btn){
+  document.querySelectorAll('#panel-mining .miss-tab').forEach(c=>c.classList.remove('active'));
+  const el = document.getElementById('mine-'+t);
+  if(el) el.classList.add('active');
+  if(btn){ btn.closest('.cftabs').querySelectorAll('.ltab').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
+}
+
+// Extended MINERAL_DATA with prices and methods
+const MINERAL_DATA=[
+  {name:'Quantainium',grade:'A',type:'volatile',raw_price:54996,method:'ship',locations:['Yela asteroids (Stanton)','Cellin asteroids (Stanton)'],craft:'Quantum fuel production',note:'Explosive — explodes ~15min raw. Refine immediately. Highest value ore.'},
+  {name:'Bexalite',grade:'A',type:'rare',raw_price:28000,method:'ship',locations:['Yela asteroids (Stanton)'],craft:'High-end component BPs',note:'Very high value stable alternative to Quant. Rare finds.'},
+  {name:'Taranite',grade:'A',type:'rare',raw_price:18000,method:'ship',locations:['Wala (Stanton)','Yela asteroids (Stanton)'],craft:'Multiple component BPs',note:'High value, stable. Good Prospector target.'},
+  {name:'Hadanite',grade:'A',type:'rare',raw_price:15000,method:'hand',locations:['Aberdeen caves (Stanton)','Nyx caves (Hexis)'],craft:'Gem crafting',note:'ATLS GEO or hand only — cannot ship mine. Cave locations only.'},
+  {name:'Janalite',grade:'B',type:'common',raw_price:4800,method:'hand',locations:['Daymar Sand Caves (Stanton)','Magda caves (Pyro)','Wala caves (Stanton)'],craft:'Gem crafting',note:'Best ATLS GEO / hand loop. Daymar Sand Caves ~1.9M+/hr with ATLS GEO.'},
+  {name:'Stileron',grade:'B',type:'uncommon',raw_price:9500,method:'ship',locations:['Magda (Pyro)','Bloom (Pyro)'],craft:'FR-66 / FR-76 shield BPs',note:'Required for top-tier shield BPs. Pyro only.'},
+  {name:'Feynmaline',grade:'B',type:'uncommon',raw_price:8200,method:'ship',locations:['Terminus (Pyro)','Nyx caves (Hexis)'],craft:'Multiple shield BPs',note:'Shield BP ingredient — worth keeping.'},
+  {name:'Borase',grade:'B',type:'uncommon',raw_price:7800,method:'ship',locations:['Daymar (Stanton)','Aberdeen (Stanton)'],craft:'Component BPs',note:'Good mid-tier. Reliable Stanton find.'},
+  {name:'Riccite',grade:'B',type:'uncommon',raw_price:6500,method:'ship',locations:['Yela (Stanton)','Magda (Pyro)'],craft:'Shield BP ingredient',note:'Shield component crafting material.'},
+  {name:'Laranite',grade:'B',type:'uncommon',raw_price:6200,method:'ship',locations:['Wala (Stanton)','Magda (Pyro)'],craft:'Component BPs',note:'Mid-tier value, consistent finds.'},
+  {name:'Agricium',grade:'B',type:'uncommon',raw_price:5800,method:'ship',locations:['Wala (Stanton)','Calliope (Crusader)'],craft:'Industrial components',note:'Mid-tier value.'},
+  {name:'Diamond',grade:'B',type:'rare',raw_price:8800,method:'hand',locations:['Yela (Stanton)','Aberdeen (Stanton)'],craft:'Gem crafting',note:'High value hand mining find. Caves and surface deposits.'},
+  {name:'Dolivine',grade:'B',type:'uncommon',raw_price:4200,method:'ship',locations:['Pyro moons'],craft:'Industrial use',note:'Pyro mid-tier ore.'},
+  {name:'Pezurite',grade:'B',type:'uncommon',raw_price:3900,method:'ship',locations:['Magda (Pyro)','Bloom (Pyro)'],craft:'Industrial use',note:'Pyro uncommon.'},
+  {name:'Revenant',grade:'B',type:'uncommon',raw_price:5200,method:'ship',locations:['Nyx (Hexis)'],craft:'Component crafting',note:'Nyx exclusive — worth the trip for Glaciem Ring runs.'},
+  {name:'Titanium',grade:'C',type:'common',raw_price:2400,method:'ship',locations:['Cellin (Stanton)','Daymar (Stanton)','Pyro moons'],craft:'Industrial/structural',note:'Adagio Titanium loop — 3M+/hr stealing from wrecks. Mining titanium itself is low value.'},
+  {name:'Tungsten',grade:'C',type:'common',raw_price:1800,method:'ship',locations:['Wala (Stanton)','Aberdeen (Stanton)'],craft:'Industrial components',note:'Common crafting material.'},
+  {name:'Beryl',grade:'C',type:'common',raw_price:1600,method:'ship',locations:['Lyria (Stanton)','Cellin (Stanton)'],craft:'Common crafting',note:'Common mineral.'},
+  {name:'Hephaestanite',grade:'C',type:'common',raw_price:1400,method:'ship',locations:['Wala (Stanton)','Lyria (Stanton)'],craft:'Base crafting ingredient',note:'Common base ingredient.'},
+  {name:'Gold',grade:'C',type:'common',raw_price:2100,method:'ship',locations:['Yela (Stanton)','Magda (Pyro)'],craft:'Electronics components',note:'Decent value for a C-grade ore.'},
+  {name:'Inertite',grade:'C',type:'common',raw_price:1200,method:'ship',locations:['Magda (Pyro)','Bloom (Pyro)'],craft:'Industrial',note:'Pyro common mineral.'},
+  {name:'Aphorite',grade:'C',type:'common',raw_price:900,method:'ship',locations:['Pyro moons'],craft:'Industrial',note:'Pyro common.'},
+  {name:'Glacite',grade:'C',type:'common',raw_price:1100,method:'ship',locations:['Nyx (Hexis)','Pyro caves'],craft:'Thermal components',note:'Common in Nyx/Pyro.'},
+  {name:'Corundum',grade:'C',type:'common',raw_price:800,method:'ship',locations:['Wala (Stanton)','Lyria (Stanton)'],craft:'Abrasives, components',note:'Common metal.'},
+  {name:'Iron',grade:'C',type:'common',raw_price:400,method:'ship',locations:['Daymar (Stanton)','Cellin (Stanton)'],craft:'Structural',note:'Very common — skip on its own.'},
+  {name:'Copper',grade:'C',type:'common',raw_price:600,method:'ship',locations:['Cellin (Stanton)','Aberdeen (Stanton)'],craft:'Electronics',note:'Common base metal.'},
+  {name:'Aluminium',grade:'C',type:'common',raw_price:350,method:'ship',locations:['Aberdeen (Stanton)','Daymar (Stanton)'],craft:'Structural',note:'Very common — skip on its own.'},
+  {name:'Quartz',grade:'C',type:'common',raw_price:500,method:'ship',locations:['Daymar (Stanton)','Aberdeen (Stanton)'],craft:'Electronics',note:'Common rock mineral.'},
+];
+
+const MINE_ORE_PRICES = {
+  quant:1300, bexalite:380, taranite:290, hadanite:180, janalite:95,
+  borase:95, laranite:80, agricium:75, diamond:120, gold:50, titanium:30,
+};
+
+const MINE_SHIPS = [
+  {name:'Multi-Tool (hand)',slug:null,method:'hand',cargo:0.5,crew:1,price_buy:100,price_pledge:0,income:'~180k/hr',lasers:'Mining Attachment S1',note:'Zero ship cost. Janalite caves = best early income. Caves only.',col:'var(--t2)'},
+  {name:'ATLS GEO (exosuit)',slug:'grayc-atls-geo',method:'hand',cargo:0.5,crew:1,price_buy:120000,price_pledge:0,income:'~1.9M+/hr',lasers:'Integrated S1 gem laser',note:'4.8 best value ship. Gem mining only — caves. Needs carrier for haul. Buy before Prospector.',col:'var(--gold)'},
+  {name:'Greycat ROC',slug:'grayc-roc',method:'hand',cargo:2,crew:1,price_buy:172000,price_pledge:0,income:'~120k/hr',lasers:'S1 mining laser (ground)',note:'Surface gem/ore mining. Good for Hadanite surface. Slower than ATLS for gems.',col:'var(--t2)'},
+  {name:'MISC Prospector',slug:'misc-prospector',method:'ship',cargo:32,crew:1,price_buy:2060000,price_pledge:155,income:'~350k/hr',lasers:'1× S1 mining head (3 modules)',note:'Solo asteroid standard. Quantainium target. 32 SCU. Hofstede + Focus III recommended.',col:'var(--teal)'},
+  {name:'Argo MOLE',slug:'argo-mole',method:'ship',cargo:96,crew:3,price_buy:9380000,price_pledge:325,income:'~900k/hr (full crew)',lasers:'3× S2 mining heads (independent)',note:'Best group mining. 3 independent beams. Each operator works their own rock section. Glaciem Ring (Nyx) for best density.',col:'var(--ember)'},
+  {name:'Argo ATLS GEO IKTI',slug:'argo-atls-geo-ikti',method:'hand',cargo:1,crew:1,price_buy:127000,price_pledge:0,income:'~2M+/hr',lasers:'Integrated gem laser (upgraded)',note:'IKTI variant — upgraded mining tool. Best gem mining exosuit in 4.8.',col:'var(--gold)'},
+];
+
+function renderMineShips(){
+  const el = document.getElementById('mine-ship-cards');
+  if(!el) return;
+  const fmt = n => n>=1000000?(n/1e6).toFixed(2)+'M aUEC':n>=1000?(n/1000).toFixed(0)+'k aUEC':n+' aUEC';
+  el.innerHTML = MINE_SHIPS.map(s=>`
+    <div class="card" style="border-left:2px solid ${s.col}">
+      <div style="display:flex;align-items:baseline;gap:.5rem;margin-bottom:.25rem">
+        <span style="font-weight:700;color:var(--t1)">${s.name}</span>
+        <span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:${s.col};margin-left:auto">${s.method==='hand'?'Hand/Exosuit':'Ship mining'}</span>
+      </div>
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap;font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--t3);margin-bottom:.3rem">
+        ${s.cargo?`<span>Cargo <span style="color:var(--t2)">${s.cargo} SCU</span></span>`:''}
+        <span>Crew <span style="color:var(--t2)">${s.crew}</span></span>
+        <span>Price <span style="color:var(--gold)">${fmt(s.price_buy)}</span></span>
+        ${s.price_pledge?`<span>Pledge <span style="color:var(--ember)">$${s.price_pledge}</span></span>`:''}
+      </div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--gold);margin-bottom:.25rem">${s.income}</div>
+      <div style="font-size:.7rem;color:var(--t3);margin-bottom:.2rem">Lasers: ${s.lasers}</div>
+      <div style="font-size:.78rem;color:var(--t2)">${s.note}</div>
+    </div>`).join('');
+}
+
+function mineCalcUpdate(){
+  const ore    = document.getElementById('mc-ore')?.value;
+  const scu    = parseInt(document.getElementById('mc-scu')?.value||'32');
+  const conc   = parseInt(document.getElementById('mc-conc')?.value||'30')/100;
+  const method = parseFloat(document.getElementById('mc-method')?.value||'0.9');
+  const crew   = parseInt(document.getElementById('mc-crew')?.value||'1');
+  const fee    = parseInt(document.getElementById('mc-fee')?.value||'12')/100;
+  const el     = document.getElementById('mc-res-content');
+  if(!el || !ore) return;
+
+  const pricePerUnit = MINE_ORE_PRICES[ore] || 0;
+  const rawUnits     = scu * 100; // 1 SCU = 100 units
+  const oreUnits     = Math.round(rawUnits * conc);
+  const refinedUnits = Math.round(oreUnits * method);
+  const grossValue   = refinedUnits * pricePerUnit;
+  const refFee       = Math.round(grossValue * fee);
+  const netValue     = grossValue - refFee;
+  const perCrew      = crew > 1 ? Math.round(netValue / crew) : netValue;
+
+  const fmt  = n => n>=1000000?(n/1e6).toFixed(2)+'M aUEC':n>=1000?Math.round(n/1000)+'k aUEC':n+' aUEC';
+  const fmtU = n => n.toLocaleString()+' units';
+  const col  = netValue > 500000 ? 'var(--gold)' : netValue > 100000 ? 'var(--ember)' : 'var(--t2)';
+
+  const oreLabel = document.getElementById('mc-ore')?.selectedOptions[0]?.text?.split(' (')[0] || ore;
+  const isVolatile = ore === 'quant';
+
+  el.innerHTML = `
+    <div class="res-row"><span class="res-lbl">Ore</span><span class="res-val">${oreLabel}${isVolatile?' ⚠ volatile':''}</span></div>
+    <div class="res-row"><span class="res-lbl">Raw ore mined</span><span class="res-val">${scu} SCU · ${fmtU(rawUnits)}</span></div>
+    <div class="res-row"><span class="res-lbl">Ore at ${Math.round(conc*100)}% conc.</span><span class="res-val">${fmtU(oreUnits)}</span></div>
+    <div class="res-row"><span class="res-lbl">Refined yield</span><span class="res-val">${fmtU(refinedUnits)} (${Math.round(method*100)}% method)</span></div>
+    <div class="res-row"><span class="res-lbl">Gross value</span><span class="res-val">${fmt(grossValue)}</span></div>
+    <div class="res-row"><span class="res-lbl">Refinery fee (~${Math.round(fee*100)}%)</span><span class="res-val" style="color:var(--fire)">−${fmt(refFee)}</span></div>
+    <div class="res-row" style="border-top:1px solid var(--b2);margin-top:.25rem;padding-top:.4rem">
+      <span class="res-lbl" style="font-size:.8rem;font-weight:700">NET VALUE</span>
+      <span style="font-family:'Share Tech Mono',monospace;font-size:1.3rem;font-weight:700;color:${col}">${fmt(netValue)}</span>
+    </div>
+    ${crew>1?`<div class="res-row" style="margin-top:.2rem"><span class="res-lbl">Per crew member</span><span class="res-val" style="color:var(--ember)">${fmt(perCrew)}</span></div>`:''}
+    ${isVolatile?`<div style="margin-top:.5rem;padding:.4rem .6rem;background:rgba(255,50,50,.08);border:1px solid rgba(255,50,50,.2);border-radius:2px;font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--fire)">⚠ QUANTAINIUM — head to refinery immediately after mining. Raw ore explodes after ~15 minutes flight time. Do NOT haul across system.</div>`:''}
+  `;
+}
+
+function minFilter(){
+  const q   = (document.getElementById('min-search')?.value||'').toLowerCase();
+  const sys = (document.getElementById('min-sys')?.value||'').toLowerCase();
+  const typ = document.getElementById('min-type')?.value||'';
+  const body= document.getElementById('min-body');
+  const cnt = document.getElementById('min-count');
+  const none= document.getElementById('min-none');
+  if(!body) return;
+
+  const typeMap = {hand:'hand',ship:'ship',rare:'rare','volatile':'rare'};
+  const filtType = typeMap[typ] || typ;
+
+  const filtered = MINERAL_DATA.filter(m=>{
+    if(q && !m.name.toLowerCase().includes(q) && !m.locations.join(' ').toLowerCase().includes(q)) return false;
+    if(sys && !m.locations.join(' ').toLowerCase().includes(sys)) return false;
+    if(filtType === 'hand' && m.method !== 'hand') return false;
+    if(filtType === 'ship' && m.method !== 'ship') return false;
+    if(filtType === 'rare' && !['rare','volatile'].includes(m.type) && m.grade !== 'A') return false;
+    return true;
+  });
+
+  const gradeCol = {A:'var(--gold)',B:'var(--ember)',C:'var(--t3)'};
+  const fmt = n => n>=1000?(n/1000).toFixed(0)+'k':n;
+  const methodIcon = m => m.method==='hand' ? '✋' : '🚀';
+
+  body.innerHTML = filtered.map(m=>`<tr>
+    <td><strong>${m.name}</strong></td>
+    <td style="color:${gradeCol[m.grade]||'var(--t3)'}">Grade ${m.grade}</td>
+    <td style="font-family:'Share Tech Mono',monospace;color:var(--gold)">${fmt(m.raw_price)} /SCU</td>
+    <td>${methodIcon(m)} ${m.method==='hand'?'Hand / ATLS':'Ship mining'}</td>
+    <td style="font-size:.72rem;color:var(--t2)">${m.locations.join('<br>')}</td>
+    <td style="font-size:.72rem;color:var(--t3)">${m.craft}</td>
+  </tr>`).join('');
+
+  if(cnt) cnt.textContent = filtered.length+' minerals';
+  if(none) none.style.display = filtered.length ? 'none' : 'block';
+}
+
 document.addEventListener('DOMContentLoaded',function(){
   renderShop();
   renderTrade();
   minFilter();
+  renderMineShips();
   renderBHG();
   bpFilter();
   calcUpdate();
@@ -4742,8 +5217,9 @@ document.addEventListener('DOMContentLoaded',function(){
   setTimeout(fetchLiveUEX, 600);
   setTimeout(fetchLiveErkul, 1200);
   setTimeout(fetchLiveSCCraft, 2000);
+  setTimeout(fetchLiveShipDB, 2800);
 });
 </script>
-<footer>CATFIGHT ORG &nbsp;·&nbsp; STAR CITIZEN 4.8 &nbsp;·&nbsp; DATA: SC WIKI API + SC CRAFT TOOLS + UEX LIVE + ERKUL LIVE + 4.8.0.11825000 DATAMINE &nbsp;·&nbsp; PRICES: UEX LIVE API &nbsp;·&nbsp; BETA v0.8.8 RC1 &nbsp;·&nbsp; NOT FINANCIAL ADVICE</footer>
+<footer>CATFIGHT ORG &nbsp;·&nbsp; STAR CITIZEN 4.8 &nbsp;·&nbsp; DATA: SC WIKI API + SC CRAFT TOOLS + UEX LIVE + ERKUL LIVE + 4.8.0.11825000 DATAMINE &nbsp;·&nbsp; PRICES: UEX LIVE API &nbsp;·&nbsp; BETA v0.8.9 &nbsp;·&nbsp; NOT FINANCIAL ADVICE</footer>
 </body>
 </html>
