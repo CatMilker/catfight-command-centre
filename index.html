@@ -727,6 +727,18 @@ footer {
     <span>✓</span>
     <span>4.8 LIVE · <strong style="color:var(--gold)">v0.9</strong> · Live prices via UEX · Erkul weapon data · SC Craft BP sources · Loadout Builder (208 ships) · 25 curated meta loadouts · BHG Stack Calc · Grind Guide rebuilt · 3 Cloudflare workers wired in</span>
   </div>
+
+  <!-- RSI SERVER STATUS BAR -->
+  <div id="rsi-status-bar" style="display:flex;align-items:center;gap:.6rem;padding:.3rem .75rem;background:rgba(255,255,255,.02);border:1px solid var(--b1);border-radius:2px;margin-top:.4rem;font-family:'Share Tech Mono',monospace;font-size:.65rem;flex-wrap:wrap">
+    <span style="color:var(--t3);font-family:'Orbitron',sans-serif;font-size:.52rem;letter-spacing:.1em">RSI STATUS</span>
+    <span id="rsi-pu-status" style="color:var(--t3)">⟳ Loading...</span>
+    <span style="color:var(--b2)">·</span>
+    <span id="rsi-platform-status" style="color:var(--t3)">—</span>
+    <span style="color:var(--b2)">·</span>
+    <span id="rsi-ac-status" style="color:var(--t3)">—</span>
+    <span style="margin-left:auto;color:var(--t4)" id="rsi-status-time"></span>
+    <a href="https://status.robertsspaceindustries.com" target="_blank" style="color:var(--t4);font-size:.58rem">↗ full status</a>
+  </div>
 </div>
 
 <nav>
@@ -5582,6 +5594,55 @@ function renderMatchups(){
   el.dataset.rendered = '1';
 }
 
+// ===== RSI SERVER STATUS =====
+const RSI_STATUS_PROXY = 'https://catfight-rsi-status.unknowngameraus1.workers.dev';
+
+const STATUS_COL = {
+  operational: 'var(--green)',
+  maintenance: 'var(--gold)',
+  degraded:    'var(--ember)',
+  disrupted:   'var(--fire)',
+  down:        'var(--fire)',
+  unknown:     'var(--t3)',
+};
+const STATUS_ICON = {
+  operational: '✓',
+  maintenance: '🔧',
+  degraded:    '⚠',
+  disrupted:   '⚠',
+  down:        '✗',
+  unknown:     '?',
+};
+
+async function fetchRSIStatus(){
+  try {
+    const d = await fetch(RSI_STATUS_PROXY+'/status').then(r=>r.json());
+    const systems = d.systems || [];
+
+    const set = (id, system) => {
+      const el = document.getElementById(id);
+      if(!el || !system) return;
+      const s    = system.status || 'unknown';
+      const col  = STATUS_COL[s] || 'var(--t3)';
+      const icon = STATUS_ICON[s] || '?';
+      const issues = system.unresolvedIssues || [];
+      const issueText = issues.length ? ` — ${issues[0].title}` : '';
+      el.innerHTML = `<span style="color:${col}">${icon} ${system.name}: ${s.charAt(0).toUpperCase()+s.slice(1)}${issueText}</span>`;
+    };
+
+    set('rsi-pu-status',       systems.find(s=>s.name==='Persistent Universe'));
+    set('rsi-platform-status', systems.find(s=>s.name==='Platform'));
+    set('rsi-ac-status',       systems.find(s=>s.name==='Arena Commander'));
+
+    const timeEl = document.getElementById('rsi-status-time');
+    if(timeEl) timeEl.textContent = 'updated '+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+
+  } catch(e) {
+    const el = document.getElementById('rsi-pu-status');
+    if(el) el.innerHTML = '<span style="color:var(--t3)">Status unavailable</span>';
+  }
+}
+
 // ===== SC CRAFT LIVE FETCH =====
 const SCCRAFT_PROXY = 'https://catfight-sccraft-proxy.unknowngameraus1.workers.dev';
 let scrDone = false;
@@ -5982,6 +6043,8 @@ document.addEventListener('DOMContentLoaded',function(){
   setTimeout(fetchLiveErkul, 1200);
   setTimeout(fetchLiveSCCraft, 2000);
   setTimeout(fetchLiveShipDB, 2800);
+  fetchRSIStatus();
+  setInterval(fetchRSIStatus, 120000); // refresh every 2 minutes
 });
 </script>
 <footer>CATFIGHT ORG &nbsp;·&nbsp; STAR CITIZEN 4.8 &nbsp;·&nbsp; DATA: SC WIKI API + SC CRAFT TOOLS + UEX LIVE + ERKUL LIVE + 4.8.0.11825000 DATAMINE &nbsp;·&nbsp; PRICES: UEX LIVE API &nbsp;·&nbsp; BETA v0.9 &nbsp;·&nbsp; NOT FINANCIAL ADVICE</footer>
