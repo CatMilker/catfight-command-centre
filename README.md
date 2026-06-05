@@ -1,6 +1,6 @@
 # Catfight Command Centre
 
-Star Citizen 4.8 org tool for the Catfight org. Single-file HTML — no server, no account, open directly in a browser or host on GitHub Pages.
+Star Citizen 4.8 org tool for the Catfight org. Single-file HTML — no server, no account, open directly in browser or host on GitHub Pages.
 
 **Live:** https://catmilker.github.io/catfight-command-centre/
 
@@ -8,66 +8,54 @@ Star Citizen 4.8 org tool for the Catfight org. Single-file HTML — no server, 
 
 ## Panels
 
-**⚡ Grind Guide** — Ship-tier activity guide rebuilt for 4.8. Starter → Salvage. Gilly S7 loop, Adagio Titanium (3–5M+/hr), United Wayfarers refuelling (5M+/hr Starfarer), ATLS GEO gem mining, PAF farming. Every tier shows what to run, what it pays, what BPs drop, what to upgrade to next.
+**⚡ Grind Guide** — Ship-tier activity guide for 4.8. Starter → Salvage. Gilly S7, Adagio Titanium (3–5M+/hr), Starfarer refuelling (5M+/hr), ATLS GEO gem mining, PAF farming.
 
-**💱 Trade** — 6 tabs: Commodities (98 items, live UEX prices), Best Locations (live terminal buy/sell per commodity), Profit Calc (pick ship SCU + terminals, get net profit), Routes, Hauling chain, Trade Tips.
+**💱 Trade** — 98 live commodities (UEX), Best Locations, Profit Calc, Routes, Hauling chain, Trade Tips.
 
-**🏅 Rep Tracker** — 11 factions. Clickable rank buttons, XP thresholds, BP drops per tier. Export/Import backup so you don't lose progress on cache clear. Saves to localStorage.
+**🏅 Rep Tracker** — 11 factions, rank unlocks, XP thresholds, BP drops. Export/Import backup. Saves to localStorage.
 
-**🧮 Calc** — 2 tabs: Session Estimator (37 activities, 1–24hr sessions, goals panel) and BHG Stack Calc (tier/stack/cert/loot inputs → total payout + XP + breakdown bar).
+**🧮 Calc** — Session Estimator (37 activities, goals panel) + BHG Stack Calc (tier/stack/cert/loot → payout + XP).
 
-**🐱 Org Ops** — Role assignment planner for org sessions.
+**🐱 Org Ops** — Role assignment planner.
 
-**🏪 Shops** — 115+ items searchable by name, location or type. All ship locations verified for 4.8.
+**🏪 Shops** — 115+ items by name, location or type. All 4.8 verified.
 
 **🗺️ Systems** — Locations and services across Stanton, Pyro and Nyx.
 
-**🗄️ Ship DB** — 4 tabs: Full Database (220+ ships, live SC Wiki stats + prices), Meta Picks (5 role tabs with 4.8 verdicts), Loadouts (208 ships with stock slot data), Builder (pick a ship, configure components, see live DPS/shield/power stats).
+**🗄️ Ship DB** — Full Database (220+ ships, live SC Wiki stats + prices), Meta Picks (5 role tabs), Loadouts (208 ships, SC Wiki stock slot data), Builder (pick ship → configure components → live DPS/shield/power stats), Compare (side-by-side any two ships, 18 stats, live SC Wiki).
 
-**⛏️ Mining Compendium** — 6 tabs: Minerals (27 ores with prices/locations), Ships (all mining vessels with income estimates), Lasers (head + module guide with curated loadouts), Refinery (all 6 methods ranked), Profit Calc (ore × SCU × concentration × method → net value), Crew Guide (MOLE roles, comms callouts, org coordination).
+**⛏️ Mining Compendium** — Minerals (27 ores, live UEX prices), Ships (all vessels inc ATLS GEO), Lasers (head + module guide, curated loadouts), Refinery (6 methods ranked), Profit Calc (live ore prices), Crew Guide (MOLE roles, comms callouts).
 
-**🎯 Missions** — 606 missions across 19 factions. Searchable, filterable, sortable. BP drops with drop rates.
+**🎯 Missions** — 606 catalogued missions, 19 factions. Searchable, filterable. BP drops with rates.
 
-**📋 Blueprints** — Mission Drop BPs, Component BPs (252 ship components, live SC Craft sources), Priority Roadmap.
+**📋 Blueprints** — Mission Drop BPs, Component BPs (252 items, live SC Craft sources), Priority Roadmap.
+
+**⚔️ Combat Analysis** — Ship Profiles (12 meta ships, full PvP analysis, signature ratings, capacitor stats, verified builds), Weapon Matrix (S1–S5, all types), Matchup Guide (Arrow vs Gladius, Ghost vs everything, lights vs heavies, Banu Defender, missile usage).
 
 ---
 
 ## Live Data — 4 Sources, 3 Workers
 
-| Source | Data | Method | Cache |
+| Source | Data | Method | Refresh |
 |---|---|---|---|
-| UEX API | Commodity prices, terminal locations, ship prices | Cloudflare Worker | 15 min |
-| Erkul.games | Weapon stats (DPS/alpha/RPM/ammo), ship data | Cloudflare Worker | 20 min |
-| SC Craft Tools | 1,534 blueprint sources with drop chances | Cloudflare Worker | 30 min |
-| SC Wiki API | Ship stats, component data, vehicle prices | Direct fetch (open CORS) | Per session |
+| UEX API | Commodity prices, terminal locations | Cloudflare Worker | 15 min cache |
+| Erkul.games | Weapon stats (DPS/alpha/RPM), ship data | Cloudflare Worker | 20 min cache |
+| SC Craft Tools | 1,534 BP sources with drop chances | Cloudflare Worker | 30 min cache |
+| SC Wiki API | Ship stats, prices, component data | Direct (open CORS) | Per session |
 
-All four fetch on page load. Silent fallback to baked-in data if any source is unreachable. Ship DB stats and prices update automatically after every patch.
-
----
-
-## Data Sources
-
-- Commodity + ship prices — UEX API live (`uexcorp.space/api/2.0`)
-- Weapon stats — Erkul.games live (`server.erkul.games/live`)
-- Blueprint drop sources — SC Craft Tools live (`sc-craft.tools/api`)
-- Ship stats/prices — SC Wiki API (`api.star-citizen.wiki/api/vehicles`) — open CORS
-- Component stats — SC Wiki API (`api.star-citizen.wiki/api/items`)
-- Mission data — SC Wiki API (`api.star-citizen.wiki/api/missions`)
-- Mineral locations — `global.ini` + `all_sc_data.txt` DCB datamine
+All four fetch on page load. Silent fallback to baked-in data if any source is unreachable. Ship stats, component data and ore prices update automatically after every patch.
 
 ---
 
 ## Status
 
-**Beta v0.8.9** — 4.8 live.
+**v0.9** — 4.8 live. Full release.
 
-**v0.8.9:** Mining Compendium fully rebuilt as 6-tab panel (Minerals, Ships, Lasers, Refinery, Profit Calc, Crew Guide). Live Ship DB — SC Wiki fetch updates stats and aUEC prices every session. Rep Tracker export/import fixed.
+**v0.9:** Combat Analysis panel (12 meta PvP profiles, weapon matrix, matchup guide). Ship Comparison (live SC Wiki, 18 stats). Mining Compendium 6-tab rebuild with live ore prices. Full live data audit — mineral prices corrected (Janalite was 4.8k baked, 1.6M live). LB_SHIELDS/POWER/COOLERS/QD refresh live. SC Craft Tools replacing offline SC Crafter. Rep Tracker export/import fixed.
 
-**v0.8.8:** Loadout Builder (208 ships, live Erkul weapon pickers, real-time stats). 25 curated meta loadouts. BHG Stack Calculator. Grind Guide rebuilt for 4.8. Trade Profit Calc + Best Locations. 3 Cloudflare workers live. BP sources corrected.
+**v0.8:** Loadout Builder (208 ships, live Erkul weapons). 25 curated meta loadouts. BHG Stack Calc. Grind Guide 4.8 rebuild. Trade Profit Calc. 3 Cloudflare workers. Mining Compendium. Ship Compare. Live Ship DB.
 
-**v0.8:** Pyro theme. Live UEX commodity prices. 4.8 ships added. Meta Picks rebuilt. SCU corrections.
-
-**v0.7:** Missions panel (606 missions), Rep Tracker rebuilt, nav consolidated, Grind Guide rebuilt.
+**v0.7:** Missions panel, Rep Tracker, nav rebuild, Grind Guide.
 
 **v0.6:** Component BPs, session estimator, shop directory, trade panel.
 
