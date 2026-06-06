@@ -16,7 +16,7 @@ Star Citizen 4.8 org tool for the Catfight org. Single-file HTML — no server, 
 
 **🧮 Calc** — Session Estimator (37 activities, goals panel) + BHG Stack Calc (tier/stack/cert/loot → payout + XP).
 
-**🐱 Org Ops** — Role assignment planner.
+**🐱 Org Ops** — Session planner. Objective, system, player count. Crew roster with callsign, role (8 types) and ship per player. Live income estimates (UEX). Op Notes synergy detection. Mission Brief with copy button.
 
 **🏪 Shops** — 115+ items by name, location or type. All 4.8 verified.
 
@@ -52,6 +52,8 @@ All sources fetch on page load. Silent fallback to baked-in data if any source i
 ## Status
 
 **v0.9** — 4.8 live. Full release.
+
+**v0.9.2:** Org Ops Planner full rebuild + live income estimates wired to UEX. Panel replaced from scratch — session config row (objective, system, player count), crew roster with callsign/role/ship per player, 8 roles including Escort and Recon. Three roles now pull live from UEX: Mining (Quantainium sell price × ~8 SCU refined/hr × 80% refinery), Cargo (best live buy margin × 46 SCU × 2 trips/hr), Salvage (live RMC price × 20 SCU/hr). 🟢 UEX LIVE / ⚪ STATIC badge on income card. Panel auto-refreshes with live numbers when UEX loads. Op Notes detects synergies and warnings (no escort in Pyro, fighter + salvage pair, zero combat coverage). Stats bar shows combined income, security rating and objective. Mission Brief generates formatted text with per-player income ready to paste into Discord.
 
 **v0.9.1:** RSI + AWS live server status bar — sits below MOTD, updates every 2–3 minutes. Shows PU/Platform/Arena Commander status from RSI directly. AWS side monitors active infrastructure incidents so you can tell if issues are CIG or their hosting. 5 Cloudflare workers total.
 
