@@ -34,22 +34,26 @@ Star Citizen 4.8 org tool for the Catfight org. Single-file HTML — no server, 
 
 ---
 
-## Live Data — 4 Sources, 3 Workers
+## Live Data — 6 Sources, 5 Workers
 
 | Source | Data | Method | Refresh |
 |---|---|---|---|
 | UEX API | Commodity prices, terminal locations | Cloudflare Worker | 15 min cache |
+| RSI Status | PU / Platform / Arena Commander status | Cloudflare Worker | 2 min cache |
+| AWS Status | Active infrastructure incidents | Cloudflare Worker | 3 min cache |
 | Erkul.games | Weapon stats (DPS/alpha/RPM), ship data | Cloudflare Worker | 20 min cache |
 | SC Craft Tools | 1,534 BP sources with drop chances | Cloudflare Worker | 30 min cache |
 | SC Wiki API | Ship stats, prices, component data | Direct (open CORS) | Per session |
 
-All four fetch on page load. Silent fallback to baked-in data if any source is unreachable. Ship stats, component data and ore prices update automatically after every patch.
+All sources fetch on page load. Silent fallback to baked-in data if any source is unreachable. Ship stats, component data and ore prices update automatically after every patch.
 
 ---
 
 ## Status
 
 **v0.9** — 4.8 live. Full release.
+
+**v0.9.1:** RSI + AWS live server status bar — sits below MOTD, updates every 2–3 minutes. Shows PU/Platform/Arena Commander status from RSI directly. AWS side monitors active infrastructure incidents so you can tell if issues are CIG or their hosting. 5 Cloudflare workers total.
 
 **v0.9:** Combat Analysis panel (12 meta PvP profiles, weapon matrix, matchup guide). Ship Comparison (live SC Wiki, 18 stats). Mining Compendium 6-tab rebuild with live ore prices. Full live data audit — mineral prices corrected (Janalite was 4.8k baked, 1.6M live). LB_SHIELDS/POWER/COOLERS/QD refresh live. SC Craft Tools replacing offline SC Crafter. Rep Tracker export/import fixed.
 
