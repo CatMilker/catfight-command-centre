@@ -717,7 +717,7 @@ footer {
     </div>
     <div class="badges">
       <div class="badge badge-gold">LIVE 4.8</div>
-      <div class="badge" style="color:var(--teal);border-color:var(--teal)">BETA v0.9</div>
+      <div class="badge" style="color:var(--teal);border-color:var(--teal)">BETA v0.9.2</div>
     </div>
   </div>
 </header>
@@ -1903,20 +1903,67 @@ footer {
 <!-- PANEL: ORG OPS -->
 <!-- ============================================================ -->
 <div class="panel" id="panel-org">
-  <div class="sec-hdr"><div class="sec-title" style="color:var(--orange)">CATFIGHT ORG OPS PLANNER</div><div class="sec-sub">SESSION ROLE ASSIGNMENT · INCOME ESTIMATES</div></div>
-  <div class="form-group" style="max-width:300px">
-    <label>SESSION PLAYER COUNT</label>
-    <select id="orgCount" onchange="orgUpdate()">
-      <option value="2">2 players</option>
-      <option value="3">3 players</option>
-      <option value="4" selected>4 players</option>
-      <option value="5">5 players</option>
-      <option value="6">6 players</option>
-      <option value="8">8+ players</option>
-    </select>
+  <div class="sec-hdr"><div class="sec-title" style="color:var(--orange)">CATFIGHT ORG OPS PLANNER</div><div class="sec-sub">SESSION PLANNING · ROLE ASSIGNMENT · INCOME ESTIMATOR · MISSION BRIEF</div></div>
+
+  <!-- Top row: session config -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.65rem;margin-bottom:.85rem">
+
+    <div class="form-group" style="margin:0">
+      <label>SESSION OBJECTIVE</label>
+      <select id="orgObjective" onchange="orgUpdate()" style="width:100%">
+        <option value="grind">💰 Income Grind</option>
+        <option value="hauling">📦 Org Hauling Run</option>
+        <option value="mining">⛏️ Mining Op</option>
+        <option value="salvage">🔧 Salvage Op</option>
+        <option value="combat">⚔️ Combat / BH</option>
+        <option value="pvp">🎯 PvP Ops</option>
+        <option value="explore">🌌 Exploration</option>
+        <option value="free">🎲 Free Roam</option>
+      </select>
+    </div>
+
+    <div class="form-group" style="margin:0">
+      <label>OPERATING SYSTEM</label>
+      <select id="orgSystem" onchange="orgUpdate()" style="width:100%">
+        <option value="stanton">Stanton</option>
+        <option value="pyro">Pyro</option>
+        <option value="nyx">Nyx</option>
+        <option value="multi">Multi-system</option>
+      </select>
+    </div>
+
+    <div class="form-group" style="margin:0">
+      <label>PLAYER COUNT</label>
+      <select id="orgCount" onchange="orgUpdate()" style="width:100%">
+        <option value="2">2 players</option>
+        <option value="3">3 players</option>
+        <option value="4" selected>4 players</option>
+        <option value="5">5 players</option>
+        <option value="6">6 players</option>
+        <option value="7">7 players</option>
+        <option value="8">8+ players</option>
+      </select>
+    </div>
   </div>
-  <div class="org-roles" id="orgRoles"></div>
-  <div class="org-income" id="orgIncome"></div>
+
+  <!-- Roster -->
+  <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);letter-spacing:.1em;margin-bottom:.4rem;text-transform:uppercase">CREW ROSTER</div>
+  <div id="orgRoster" style="display:flex;flex-direction:column;gap:.4rem;margin-bottom:.85rem"></div>
+
+  <!-- Stats bar -->
+  <div id="orgStats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:.85rem"></div>
+
+  <!-- Suggested op plan -->
+  <div id="orgPlan" style="margin-bottom:.85rem"></div>
+
+  <!-- Session brief + copy -->
+  <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem">
+    <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;flex:1">MISSION BRIEF</div>
+    <button class="btn" onclick="orgCopyBrief()" style="font-size:.65rem;padding:.25rem .65rem">📋 COPY BRIEF</button>
+    <button class="btn" onclick="orgReset()" style="font-size:.65rem;padding:.25rem .65rem;opacity:.7">↺ RESET</button>
+  </div>
+  <div id="orgBrief" style="background:var(--s2);border:1px solid var(--b1);border-radius:2px;padding:.75rem 1rem;font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--t2);line-height:1.7;white-space:pre-wrap"></div>
+
 </div>
 
 <!-- ============================================================ -->
@@ -4323,36 +4370,284 @@ function renderBP(role){
 
 
 
-function orgUpdate(){
-  const count=parseInt(document.getElementById('orgCount')?.value||'4');
-  const el=document.getElementById('orgRoles');
-  if(!el)return;
-  const roleIncome={combat:700000,cargo:285000,mining:350000,salvage:200000,support:0,flex:300000};
-  let html='';
+// ── ORG OPS PLANNER ─────────────────────────────────────────────────────────
+
+// Live income derived from UEX COMMODITIES/TRADE_LOCS where available
+function orgLiveIncome(role) {
+  try {
+    const hasCom = typeof COMMODITIES !== 'undefined' && COMMODITIES.length;
+    const C = n => { if(!hasCom) return 0; const r = COMMODITIES.find(c=>c.n===n); return r ? (r.s||0) : 0; };
+    const TL = n => { const r = typeof TRADE_LOCS!=='undefined' && TRADE_LOCS[n]; return r ? (r.bm||0) : 0; };
+    switch(role) {
+      case 'mining': {
+        const quantPrice = C('Quantainium') || 151000;
+        // Solo Prospector: ~8 SCU refined Quant/hr, 80% refinery efficiency
+        return Math.round(quantPrice * 8 * 0.8);
+      }
+      case 'cargo': {
+        // Best live margin commodity × 46 SCU × 2 round trips/hr
+        const bestMargin = Math.max(
+          TL('Medical Supplies'), TL('Agricultural Supplies'),
+          TL('Processed Food'), TL('Construction Materials'),
+          TL('Astatine'), TL('Iodine'), 15000
+        );
+        return Math.round(bestMargin * 46 * 2);
+      }
+      case 'salvage': {
+        // Vulture solo: ~20 SCU RMC/hr at live price
+        const rmcPrice = C('Recycled Material Composite') || 7200;
+        return Math.round(rmcPrice * 20);
+      }
+      case 'combat':  return 700000;
+      case 'support': return 0;
+      case 'escort':  return 550000;
+      case 'recon':   return 250000;
+      case 'flex':    return 300000;
+      default:        return 300000;
+    }
+  } catch(e) {
+    const fb = {combat:700000,cargo:285000,mining:350000,salvage:220000,support:0,escort:550000,recon:250000,flex:300000};
+    return fb[role] || 300000;
+  }
+}
+
+const ORG_ROLES = {
+  combat:  { label:'⚔️ Combat / BH',    income:700000,  ship:'Fighter',             tip:'Ship bounties, escort, PvP escort' },
+  cargo:   { label:'📦 Cargo Hauler',   income:285000,  ship:'Cargo ship',          tip:'Trade routes, org deliveries' },
+  mining:  { label:'⛏️ Mining',         income:350000,  ship:'Mole / Prospector',   tip:'Quantainium, Bexalite, gem runs' },
+  salvage: { label:'🔧 Salvage',        income:220000,  ship:'Reclaimer / Vulture', tip:'RMC, hull scraping, component strip' },
+  support: { label:'🏥 Support / Medic',income:0,       ship:'Freelancer / C8R',    tip:'Regen, triage, logistics' },
+  escort:  { label:'🛡️ Escort / Cover', income:550000,  ship:'Heavy fighter',       tip:'Fly wing for haulers/miners' },
+  recon:   { label:'🔭 Recon / Intel',  income:250000,  ship:'Scout',               tip:'Ping locations, mark contacts' },
+  flex:    { label:'🔀 Flex',           income:300000,  ship:'Any',                 tip:'Adapt to session needs' },
+};
+
+const ORG_OBJ_TIPS = {
+  grind:   'Focus on highest aUEC/hr per player. Assign roles that pair well together.',
+  hauling: 'Designate a lead hauler + armed escort. Stagger departures to avoid camping.',
+  mining:  'MOLE crew: 1 pilot + 2–3 beam ops. Prospectors split and meet at refinery.',
+  salvage: 'Reclaimer needs min 3 crew. Vultures work solo runs in parallel.',
+  combat:  'Wing up. Always have a support ship or medic for downed pilots.',
+  pvp:     'Establish comms discipline. Call primary/secondary targets. No lone-wolfing.',
+  explore: 'Jump scout protocol. Mark derelicts for follow-up salvage.',
+  free:    'No hard structure. Regroup at set waypoints.',
+};
+
+const ORG_ROLE_SYNERGIES = {
+  'mining+support':  '✅ Ore carrier + medic = safe mining loop',
+  'cargo+escort':    '✅ Escort covers hauler on hot routes',
+  'salvage+combat':  '✅ Fighter clears area before Reclaimer moves in',
+  'mining+mining':   '💎 Dual miner — double output, needs own refinery runs',
+  'combat+combat':   '⚔️ Fighter wing — high aggro cap, great for bounties',
+  'cargo+combat':    '⚠️ No escort means undefended hauler — risky in Pyro',
+};
+
+let _orgState = {};
+
+function orgGetState(){
+  const count = parseInt(document.getElementById('orgCount')?.value||'4');
+  const obj   = document.getElementById('orgObjective')?.value||'grind';
+  const sys   = document.getElementById('orgSystem')?.value||'stanton';
+  const players = [];
   for(let i=1;i<=count;i++){
-    const prev=document.getElementById('orgRole'+i)?.value||'flex';
-    html+=`<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
-      <span style="font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--t3);min-width:60px">Player ${i}</span>
-      <select id="orgRole${i}" onchange="orgUpdate()" style="font-size:.75rem;flex:1">
-        <option value="combat"${prev==='combat'?' selected':''}>⚔️ Combat</option>
-        <option value="cargo"${prev==='cargo'?' selected':''}>📦 Cargo</option>
-        <option value="mining"${prev==='mining'?' selected':''}>⛏️ Mining</option>
-        <option value="salvage"${prev==='salvage'?' selected':''}>🔧 Salvage</option>
-        <option value="support"${prev==='support'?' selected':''}>🏥 Support</option>
-        <option value="flex"${prev==='flex'?' selected':''}>🔀 Flex</option>
+    const role = document.getElementById('orgRole'+i)?.value || 'flex';
+    players.push({
+      name: document.getElementById('orgName'+i)?.value || `Player ${i}`,
+      role,
+      ship: document.getElementById('orgShip'+i)?.value || '',
+      income: orgLiveIncome(role),
+    });
+  }
+  return { count, obj, sys, players };
+}
+
+function orgUpdate(){
+  const count = parseInt(document.getElementById('orgCount')?.value||'4');
+  const roster = document.getElementById('orgRoster');
+  if(!roster) return;
+
+  // Preserve existing values before re-render
+  const prev = {};
+  for(let i=1;i<=8;i++){
+    prev['name'+i] = document.getElementById('orgName'+i)?.value||'';
+    prev['role'+i] = document.getElementById('orgRole'+i)?.value||'flex';
+    prev['ship'+i] = document.getElementById('orgShip'+i)?.value||'';
+  }
+
+  const roleOpts = Object.entries(ORG_ROLES).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('');
+  const catColors = ['var(--lava)','var(--ember)','var(--gold)','var(--green)','var(--teal)','var(--t2)','var(--t3)','var(--t3)'];
+
+  let html = '';
+  for(let i=1;i<=count;i++){
+    const pName = prev['name'+i]||`Player ${i}`;
+    const pRole = prev['role'+i]||'flex';
+    const pShip = prev['ship'+i]||'';
+    const col   = catColors[(i-1)%catColors.length];
+    html += `
+    <div style="display:grid;grid-template-columns:28px 140px 1fr 180px;gap:.4rem;align-items:center;background:var(--s2);border:1px solid var(--b1);border-left:2px solid ${col};padding:.4rem .6rem;border-radius:2px">
+      <span style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:${col};font-weight:700">P${i}</span>
+      <input id="orgName${i}" type="text" value="${pName}" placeholder="Callsign" oninput="orgUpdate()" style="font-size:.72rem;padding:.28rem .5rem;background:var(--panel);border:1px solid var(--b1);color:var(--t1);border-radius:1px;width:100%">
+      <select id="orgRole${i}" onchange="orgRoleChange(${i})" style="font-size:.72rem;padding:.28rem .45rem">
+        ${Object.entries(ORG_ROLES).map(([k,v])=>`<option value="${k}"${pRole===k?' selected':''}>${v.label}</option>`).join('')}
       </select>
+      <input id="orgShip${i}" type="text" value="${pShip}" placeholder="${ORG_ROLES[pRole]?.ship||'Ship / loadout'}" oninput="orgUpdate()" style="font-size:.72rem;padding:.28rem .5rem;background:var(--panel);border:1px solid var(--b1);color:var(--t2);border-radius:1px;width:100%;font-family:'Share Tech Mono',monospace">
     </div>`;
   }
-  el.innerHTML=html;
-  const total=Array.from({length:count},(_,i)=>{
-    const sel=document.getElementById('orgRole'+(i+1));
-    return roleIncome[sel?.value||'flex']||0;
-  }).reduce((a,b)=>a+b,0);
-  const incEl=document.getElementById('orgIncome');
-  if(incEl){
-    const fmt=n=>n>=1000000?(n/1000000).toFixed(2)+'M':Math.round(n/1000)+'k';
-    incEl.textContent=fmt(total)+' aUEC/hr estimated';
+  roster.innerHTML = html;
+
+  orgRenderStats();
+  orgRenderPlan();
+  orgRenderBrief();
+}
+
+function orgRoleChange(i){
+  const role = document.getElementById('orgRole'+i)?.value||'flex';
+  const shipEl = document.getElementById('orgShip'+i);
+  if(shipEl && !shipEl.value) shipEl.placeholder = ORG_ROLES[role]?.ship||'Ship / loadout';
+  orgUpdate();
+}
+
+function orgRenderStats(){
+  const st = orgGetState();
+  const el = document.getElementById('orgStats');
+  if(!el) return;
+
+  const totalIncome = st.players.reduce((a,p)=>a+p.income,0);
+  const fmtM = n => n>=1000000?(n/1000000).toFixed(2)+'M aUEC/hr':Math.round(n/1000)+'k aUEC/hr';
+  const roleCounts = {};
+  st.players.forEach(p=>{ roleCounts[p.role]=(roleCounts[p.role]||0)+1; });
+  const hasCombat = (roleCounts['combat']||0)+(roleCounts['escort']||0);
+  const hasSup    = roleCounts['support']||0;
+  const secRating = hasCombat >= 2 ? '🟢 Good' : hasCombat === 1 ? '🟡 Light' : '🔴 None';
+
+  // Check if live UEX data is loaded
+  const isLive = typeof COMMODITIES !== 'undefined' && COMMODITIES.length > 0 &&
+                 COMMODITIES.find(c=>c.n==='Quantainium')?.s > 0;
+  const liveTag = isLive
+    ? `<span style="font-size:.55rem;color:var(--green);font-family:'Share Tech Mono',monospace"> 🟢 UEX LIVE</span>`
+    : `<span style="font-size:.55rem;color:var(--t3);font-family:'Share Tech Mono',monospace"> ⚪ STATIC</span>`;
+
+  el.innerHTML = `
+    <div class="card" style="padding:.55rem .75rem;text-align:center">
+      <div class="card-lbl">EST. ORG INCOME${liveTag}</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:.9rem;color:var(--gold);font-weight:700">${fmtM(totalIncome)}</div>
+      <div style="font-size:.6rem;color:var(--t3);margin-top:.15rem">combined estimate</div>
+    </div>
+    <div class="card" style="padding:.55rem .75rem;text-align:center">
+      <div class="card-lbl">PLAYERS</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:.9rem;color:var(--ember);font-weight:700">${st.count}</div>
+      <div style="font-size:.6rem;color:var(--t3);margin-top:.15rem">${st.sys.toUpperCase()}</div>
+    </div>
+    <div class="card" style="padding:.55rem .75rem;text-align:center">
+      <div class="card-lbl">SECURITY</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:.85rem;font-weight:700;color:${hasCombat>=2?'var(--green)':hasCombat?'var(--gold)':'var(--ember)'}">${secRating}</div>
+      <div style="font-size:.6rem;color:var(--t3);margin-top:.15rem">${hasCombat} combat assigned</div>
+    </div>
+    <div class="card" style="padding:.55rem .75rem;text-align:center">
+      <div class="card-lbl">OBJECTIVE</div>
+      <div style="font-size:.72rem;color:var(--teal);font-weight:600;margin-top:.1rem">${document.getElementById('orgObjective')?.selectedOptions[0]?.text||'—'}</div>
+      <div style="font-size:.6rem;color:var(--t3);margin-top:.15rem">${hasSup?'🏥 Support ready':'No support'}</div>
+    </div>`;
+}
+
+function orgRenderPlan(){
+  const st  = orgGetState();
+  const el  = document.getElementById('orgPlan');
+  if(!el) return;
+
+  const tip = ORG_OBJ_TIPS[st.obj]||'';
+  const roleCounts = {};
+  st.players.forEach(p=>{ roleCounts[p.role]=(roleCounts[p.role]||0)+1; });
+
+  // Detect synergies / warnings
+  const notes = [];
+  if((roleCounts['cargo']||0)>0 && !(roleCounts['combat']||roleCounts['escort']||0)){
+    notes.push({t:'warn', m:'⚠️ Haulers with no escort — vulnerable in Pyro/Nyx. Consider assigning an escort.'});
   }
+  if((roleCounts['mining']||0)>0 && (roleCounts['support']||0)===0 && (roleCounts['combat']||0)===0){
+    notes.push({t:'warn', m:'⚠️ Miners with no security coverage — pirates can camp ore sites.'});
+  }
+  if((roleCounts['salvage']||0)>=1 && (roleCounts['combat']||0)>=1){
+    notes.push({t:'good', m:'✅ Fighter + salvage pairing — fighter clears area before Reclaimer commits.'});
+  }
+  if((roleCounts['combat']||0)>=2){
+    notes.push({t:'good', m:'✅ Fighter wing of '+roleCounts['combat']+' — effective for ship bounties and escort.'});
+  }
+  if((roleCounts['mining']||0)>=2){
+    notes.push({t:'good', m:'💎 Multi-miner op — coordinate on refinery rendezvous point.'});
+  }
+  if(st.sys==='pyro' && !(roleCounts['combat']||roleCounts['escort']||0)){
+    notes.push({t:'warn', m:'🔴 Pyro with zero combat coverage — high-risk. Strongly recommend at least one fighter.'});
+  }
+
+  let noteHtml = notes.map(n=>`
+    <div style="font-size:.7rem;color:${n.t==='warn'?'var(--ember)':'var(--green)'};padding:.2rem 0;border-top:1px solid var(--b1)">${n.m}</div>
+  `).join('');
+
+  el.innerHTML = `
+    <div style="background:var(--s2);border:1px solid var(--b1);border-radius:2px;padding:.65rem .85rem">
+      <div style="font-family:'Orbitron',sans-serif;font-size:.58rem;letter-spacing:.12em;color:var(--orange);margin-bottom:.4rem">OP NOTES</div>
+      <div style="font-size:.72rem;color:var(--t2);line-height:1.6;margin-bottom:.3rem">${tip}</div>
+      ${noteHtml||'<div style="font-size:.68rem;color:var(--t3)">No issues detected with current roster.</div>'}
+    </div>`;
+}
+
+function orgRenderBrief(){
+  const st  = orgGetState();
+  const el  = document.getElementById('orgBrief');
+  if(!el) return;
+  const obj = document.getElementById('orgObjective')?.selectedOptions[0]?.text||st.obj;
+  const sys = st.sys.charAt(0).toUpperCase()+st.sys.slice(1);
+  const totalInc = st.players.reduce((a,p)=>a+p.income,0);
+  const fmtM = n=>n>=1000000?(n/1000000).toFixed(2)+'M':Math.round(n/1000)+'k';
+  const isLive = typeof COMMODITIES !== 'undefined' && COMMODITIES.length > 0 &&
+                 (COMMODITIES.find(c=>c.n==='Quantainium')?.s||0) > 0;
+  const now = new Date();
+  const ts = now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+
+  const rosterLines = st.players.map((p,i)=>{
+    const r = ORG_ROLES[p.role];
+    const ship = p.ship ? ` [${p.ship}]` : '';
+    const inc = p.income > 0 ? `  ~${fmtM(p.income)}/hr` : '';
+    return `  P${i+1} ${p.name.padEnd(14)} ${r.label}${ship}${inc}`;
+  }).join('\n');
+
+  el.textContent =
+`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ CATFIGHT ORG — SESSION BRIEF
+ Generated: ${now.toLocaleDateString()} ${ts}
+ Prices: ${isLive ? 'UEX LIVE' : 'Static fallback'}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ OBJECTIVE : ${obj}
+ SYSTEM    : ${sys}
+ PLAYERS   : ${st.count}
+ EST INCOME: ${fmtM(totalInc)} aUEC/hr combined
+
+ ROSTER
+${rosterLines}
+
+ NOTES
+ ${ORG_OBJ_TIPS[st.obj]||''}
+
+ Comms: Org Discord  |  Rally: TBD
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+}
+
+function orgCopyBrief(){
+  const txt = document.getElementById('orgBrief')?.textContent||'';
+  navigator.clipboard.writeText(txt).then(()=>{
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent='✅ COPIED!';
+    setTimeout(()=>btn.textContent=orig,1800);
+  }).catch(()=>alert(txt));
+}
+
+function orgReset(){
+  document.getElementById('orgObjective').value='grind';
+  document.getElementById('orgSystem').value='stanton';
+  document.getElementById('orgCount').value='4';
+  orgUpdate();
 }
 
 
@@ -4616,6 +4911,10 @@ async function fetchLiveUEX(){
     const ts = new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});
     uexSetStatus('\u2713 Live UEX prices loaded \u00b7 '+keep.length+' commodities \u00b7 updated '+ts, 'var(--green)');
     uexFetchDone = true;
+    // Refresh Org Ops income estimates with live prices if the panel was already rendered
+    if(document.getElementById('orgStats')?.children.length) {
+      orgRenderStats(); orgRenderBrief();
+    }
 
   } catch(err){
     // Silent fail — CORS or network block (e.g. preview environments)
@@ -6068,6 +6367,6 @@ document.addEventListener('DOMContentLoaded',function(){
   setInterval(fetchAWSStatus, 180000); // AWS updates slower, 3 min refresh
 });
 </script>
-<footer>CATFIGHT ORG &nbsp;·&nbsp; STAR CITIZEN 4.8 &nbsp;·&nbsp; DATA: SC WIKI API + SC CRAFT TOOLS + UEX LIVE + ERKUL LIVE + 4.8.0.11825000 DATAMINE &nbsp;·&nbsp; PRICES: UEX LIVE API &nbsp;·&nbsp; BETA v0.9 &nbsp;·&nbsp; NOT FINANCIAL ADVICE</footer>
+<footer>CATFIGHT ORG &nbsp;·&nbsp; STAR CITIZEN 4.8 &nbsp;·&nbsp; DATA: SC WIKI API + SC CRAFT TOOLS + UEX LIVE + ERKUL LIVE + 4.8.0.11825000 DATAMINE &nbsp;·&nbsp; PRICES: UEX LIVE API &nbsp;·&nbsp; BETA v0.9.2 &nbsp;·&nbsp; NOT FINANCIAL ADVICE</footer>
 </body>
 </html>
