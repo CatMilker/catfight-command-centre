@@ -2798,11 +2798,11 @@ EXTRACT: never all QT at once. Mantis last out.
 
 // ===== LAZY DATA FETCHES =====
 let MISSION_DATA=[];
-fetch("https://catmilker.github.io/catfight-command-centre/data/missions.json").then(r=>r.json()).then(d=>{MISSION_DATA=d;if(typeof renderMissions==="function")renderMissions();}).catch(()=>{});
+fetch("https://catmilker.github.io/catfight-command-centre/missions.json").then(r=>r.json()).then(d=>{MISSION_DATA=d;if(typeof renderMissions==="function")renderMissions();}).catch(()=>{});
 let COMP_BPS=[];
-fetch("https://catmilker.github.io/catfight-command-centre/data/comp-bps.json").then(r=>r.json()).then(d=>{COMP_BPS=d;if(typeof renderBPSources==="function")renderBPSources();}).catch(()=>{});
+fetch("https://catmilker.github.io/catfight-command-centre/comp-bps.json").then(r=>r.json()).then(d=>{COMP_BPS=d;if(typeof renderBPSources==="function")renderBPSources();}).catch(()=>{});
 let CURATED_LOADOUTS=[];
-fetch("https://catmilker.github.io/catfight-command-centre/data/curated-loadouts.json").then(r=>r.json()).then(d=>{CURATED_LOADOUTS=d;if(typeof renderCuratedLoadouts==="function")renderCuratedLoadouts();}).catch(()=>{});
+fetch("https://catmilker.github.io/catfight-command-centre/curated-loadouts.json").then(r=>r.json()).then(d=>{CURATED_LOADOUTS=d;if(typeof renderCuratedLoadouts==="function")renderCuratedLoadouts();}).catch(()=>{});
 // ===== NAV =====
 // ===== SHIP BUILDER =====
 // ===== COMPONENT BLUEPRINTS =====
