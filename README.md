@@ -1,6 +1,6 @@
 # Catfight Command Centre
 
-Star Citizen 4.8 org tool for the Catfight org. Single-file HTML — no server, no account, open directly in browser or host on GitHub Pages.
+Star Citizen 4.8 org tool for the Catfight org. Single-file HTML — no account, no server, open in browser.
 
 **Live:** https://catmilker.github.io/catfight-command-centre/
 
@@ -8,67 +8,68 @@ Star Citizen 4.8 org tool for the Catfight org. Single-file HTML — no server, 
 
 ## Panels
 
-**⚡ Grind Guide** — Ship-tier activity guide for 4.8. Starter → Salvage. Gilly S7, Adagio Titanium (3–5M+/hr), Starfarer refuelling (5M+/hr), ATLS GEO gem mining, PAF farming. Live price ticker (Quant, Janalite, Hadanite, RMC, Titanium, Med Sup). Income figures update from UEX automatically.
+**⚡ Grind Guide** — 9 tiers: Starter → Light Fighter → Medium Fighter → Heavy Fighter → Cargo → Mining → Interdiction → Multi-crew → Salvage. Live price ticker (Quant, Janalite, Hadanite, RMC, Titanium, Med Sup from UEX). Income figures update automatically. Covers ATLS GEO gem mining, PAF farming, Adagio Titanium loop, Starfarer refuelling, JP piracy, multi-crew ship breakdowns.
 
 **💱 Trade** — 98 live commodities (UEX), Best Locations, Profit Calc, Routes, Hauling chain, Trade Tips.
 
-**🏅 Rep Tracker** — 11 factions, rank unlocks, XP thresholds, BP drops. Export/Import backup. Saves to localStorage.
+**🏅 Rep Tracker** — 11 factions, rank unlocks, XP thresholds, BP drops. Export/Import. Saves to localStorage.
 
-**🧮 Calc** — Session Estimator (37 activities, goals panel) + BHG Stack Calc (tier/stack/cert/loot → payout + XP).
+**🧮 Calc** — Session Estimator (37 activities) + BHG Stack Calc.
 
-**🐱 Org Ops** — Session planner. Objective, system, player count. Crew roster with callsign, role (8 types) and ship per player. Live income estimates (UEX). Op Notes synergy detection. Mission Brief with copy button.
+**🐱 Org Ops** — Session planner with objective, system, player count, session timer (countdown + progress bar + end time). Crew roster (8 roles, callsign, ship per player). Live income estimates from UEX. Synergy detection. Mission brief with copy button. Save/load up to 8 named sessions.
 
-**🏪 Shops** — 115+ items by name, location or type. All 4.8 verified.
+**🏪 Shops** — 115+ items by name, location or type.
 
 **🗺️ Systems** — Locations and services across Stanton, Pyro and Nyx.
 
-**🗄️ Ship DB** — Full Database (220+ ships, live SC Wiki stats + prices), Meta Picks (5 role tabs), Loadouts (36 curated meta loadouts, 87 verified WEAPON_SLOTS ships), Builder (pick ship → configure components → live DPS/shield/power stats), Compare (side-by-side any two ships, 18 stats, live SC Wiki).
+**🗄️ Ship DB** — Full Database (220+ ships, live SC Wiki stats + prices), Meta Picks (5 role tabs), Loadouts (36 curated loadouts with search/filter, 146 verified WEAPON_SLOTS ships), Builder (live Erkul weapon picker), Compare (side-by-side stats + radar/spider chart).
 
-**⛏️ Mining Compendium** — Minerals (27 ores, live UEX prices), Ships (all vessels inc ATLS GEO), Lasers (head + module guide, curated loadouts), Refinery (6 methods ranked), Profit Calc (live ore prices), Crew Guide (MOLE roles, comms callouts).
+**⛏️ Mining Compendium** — 6 tabs. Minerals (27 ores, live UEX prices), Ships, Lasers, Refinery, Profit Calc (live), Crew Guide.
 
-**🎯 Missions** — 606 catalogued missions, 19 factions. Searchable, filterable. BP drops with rates.
+**🎯 Missions** — 606 catalogued missions, 19 factions. Searchable, filterable. BP drops.
 
 **📋 Blueprints** — Mission Drop BPs, Component BPs (252 items, live SC Craft sources), Priority Roadmap.
 
-**⚔️ Combat Analysis** — Ship Profiles (12 meta ships, full PvP analysis, signature ratings, capacitor stats, verified builds), Weapon Matrix (S1–S5, all types), Matchup Guide (12 matchups — Arrow vs Gladius, Ghost vs everything, F8C vs Vanguard, Shiv vs mediums, fighting the Ares, counter-interdiction and more).
+**⚔️ Combat Analysis** — 20 ship profiles (full PvP analysis, sig ratings, verified builds), Weapon Matrix (S1–S5), 17 Matchups (lights vs heavies, capital ships, fleet ops, interdiction counter-play, escort meta).
 
-**🕳️ Interdiction Planner** — Op type, intercept location (20 across Stanton/Pyro/Nyx), crew roster with 9 roles. Live cargo prices on Hot Routes tab (Quant, Neon, E'tam, WiDoW, Stileron, RMC). Op assessment, comms callouts, mission brief with copy button.
+**🕳️ Interdiction Planner** — Op type, 20 intercept locations, 9 crew roles. Live cargo prices on Hot Routes (Quant/Neon/E'tam/WiDoW/Stileron/RMC). Op assessment, comms callouts, mission brief. Save/load up to 8 named ops.
 
-**📋 Changelog** — Full version history from v0.1 to current.
+**🏛️ Exec Hangar** — Live PYAM CZ timer (185min 699ms cycle, globally synced). 5 LED indicators, countdown to next change, next green window, 12hr schedule. Manual sync to recalibrate to ±1 second. CZ self-timers: Keycard Printer, Vault Door, Terminal, Crypt Door, Custom.
 
-**🗺️ Roadmap** — Upcoming features, planned improvements, community requests. Tracked and updated each session.
+**📋 Changelog** — Full version history v0.1 to current, in-tool.
+
+**🗺️ Roadmap** — Upcoming features tracked and updated each session.
 
 ---
 
 ## Live Data — 6 Sources, 5 Workers
 
-| Source | Data | Method | Refresh |
-|---|---|---|---|
-| UEX API | Commodity prices, terminal locations | Cloudflare Worker | 15 min cache |
-| RSI Status | PU / Platform / Arena Commander status | Cloudflare Worker | 2 min cache |
-| AWS Status | Active infrastructure incidents | Cloudflare Worker | 3 min cache |
-| Erkul.games | Weapon stats (DPS/alpha/RPM), ship data | Cloudflare Worker | 20 min cache |
-| SC Craft Tools | 1,534 BP sources with drop chances | Cloudflare Worker | 30 min cache |
-| SC Wiki API | Ship stats, prices, component data | Direct (open CORS) | Per session |
+| Source | Data | Refresh |
+|---|---|---|
+| UEX API | Commodity prices + terminals | 15 min |
+| RSI Status | PU / Platform / AC status | 2 min |
+| AWS Status | Active infrastructure incidents | 3 min |
+| Erkul.games | Weapon stats (DPS/alpha/RPM) | 20 min |
+| SC Craft Tools | 1,534 BP sources | 30 min |
+| SC Wiki API | Ship stats + prices | Per session |
 
-All sources fetch on page load. Silent fallback to baked-in data if any source is unreachable. Ship stats, component data and ore prices update automatically after every patch.
+Silent fallback to baked-in data if any source is unreachable.
 
 ---
 
-## Status
+## Repo Structure
 
-**v0.9.3:** Grind Guide audit — heavy fighter tier header updated (F8C Lightning, Hurricane, Guardian MX), cargo tier header updated (Zeus Mk II CL, RSI Hermes). Red Wind Linehaul added to cargo tier (Breton/Durango/Genoa power plant BPs, 100% drop, passive income alongside any Pyro haul). Rayari Inc. Jorrit Dossier chain added to medium fighter tier (Bolide/DynaFlux/Fulgur power plant BPs). Cargo tier info line references live Titanium price ticker. Bug fix: duplicate step number in heavy fighter tier. Interdiction Hot Routes tab — live price ticker (Quant/Neon/E'tam/WiDoW/Stileron/RMC/Med Sup from UEX), inline prices injected into route cards, Prospector load value calculated live from Quant price. Changelog panel added. Roadmap panel added — upcoming features tracked in-tool and updated each session.
+```
+index.html              — tool (~789KB)
+missions.json           — 606 missions (198KB, lazy-loaded)
+comp-bps.json           — 252 component BPs (53KB, lazy-loaded)
+curated-loadouts.json   — 36 curated loadouts (57KB, lazy-loaded)
+```
 
-**v0.9.2:** Org Ops Planner full rebuild + live income estimates wired to UEX. Interdiction Planner — new panel with JP ambush, trade route, hub camp and escort op types, 20 intercept locations, 9 crew roles, op assessment, comms callouts and mission brief. Grind Guide live price ticker (Quant/Janalite/Hadanite/RMC/Titanium/Med Sup). 11 income steps now show live UEX-calculated figures. Curated loadouts expanded 25 → 36 (F8C Lightning, F7A Mk II, Guardian MX, Ares Ion/Inferno, Hurricane, Stinger, Redeemer, Starlancer TAC, C2 Hercules, Zeus Mk II CL, RSI Hermes). Combat matchups expanded 6 → 12. WEAPON_SLOTS expanded 35 → 87 verified ships. All 5 Cloudflare Workers recreated and moved to catmilker.workers.dev.
+---
 
-**v0.9.1:** RSI + AWS live server status bar — sits below MOTD, updates every 2–3 minutes. Shows PU/Platform/Arena Commander status from RSI directly. AWS side monitors active infrastructure incidents so you can tell if issues are CIG or their hosting. 5 Cloudflare workers total.
+## Status — v0.9.4
 
-**v0.9:** Combat Analysis panel (12 meta PvP profiles, weapon matrix, matchup guide). Ship Comparison (live SC Wiki, 18 stats). Mining Compendium 6-tab rebuild with live ore prices. Full live data audit — mineral prices corrected (Janalite was 4.8k baked, 1.6M live). LB_SHIELDS/POWER/COOLERS/QD refresh live. SC Craft Tools replacing offline SC Crafter. Rep Tracker export/import fixed.
-
-**v0.8:** Loadout Builder (208 ships, live Erkul weapons). 25 curated meta loadouts. BHG Stack Calc. Grind Guide 4.8 rebuild. Trade Profit Calc. 3 Cloudflare workers. Mining Compendium. Ship Compare. Live Ship DB.
-
-**v0.7:** Missions panel, Rep Tracker, nav rebuild, Grind Guide.
-
-**v0.6:** Component BPs, session estimator, shop directory, trade panel.
+Combat Analysis expanded to 20 profiles and 17 matchups — Perseus and Hammerhead added, Ares Ion escort meta, Perseus fleet engagement, Hammerhead crew coordination. Meteor confirmed in-game purchasable (~4.31M aUEC). Ship price audit — all hardcoded prices updated or replaced with live SC Wiki data. Exec Hangar Timer panel added — live CZ cycle counter, LED status, manual sync, CZ self-timers. Grind Guide Interdiction and Multi-crew tiers added. Org Ops and Interdict Planner save/load added (up to 8 named saves each). Org session timer with countdown and progress bar. Curated loadout search/filter bar. Ship Compare radar chart. Roadmap and Changelog panels. File split (HTML 1MB → 709KB). Cloudflare worker CORS bug fixed.
 
 **Contributors:** CatCya, CatNipp
