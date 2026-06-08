@@ -6700,7 +6700,18 @@ const STATUS_ICON = {
 async function fetchRSIStatus(){
   try {
     const d = await fetch(RSI_STATUS_PROXY+'/status').then(r=>r.json());
-    const systems = d.systems || [];
+
+    // Handle both worker response shapes:
+    // New: { systems: [{name, status, unresolvedIssues}] }
+    // Old: { pu: {name,status}, platform: {name,status}, ac: {name,status} }
+    let systems = d.systems || [];
+    if (!systems.length && (d.pu || d.platform || d.ac)) {
+      systems = [
+        { name: 'Persistent Universe', status: d.pu?.status       || 'unknown', unresolvedIssues: [] },
+        { name: 'Platform',            status: d.platform?.status || 'unknown', unresolvedIssues: [] },
+        { name: 'Arena Commander',     status: d.ac?.status       || 'unknown', unresolvedIssues: [] },
+      ];
+    }
 
     const set = (id, system) => {
       const el = document.getElementById(id);
