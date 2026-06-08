@@ -5495,7 +5495,7 @@ function renderBestRoutes(){
 }
 
 // ===== LIVE UEX FETCH VIA CLOUDFLARE WORKER =====
-const UEX_PROXY = 'https://catfight-uex-proxy.catmilker.workers.dev';
+const UEX_PROXY = 'https://uex-proxy-worker.catmilker.workers.dev';
 let uexFetchDone = false;
 let uexFetching  = false;
 
@@ -6686,8 +6686,8 @@ function renderMatchups(){
 }
 
 // ===== RSI SERVER STATUS =====
-const RSI_STATUS_PROXY = 'https://catfight-rsi-status.catmilker.workers.dev';
-const AWS_STATUS_PROXY = 'https://catfight-aws-status.catmilker.workers.dev';
+const RSI_STATUS_PROXY = 'https://rsi-status-worker.catmilker.workers.dev';
+const AWS_STATUS_PROXY = 'https://aws-status-worker.catmilker.workers.dev';
 
 const STATUS_COL = {
   operational:'var(--green)', maintenance:'var(--gold)',
@@ -6750,7 +6750,7 @@ async function fetchAWSStatus(){
 }
 
 // ===== SC CRAFT LIVE FETCH =====
-const SCCRAFT_PROXY = 'https://catfight-sccraft-proxy.catmilker.workers.dev';
+const SCCRAFT_PROXY = 'https://sccraft-proxy-worker.catmilker.workers.dev';
 let scrDone = false;
 
 async function fetchLiveSCCraft(){
@@ -6796,7 +6796,7 @@ async function fetchLiveSCCraft(){
   } catch(e){ /* silent fail */ }
 }
 
-const ERKUL_PROXY = 'https://catfight-erkul-proxy.catmilker.workers.dev';
+const ERKUL_PROXY = 'https://erkul-proxy-worker.catmilker.workers.dev';
 let erkulDone = false;
 let erkulFetching = false;
 let ERKUL_WEAPONS = [];
