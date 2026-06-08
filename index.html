@@ -5602,8 +5602,8 @@ async function fetchLiveUEX(){
     interdictUpdateLivePrices();
 
   } catch(err){
-    uexSetStatus('⚠ UEX error: ' + err.message, 'var(--fire)');
-    console.error('fetchLiveUEX error:', err);
+    const bar = document.getElementById('uex-status-bar');
+    if(bar) bar.style.display = 'none';
   }
   uexFetching = false;
 }
@@ -6722,8 +6722,7 @@ async function fetchRSIStatus(){
 
   } catch(e) {
     const el = document.getElementById('rsi-pu-status');
-    if(el) el.innerHTML = '<span style="color:var(--fire)">RSI error: ' + e.message + '</span>';
-    console.error('fetchRSIStatus error:', e);
+    if(el) el.innerHTML = '<span style="color:var(--t3)">RSI status unavailable</span>';
   }
 }
 
