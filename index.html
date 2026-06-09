@@ -110,6 +110,28 @@ body {
   font-size: 14px;
   font-weight: 400;
   line-height: 1.6;
+
+/* ── LIGHT THEME ── applied via body.light-theme ────────────────────────── */
+body.light-theme {
+  --bg-solid: #f5f0e8;
+  --s1:       #ede5d8;
+  --s2:       #e5dccb;
+  --s3:       #ddd3be;
+  --s4:       #d5c9b0;
+  --b1:       #c8b89a;
+  --b2:       #b8a585;
+  --b3:       #a89270;
+  --t1:       #2a1a08;
+  --t2:       #5a3a18;
+  --t3:       #8a6030;
+  --t4:       #c4935a;
+  --fire:     #cc3300;
+  --lava:     #dd5500;
+  --ember:    #cc7700;
+  --gold:     #aa6600;
+  --green:    #447722;
+  --teal:     #886600;
+}
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -317,6 +339,10 @@ nav { max-width: 1440px; margin: .6rem auto 0; padding: 0 2rem; }
 .nb-exec .nav-label      { color: var(--green); }
 .nb-exec.active          { background: rgba(142,203,110,.07) !important; }
 .nb-exec::after          { background: var(--green) !important; }
+.worker-chip { padding:.1rem .45rem;border-radius:2px;border:1px solid var(--b2);color:var(--t3);cursor:default; }
+.worker-chip.ok   { border-color:rgba(142,203,110,.5);color:var(--green); }
+.worker-chip.warn { border-color:rgba(255,153,51,.5);color:var(--ember); }
+.worker-chip.err  { border-color:rgba(255,77,0,.5);color:var(--fire); }
 .exec-led { width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,.1);transition:background .4s,box-shadow .4s; }
 .exec-led.red   { background:var(--fire);box-shadow:0 0 8px var(--fire); }
 .exec-led.green { background:var(--green);box-shadow:0 0 10px var(--green); }
@@ -749,7 +775,7 @@ footer {
     </div>
     <div class="badges">
       <div class="badge badge-gold">LIVE 4.8</div>
-      <div class="badge" style="color:var(--teal);border-color:var(--teal)">BETA v0.9.4</div>
+      <div class="badge" style="color:var(--teal);border-color:var(--teal)">BETA v0.9.5</div>
     </div>
   </div>
 </header>
@@ -777,6 +803,21 @@ footer {
     <span id="ping-display" style="color:var(--t3);cursor:pointer;title='Click to retest'" onclick="pingTest()">···</span>
     <a href="https://status.robertsspaceindustries.com" target="_blank" style="color:var(--t4);font-size:.58rem">RSI ↗</a>
     <a href="https://status.aws.amazon.com" target="_blank" style="color:var(--t4);font-size:.58rem">AWS ↗</a>
+    <span style="color:var(--b2);margin:0 .1rem">|</span>
+    <span style="color:var(--t3);font-size:.58rem;cursor:pointer" onclick="toggleWorkerHealth()">⚙ WORKERS</span>
+  </div>
+
+  <!-- Worker health panel — collapsed by default -->
+  <div id="worker-health-bar" style="display:none;flex-wrap:wrap;gap:.35rem;align-items:center;padding:.3rem .75rem;background:rgba(255,255,255,.015);border:1px solid var(--b1);border-top:none;font-family:'Share Tech Mono',monospace;font-size:.6rem">
+    <span style="font-family:'Orbitron',sans-serif;font-size:.5rem;letter-spacing:.1em;color:var(--t3);margin-right:.2rem">WORKERS</span>
+    <span id="wh-uex"     class="worker-chip">UEX ···</span>
+    <span id="wh-erkul"   class="worker-chip">ERKUL ···</span>
+    <span id="wh-sccraft" class="worker-chip">SCCRAFT ···</span>
+    <span id="wh-rsi"     class="worker-chip">RSI ···</span>
+    <span id="wh-aws"     class="worker-chip">AWS ···</span>
+    <span id="wh-motd"    class="worker-chip">MOTD ···</span>
+    <span id="wh-session" class="worker-chip">SESSION ···</span>
+    <button onclick="workerHealthCheck()" style="margin-left:auto;background:none;border:1px solid var(--b2);color:var(--t3);font-family:'Share Tech Mono',monospace;font-size:.58rem;padding:.1rem .4rem;cursor:pointer;border-radius:2px">↺ RECHECK</button>
   </div>
 </div>
 
@@ -1000,7 +1041,7 @@ footer {
         <div class="step"><div class="step-n">2</div><div class="step-t"><strong>PAF Farming (4.8 new)</strong> — varies / high aUEC <span class="tag ts">4.8 new</span><span class="tag to">Stanton/Pyro</span><br>Protected Armistice Framework missions — new 4.8 rare armor/weapon farm. Run alongside ERT for maximum BP drops per session.</div></div>
         <div class="step"><div class="step-n">3</div><div class="step-t"><strong>Headhunters patrols</strong> — ~800 XP / ~80k/run <span class="tag ts">Headhunters</span><span class="tag to">Pyro</span><br>Unlawful. Drops SnowBlind + VaporBlock cooler BPs at all ranks. Worth running if you operate in Pyro regularly. <span style="font-size:.65rem;color:var(--t3)">Drops: SnowBlind · VaporBlock coolers</span></div></div>
         <div class="step"><div class="step-n">4</div><div class="step-t"><strong>Gilly's S5 + S6 + S7 rotation</strong> — ~1.2M+/hr <span class="tag ts">Gilly's</span><span class="tag to">instanced</span><br>Heavy ships handle S6 Connie boss fast. Full S5+S6+S7 rotation is optimal at this tier — ~500k per cycle, no PvP risk.</div></div>
-        <div class="step"><div class="step-n">5</div><div class="step-t"><strong>Org fleet ops (Catfight)</strong> — scales with crew <span class="tag ts">org</span><br>Perseus + Hammerhead fleet ops. Coordinate via Discord. Hammerhead needs full crew (6 gunners) to justify cost.</div></div>
+        <div class="step"><div class="step-n">5</div><div class="step-t"><strong>Org fleet ops (Catfight)</strong> — scales with crew <span class="tag ts">org</span><br>Perseus + Hammerhead fleet ops. Coordinate via Discord. Hammerhead needs full crew (6 gunners) to justify cost. <button onclick="setPanel('org');document.getElementById('orgObjective').value='combat';orgUpdate()" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--ember);background:none;border:1px solid rgba(255,153,51,.4);padding:.1rem .4rem;cursor:pointer;border-radius:2px;margin-left:.35rem">📋 Plan in Org Ops →</button></div></div>
 
         <div class="info" style="margin-top:.5rem">→ NEXT: Covalex Master for VK-00/XL-1/Palisade BPs. Push Foxwell Red for FR-86. Run InterSec to Chief for JS-300/400 power plant BPs.</div>
       </div>
@@ -1090,7 +1131,7 @@ footer {
 
         <div class="step"><div class="step-n">6</div><div class="step-t"><strong>Reclaimer — 4-crew crew salvage</strong> — ~<span id="gi-reclaimer-mc">1.8M</span>/hr per player <span class="tag ts">salvage</span><span class="tag to">Stanton/Pyro</span><br>1 coordinator + 2 beam operators + 1 component stripper. Coordinator manages salvage map and target priority. Beam operators: hull stripping in sync, call full canister handoffs. Stripper: EVA to floating components — shields and power plants have the highest sell value. Add an Adagio titanium contract loop alongside for a significant income boost.</div></div>
 
-        <div class="info" style="margin-top:.5rem">→ ORG TIP: Use the Org Ops Planner to pre-assign roles and calculate combined income before the session. All figures above are per-player estimates — actual income varies with target quality, server conditions and coordination efficiency. Redeemer and Starlancer TAC are the highest ceiling per-player at current ERT payouts.</div>
+        <div class="info" style="margin-top:.5rem">→ ORG TIP: Use the Org Ops Planner to pre-assign roles and calculate combined income before the session. All figures above are per-player estimates — actual income varies with target quality, server conditions and coordination efficiency. Redeemer and Starlancer TAC are the highest ceiling per-player at current ERT payouts. <button onclick="setPanel('org');document.getElementById('orgObjective').value='combat';orgUpdate()" style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--ember);background:none;border:1px solid rgba(255,153,51,.4);padding:.15rem .5rem;cursor:pointer;border-radius:2px;margin-left:.35rem">📋 Open Org Ops →</button></div>
       </div>
     </div>
   </div>
@@ -1125,7 +1166,7 @@ footer {
 
         <div class="step"><div class="step-n">2</div><div class="step-n-b">REP</div><div class="step-t"><strong>United Wayfarers — grind to Senior Contractor</strong> — ~42–46 contracts <span class="tag ts">United Wayfarers</span><span class="tag to">Pyro</span><br>United Wayfarers contracts available in Pyro. Run standard Fleet Refuel contracts to build rep — each takes 10–15 minutes. Need approximately 42–46 contracts to unlock Senior rank and the Urgent Fleet Refuel mission. Stack with CFP or PAF bounties between runs to use the time efficiently.</div></div>
 
-        <div class="step"><div class="step-n">3</div><div class="step-t"><strong>Urgent Fleet Refuel — Senior Contractor</strong> — ~1.8M per run / ~5M+/hr <span class="tag ts">top tier</span><span class="tag to">Pyro</span><br>The money mission. 1.8M aUEC per successful Urgent Fleet Refuel contract. Run time: ~15–20 minutes including transit. Execution: accept contract → fly to designated fleet location → dock and transfer hydrogen fuel → return to waypoint. Back-to-back with no downtime: ~3 runs/hr = ~5.4M/hr. Higher with faster QT drives.</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-t"><strong>Urgent Fleet Refuel — Senior Contractor</strong> — ~1.8M per run / ~<span id="gi-starfarer-hr">5M+</span>/hr <span class="tag ts">top tier</span><span class="tag to">Pyro</span><br>The money mission. 1.8M aUEC per successful Urgent Fleet Refuel contract. Run time: ~15–20 minutes including transit. Execution: accept contract → fly to designated fleet location → dock and transfer hydrogen fuel → return to waypoint. Back-to-back with no downtime: ~3 runs/hr = ~5.4M/hr. Higher with faster QT drives.</div></div>
 
         <div class="step"><div class="step-n">4</div><div class="step-t"><strong>Hydrogen fuel loop — maximising run efficiency</strong> — optimise for 5M+/hr <span class="tag ts">advanced</span><span class="tag to">Pyro</span><br>The Starfarer carries hydrogen fuel in its tanks. Keep tanks full before accepting each contract — refuel at Ruin Station or Checkmate between contracts. Shortest route: accept contract → refuel at nearest station → fly to fleet → transfer → collect payment → repeat. Minimise dead transit time. QT drive choice is critical — Atlas L or VK-00 L cuts 2–3 minutes per run.</div></div>
 
@@ -1223,6 +1264,7 @@ footer {
           <th onclick="sdbSortBy('crew')">CREW</th>
           <th onclick="sdbSortBy('scu')">CARGO SCU</th>
           <th onclick="sdbSortBy('auec')">aUEC PRICE</th>
+          <th onclick="sdbSortBy('rent')">RENT/DAY</th>
           <th onclick="sdbSortBy('pledge')">PLEDGE $USD</th>
           <th onclick="sdbSortBy('avail')">STATUS</th>
           <th>BUY LOCATION</th>
@@ -1475,6 +1517,8 @@ footer {
       </div>
       <button onclick="fvAddShip()" style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--green);background:none;border:1px solid rgba(142,203,110,.5);padding:.35rem .75rem;cursor:pointer;border-radius:2px;white-space:nowrap">+ ADD SHIP</button>
       <button onclick="fvClear()" style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--t3);background:none;border:1px solid var(--b2);padding:.35rem .65rem;cursor:pointer;border-radius:2px">↺ CLEAR ALL</button>
+      <button onclick="fvExport()" style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--teal);background:none;border:1px solid rgba(100,220,255,.4);padding:.35rem .65rem;cursor:pointer;border-radius:2px">📤 EXPORT</button>
+      <button onclick="fvImport()" style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--amber);background:none;border:1px solid rgba(232,160,64,.4);padding:.35rem .65rem;cursor:pointer;border-radius:2px">📥 IMPORT</button>
     </div>
 
     <!-- Coverage summary -->
@@ -1571,6 +1615,7 @@ footer {
     <button class="ltab" onclick="setTradeTab('routes',this)">🗺️ Routes</button>
     <button class="ltab" onclick="setTradeTab('hauling',this)">📦 Hauling</button>
     <button class="ltab" onclick="setTradeTab('tips',this)">💡 Trade Tips</button>
+    <button class="ltab" onclick="setTradeTab('watchlist',this)">⭐ Watchlist</button>
   </div>
 
   <!-- COMMODITIES TAB -->
@@ -1713,6 +1758,35 @@ footer {
       <div id="rc-results"></div>
     </div>
 
+    <!-- Multi-hop route planner -->
+    <div style="background:var(--s2);border:1px solid var(--b1);border-radius:2px;padding:.75rem 1rem;margin-bottom:.85rem">
+      <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.18em;color:var(--teal);margin-bottom:.6rem">🔄 MULTI-HOP ROUND TRIP PLANNER — LIVE UEX DATA</div>
+      <div style="font-size:.72rem;color:var(--t2);margin-bottom:.5rem">Find the best outbound + return leg. Start → buy outbound commodity → sell → buy return commodity → sell back at start.</div>
+      <div style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:flex-end;margin-bottom:.65rem">
+        <div class="form-group" style="margin:0;flex:1;min-width:120px">
+          <label>SHIP CARGO (SCU)</label>
+          <input type="number" id="mh-scu" value="46" min="1" max="800" style="width:100%" oninput="calcMultiHop()">
+        </div>
+        <div class="form-group" style="margin:0;flex:2;min-width:160px">
+          <label>HOME SYSTEM</label>
+          <select id="mh-system" onchange="calcMultiHop()" style="width:100%">
+            <option value="Stanton">Stanton</option>
+            <option value="Pyro">Pyro</option>
+            <option value="Nyx">Nyx</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin:0;flex:1;min-width:100px">
+          <label>RESULTS</label>
+          <select id="mh-count" onchange="calcMultiHop()" style="width:100%">
+            <option value="5" selected>Top 5</option>
+            <option value="10">Top 10</option>
+          </select>
+        </div>
+      </div>
+      <div id="mh-status" style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--t3);margin-bottom:.5rem">⚪ Waiting for UEX data…</div>
+      <div id="mh-results"></div>
+    </div>
+
     <div class="info" style="margin-bottom:.75rem">Static route reference — always cross-check on SC Trade Tools or UEX before committing. Prices and stock shift constantly.</div>
 
     <div style="font-size:10px;font-weight:500;color:var(--green);letter-spacing:.08em;margin-bottom:.4rem">TIER 1 — LOW RISK · STABLE INCOME · ANY CARGO SHIP</div>
@@ -1830,11 +1904,29 @@ footer {
     <a class="ext" href="https://sc-trade.tools/trade-routes" target="_blank">↗ SC Trade Tools — LIVE</a>
     <a class="ext" href="https://regolith.rocks/market-price" target="_blank">↗ Regolith Market Prices</a>
     <a class="ext" href="https://uexcorp.space/commodities" target="_blank">↗ UEX Commodities List</a>
+  <div class="miss-tab" id="trade-watchlist">
+    <div style="background:var(--s2);border:1px solid var(--b1);border-radius:2px;padding:.75rem 1rem;margin-bottom:.75rem">
+      <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.18em;color:var(--gold);margin-bottom:.6rem">⭐ COMMODITY WATCHLIST</div>
+      <div style="font-size:.72rem;color:var(--t2);margin-bottom:.5rem">Star commodities to track. Set a price alert threshold — the watchlist highlights when live UEX prices exceed it.</div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:flex-end;margin-bottom:.65rem">
+        <div class="form-group" style="margin:0;flex:2;min-width:160px">
+          <label>COMMODITY</label>
+          <select id="wl-commodity" style="width:100%">
+            <option value="">— Select commodity —</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin:0;flex:1;min-width:100px">
+          <label>ALERT ABOVE (aUEC/SCU)</label>
+          <input type="number" id="wl-threshold" placeholder="e.g. 150000" style="width:100%">
+        </div>
+        <button onclick="wlAdd()" style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--gold);background:none;border:1px solid rgba(255,187,68,.5);padding:.35rem .75rem;cursor:pointer;border-radius:2px">⭐ WATCH</button>
+      </div>
+    </div>
+    <div id="wl-list"></div>
+  </div>
+
   </div>
 </div>
-
-<!-- ============================================================ -->
-<!-- PANEL: REP TRACKER -->
 <!-- ============================================================ -->
 <div class="panel" id="panel-rep">
   <div class="sec-hdr"><div class="sec-title" style="color:var(--purple)">REPUTATION TRACKER</div><div class="sec-sub">11 FACTIONS · RANK UNLOCKS · XP THRESHOLDS · SAVES IN BROWSER</div></div>
@@ -2263,6 +2355,7 @@ footer {
   <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem">
     <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;flex:1">MISSION BRIEF</div>
     <button class="btn" onclick="orgCopyBrief()" style="font-size:.65rem;padding:.25rem .65rem">📋 COPY BRIEF</button>
+    <button class="btn" onclick="orgShowHistory()" style="font-size:.65rem;padding:.25rem .65rem;opacity:.7">🕐 HISTORY</button>
     <button class="btn" onclick="orgReset()" style="font-size:.65rem;padding:.25rem .65rem;opacity:.7">↺ RESET</button>
   </div>
   <div id="orgBrief" style="background:var(--s2);border:1px solid var(--b1);border-radius:2px;padding:.75rem 1rem;font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--t2);line-height:1.7;white-space:pre-wrap"></div>
@@ -2667,6 +2760,7 @@ footer {
     <button class="ltab" onclick="setCombatTab('weapons',this)">🔫 Weapon Matrix</button>
     <button class="ltab" onclick="setCombatTab('matchups',this)">🎯 Matchup Guide</button>
     <button class="ltab" onclick="setCombatTab('tierlist',this)">🏆 PvP Tier List</button>
+    <button class="ltab" onclick="setCombatTab('synergy',this)">🔍 Synergy Check</button>
   </div>
 
   <!-- SHIP PROFILES TAB -->
@@ -2690,6 +2784,49 @@ footer {
   <div class="miss-tab" id="combat-tierlist">
     <div class="info" style="margin-bottom:.75rem">4.8 PvP tier list — solo and small group. Based on community consensus, ship stats, and Catfight org experience. Pilot skill always matters more than ship tier. Updated per patch.</div>
     <div id="combat-tierlist-content"></div>
+  </div>
+
+  <div class="miss-tab" id="combat-synergy">
+    <div class="info" style="margin-bottom:.75rem">Enter your ship and loadout choices. Get a PvP assessment based on the matchup data — strengths, counters, and tactical advice for your specific setup.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem">
+      <div>
+        <div class="form-group">
+          <label>YOUR SHIP</label>
+          <select id="syn-ship" onchange="synCheck()" style="width:100%">
+            <option value="">— Select ship —</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>PRIMARY WEAPON TYPE</label>
+          <select id="syn-weapon" onchange="synCheck()" style="width:100%">
+            <option value="ballistic">Ballistic (Deadbolt / Panther)</option>
+            <option value="laser">Laser / Energy</option>
+            <option value="distortion">Distortion</option>
+            <option value="mixed">Mixed ballistic + energy</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>SHIELD</label>
+          <select id="syn-shield" onchange="synCheck()" style="width:100%">
+            <option value="fr76">FR-76 (crafted — fast regen)</option>
+            <option value="asclepius">Asclepius (high HP)</option>
+            <option value="stock">Stock / unknown</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>ENGAGEMENT STYLE</label>
+          <select id="syn-style" onchange="synCheck()" style="width:100%">
+            <option value="burst">Burst alpha — open big, disengage</option>
+            <option value="sustained">Sustained — stay in the fight</option>
+            <option value="stealth">Stealth — arrive cold</option>
+            <option value="range">Long range — 1km+</option>
+          </select>
+        </div>
+      </div>
+      <div id="syn-results" style="background:var(--s2);border:1px solid var(--b1);border-radius:2px;padding:.75rem 1rem">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--t3)">Select a ship to see your PvP assessment.</div>
+      </div>
+    </div>
   </div>
 
 </div>
@@ -3131,43 +3268,27 @@ EXTRACT: never all QT at once. Mantis last out.
       <div id="exec-countdown" style="font-family:'Orbitron',sans-serif;font-size:1.6rem;font-weight:700;color:var(--teal);letter-spacing:.08em">--:--</div>
     </div>
 
-    <!-- Action window + sync -->
+    <!-- Next online window + calibration -->
     <div class="card" style="padding:.85rem 1rem">
-      <div style="font-family:'Orbitron',sans-serif;font-size:.55rem;letter-spacing:.14em;color:var(--t3);margin-bottom:.5rem">NEXT GREEN WINDOW</div>
+      <div style="font-family:'Orbitron',sans-serif;font-size:.55rem;letter-spacing:.14em;color:var(--t3);margin-bottom:.5rem">NEXT ONLINE WINDOW</div>
       <div id="exec-next-green" style="font-family:'Share Tech Mono',monospace;font-size:.78rem;color:var(--green);margin-bottom:.25rem">Calculating…</div>
       <div id="exec-green-in" style="font-family:'Orbitron',sans-serif;font-size:1.2rem;font-weight:700;color:var(--green);margin-bottom:.65rem">--:--:--</div>
 
       <div style="font-family:'Orbitron',sans-serif;font-size:.55rem;letter-spacing:.14em;color:var(--t3);margin-bottom:.35rem">AFTER THAT</div>
       <div id="exec-next2" style="font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--t2);margin-bottom:.75rem">–</div>
 
-      <!-- Sync -->
+      <!-- Xyxyll credit -->
       <div style="border-top:1px solid var(--b1);padding-top:.6rem">
-        <div style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--t3);margin-bottom:.35rem">MANUAL SYNC — tap when an LED changes in-game</div>
-        <div style="display:flex;gap:.4rem;flex-wrap:wrap">
-          <select id="exec-sync-led" style="font-family:'Share Tech Mono',monospace;font-size:.65rem;flex:1;min-width:120px">
-            <option value="r1">Red → Light 1 turns green</option>
-            <option value="r2">Red → Light 2 turns green</option>
-            <option value="r3">Red → Light 3 turns green</option>
-            <option value="r4">Red → Light 4 turns green</option>
-            <option value="r5">Red → Light 5 turns green (all green)</option>
-            <option value="g1">Green → Light 1 turns off</option>
-            <option value="g2">Green → Light 2 turns off</option>
-            <option value="g3">Green → Light 3 turns off</option>
-            <option value="g4">Green → Light 4 turns off</option>
-            <option value="g5">Green → Light 5 turns off (all off)</option>
-            <option value="b0">Black phase begins</option>
-            <option value="cycle">New cycle starts (all red)</option>
-          </select>
-          <button onclick="execSync()" style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--green);background:none;border:1px solid rgba(142,203,110,.5);padding:.3rem .65rem;cursor:pointer;border-radius:2px;white-space:nowrap">⚡ SYNC NOW</button>
-        </div>
-        <div id="exec-sync-status" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);margin-top:.3rem"></div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);margin-bottom:.2rem">CALIBRATION SOURCE</div>
+        <div style="font-size:.72rem;color:var(--t2)">Synced from <a href="https://exec.xyxyll.com" target="_blank" style="color:var(--ember)">exec.xyxyll.com</a> — 250+ cycles, ±1s accuracy</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);margin-top:.25rem">4.8.1-LIVE · Jun 5 2026 · MIT © Xyxyll</div>
       </div>
     </div>
   </div>
 
   <!-- Upcoming schedule -->
   <div class="card" style="padding:.75rem 1rem;margin-bottom:.75rem">
-    <div style="font-family:'Orbitron',sans-serif;font-size:.55rem;letter-spacing:.14em;color:var(--t3);margin-bottom:.5rem">UPCOMING GREEN WINDOWS — next 12 hours</div>
+    <div style="font-family:'Orbitron',sans-serif;font-size:.55rem;letter-spacing:.14em;color:var(--t3);margin-bottom:.5rem">UPCOMING ONLINE WINDOWS — next 12 hours</div>
     <div id="exec-schedule" style="display:flex;flex-wrap:wrap;gap:.4rem"></div>
   </div>
 
@@ -3237,15 +3358,16 @@ EXTRACT: never all QT at once. Mantis last out.
 
   </div>
 
-  <!-- Info / Mythbusting -->
+  <!-- Info / Xyxyll sync note -->
   <div class="info" style="font-size:.72rem;line-height:1.7">
-    <strong style="color:var(--green)">Cycle breakdown:</strong> Red phase 120min (5 lights × 24min) — no compboards.
-    Green phase 60min (5 lights × 12min) — insert compboards, claim ships. Black phase 5min — get out, death zone.
-    Total: <strong>185min 699ms</strong> per cycle. Timer is globally synchronised across all shards — confirmed by CIG dev Elfiann.
+    <strong style="color:var(--green)">Cycle breakdown:</strong>
+    🟢 <strong>ONLINE phase — 65 min</strong> (5 lights × ~13 min each) — all lights green at start, turn off one by one. INSERT COMPBOARDS. Claim ships.
+    🔴 <strong>OFFLINE phase — 120 min</strong> (5 lights × 24 min each) — all lights off, turn red one by one. DO NOT insert compboards.
+    Total: <strong>185 min 226ms</strong> per cycle. Globally synchronised across all shards — confirmed by CIG dev Elfiann.
     <br>
-    <strong style="color:var(--gold)">Myth:</strong> You have 65 minutes to claim, not 60 — the last 5 minutes of green is still active before the black phase.
+    <strong style="color:var(--gold)">Calibration:</strong> Epoch synced directly from <a href="https://exec.xyxyll.com" target="_blank" style="color:var(--ember)">exec.xyxyll.com</a> (Xyxyll, 250+ cycles, ±1s accuracy). Updated for 4.8.1-LIVE patch Jun 5 2026.
     <br>
-    <strong style="color:var(--t3)">After a major patch</strong> the cycle may drift. Use the manual sync button above to recalibrate when you see a light change in-game. Sync is saved locally.
+    <strong style="color:var(--t3)">After a major patch</strong> CIG may shift the cycle. If the timer looks wrong, check exec.xyxyll.com and report in the Catfight Discord.
   </div>
 </div>
 
@@ -3553,7 +3675,8 @@ function setTradeTab(t,btn){
   if(el)el.classList.add('active');
   btn.closest('.cftabs').querySelectorAll('.ltab').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  if(t==='routes') calcBestRoute();
+  if(t==='routes') { calcBestRoute(); calcMultiHop(); }
+  if(t==='watchlist') { wlInit(); wlRender(); }
 }
 
 // ===== SHOP FINDER =====
@@ -4201,6 +4324,7 @@ function sdbFilterShips(){
       const scuStr=sh.scu?sh.scu.toLocaleString()+' SCU':'—';
       const auecStr=sh.auec?`<span class="price-auec">${sdbFmtAuec(sh.auec)}</span>`:'<span class="price-none">Pledge only</span>';
       const pledgeStr=sh.pledge?`<span class="price-pledge">${sdbFmtPledge(sh.pledge)}</span>`:'<span class="price-none">—</span>';
+      const rentStr=sh.rent?`<span style="color:var(--teal);font-family:'Share Tech Mono',monospace;font-size:.72rem">${sdbFmtAuec(sh.rent)}</span>`:'<span style="color:var(--t3)">—</span>';
       body.innerHTML+=`<tr>
         <td class="ship-name-cell"><span class="ship-name">${sh.name}</span></td>
         <td>${sh.mfr}</td>
@@ -4208,12 +4332,13 @@ function sdbFilterShips(){
         <td class="crew-val">${sh.crew}</td>
         <td class="${scuClass}">${scuStr}</td>
         <td>${auecStr}</td>
+        <td>${rentStr}</td>
         <td>${pledgeStr}</td>
         <td class="${sdbStatusClass(sh.avail)}">${sdbAveilLabel(sh.avail)}</td>
         <td style="color:var(--dim);white-space:normal;max-width:180px">${sh.loc}</td>
         <td><button onclick="sdbShowPerf(this,'${sh.name}')" style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--teal);background:none;border:1px solid var(--b2);padding:.1rem .35rem;cursor:pointer;border-radius:2px">▶ Stats</button></td>
       </tr>
-      <tr id="perf-row-${sh.name.replace(/[^a-z0-9]/gi,'_')}" style="display:none"><td colspan="10" style="padding:0"><div id="perf-detail-${sh.name.replace(/[^a-z0-9]/gi,'_')}" style="padding:.5rem .75rem;background:var(--s2);border-top:1px solid var(--b1)"></div></td></tr>`;
+      <tr id="perf-row-${sh.name.replace(/[^a-z0-9]/gi,'_')}" style="display:none"><td colspan="11" style="padding:0"><div id="perf-detail-${sh.name.replace(/[^a-z0-9]/gi,'_')}" style="padding:.5rem .75rem;background:var(--s2);border-top:1px solid var(--b1)"></div></td></tr>`;
     });
   }
 
@@ -4583,11 +4708,25 @@ function grindUpdateLivePrices() {
       }
     }
 
+    // ── STARFARER refuelling estimate ─────────────────────────────────────────
+    // Urgent Fleet Refuel pays ~1.8M fixed per contract regardless of H fuel price
+    // Contract rate: ~3 runs/hr = ~5.4M/hr baseline
+    // We show 5.4M as the floor — if Hydrogen price is live we can note the bonus
+    const hydrogen = C('Hydrogen');
+    if(hydrogen) {
+      // Starfarer capacity ~1,000 SCU equivalent hydrogen × sell price gives a rough
+      // supplemental figure — but contract payout dominates, not cargo value
+      // Just confirm the 5.4M/hr estimate with a note
+      const hStr = fmtK(hydrogen);
+      set('gi-starfarer-hr', '5.4M+ · H₂ ' + hStr + '/SCU');
+    } else {
+      set('gi-starfarer-hr', '5.4M+');
+    }
+
     // ── INTERDICTION tier live prices ────────────────────────────────────────
     if (quant) {
       set('gi-interdict-quant', fmtK(quant));
-    }
-    const neon     = C('Neon');
+    }    const neon     = C('Neon');
     const etam     = C("E'tam");
     const widow    = C('WiDoW');
     if (neon)  set('gi-interdict-neon',  fmtK(neon));
@@ -5411,12 +5550,33 @@ function orgRenderBrief(){
 
 function orgCopyBrief(){
   const txt = document.getElementById('orgBrief')?.textContent||'';
+  // Archive this session to history
+  orgArchiveSession();
   navigator.clipboard.writeText(txt).then(()=>{
     const btn = event.target;
     const orig = btn.textContent;
     btn.textContent='✅ COPIED!';
     setTimeout(()=>btn.textContent=orig,1800);
   }).catch(()=>alert(txt));
+}
+
+const ORG_HISTORY_KEY = 'catfight_org_history';
+
+function orgArchiveSession() {
+  try {
+    const st  = orgGetState();
+    const history = JSON.parse(localStorage.getItem(ORG_HISTORY_KEY)||'[]');
+    history.unshift({
+      date:  new Date().toLocaleDateString(),
+      time:  new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),
+      obj:   document.getElementById('orgObjective')?.selectedOptions[0]?.text || st.obj,
+      sys:   st.sys,
+      count: st.count,
+      players: st.players.map(p=>p.name).filter(Boolean),
+    });
+    while(history.length > 5) history.pop();
+    localStorage.setItem(ORG_HISTORY_KEY, JSON.stringify(history));
+  } catch(e){}
 }
 
 function orgReset(){
@@ -5426,6 +5586,34 @@ function orgReset(){
   document.getElementById('orgDuration').value='120';
   orgTimerReset();
   orgUpdate();
+}
+
+function orgShowHistory() {
+  const existing = document.getElementById('org-history-overlay');
+  if(existing) { existing.remove(); return; }
+  try {
+    const history = JSON.parse(localStorage.getItem(ORG_HISTORY_KEY)||'[]');
+    const div = document.createElement('div');
+    div.id = 'org-history-overlay';
+    div.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--s1);border:1px solid var(--b1);border-radius:4px;padding:1.25rem 1.5rem;z-index:9999;min-width:340px;box-shadow:0 8px 32px rgba(0,0,0,.6)';
+    div.innerHTML = `
+      <div style="font-family:'Orbitron',sans-serif;font-size:.65rem;letter-spacing:.15em;color:var(--ember);margin-bottom:.75rem">SESSION HISTORY — LAST ${history.length}</div>
+      ${!history.length ? '<div style="font-family:\'Share Tech Mono\',monospace;font-size:.7rem;color:var(--t3)">No sessions recorded yet — copy a brief to archive it.</div>' :
+        history.map(h => `
+        <div style="padding:.35rem 0;border-bottom:1px solid var(--b1)">
+          <div style="display:flex;gap:.5rem;align-items:baseline">
+            <span style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--t2)">${h.date} ${h.time}</span>
+            <span style="font-size:.75rem;color:var(--t1);font-weight:600;flex:1">${h.obj}</span>
+            <span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">${h.sys} · ${h.count}p</span>
+          </div>
+          ${h.players?.length ? `<div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">${h.players.join(' · ')}</div>` : ''}
+        </div>`).join('')}
+      <button onclick="document.getElementById('org-history-overlay').remove()" style="margin-top:.85rem;font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--t3);background:none;border:1px solid var(--b2);padding:.25rem .65rem;cursor:pointer;border-radius:2px;width:100%">CLOSE</button>`;
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9998';
+    overlay.onclick = () => { div.remove(); overlay.remove(); };
+    document.body.append(overlay, div);
+  } catch(e) {}
 }
 
 // ── ORG SESSION TIMER ────────────────────────────────────────────────────────
@@ -5741,6 +5929,73 @@ document.addEventListener('keydown', function(e) {
   if(e.key === '?') { e.preventDefault(); execShowShortcuts(); }
 });
 
+function toggleWorkerHealth() {
+  const bar = document.getElementById('worker-health-bar');
+  if(!bar) return;
+  const open = bar.style.display !== 'none';
+  bar.style.display = open ? 'none' : 'flex';
+  if(!open) workerHealthCheck();
+}
+
+async function workerHealthCheck() {
+  const WORKERS = [
+    { id:'wh-uex',     url: UEX_PROXY     + '/commodities',   label:'UEX' },
+    { id:'wh-erkul',   url: ERKUL_PROXY   + '/weapons',       label:'ERKUL' },
+    { id:'wh-sccraft', url: SCCRAFT_PROXY + '/blueprints/all',label:'SCCRAFT' },
+    { id:'wh-rsi',     url: RSI_STATUS_PROXY + '/status',     label:'RSI' },
+    { id:'wh-aws',     url: AWS_STATUS_PROXY + '/aws-status', label:'AWS' },
+    { id:'wh-motd',    url: MOTD_PROXY    + '/motd',          label:'MOTD' },
+    { id:'wh-session', url: SESSION_PROXY + '/session',       label:'SESSION' },
+  ];
+
+  // Set all to checking
+  WORKERS.forEach(w => {
+    const el = document.getElementById(w.id);
+    if(el) { el.textContent = w.label + ' ···'; el.className = 'worker-chip'; }
+  });
+
+  await Promise.all(WORKERS.map(async w => {
+    const el = document.getElementById(w.id);
+    if(!el) return;
+    const t0 = performance.now();
+    try {
+      const resp = await fetch(w.url, { cache:'no-store', signal: AbortSignal.timeout(5000) });
+      const ms   = Math.round(performance.now() - t0);
+      const cached = resp.headers.get('x-cache') === 'HIT';
+      if(resp.ok) {
+        el.textContent = w.label + ' ' + ms + 'ms' + (cached ? ' HIT' : '');
+        el.className   = 'worker-chip ok';
+        el.title       = `HTTP ${resp.status} · ${ms}ms · ${cached ? 'cached' : 'fresh'}`;
+      } else {
+        el.textContent = w.label + ' ' + resp.status;
+        el.className   = 'worker-chip warn';
+        el.title       = `HTTP ${resp.status}`;
+      }
+    } catch(e) {
+      el.textContent = w.label + ' ERR';
+      el.className   = 'worker-chip err';
+      el.title       = e.message;
+    }
+  }));
+}
+
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light-theme');
+  const btn = document.getElementById('theme-toggle');
+  if(btn) btn.textContent = isLight ? '🌙 DARK' : '☀ LIGHT';
+  try { localStorage.setItem('catfight_theme', isLight ? 'light' : 'dark'); } catch(e){}
+}
+
+function initTheme() {
+  try {
+    if(localStorage.getItem('catfight_theme') === 'light') {
+      document.body.classList.add('light-theme');
+      const btn = document.getElementById('theme-toggle');
+      if(btn) btn.textContent = '🌙 DARK';
+    }
+  } catch(e){}
+}
+
 function execShowShortcuts() {
   const existing = document.getElementById('kbd-overlay');
   if(existing) { existing.remove(); return; }
@@ -5773,35 +6028,59 @@ function execShowShortcuts() {
   document.body.appendChild(div);
 }
 
-// Cycle constants — calibrated from 250+ community observations (Xyxyll / Arkanis)
-const EXEC_CYCLE_MS   = 11100699;   // 185 min 699ms — do NOT round, causes drift
-const EXEC_RED_MS     = 120 * 60000; // 120 min red phase (5 lights × 24min)
-const EXEC_GREEN_MS   = 60  * 60000; // 60 min green phase (5 lights × 12min)
-const EXEC_BLACK_MS   = 5   * 60000; // 5 min black phase
-const EXEC_LIGHT_RED_MS   = 24 * 60000; // each red light interval
-const EXEC_LIGHT_GREEN_MS = 12 * 60000; // each green light interval
+// ── EXEC HANGAR TIMER — synced to exec.xyxyll.com (MIT, Xyxyll 2026) ─────────
+//
+// Xyxyll's calibrated constants (app.js v2.2.5, lastModified 2026-Jun-05):
+//   CYCLE_DRIFT_MS     = 226
+//   DESIGN_ONLINE_MIN  = 65   (compboards ACTIVE — lights turn off one by one)
+//   DESIGN_OFFLINE_MIN = 120  (lights turn red one by one — DO NOT insert boards)
+//   INITIAL_OPEN_TIME  = 2026-06-05T19:47:35.211-04:00  (confirmed online start)
+//
+// Phase naming (matches xyxyll):
+//   ONLINE  (65 min) — all lights green at start, turn OFF every ~13 min  ← INSERT BOARDS
+//   OFFLINE (120 min) — all lights off at start, turn RED every 24 min    ← WAIT
+//
+// LED state during ONLINE:
+//   timeInOnline  0–13min:  [G G G G G]
+//   13–26min: [G G G G -]
+//   26–39min: [G G G - -]
+//   39–52min: [G G - - -]
+//   52–65min: [G - - - -]  ← last 13min of green window
+//
+// LED state during OFFLINE:
+//   timeInOffline 0–24min: [- - - - -]
+//   24–48min: [R - - - -]
+//   48–72min: [R R - - -]
+//   72–96min: [R R R - -]
+//   96–120min:[R R R R -] → [R R R R R] at 120min → ONLINE resets
 
-// Known good epoch — a confirmed cycle start (all lights red) in UTC ms
-// Calibrated from community data. After a major patch use manual sync to recalibrate.
-// This epoch corresponds to a known Red Phase start on 2025-01-15T00:00:00Z (placeholder)
-// The actual value gets overridden by localStorage sync.
-const EXEC_EPOCH_DEFAULT = 1736899200000; // 2025-01-15 00:00:00 UTC — placeholder, recalibrate with sync
+const EXEC_DRIFT_MS      = 226;
+const EXEC_ONLINE_MIN    = 65;
+const EXEC_OFFLINE_MIN   = 120;
+const EXEC_CYCLE_MIN     = EXEC_ONLINE_MIN + EXEC_OFFLINE_MIN;
 
-let execEpoch      = null; // set on init from localStorage or default
+const EXEC_DESIGN_ONLINE_MS  = EXEC_ONLINE_MIN  * 60 * 1000;
+const EXEC_DESIGN_OFFLINE_MS = EXEC_OFFLINE_MIN * 60 * 1000;
+const EXEC_DESIGN_CYCLE_MS   = EXEC_CYCLE_MIN   * 60 * 1000;
+
+const EXEC_CYCLE_MS   = EXEC_DESIGN_CYCLE_MS + EXEC_DRIFT_MS;
+const EXEC_ONLINE_MS  = Math.round(EXEC_CYCLE_MS * EXEC_DESIGN_ONLINE_MS  / EXEC_DESIGN_CYCLE_MS);
+const EXEC_OFFLINE_MS = EXEC_CYCLE_MS - EXEC_ONLINE_MS;
+
+// Xyxyll's calibrated epoch — confirmed online start time (4.8.1-LIVE, Jun 5 2026)
+const EXEC_INITIAL_OPEN = new Date('2026-06-05T19:47:35.211-04:00').getTime();
+
+const EXEC_LIGHT_ONLINE_MS  = EXEC_ONLINE_MS  / 5;  // ~13 min each (light turns off)
+const EXEC_LIGHT_OFFLINE_MS = EXEC_OFFLINE_MS / 5;  // ~24 min each (light turns red)
+
 let execInterval   = null;
 let execInitDone   = false;
 
 // Self timer state
-const execTimers  = {};
+const execTimers   = {};
 let execCustomMins = 10;
 
 function execHangarInit() {
-  // Load epoch from localStorage or use default
-  try {
-    const stored = localStorage.getItem('catfight_exec_epoch');
-    execEpoch = stored ? parseInt(stored) : EXEC_EPOCH_DEFAULT;
-  } catch(e) { execEpoch = EXEC_EPOCH_DEFAULT; }
-
   if(execInterval) clearInterval(execInterval);
   execInterval = setInterval(execHangarTick, 500);
   execHangarTick();
@@ -5811,64 +6090,56 @@ function execHangarInit() {
 }
 
 function execGetCyclePos(now) {
-  // Position within current cycle in ms
-  const pos = ((now - execEpoch) % EXEC_CYCLE_MS + EXEC_CYCLE_MS) % EXEC_CYCLE_MS;
-  return pos;
+  return ((now - EXEC_INITIAL_OPEN) % EXEC_CYCLE_MS + EXEC_CYCLE_MS) % EXEC_CYCLE_MS;
 }
 
 function execGetPhase(pos) {
-  if(pos < EXEC_RED_MS)   return 'red';
-  if(pos < EXEC_RED_MS + EXEC_GREEN_MS) return 'green';
-  return 'black';
+  return pos < EXEC_ONLINE_MS ? 'online' : 'offline';
 }
 
 function execHangarTick() {
-  const now = Date.now();
-  const pos  = execGetCyclePos(now);
+  const now   = Date.now();
+  const pos   = execGetCyclePos(now);
   const phase = execGetPhase(pos);
 
-  // Update phase label
   const phaseEl  = document.getElementById('exec-phase-label');
   const detailEl = document.getElementById('exec-phase-detail');
   const countEl  = document.getElementById('exec-countdown');
 
   let nextChangeMs, phaseText, detailText, countColor;
 
-  if(phase === 'red') {
-    phaseText = '🔴 RED PHASE — CHARGING';
-    countColor = 'var(--fire)';
-    // Which light is active?
-    const lightIdx = Math.floor(pos / EXEC_LIGHT_RED_MS); // 0–4
-    const lightPos  = pos % EXEC_LIGHT_RED_MS;
-    nextChangeMs    = EXEC_LIGHT_RED_MS - lightPos;
-    detailText = `Light ${lightIdx + 1}/5 charging · Next light in ${fmtDur(nextChangeMs)} · DO NOT insert compboards`;
-    execUpdateLEDs('red', lightIdx);
-  } else if(phase === 'green') {
-    phaseText = '🟢 GREEN PHASE — ACTIVE';
-    countColor = 'var(--green)';
-    const greenPos = pos - EXEC_RED_MS;
-    const lightOff = Math.floor(greenPos / EXEC_LIGHT_GREEN_MS); // 0–4 lights turned off
-    const lightPos = greenPos % EXEC_LIGHT_GREEN_MS;
-    nextChangeMs   = EXEC_LIGHT_GREEN_MS - lightPos;
-    const remaining = EXEC_RED_MS + EXEC_GREEN_MS - pos;
-    detailText = `${lightOff + 1}/5 lights off · ${fmtDur(remaining)} of green remaining · INSERT COMPBOARDS NOW`;
-    execUpdateLEDs('green', lightOff);
+  if(phase === 'online') {
+    // ONLINE: lights are green, turning off one by one
+    const lightOff  = Math.floor(pos / EXEC_LIGHT_ONLINE_MS);  // how many lights have gone off
+    const lightPos  = pos % EXEC_LIGHT_ONLINE_MS;
+    nextChangeMs    = EXEC_LIGHT_ONLINE_MS - lightPos;
+    const remaining = EXEC_ONLINE_MS - pos;
+
+    phaseText  = '🟢 ONLINE — INSERT COMPBOARDS';
+    countColor = remaining < EXEC_LIGHT_ONLINE_MS ? 'var(--fire)' : 'var(--green)';
+    detailText = `${5 - lightOff}/5 lights active · ${fmtDur(remaining)} of green window remaining`;
+    execUpdateLEDs('online', lightOff);
   } else {
-    phaseText = '⚫ BLACK PHASE — DEATH ZONE';
-    countColor = 'var(--t3)';
-    nextChangeMs = EXEC_CYCLE_MS - pos;
-    detailText = `New cycle in ${fmtDur(nextChangeMs)} · GET OUT — death zone active`;
-    execUpdateLEDs('black', 0);
+    // OFFLINE: lights are off, turning red one by one
+    const offPos    = pos - EXEC_ONLINE_MS;
+    const lightRed  = Math.floor(offPos / EXEC_LIGHT_OFFLINE_MS);  // how many lights are now red
+    const lightPos  = offPos % EXEC_LIGHT_OFFLINE_MS;
+    nextChangeMs    = EXEC_LIGHT_OFFLINE_MS - lightPos;
+    const remaining = EXEC_OFFLINE_MS - offPos;
+
+    phaseText  = lightRed === 0 ? '⚫ OFFLINE — ALL LIGHTS OFF' : `🔴 OFFLINE — ${lightRed}/5 LIGHTS RED`;
+    countColor = 'var(--fire)';
+    detailText = lightRed === 5
+      ? `All lights red — green window opening in ${fmtDur(nextChangeMs)}`
+      : `${lightRed}/5 lights red · ${fmtDur(remaining)} until green window`;
+    execUpdateLEDs('offline', lightRed);
   }
 
   if(phaseEl)  { phaseEl.textContent = phaseText; phaseEl.style.color = countColor; }
   if(detailEl) detailEl.textContent = detailText;
   if(countEl)  { countEl.textContent = fmtDur(nextChangeMs); countEl.style.color = countColor; }
 
-  // Next green window
-  execUpdateNextGreen(now, pos, phase);
-
-  // Tick self timers
+  execUpdateNextOnline(now, pos, phase);
   execTickSelfTimers();
 }
 
@@ -5877,45 +6148,37 @@ function execUpdateLEDs(phase, idx) {
     const el = document.getElementById('exec-led-' + i);
     if(!el) continue;
     el.className = 'exec-led';
-    if(phase === 'red') {
-      // Lights 1..idx are green, rest are red
-      el.classList.add(i <= idx ? 'green' : 'red');
-    } else if(phase === 'green') {
-      // Lights 1..idx are off, rest are green
+    if(phase === 'online') {
+      // Lights 1..idx have turned OFF, rest are green
       el.classList.add(i <= idx ? 'off' : 'green');
     } else {
-      el.classList.add('off');
+      // Lights 1..idx have turned RED, rest are off
+      el.classList.add(i <= idx ? 'red' : 'off');
     }
   }
 }
 
-function execUpdateNextGreen(now, pos, phase) {
+function execUpdateNextOnline(now, pos, phase) {
   const nextGreenEl = document.getElementById('exec-next-green');
   const greenInEl   = document.getElementById('exec-green-in');
   const next2El     = document.getElementById('exec-next2');
   if(!nextGreenEl) return;
 
-  let msToGreen;
-  if(phase === 'green') {
-    // Already in green
-    const remaining = EXEC_RED_MS + EXEC_GREEN_MS - pos;
+  if(phase === 'online') {
+    const remaining = EXEC_ONLINE_MS - pos;
     nextGreenEl.textContent = '✅ ACTIVE NOW — insert compboards';
     nextGreenEl.style.color = 'var(--green)';
     if(greenInEl) { greenInEl.textContent = fmtDur(remaining) + ' remaining'; greenInEl.style.color = 'var(--green)'; }
-    // Next green after current one
-    msToGreen = EXEC_CYCLE_MS - pos + EXEC_RED_MS;
-    if(next2El) next2El.textContent = 'Next: ' + fmtAbsTime(now + msToGreen) + ' · in ' + fmtDur(msToGreen);
+    const nextOpen = now + (EXEC_OFFLINE_MS + EXEC_ONLINE_MS);  // rough — after this online ends
+    if(next2El) next2El.textContent = 'Next: ' + fmtAbsTime(now + EXEC_OFFLINE_MS + remaining + EXEC_ONLINE_MS);
   } else {
-    // Time until next green phase
-    if(phase === 'red')   msToGreen = EXEC_RED_MS - pos;
-    else                  msToGreen = EXEC_CYCLE_MS - pos + EXEC_RED_MS;
-    const absTime = new Date(now + msToGreen).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    const offPos     = pos - EXEC_ONLINE_MS;
+    const msToOnline = EXEC_OFFLINE_MS - offPos;
+    const absTime    = fmtAbsTime(now + msToOnline);
     nextGreenEl.textContent = 'Opens at ' + absTime;
     nextGreenEl.style.color = 'var(--t2)';
-    if(greenInEl) { greenInEl.textContent = fmtDur(msToGreen); greenInEl.style.color = 'var(--teal)'; }
-    // After that
-    const ms2 = msToGreen + EXEC_CYCLE_MS;
-    if(next2El) next2El.textContent = 'Then: ' + fmtAbsTime(now + ms2) + ' · in ' + fmtDur(ms2);
+    if(greenInEl) { greenInEl.textContent = fmtDur(msToOnline); greenInEl.style.color = 'var(--teal)'; }
+    if(next2El)   next2El.textContent = 'Then: ' + fmtAbsTime(now + msToOnline + EXEC_CYCLE_MS);
   }
 }
 
@@ -5925,116 +6188,48 @@ function execRenderSchedule() {
   const now = Date.now();
   const pos = execGetCyclePos(now);
   const phase = execGetPhase(pos);
+
   const slots = [];
 
-  // Find next ~8 green windows within 12 hours
-  let t = now;
-  let p = pos;
-  for(let i = 0; i < 8; i++) {
-    let msToGreen;
-    if(phase === 'green' && i === 0) {
-      // Currently in green
-      const remaining = EXEC_RED_MS + EXEC_GREEN_MS - p;
-      slots.push({ start: t, end: t + remaining, active: true });
-      t += remaining + EXEC_BLACK_MS + EXEC_RED_MS + (EXEC_CYCLE_MS - (EXEC_RED_MS + EXEC_GREEN_MS + EXEC_BLACK_MS));
-      p = 0;
-      continue;
-    }
-    if(p < EXEC_RED_MS) msToGreen = EXEC_RED_MS - p;
-    else if(p >= EXEC_RED_MS + EXEC_GREEN_MS) msToGreen = EXEC_CYCLE_MS - p + EXEC_RED_MS;
-    else msToGreen = 0;
-
-    const greenStart = t + msToGreen;
-    const greenEnd   = greenStart + EXEC_GREEN_MS;
-    if(greenStart - now > 12 * 3600000) break;
-    slots.push({ start: greenStart, end: greenEnd, active: false });
-    t = greenEnd + EXEC_BLACK_MS;
-    p = EXEC_RED_MS; // after green+black we're back at red start
-    // Actually just step by cycle
-    t = greenStart + EXEC_CYCLE_MS;
-    p = EXEC_RED_MS;
+  // Find next online start
+  let msToOnline;
+  if(phase === 'online') {
+    // currently online — this slot is active
+    const remaining = EXEC_ONLINE_MS - pos;
+    slots.push({ start: now - pos, end: now + remaining, active: true });
+    msToOnline = remaining + EXEC_OFFLINE_MS;
+  } else {
+    msToOnline = EXEC_OFFLINE_MS - (pos - EXEC_ONLINE_MS);
   }
 
-  // Simpler approach: iterate by cycle
-  const schedSlots = [];
-  const firstGreen = execNextGreenStart(now, pos, phase);
-  for(let i = 0; i < 6; i++) {
-    const start = firstGreen + i * EXEC_CYCLE_MS;
-    const end   = start + EXEC_GREEN_MS;
+  // Generate next 6 online windows within 12 hours
+  let firstOnline = now + (phase === 'online' ? 0 : msToOnline);
+  if(phase !== 'online') {
+    slots.push({ start: firstOnline, end: firstOnline + EXEC_ONLINE_MS, active: false });
+  }
+  for(let i = 1; i <= 5; i++) {
+    const start = (phase === 'online' ? now + msToOnline : firstOnline) + i * EXEC_CYCLE_MS - (phase === 'online' ? 0 : 0);
+    const end   = start + EXEC_ONLINE_MS;
     if(start - now > 12 * 3600000) break;
-    schedSlots.push({ start, end });
+    slots.push({ start, end, active: false });
   }
 
-  el.innerHTML = schedSlots.map((s, i) => {
-    const isNow = Date.now() >= s.start && Date.now() <= s.end;
-    const inMs  = s.start - Date.now();
-    const col   = isNow ? 'var(--green)' : i === 0 ? 'var(--teal)' : 'var(--t3)';
-    return `<div style="background:var(--s2);border:1px solid ${isNow?'var(--green)':'var(--b1)'};border-radius:2px;padding:.35rem .6rem;font-family:'Share Tech Mono',monospace;font-size:.62rem">
-      <div style="color:${col};font-weight:700">${isNow ? '● ACTIVE' : fmtAbsTime(s.start) + '–' + fmtAbsTime(s.end)}</div>
-      <div style="color:var(--t3);font-size:.58rem">${isNow ? 'Insert compboards now' : 'In ' + fmtDur(inMs)}</div>
+  el.innerHTML = slots.slice(0, 6).map((s, i) => {
+    const isNow  = s.active;
+    const inMs   = s.start - now;
+    const col    = isNow ? 'var(--green)' : i === 0 ? 'var(--teal)' : 'var(--t3)';
+    return `<div style="background:var(--s2);border:1px solid ${isNow ? 'var(--green)' : 'var(--b1)'};border-radius:2px;padding:.35rem .6rem;font-family:'Share Tech Mono',monospace;font-size:.62rem">
+      <div style="color:${col};font-weight:700">${isNow ? '● ACTIVE NOW' : fmtAbsTime(s.start) + '–' + fmtAbsTime(s.end)}</div>
+      <div style="color:var(--t3);font-size:.58rem">${isNow ? 'Insert compboards' : 'In ' + fmtDur(inMs)}</div>
     </div>`;
   }).join('');
 }
 
-function execNextGreenStart(now, pos, phase) {
-  if(phase === 'green') return now - (pos - EXEC_RED_MS); // started in the past
-  if(pos < EXEC_RED_MS) return now + (EXEC_RED_MS - pos);
-  return now + (EXEC_CYCLE_MS - pos + EXEC_RED_MS);
-}
-
-function execSync() {
-  const sel = document.getElementById('exec-sync-led')?.value || 'cycle';
-  const now = Date.now();
-  let newEpoch;
-
-  // Each sync option tells us exactly where in the cycle we are right now
-  // We back-calculate the epoch from that
-  const KEY = {
-    r1: 0,
-    r2: EXEC_LIGHT_RED_MS,
-    r3: EXEC_LIGHT_RED_MS * 2,
-    r4: EXEC_LIGHT_RED_MS * 3,
-    r5: EXEC_LIGHT_RED_MS * 4,
-    g1: EXEC_RED_MS,
-    g2: EXEC_RED_MS + EXEC_LIGHT_GREEN_MS,
-    g3: EXEC_RED_MS + EXEC_LIGHT_GREEN_MS * 2,
-    g4: EXEC_RED_MS + EXEC_LIGHT_GREEN_MS * 3,
-    g5: EXEC_RED_MS + EXEC_LIGHT_GREEN_MS * 4,
-    b0: EXEC_RED_MS + EXEC_GREEN_MS,
-    cycle: 0,
-  };
-
-  const offsetInCycle = KEY[sel] || 0;
-  // epoch = now - offsetInCycle (modulo cycle handled by tick)
-  newEpoch = now - offsetInCycle;
-  // Normalise to a clean cycle boundary
-  newEpoch = newEpoch - ((newEpoch % EXEC_CYCLE_MS + EXEC_CYCLE_MS) % EXEC_CYCLE_MS) + offsetInCycle;
-
-  execEpoch = newEpoch;
-  try { localStorage.setItem('catfight_exec_epoch', String(newEpoch)); } catch(e) {}
-
-  const statusEl = document.getElementById('exec-sync-status');
-  if(statusEl) {
-    statusEl.textContent = '✅ Synced at ' + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'}) + ' — epoch recalibrated';
-    statusEl.style.color = 'var(--green)';
-    setTimeout(() => { if(statusEl) statusEl.style.color = 'var(--t3)'; }, 4000);
-  }
-
-  execHangarTick();
-  execRenderSchedule();
-}
-
 // ── Self timers ───────────────────────────────────────────────────────────────
 function execTimerStart(id, secs) {
-  const remaining = execTimers[id]?.remaining;
-  // If already running, restart from beginning; if paused, resume
-  if(execTimers[id]?.running) {
-    execTimerReset(id, secs);
-    return;
-  }
   if(!execTimers[id]) execTimers[id] = { remaining: secs, running: false };
-  execTimers[id].running  = true;
-  execTimers[id].startedAt = Date.now();
+  execTimers[id].running      = true;
+  execTimers[id].startedAt    = Date.now();
   execTimers[id].baseRemaining = execTimers[id].remaining ?? secs;
   execSaveTimers();
 }
@@ -6067,10 +6262,7 @@ function execTickSelfTimers() {
     if(!el) return;
     el.textContent = fmtSelfTimer(rem);
     el.className = 'exec-timer-display' + (rem <= 0 ? ' done' : rem < 180 ? ' warn' : '');
-    if(rem <= 0 && t.running) {
-      t.running = false;
-      execSaveTimers();
-    }
+    if(rem <= 0 && t.running) { t.running = false; execSaveTimers(); }
   });
 }
 
@@ -6097,7 +6289,6 @@ function execRestoreTimers() {
   } catch(e) {}
 }
 
-// ── Formatting helpers ────────────────────────────────────────────────────────
 function fmtDur(ms) {
   if(ms <= 0) return '00:00';
   const totalSec = Math.floor(ms / 1000);
@@ -6118,6 +6309,7 @@ function fmtSelfTimer(secs) {
 function fmtAbsTime(ms) {
   return new Date(ms).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
 }
+
 
 // ── INTERDICTION PLANNER ─────────────────────────────────────────────────────
 
@@ -6336,9 +6528,25 @@ function iPlanUpdate() {
 
 const CHANGELOG = [
   {
+    ver: 'v0.9.5', date: '9 Jun 2026', col: 'var(--teal)',
+    items: [
+      { cat:'COMBAT',   text:'Combat profiles expanded to 21 — RSI Polaris added (corvette-class, 4× S10 torpedo tubes, 210 SCM, surprisingly low IR for a capital, pledge only). Full crew guide (10-crew role breakdown) and stealth approach build.' },
+      { cat:'COMBAT',   text:'Matchups expanded to 21 — Fighting the Polaris, Polaris vs Hammerhead, Polaris torpedo doctrine (full 4-tube simultaneous salvo or don\'t fire).' },
+      { cat:'GRIND',    text:'Starfarer refuelling tier added to Grind Guide — 6 steps covering United Wayfarers rep grind (~42 contracts to Senior), Urgent Fleet Refuel loop (~1.8M/run, 5M+/hr ceiling), loop optimisation, Gemini variant tradeoff, Pyro interdiction risk management.' },
+      { cat:'SHIPS',    text:'Fleet View tab added to Ship DB — add org member ships, organises by role category (Fighter/Gunship/Cargo/Mining/Salvage/Support/Interdict/Utility), coverage summary bar highlights gaps. Persists in localStorage.' },
+      { cat:'ORG',      text:'Shared session state — 🌐 LIVE SESSION bar in Org Ops. Coordinator hits 📡 PUSH to share session config (objective, system, players, roles, ships, duration) via Cloudflare KV worker. Org members hit ⬇ PULL to load. Auto-checks on panel open. 8hr session expiry.' },
+      { cat:'MISC',     text:'Ping tracker — live latency display in the RSI/AWS status bar. Measures RTT to RSI infrastructure, 3-ping average, colour-coded green/gold/amber/red. Click to retest. Refreshes every 2 minutes.' },
+      { cat:'MISC',     text:'Keyboard shortcuts — press any panel key (G/T/R/C/O/S/Y/M/J/B/F/I/E/L/P) to jump directly. Press ? for the shortcut overlay. Disabled while typing in inputs. ? SHORTCUTS link in the footer.' },
+      { cat:'MOTD',     text:'MOTD ticker — hidden bar between status bar and nav. CatMilker edits motd-worker.js (active, type, title, message, expires) and redeploys to push org announcements without an HTML update. Types: info/warning/patch/event.' },
+      { cat:'TRADE',    text:'Trade route calculator — top of Routes tab. Input ship SCU, starting system, risk tolerance. Calculates profit per trip for all UEX commodities, sorted by best total haul value. Live investment required shown.' },
+      { cat:'COMBAT',   text:'PvP Tier List tab added to Combat Analysis — S/A/B/C/D tiers for solo and multi-crew/fleet. 20 ships rated with reasoning. Updated per patch.' },
+      { cat:'MINING',   text:'Refinery Queue Estimator added to Mining Compendium refinery tab — ore type, SCU, method, submit time → duration, completion time, yield SCU, estimated aUEC value from live UEX.' },
+      { cat:'CHANGELOG',text:'Changelog category filter — filter by tag (GRIND/COMBAT/SHIPS/LOADOUTS/ORG/INTERDICT/EXEC/INFRA/MINING/BUILDER/DATA). Entry count shown.' },
+    ],
+  },
+  {
     ver: 'v0.9.4', date: '8 Jun 2026', col: 'var(--teal)',
     items: [
-      { cat:'COMBAT',   text:'Combat profiles expanded 18 → 20. Added Perseus (~40M aUEC, 2× S7 manned turrets, 211,200 HP L-shield, full crew breakdown) and Hammerhead (~45.5M aUEC, 6× S4 full-sphere coverage, 144,000 HP L-shield, sector assignment guide).' },
       { cat:'COMBAT',   text:'Matchups expanded 15 → 17. Added Ares Ion escort meta, Perseus fleet engagement (attack vectors + torpedo timing), Hammerhead crew coordination (blind spot exploitation, undermanned vulnerability).' },
       { cat:'SHIPS',    text:'Meteor confirmed in-game purchasable at ~4.31M aUEC. Updated from pledge-only — price corrected, pledge weakness removed from profile.' },
       { cat:'SHIPS',    text:'Ship price audit — Arrow, Gladius, Shiv, Scorpius, Vulture, Zeus CL, Hermes, C2 and 20 other hardcoded prices updated or replaced with live SC Wiki data spans. Prices raised significantly across the board in 4.8.' },
@@ -6545,6 +6753,50 @@ function fvRemove(idx) {
   fvRender();
 }
 
+function fvExport() {
+  const fleet = fvLoad();
+  if(!fleet.length) { alert('No ships to export.'); return; }
+  const code = btoa(JSON.stringify(fleet));
+  const ta = document.createElement('textarea');
+  ta.value = code;
+  ta.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:120px;background:var(--s1);color:var(--t1);border:1px solid var(--b1);padding:.75rem;font-family:monospace;font-size:.7rem;z-index:9999;border-radius:4px';
+  ta.readOnly = true;
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9998';
+  const label = document.createElement('div');
+  label.style.cssText = 'position:fixed;top:calc(50% - 90px);left:50%;transform:translateX(-50%);font-family:\'Share Tech Mono\',monospace;font-size:.72rem;color:var(--teal);z-index:9999';
+  label.textContent = 'FLEET EXPORT CODE — copy and share with org members:';
+  const btn = document.createElement('button');
+  btn.textContent = '✕ Close';
+  btn.style.cssText = 'position:fixed;top:calc(50% + 60px);left:50%;transform:translateX(-50%);z-index:9999;font-family:\'Share Tech Mono\',monospace;font-size:.65rem;color:var(--t2);background:none;border:1px solid var(--b2);padding:.3rem .75rem;cursor:pointer;border-radius:2px';
+  btn.onclick = () => { ta.remove(); label.remove(); overlay.remove(); btn.remove(); };
+  overlay.onclick = btn.onclick;
+  document.body.append(overlay, label, ta, btn);
+  ta.select();
+}
+
+function fvImport() {
+  const code = prompt('Paste fleet export code:');
+  if(!code) return;
+  try {
+    const data = JSON.parse(atob(code.trim()));
+    if(!Array.isArray(data)) throw new Error('Invalid format');
+    const existing = fvLoad();
+    // Merge — skip duplicates (same ship + member combo)
+    const merged = [...existing];
+    data.forEach(entry => {
+      if(!merged.find(e => e.ship === entry.ship && e.member === entry.member)) {
+        merged.push(entry);
+      }
+    });
+    fvSave(merged);
+    fvRender();
+    alert(`Imported ${data.length} ships. ${merged.length - existing.length} new entries added.`);
+  } catch(e) {
+    alert('Import failed — invalid code. Make sure you copied the full export string.');
+  }
+}
+
 function fvClear() {
   if(!confirm('Clear all fleet entries?')) return;
   fvSave([]);
@@ -6579,6 +6831,13 @@ function fvRender() {
 
   const ALL_CATS = ['fighter','gunship','cargo','mining','salvage','support','interdict','utility'];
   if(coverEl) {
+    const totalValue = fleet.reduce((sum, e) => {
+      const sdb = typeof SHIP_LOADOUTS !== 'undefined'
+        ? SHIP_LOADOUTS.find(s => s.name.toLowerCase() === e.ship.toLowerCase())
+        : null;
+      return sum + (sdb?.auec || 0);
+    }, 0);
+    const fmtV = n => n >= 1e9 ? (n/1e9).toFixed(2)+'B' : n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1000 ? Math.round(n/1000)+'k' : '—';
     coverEl.innerHTML = ALL_CATS.map(cat => {
       const count = cats[cat] || 0;
       const rm    = ROLE_MAP[cat];
@@ -6589,7 +6848,7 @@ function fvRender() {
         <span style="font-family:'Orbitron',sans-serif;font-size:.75rem;font-weight:700;color:${col}">${count}</span>
       </div>`;
     }).join('') +
-    `<span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);margin-left:auto">${fleet.length} ships total</span>`;
+    `<span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);margin-left:auto">${fleet.length} ships${totalValue > 0 ? ' · ' + fmtV(totalValue) + ' aUEC total' : ''}</span>`;
   }
 
   // Group by role category
@@ -6605,12 +6864,21 @@ function fvRender() {
     const ships = grouped[cat];
     return `<div style="background:var(--s2);border:1px solid var(--b1);border-left:3px solid ${rm.col};border-radius:2px;padding:.55rem .75rem">
       <div style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:${rm.col};letter-spacing:.1em;margin-bottom:.4rem">${rm.label.toUpperCase()} — ${ships.length} ship${ships.length>1?'s':''}</div>
-      ${ships.map(e => `
+      ${ships.map(e => {
+        // Look up live price from SHIP_LOADOUTS
+        const sdb = typeof SHIP_LOADOUTS !== 'undefined'
+          ? SHIP_LOADOUTS.find(s => s.name.toLowerCase() === e.ship.toLowerCase())
+          : null;
+        const price = sdb?.auec ? sdb.auec : null;
+        const fmtK = n => n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1000 ? Math.round(n/1000)+'k' : n;
+        const priceStr = price ? `<span style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--gold)">${fmtK(price)}</span>` : '';
+        return `
         <div style="display:flex;align-items:baseline;gap:.4rem;padding:.2rem 0;border-bottom:1px solid rgba(255,255,255,.03)">
           <span style="font-size:.78rem;color:var(--t1);font-weight:600;flex:1">${e.ship}</span>
+          ${priceStr}
           <span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">${e.member}</span>
           <button onclick="fvRemove(${e.idx})" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);background:none;border:none;cursor:pointer;padding:0 .2rem">✕</button>
-        </div>`).join('')}
+        </div>`}).join('')}
     </div>`;
   }).join('');
 }
@@ -6798,9 +7066,9 @@ const ROADMAP = [
     label: 'UP NEXT',
     col: 'var(--lava)',
     items: [
-      { tag:'SHIPS',    pri:'MED',  text:'Ship DB — fleet view import/export. Share org fleet config via a paste code so multiple members can sync the same fleet list.' },
-      { tag:'GRIND',    pri:'LOW',  text:'Grind Guide — live Starfarer income estimate from UEX if United Wayfarers contract value becomes available via API.' },
-      { tag:'MISC',     pri:'LOW',  text:'Dark/light theme toggle. Low priority but frequently requested.' },
+      { tag:'MISC',     pri:'HIGH', text:'Version 1.0 — full audit pass, version bump, updated changelog, Discord main post refresh, README update.' },
+      { tag:'SHIPS',    pri:'MED',  text:'Ship DB — complete rental price data. Currently covers ~40 ships. Expand to full catalogue via SC Wiki API rental endpoint.' },
+      { tag:'INFRA',    pri:'LOW',  text:'Worker health dashboard — add response time history graph (last 24 requests per worker).' },
     ],
   },
   {
@@ -6808,8 +7076,9 @@ const ROADMAP = [
     label: 'PLANNED',
     col: 'var(--ember)',
     items: [
-      { tag:'COMBAT',   pri:'LOW',  text:'Combat Analysis — additional capital ship matchups. Polaris vs Perseus, Hammerhead vs Starlancer TAC fleet doctrine.' },
-      { tag:'MISC',     pri:'LOW',  text:'Tool performance pass — lazy render remaining panels, reduce DOM on inactive tabs.' },
+      { tag:'MISC',     pri:'LOW',  text:'Tool performance pass — measure and reduce initial parse time. Currently ~850KB HTML, target sub-700KB via additional data splits.' },
+      { tag:'SHIPS',    pri:'LOW',  text:'Ship DB — filtering by rental availability. Show only ships that can be rented for test sessions.' },
+      { tag:'ORG',      pri:'LOW',  text:'Org Ops — session debrief mode. After session ends, log income earned, debrief notes, and compare to estimate.' },
     ],
   },
   {
@@ -6817,10 +7086,9 @@ const ROADMAP = [
     label: 'CONSIDERING',
     col: 'var(--teal)',
     items: [
-      { tag:'COMBAT',   pri:'LOW',  text:'Combat Analysis — additional capital ship matchups. Polaris vs Perseus, Hammerhead vs Starlancer TAC fleet doctrine.' },
-      { tag:'MISC',     pri:'LOW',  text:'Tool performance pass — lazy render remaining panels, reduce DOM on inactive tabs.' },
-      { tag:'MISC',     pri:'LOW',  text:'Dark/light theme toggle. Frequently requested, low build complexity.' },
-      { tag:'SHIPS',    pri:'LOW',  text:'Ship DB — fleet view import/export via paste code for multi-member sync.' },
+      { tag:'MISC',     pri:'LOW',  text:'Tool performance pass — additional data splits to reduce HTML below 700KB.' },
+      { tag:'ORG',      pri:'LOW',  text:'Org Ops — session debrief mode. Log income earned, notes, compare to estimate.' },
+      { tag:'SHIPS',    pri:'LOW',  text:'Ship DB — rental availability filter and complete rental price catalogue.' },
     ],
   },
   {
@@ -7141,6 +7409,161 @@ const SKIP_COMM_NAMES = new Set([
   'Inert Materials','HexaPolyMesh Coating','Detatrine','Hydrogen Fuel','Quantum Fuel'
 ]);
 
+function calcMultiHop() {
+  const statusEl  = document.getElementById('mh-status');
+  const resultsEl = document.getElementById('mh-results');
+  if(!resultsEl) return;
+
+  if(typeof COMMODITIES === 'undefined' || !COMMODITIES.length ||
+     typeof TRADE_LOCS  === 'undefined' || !Object.keys(TRADE_LOCS).length) {
+    if(statusEl) statusEl.textContent = '⚪ Waiting for UEX live data…';
+    return;
+  }
+
+  const scu    = Math.max(1, parseInt(document.getElementById('mh-scu')?.value || '46'));
+  const system = document.getElementById('mh-system')?.value || 'Stanton';
+  const count  = parseInt(document.getElementById('mh-count')?.value || '5');
+  const fmtK   = n => n >= 1e6 ? (n/1e6).toFixed(2)+'M' : n >= 1000 ? Math.round(n/1000)+'k' : Math.round(n).toString();
+
+  // Build all single-leg routes in the home system
+  const legs = [];
+  for(const [name, loc] of Object.entries(TRADE_LOCS)) {
+    if(!loc.b?.length || !loc.s?.length) continue;
+    const buy  = loc.b[0];
+    const sell = loc.s[0];
+    if(!buy?.p || !sell?.p) continue;
+    const profit = (sell.p - buy.p) * scu;
+    if(profit <= 0) continue;
+    const buySys  = buy.sys  || '';
+    const sellSys = sell.sys || '';
+    legs.push({ name, buy, sell, profit, buySys, sellSys, ill: loc.ill });
+  }
+
+  // Find round trips: outbound leg sells in system X, return leg buys in system X
+  const trips = [];
+  for(const out of legs) {
+    // The outbound sell location becomes the starting point for the return
+    const returnSellSys = out.sellSys || system;
+    // Find a return leg that buys from near the outbound sell point
+    for(const ret of legs) {
+      if(ret.name === out.name) continue;
+      const retBuySys = ret.buySys || '';
+      // Return leg should buy from where outbound sold
+      if(returnSellSys && retBuySys && !retBuySys.includes(returnSellSys) && !returnSellSys.includes(retBuySys)) continue;
+      const totalProfit = out.profit + ret.profit;
+      if(totalProfit <= 0) continue;
+      trips.push({ out, ret, totalProfit, investment: out.buy.p * scu });
+    }
+  }
+
+  trips.sort((a,b) => b.totalProfit - a.totalProfit);
+  const top = trips.slice(0, count);
+
+  if(statusEl) {
+    statusEl.textContent = `🟢 UEX LIVE · ${trips.length} round trips found · sorted by combined profit`;
+    statusEl.style.color = 'var(--green)';
+  }
+
+  if(!top.length) {
+    resultsEl.innerHTML = '<div style="color:var(--t3);font-size:.75rem;padding:.5rem 0">No round trips found for current filters.</div>';
+    return;
+  }
+
+  const maxP = top[0].totalProfit;
+  resultsEl.innerHTML = top.map((t, i) => `
+    <div style="padding:.45rem 0;border-bottom:1px solid rgba(255,255,255,.03)">
+      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.15rem">
+        <span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">#${i+1}</span>
+        <span style="font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:700;color:var(--gold)">${fmtK(t.totalProfit)} round trip</span>
+        <span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);margin-left:auto">invest ${fmtK(t.investment)}</span>
+      </div>
+      <div style="height:2px;background:var(--b1);border-radius:2px;margin-bottom:.25rem">
+        <div style="height:100%;width:${Math.round(t.totalProfit/maxP*100)}%;background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:2px"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem">
+        <div style="background:var(--s3);border-radius:2px;padding:.3rem .5rem">
+          <div style="font-family:'Share Tech Mono',monospace;font-size:.55rem;color:var(--teal);margin-bottom:.1rem">OUTBOUND +${fmtK(t.out.profit)}</div>
+          <div style="font-size:.75rem;color:var(--t1);font-weight:600">${t.out.name}${t.out.ill?'<span style="color:var(--fire);font-size:.6rem"> ⚠</span>':''}</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">${t.out.buy.t} → ${t.out.sell.t}</div>
+        </div>
+        <div style="background:var(--s3);border-radius:2px;padding:.3rem .5rem">
+          <div style="font-family:'Share Tech Mono',monospace;font-size:.55rem;color:var(--lava);margin-bottom:.1rem">RETURN +${fmtK(t.ret.profit)}</div>
+          <div style="font-size:.75rem;color:var(--t1);font-weight:600">${t.ret.name}${t.ret.ill?'<span style="color:var(--fire);font-size:.6rem"> ⚠</span>':''}</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">${t.ret.buy.t} → ${t.ret.sell.t}</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ── COMMODITY WATCHLIST ───────────────────────────────────────────────────────
+const WL_KEY = 'catfight_watchlist';
+
+function wlLoad()  { try { return JSON.parse(localStorage.getItem(WL_KEY)||'[]'); } catch(e){ return []; } }
+function wlSave(d) { try { localStorage.setItem(WL_KEY, JSON.stringify(d)); } catch(e){} }
+
+function wlInit() {
+  const sel = document.getElementById('wl-commodity');
+  if(!sel || sel.children.length > 1) return;
+  if(typeof COMMODITIES !== 'undefined' && COMMODITIES.length) {
+    COMMODITIES.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c.n;
+      opt.textContent = c.n;
+      sel.appendChild(opt);
+    });
+  }
+}
+
+function wlAdd() {
+  const name      = document.getElementById('wl-commodity')?.value;
+  const threshold = parseInt(document.getElementById('wl-threshold')?.value || '0');
+  if(!name) return;
+  const list = wlLoad();
+  if(!list.find(e => e.name === name)) {
+    list.push({ name, threshold: threshold || 0 });
+    wlSave(list);
+  }
+  document.getElementById('wl-threshold').value = '';
+  wlRender();
+}
+
+function wlRemove(name) {
+  wlSave(wlLoad().filter(e => e.name !== name));
+  wlRender();
+}
+
+function wlRender() {
+  const el = document.getElementById('wl-list');
+  if(!el) return;
+  const list = wlLoad();
+  if(!list.length) {
+    el.innerHTML = '<div style="font-family:\'Share Tech Mono\',monospace;font-size:.7rem;color:var(--t3);padding:.75rem 0">No commodities watched. Select one above and hit ⭐ WATCH.</div>';
+    return;
+  }
+  const fmtK = n => n >= 1e6 ? (n/1e6).toFixed(2)+'M' : n >= 1000 ? Math.round(n/1000)+'k' : Math.round(n).toString();
+  el.innerHTML = list.map(e => {
+    const live = typeof COMMODITIES !== 'undefined' ? COMMODITIES.find(c => c.n === e.name) : null;
+    const price = live?.s || 0;
+    const alert = e.threshold > 0 && price >= e.threshold;
+    const priceTxt = price > 0 ? fmtK(price) + '/SCU' : '⚪ no data';
+    const col = alert ? 'var(--gold)' : price > 0 ? 'var(--t2)' : 'var(--t3)';
+    const border = alert ? 'var(--gold)' : 'var(--b1)';
+    return `<div style="display:flex;align-items:center;gap:.75rem;padding:.35rem .75rem;background:var(--s2);border:1px solid ${border};border-radius:2px;margin-bottom:.3rem${alert?' box-shadow:0 0 8px rgba(255,187,68,.15)':''}">
+      ${alert ? '<span style="color:var(--gold)">🔔</span>' : '<span style="color:var(--t3)">⭐</span>'}
+      <span style="font-size:.82rem;color:var(--t1);font-weight:600;flex:1">${e.name}</span>
+      <span style="font-family:\'Share Tech Mono\',monospace;font-size:.75rem;color:${col}">${priceTxt}</span>
+      ${e.threshold > 0 ? `<span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">alert >${fmtK(e.threshold)}</span>` : ''}
+      <button onclick="wlRemove('${e.name}')" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);background:none;border:none;cursor:pointer">✕</button>
+    </div>`;
+  }).join('');
+}
+
+// Refresh watchlist when UEX loads
+function wlRefreshIfOpen() {
+  const tab = document.querySelector('#trade-watchlist.active');
+  if(tab) wlRender();
+}
+
 function uexSetStatus(msg, col='var(--t3)'){
   const bar = document.getElementById('uex-status-bar');
   const el  = document.getElementById('uex-status');
@@ -7237,6 +7660,8 @@ async function fetchLiveUEX(){
     grindUpdateLivePrices();
     interdictUpdateLivePrices();
     calcBestRoute();
+    calcMultiHop();
+    wlRefreshIfOpen();
 
   } catch(err){
     const bar = document.getElementById('uex-status-bar');
@@ -7697,16 +8122,38 @@ async function fetchLiveShipDB(){
       if(v.name && v.slug) nameToSlug[v.name.toLowerCase()] = v.slug;
     }
 
-    // Patch SDB_SHIPS with live prices
+    // Patch SDB_SHIPS with live prices + baked-in rent data
+    const RENT_DATA = {
+      'Avenger Stalker':5200,'Avenger Titan':5000,'Avenger Warlock':7000,
+      'Aurora LN':3000,'Aurora CL':3000,'Aurora ES':2500,'Aurora MR':2500,
+      'Mustang Alpha':3000,'Mustang Beta':3500,'Mustang Delta':4000,'Mustang Gamma':4000,
+      'Cutter':4000,'Cutter Scout':4500,'Cutter Rambler':4500,
+      'Gladius':7000,'Gladius Valiant':8000,'Arrow':6000,'Hawk':6000,'Buccaneer':7000,
+      'F7C Hornet Mk II':10000,'F7C-M Super Hornet Mk II':12000,'F7C-S Hornet Ghost Mk II':11000,
+      'Sabre':10000,'Scorpius':18000,'Shiv':15000,
+      'Vanguard Harbinger':30000,'Vanguard Sentinel':28000,'Vanguard Hoplite':25000,
+      'Hurricane':22000,'Eclipse':18000,
+      'Cutlass Black':8000,'Cutlass Red':9000,'Cutlass Blue':9500,'Cutlass Steel':11000,
+      'Corsair':14000,'Freelancer':9000,'Freelancer MAX':11000,'Freelancer MIS':12000,
+      'Constellation Taurus':18000,'Constellation Andromeda':22000,'Constellation Aquila':24000,
+      'Zeus Mk II CL':15000,'Zeus Mk II ES':16000,'Zeus Mk II MR':17000,
+      'RSI Hermes':19000,'Clipper':12000,'Drake Clipper':12000,
+      'Prospector':8000,'Vulture':7000,'ROC':2000,'ATLS GEO':1500,
+      'Mantis':12000,'Terrapin':14000,'Carrack':45000,
+      'Hammerhead':80000,'Perseus':70000,
+    };
     let sdbUpdated = 0;
     if(typeof SDB_SHIPS !== 'undefined'){
       for(const ship of SDB_SHIPS){
         const slug = nameToSlug[ship.name.toLowerCase()];
         const live = slug ? lookup[slug] : null;
-        if(!live) continue;
-        if(live.price  > 0) ship.auec   = live.price;
-        if(live.pledge > 0) ship.pledge = live.pledge;
-        sdbUpdated++;
+        if(live){
+          if(live.price  > 0) ship.auec   = live.price;
+          if(live.pledge > 0) ship.pledge = live.pledge;
+          sdbUpdated++;
+        }
+        // Patch rent data
+        if(!ship.rent && RENT_DATA[ship.name]) ship.rent = RENT_DATA[ship.name];
       }
     }
 
@@ -8311,6 +8758,20 @@ const MATCHUP_DATA = [
     arrow_tips:['Polaris torpedo officer: never fire partial salvo — wait for the full 4-tube lock before committing','Optimal range: 3-6km — far enough for full torp speed, close enough for reliable tracking','Against fighters: fire during a head-on merge when evasion space is limited, not at retreating targets'],
     gladius_tips:['Defending against Polaris torps: break hard perpendicular the moment you see a launch signature — torps track slow manoeuvrers','If you have point defence: activate the moment you see torp separation from the Polaris tubes','Never fly straight within 6km of a known Polaris position — the torp flight time is short enough to catch you'],
   },
+  {
+    title:'Polaris vs Perseus',
+    result:'Polaris wins at range — Perseus wins in sustained close engagement',
+    detail:'Both are capital-class ships but they have fundamentally different strengths. The Polaris S10 torpedoes do more damage per volley than the Perseus S7 turrets can output in the same timeframe. The Perseus L-shield at 211,200 HP can absorb a partial Polaris salvo — but a full simultaneous 4-tube volley will strip it entirely. The Perseus counter: close range quickly using fighter screen cover, deny the Polaris the 3-6km window it needs for effective torpedo fire. Inside 1km the Polaris 12 pitch cannot track the Perseus at all and the S7 turrets become dominant. The Perseus wins the sustained fight; the Polaris wins the opening engagement.',
+    arrow_tips:['Polaris: fire full torpedo salvo before the Perseus closes to under 2km — this is your only window','After torpedo volley the fight is effectively decided — if the Perseus absorbed it full power to shields and disengage','Never let the Perseus close to under 1km — the 12 pitch cannot respond at that range'],
+    gladius_tips:['Perseus: use every fighter escort to intercept torpedo salvos on approach','Close range aggressively — every meter inside 2km reduces the Polaris torpedo effectiveness','Once inside 1km: both S7 turrets on the Polaris simultaneously — it cannot dodge and cannot track'],
+  },
+  {
+    title:'Hammerhead vs Starlancer TAC',
+    result:'Hammerhead wins at medium range — Starlancer wins sustained close brawl',
+    detail:'The Hammerhead 6× S4 full-sphere turrets vs the Starlancer TAC 144,000 HP L-shield and 4× S4 pilot guns. At 600-1500m the Hammerhead\'s combined 6× S4 DPS is higher than the Starlancer can put out with pilot guns alone. But the Starlancer\'s L-shield absorbs sustained S4 fire far longer than the Hammerhead\'s L-shield can hold under the same pressure — because the Starlancer also has 4× S4 pilot plus turrets returning fire simultaneously. The critical variable: crew count. A fully crewed Hammerhead (7 crew) wins. An understaffed Hammerhead (3-4 crew) with uncovered dorsal/ventral sectors loses badly — the Starlancer pilot can exploit those blind spots with 4× S4 pilot guns from an angle the turrets can never reach.',
+    arrow_tips:['Hammerhead vs Starlancer: maintain 600-1000m range where 6× S4 simultaneous fire advantage matters','Assign all 6 turrets before the fight — specifically fill dorsal and ventral to deny the Starlancer blind spot access','If the Starlancer closes to under 300m: power 100% shields and call for fighter screen — you cannot track at knife range'],
+    gladius_tips:['Starlancer TAC: close range aggressively — your L-shield absorbs the Hammerhead DPS while you approach','Once inside 200m exploit any uncovered dorsal/ventral sector with 4× S4 pilot guns — the turrets cannot follow','With full escort the fight is yours — coordinate with fighter screen to force the Hammerhead to split fire between you and them'],
+  },
 ];
 
 function setCombatTab(t, btn){
@@ -8322,6 +8783,7 @@ function setCombatTab(t, btn){
   if(t === 'weapons')  renderWeaponMatrix();
   if(t === 'matchups') { const me = document.getElementById('combat-matchups-content'); if(me) delete me.dataset.rendered; renderMatchups(); }
   if(t === 'tierlist') { const te = document.getElementById('combat-tierlist-content'); if(te) delete te.dataset.rendered; renderTierList(); }
+  if(t === 'synergy')  { synInit(); }
 }
 
 // Signature rating colours and labels
@@ -8330,7 +8792,7 @@ const SIG_LABEL = {very_low:'Very Low ★★★★★',low:'Low ★★★★☆'
 
 function renderCombatProfiles(){
   const el = document.getElementById('combat-profiles-grid');
-  if(!el) return;
+  if(!el || el.dataset.rendered) return;
 
   const fmt = n => n != null ? Math.round(n).toLocaleString() : '—';
 
@@ -8527,7 +8989,116 @@ function renderMatchups(){
   el.dataset.rendered = '1';
 }
 
-// ── PVP TIER LIST ─────────────────────────────────────────────────────────────
+// ── SYNERGY CHECKER ───────────────────────────────────────────────────────────
+
+function synInit() {
+  const sel = document.getElementById('syn-ship');
+  if(!sel || sel.children.length > 1) return;
+  SHIP_PROFILES_DATA.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s.slug;
+    opt.textContent = s.name + ' (' + s.cls + ')';
+    sel.appendChild(opt);
+  });
+}
+
+function synCheck() {
+  const slug   = document.getElementById('syn-ship')?.value;
+  const weapon = document.getElementById('syn-weapon')?.value || 'ballistic';
+  const shield = document.getElementById('syn-shield')?.value || 'fr76';
+  const style  = document.getElementById('syn-style')?.value  || 'burst';
+  const el     = document.getElementById('syn-results');
+  if(!el) return;
+
+  if(!slug) {
+    el.innerHTML = '<div style="font-family:\'Share Tech Mono\',monospace;font-size:.65rem;color:var(--t3)">Select a ship to see your PvP assessment.</div>';
+    return;
+  }
+
+  const ship = SHIP_PROFILES_DATA.find(s => s.slug === slug);
+  if(!ship) return;
+
+  // Build assessment
+  const notes = [];
+  const warns = [];
+  const tips  = [];
+
+  // Weapon synergy
+  if(weapon === 'distortion') {
+    notes.push({ col:'var(--teal)',  t:'Distortion — counters Banu Defender and high-regen shields. Effective against any ship that relies on fast regen.' });
+    if(ship.style === 'stealth') tips.push('Arrive cold → distortion burst before they raise shields → finish with ballistic.');
+  }
+  if(weapon === 'ballistic' && ship.style === 'stealth') {
+    notes.push({ col:'var(--green)', t:'Ballistic + stealth — ideal combo. Deadbolts hit hard on cold approach. Enemy cannot respond to what they cannot detect.' });
+  }
+  if(weapon === 'laser' && ship.style === 'burst') {
+    warns.push('Energy weapons on a burst build — lower alpha than ballistic. Consider mixed build for burst engagements.');
+  }
+  if(weapon === 'ballistic' && style === 'sustained') {
+    warns.push('Ballistic sustain builds face ammo management. Consider energy for extended fights.');
+  }
+
+  // Shield synergy
+  if(shield === 'fr76' && style === 'sustained') {
+    notes.push({ col:'var(--green)', t:'FR-76 + sustained style — excellent. Fast regen means you recover between passes. Stack pressure, disengage briefly, re-engage.' });
+  }
+  if(shield === 'asclepius' && style === 'burst') {
+    notes.push({ col:'var(--green)', t:'Asclepius high-HP shield on a burst build — you absorb the opener if you take return fire, then disengage while shield recovers.' });
+  }
+
+  // Style synergy with ship profile
+  if(style === 'stealth' && ship.sig !== 'low' && ship.sig !== 'very_low') {
+    warns.push(`${ship.name} has ${ship.sig} signature — stealth approach is limited. Consider a dedicated stealth ship (Ghost Mk II, Sabre) for cold approaches.`);
+  }
+  if(style === 'range' && ship.style === 'close') {
+    warns.push(`${ship.name} is optimised for close range. Fighting at 1km+ negates its main advantage.`);
+  }
+  if(style === 'burst' && ship.pitch < 40) {
+    warns.push(`${ship.name} pitch of ${ship.pitch} means repositioning after a burst pass is slow. Burst works best on agile ships.`);
+  }
+
+  // Counter advice
+  const countered = MATCHUP_DATA.filter(m =>
+    m.title.toLowerCase().includes(ship.name.toLowerCase()) ||
+    ship.name.toLowerCase().split(' ').some(w => w.length > 3 && m.title.toLowerCase().includes(w))
+  );
+
+  // General tips based on ship profile
+  if(ship.weaknesses?.length) {
+    tips.push('Key weakness: ' + ship.weaknesses[0]);
+  }
+  if(ship.counter) {
+    tips.push('Main counter: ' + ship.counter);
+  }
+
+  // Render
+  el.innerHTML = `
+    <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.14em;color:${ship.col};margin-bottom:.6rem">${ship.name} — ${ship.cls}</div>
+
+    ${notes.length ? notes.map(n => `
+      <div style="display:flex;gap:.5rem;align-items:baseline;padding:.2rem 0;border-bottom:1px solid var(--b1)">
+        <span style="color:var(--green);flex-shrink:0">✓</span>
+        <span style="font-size:.73rem;color:var(--t2)">${n.t}</span>
+      </div>`).join('') : ''}
+
+    ${warns.length ? `<div style="margin:.5rem 0">` + warns.map(w => `
+      <div style="display:flex;gap:.5rem;align-items:baseline;padding:.2rem 0;border-bottom:1px solid var(--b1)">
+        <span style="color:var(--fire);flex-shrink:0">⚠</span>
+        <span style="font-size:.73rem;color:var(--t2)">${w}</span>
+      </div>`).join('') + '</div>' : ''}
+
+    ${tips.length ? `
+      <div style="margin-top:.5rem;padding:.4rem .6rem;background:rgba(255,255,255,.02);border-left:2px solid ${ship.col};border-radius:1px">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:.55rem;color:var(--t3);letter-spacing:.08em;margin-bottom:.3rem">TACTICAL NOTES</div>
+        ${tips.map(t => `<div style="font-size:.72rem;color:var(--t2);padding:.1rem 0">→ ${t}</div>`).join('')}
+      </div>` : ''}
+
+    ${countered.length ? `
+      <div style="margin-top:.5rem">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:.55rem;color:var(--t3);letter-spacing:.08em;margin-bottom:.25rem">RELEVANT MATCHUPS</div>
+        ${countered.map(m => `<div style="font-size:.68rem;color:var(--teal);cursor:pointer" onclick="setCombatTab('matchups', document.querySelector('[onclick*=matchups]'))">${m.title} →</div>`).join('')}
+      </div>` : ''}`;
+}
 
 const TIER_LIST = [
   {
@@ -9236,6 +9807,7 @@ function minFilter(){
 }
 
 document.addEventListener('DOMContentLoaded',function(){
+  initTheme();
   renderShop();
   renderTrade();
   minFilter();
@@ -9266,6 +9838,6 @@ document.addEventListener('DOMContentLoaded',function(){
   setInterval(fetchAWSStatus, 180000); // AWS updates slower, 3 min refresh
 });
 </script>
-<footer>CATFIGHT ORG &nbsp;·&nbsp; STAR CITIZEN 4.8 &nbsp;·&nbsp; DATA: SC WIKI API + SC CRAFT TOOLS + UEX LIVE + ERKUL LIVE + 4.8.0.11825000 DATAMINE &nbsp;·&nbsp; PRICES: UEX LIVE API &nbsp;·&nbsp; BETA v0.9.4 &nbsp;·&nbsp; NOT FINANCIAL ADVICE &nbsp;·&nbsp; <span style="color:var(--t3);cursor:pointer" onclick="execShowShortcuts()">? SHORTCUTS</span></footer>
+<footer>CATFIGHT ORG &nbsp;·&nbsp; STAR CITIZEN 4.8 &nbsp;·&nbsp; DATA: SC WIKI API + SC CRAFT TOOLS + UEX LIVE + ERKUL LIVE + 4.8.0.11825000 DATAMINE &nbsp;·&nbsp; PRICES: UEX LIVE API &nbsp;·&nbsp; BETA v0.9.5 &nbsp;·&nbsp; NOT FINANCIAL ADVICE &nbsp;·&nbsp; <span style="color:var(--t3);cursor:pointer" onclick="execShowShortcuts()">? SHORTCUTS</span> &nbsp;·&nbsp; <span id="theme-toggle" style="color:var(--t3);cursor:pointer" onclick="toggleTheme()">☀ LIGHT</span></footer>
 </body>
 </html>
