@@ -333,6 +333,9 @@ nav { max-width: 1440px; margin: .6rem auto 0; padding: 0 2rem; }
 .nb-roadmap .nav-label   { color: var(--green); }
 .nb-roadmap.active       { background: rgba(142,203,110,.06) !important; }
 .nb-roadmap::after       { background: var(--green) !important; }
+.cl-filter-btn { font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--t3);background:none;border:1px solid var(--b2);padding:.15rem .45rem;cursor:pointer;border-radius:2px;letter-spacing:.06em; }
+.cl-filter-btn:hover { border-color:var(--ember);color:var(--ember); }
+.cl-filter-btn.active { border-color:var(--teal);color:var(--teal);background:rgba(100,220,255,.06); }
 
 .grind-price-pill {
   display:inline-flex;align-items:center;gap:.25rem;
@@ -769,6 +772,9 @@ footer {
     <span style="color:var(--t3);font-family:'Orbitron',sans-serif;font-size:.52rem;letter-spacing:.1em">AWS</span>
     <span id="aws-status" style="color:var(--t3)">⟳ Loading...</span>
     <span style="margin-left:auto;color:var(--t4)" id="rsi-status-time"></span>
+    <span style="color:var(--b2);margin:0 .1rem">|</span>
+    <span style="color:var(--t3);font-family:'Orbitron',sans-serif;font-size:.52rem;letter-spacing:.1em">PING</span>
+    <span id="ping-display" style="color:var(--t3);cursor:pointer;title='Click to retest'" onclick="pingTest()">···</span>
     <a href="https://status.robertsspaceindustries.com" target="_blank" style="color:var(--t4);font-size:.58rem">RSI ↗</a>
     <a href="https://status.aws.amazon.com" target="_blank" style="color:var(--t4);font-size:.58rem">AWS ↗</a>
   </div>
@@ -905,6 +911,9 @@ footer {
     </button>
     <button class="ltab " onclick="setGrindTier('multicrew',this)" style="border-left:2px solid var(--fire)">
       <span style="color:var(--fire)">👥</span> Multi-crew
+    </button>
+    <button class="ltab " onclick="setGrindTier('starfarer',this)" style="border-left:2px solid var(--teal)">
+      <span style="color:var(--teal)">⛽</span> Refuelling
     </button>
   </div>
 
@@ -1105,6 +1114,29 @@ footer {
   </div>
 
 </div>
+  <!-- ===== STARFARER REFUELLING ===== -->
+  <div id="grind-starfarer" style="display:none">
+    <div class="tier t2 open">
+      <div class="tier-hdr"><span class="tier-lbl" style="color:var(--teal)">REFUEL</span><span class="tier-name">Starfarer Refuelling</span><span style="font-size:.7rem;color:var(--t3)">Starfarer · Starfarer Gemini · United Wayfarers</span><span class="tier-tog">▼</span></div>
+      <div class="tier-body">
+        <div style="font-size:.82rem;color:var(--t2);margin-bottom:.65rem">The highest solo income ceiling in 4.8. The Urgent Fleet Refuel contract in Pyro pays ~1.8M aUEC per run at United Wayfarers Senior Contractor rank. With fast execution this reaches 5M+/hr — beating the Adagio loop and Covalex Master. Requires a Starfarer or Starfarer Gemini and a significant reputation grind to unlock.</div>
+
+        <div class="step"><div class="step-n">1</div><div class="step-t"><strong>Buy the Starfarer</strong> — ~45M aUEC (Gemini: ~55M) <span class="tag ts">prereq</span><span class="tag to">Stanton</span><br>The Starfarer is one of the most expensive in-game purchasable ships in 4.8. Save using the cargo or salvage tier first. The Gemini variant has S5 turrets vs the standard S3 — better for self-defence in Pyro but not essential for refuelling income.</div></div>
+
+        <div class="step"><div class="step-n">2</div><div class="step-n-b">REP</div><div class="step-t"><strong>United Wayfarers — grind to Senior Contractor</strong> — ~42–46 contracts <span class="tag ts">United Wayfarers</span><span class="tag to">Pyro</span><br>United Wayfarers contracts available in Pyro. Run standard Fleet Refuel contracts to build rep — each takes 10–15 minutes. Need approximately 42–46 contracts to unlock Senior rank and the Urgent Fleet Refuel mission. Stack with CFP or PAF bounties between runs to use the time efficiently.</div></div>
+
+        <div class="step"><div class="step-n">3</div><div class="step-t"><strong>Urgent Fleet Refuel — Senior Contractor</strong> — ~1.8M per run / ~5M+/hr <span class="tag ts">top tier</span><span class="tag to">Pyro</span><br>The money mission. 1.8M aUEC per successful Urgent Fleet Refuel contract. Run time: ~15–20 minutes including transit. Execution: accept contract → fly to designated fleet location → dock and transfer hydrogen fuel → return to waypoint. Back-to-back with no downtime: ~3 runs/hr = ~5.4M/hr. Higher with faster QT drives.</div></div>
+
+        <div class="step"><div class="step-n">4</div><div class="step-t"><strong>Hydrogen fuel loop — maximising run efficiency</strong> — optimise for 5M+/hr <span class="tag ts">advanced</span><span class="tag to">Pyro</span><br>The Starfarer carries hydrogen fuel in its tanks. Keep tanks full before accepting each contract — refuel at Ruin Station or Checkmate between contracts. Shortest route: accept contract → refuel at nearest station → fly to fleet → transfer → collect payment → repeat. Minimise dead transit time. QT drive choice is critical — Atlas L or VK-00 L cuts 2–3 minutes per run.</div></div>
+
+        <div class="step"><div class="step-n">5</div><div class="step-t"><strong>Gemini variant — combat-capable refueller</strong> — same income, better survivability <span class="tag ts">optional</span><span class="tag to">Pyro</span><br>The Starfarer Gemini has S5 turrets vs the standard S3. In Pyro where interdiction is a real threat, the Gemini can defend itself significantly better. The income is identical — the extra cost (~10M more) buys survivability not speed. If running solo in contested Pyro lanes, the Gemini pays for itself in avoided cargo losses.</div></div>
+
+        <div class="step"><div class="step-n">6</div><div class="step-n-b">RISK</div><div class="step-t"><strong>Pyro interdiction risk management</strong> — protect your investment <span class="tag ts">pyro</span><span class="tag to">Pyro</span><br>The Starfarer is 45M+ aUEC. A Mantis snare + two fighters ends a run. Mitigations: (1) fly indirect QT routes to avoid standard intercept lanes, (2) bring a fighter escort for high-value runs, (3) check the Interdiction Planner Hot Routes tab to know which lanes are most targeted, (4) time runs to avoid peak server population windows.</div></div>
+
+        <div class="info" style="margin-top:.5rem">→ INCOME CEILING: Starfarer refuelling at Senior Contractor is the highest consistent solo income in 4.8 at ~5M+/hr. Above this tier only org fleet ops (Hammerhead/Redeemer multi-crew) or lucky high-value interdiction hauls exceed it. The grind to get here (45M ship + 42 rep contracts) is significant — plan it as a long-term goal while running cargo or salvage.</div>
+      </div>
+    </div>
+  </div>
 
 
 </div>
@@ -1120,6 +1152,7 @@ footer {
     <button class="ltab" onclick="setShipMasterTab('loadout',this)">🔧 Loadouts</button>
     <button class="ltab" onclick="setShipMasterTab('builder',this)">⚙️ Builder</button>
     <button class="ltab" onclick="setShipMasterTab('compare',this)">⚖️ Compare</button>
+    <button class="ltab" onclick="setShipMasterTab('fleet',this)">🐱 Fleet View</button>
   </div>
 
   <div id="ship-tab-db" style="display:block">
@@ -1423,6 +1456,32 @@ footer {
     <div id="loadout-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.5rem"></div>
 
     <div class="info" style="margin-top:.75rem">Stock slot data from SC Wiki API v4.8.0-LIVE.11875683 · 208 ships · Components show slot sizes only. For current in-game defaults and DPS calculations see <a href="https://erkul.games" target="_blank" style="color:var(--ember)">Erkul.games</a>.</div>
+  </div>
+
+  <!-- FLEET VIEW TAB -->
+  <div id="ship-tab-fleet" style="display:none">
+    <div class="info" style="margin-bottom:.75rem">Catfight org collective fleet — add ships your org members own. Highlights role coverage gaps. Data saved locally in your browser.</div>
+
+    <!-- Add ship -->
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:flex-end;margin-bottom:.75rem">
+      <div class="form-group" style="margin:0;flex:2;min-width:180px">
+        <label>SHIP</label>
+        <input type="text" id="fv-ship-input" placeholder="e.g. Vanguard Harbinger, Arrow..." list="fv-ship-list" style="width:100%" oninput="fvSuggest()">
+        <datalist id="fv-ship-list"></datalist>
+      </div>
+      <div class="form-group" style="margin:0;flex:1;min-width:120px">
+        <label>MEMBER CALLSIGN</label>
+        <input type="text" id="fv-member-input" placeholder="e.g. CatMilker" style="width:100%">
+      </div>
+      <button onclick="fvAddShip()" style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--green);background:none;border:1px solid rgba(142,203,110,.5);padding:.35rem .75rem;cursor:pointer;border-radius:2px;white-space:nowrap">+ ADD SHIP</button>
+      <button onclick="fvClear()" style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--t3);background:none;border:1px solid var(--b2);padding:.35rem .65rem;cursor:pointer;border-radius:2px">↺ CLEAR ALL</button>
+    </div>
+
+    <!-- Coverage summary -->
+    <div id="fv-coverage" style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.75rem"></div>
+
+    <!-- Fleet grid -->
+    <div id="fv-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.5rem"></div>
   </div>
 
   <!-- BUILDER TAB -->
@@ -2177,10 +2236,19 @@ footer {
 
   <!-- Roster -->
   <!-- Save / Load bar -->
-  <div style="display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;background:var(--s2);border:1px solid var(--b1);border-radius:2px;padding:.4rem .75rem;margin-bottom:.65rem">
+  <div style="display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;background:var(--s2);border:1px solid var(--b1);border-radius:2px;padding:.4rem .75rem;margin-bottom:.5rem">
     <span style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--t3);letter-spacing:.08em;margin-right:.2rem">SAVED SESSIONS</span>
     <div id="orgSaveSlots" style="display:flex;gap:.3rem;flex-wrap:wrap;flex:1"></div>
     <button onclick="orgSaveCurrent()" style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--green);background:none;border:1px solid rgba(142,203,110,.5);padding:.2rem .55rem;cursor:pointer;border-radius:2px">💾 SAVE</button>
+  </div>
+
+  <!-- Shared session bar -->
+  <div style="display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;background:var(--s2);border:1px solid var(--b1);border-radius:2px;padding:.4rem .75rem;margin-bottom:.65rem">
+    <span style="font-family:'Orbitron',sans-serif;font-size:.52rem;letter-spacing:.1em;color:var(--teal);margin-right:.2rem">🌐 LIVE SESSION</span>
+    <span id="org-shared-status" style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--t3);flex:1">Not connected — push to share with org</span>
+    <button onclick="orgPushSession()" style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--teal);background:none;border:1px solid rgba(100,220,255,.4);padding:.2rem .55rem;cursor:pointer;border-radius:2px">📡 PUSH</button>
+    <button onclick="orgPullSession()" style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--t2);background:none;border:1px solid var(--b2);padding:.2rem .55rem;cursor:pointer;border-radius:2px">⬇ PULL</button>
+    <button onclick="orgClearSession()" style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--t3);background:none;border:1px solid var(--b2);padding:.2rem .45rem;cursor:pointer;border-radius:2px">✕</button>
   </div>
 
   <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);letter-spacing:.1em;margin-bottom:.4rem;text-transform:uppercase">CREW ROSTER</div>
@@ -2378,6 +2446,46 @@ footer {
   <div class="miss-tab" id="mine-refinery">
     <div class="info" style="margin-bottom:.75rem">Always refine before selling — raw ore sells for 30–40% less. Refinery jobs persist offline. Submit jobs before logging out.</div>
 
+    <!-- Queue Estimator -->
+    <div style="background:var(--s2);border:1px solid var(--b1);border-radius:2px;padding:.75rem 1rem;margin-bottom:.85rem">
+      <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.18em;color:var(--teal);margin-bottom:.6rem">⏱ REFINERY QUEUE ESTIMATOR</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.5rem;margin-bottom:.6rem">
+        <div class="form-group" style="margin:0">
+          <label>ORE TYPE</label>
+          <select id="rq-ore" onchange="rqUpdate()" style="width:100%">
+            <option value="quant">Quantainium</option>
+            <option value="agio">Agricium</option>
+            <option value="taran">Taranite</option>
+            <option value="bexal">Bexalite</option>
+            <option value="boro">Borase</option>
+            <option value="janalite">Janalite (gem)</option>
+            <option value="hadanite">Hadanite (gem)</option>
+            <option value="other">Other mineral</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin:0">
+          <label>SCU TO REFINE</label>
+          <input type="number" id="rq-scu" value="32" min="1" max="3000" oninput="rqUpdate()" style="width:100%">
+        </div>
+        <div class="form-group" style="margin:0">
+          <label>REFINERY METHOD</label>
+          <select id="rq-method" onchange="rqUpdate()" style="width:100%">
+            <option value="dinyx">Dinyx Solventation (~100% yield)</option>
+            <option value="ferron" selected>Ferron Exchange (~90% yield)</option>
+            <option value="electro">Electrostarolysis (~80% yield)</option>
+            <option value="xcr">XCR Reaction (~75% yield)</option>
+            <option value="gaskin">Gaskin Process (~65% yield)</option>
+            <option value="cormack">Cormack Method (~50% yield)</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin:0">
+          <label>SUBMITTED</label>
+          <input type="datetime-local" id="rq-submitted" oninput="rqUpdate()" style="width:100%">
+        </div>
+      </div>
+      <div id="rq-results" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.5rem"></div>
+    </div>
+
     <div style="margin-bottom:1rem">
       <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.15em;color:var(--teal);margin-bottom:.5rem">REFINERY METHODS</div>
       <div style="overflow-x:auto">
@@ -2558,6 +2666,7 @@ footer {
     <button class="ltab active" onclick="setCombatTab('profiles',this)">⚔️ Ship Profiles</button>
     <button class="ltab" onclick="setCombatTab('weapons',this)">🔫 Weapon Matrix</button>
     <button class="ltab" onclick="setCombatTab('matchups',this)">🎯 Matchup Guide</button>
+    <button class="ltab" onclick="setCombatTab('tierlist',this)">🏆 PvP Tier List</button>
   </div>
 
   <!-- SHIP PROFILES TAB -->
@@ -2576,6 +2685,11 @@ footer {
   <div class="miss-tab" id="combat-matchups">
     <div class="info" style="margin-bottom:.75rem">Common 4.8 PvP matchups and how to approach them from each side. Tactical guidance — not guaranteed outcomes, pilot skill and positioning always decide.</div>
     <div id="combat-matchups-content"></div>
+  </div>
+
+  <div class="miss-tab" id="combat-tierlist">
+    <div class="info" style="margin-bottom:.75rem">4.8 PvP tier list — solo and small group. Based on community consensus, ship stats, and Catfight org experience. Pilot skill always matters more than ship tier. Updated per patch.</div>
+    <div id="combat-tierlist-content"></div>
   </div>
 
 </div>
@@ -3141,6 +3255,24 @@ EXTRACT: never all QT at once. Mantis last out.
 <div class="panel" id="panel-changelog">
   <div class="sec-hdr"><div class="sec-title" style="color:var(--t2)">CHANGELOG</div><div class="sec-sub">CATFIGHT COMMAND CENTRE · VERSION HISTORY · CATMILKER</div></div>
 
+  <!-- Filter bar -->
+  <div style="display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;margin-bottom:.65rem">
+    <span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);margin-right:.2rem">FILTER</span>
+    <button onclick="clFilter('all',this)"   class="cl-filter-btn active">ALL</button>
+    <button onclick="clFilter('GRIND',this)" class="cl-filter-btn">GRIND</button>
+    <button onclick="clFilter('COMBAT',this)"class="cl-filter-btn">COMBAT</button>
+    <button onclick="clFilter('SHIPS',this)" class="cl-filter-btn">SHIPS</button>
+    <button onclick="clFilter('LOADOUTS',this)"class="cl-filter-btn">LOADOUTS</button>
+    <button onclick="clFilter('ORG',this)"   class="cl-filter-btn">ORG</button>
+    <button onclick="clFilter('INTERDICT',this)"class="cl-filter-btn">INTERDICT</button>
+    <button onclick="clFilter('EXEC',this)"  class="cl-filter-btn">EXEC</button>
+    <button onclick="clFilter('INFRA',this)" class="cl-filter-btn">INFRA</button>
+    <button onclick="clFilter('MINING',this)"class="cl-filter-btn">MINING</button>
+    <button onclick="clFilter('BUILDER',this)"class="cl-filter-btn">BUILDER</button>
+    <button onclick="clFilter('DATA',this)"  class="cl-filter-btn">DATA</button>
+    <span id="cl-filter-count" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);margin-left:auto"></span>
+  </div>
+
   <div id="changelog-content"></div>
 </div>
 
@@ -3346,7 +3478,7 @@ function setPanel(id){
   const navBtn=document.querySelector('.'+btnMap[id]);
   if(navBtn)navBtn.classList.add('active');
   if(id==='calc')calcUpdate();
-  if(id==='org')     { orgUpdate(); orgRenderSaveSlots(); }
+  if(id==='org')     { orgUpdate(); orgRenderSaveSlots(); orgCheckSharedSession(); }
   if(id==='combat'){ renderCombatProfiles(); }
   if(id==='interdict'){ iPlanUpdate(); iRenderSaveSlots(); }
   if(id==='exec')     { execHangarInit(); }
@@ -4319,7 +4451,7 @@ function renderRep(){
 
 // ===== GRIND GUIDE =====
 function setGrindTier(tier, btn) {
-  ['starter','light_fighter','medium_fighter','heavy_fighter','cargo','mining','salvage','interdict','multicrew'].forEach(t => {
+  ['starter','light_fighter','medium_fighter','heavy_fighter','cargo','mining','salvage','interdict','multicrew','starfarer'].forEach(t => {
     const el = document.getElementById('grind-' + t);
     if (el) el.style.display = t === tier ? 'block' : 'none';
   });
@@ -4540,6 +4672,8 @@ function setShipMasterTab(t, btn) {
   if(bld) bld.style.display = t === 'builder' ? 'block' : 'none';
   const cmp = document.getElementById('ship-tab-compare');
   if(cmp) cmp.style.display = t === 'compare' ? 'block' : 'none';
+  const flt = document.getElementById('ship-tab-fleet');
+  if(flt) flt.style.display = t === 'fleet' ? 'block' : 'none';
   if (btn) {
     btn.closest('.cftabs').querySelectorAll('.ltab').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -4548,6 +4682,7 @@ function setShipMasterTab(t, btn) {
   if (t === 'loadout') { renderCuratedLoadouts(); loadoutSearch(); }
   if (t === 'builder') { lbInit(); if(!erkulDone&&!erkulFetching) fetchLiveErkul(); }
   if (t === 'compare') { cmpPopulateShips(); }
+  if (t === 'fleet')   { fvInit(); }
   if (t === 'combat')  { setCombatTab('profiles', null); }
 }
 
@@ -6339,22 +6474,318 @@ const CAT_COL = {
   THEME:'var(--lava)', NAV:'var(--t3)', INITIAL:'var(--t3)',
 };
 
+let clActiveFilter = 'all';
+
+function clFilter(cat, btn) {
+  clActiveFilter = cat;
+  document.querySelectorAll('.cl-filter-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderChangelog();
+}
+
+// ── ORG FLEET VIEW ───────────────────────────────────────────────────────────
+
+const FLEET_KEY = 'catfight_fleet';
+const ROLE_MAP = {
+  fighter:   { label:'Fighter',   col:'var(--fire)',  roles:['Light Fighter','Medium Fighter','Heavy Fighter','Strike Fighter','Anti-Capital Fighter'] },
+  gunship:   { label:'Gunship',   col:'var(--lava)',  roles:['Gunship','Heavy Gunship','Corvette'] },
+  cargo:     { label:'Cargo',     col:'var(--green)', roles:['Heavy Freight','Medium Freight','Light Freight'] },
+  mining:    { label:'Mining',    col:'var(--gold)',  roles:['Mining','Exosuit Gem Mining'] },
+  salvage:   { label:'Salvage',   col:'var(--amber)', roles:['Salvage'] },
+  support:   { label:'Support',   col:'var(--teal)',  roles:['Refuelling','Medical','Transport','Exploration'] },
+  interdict: { label:'Interdict', col:'var(--ember)', roles:['Interdiction'] },
+  utility:   { label:'Utility',   col:'var(--t2)',    roles:[] },
+};
+
+function fvLoad()  { try { return JSON.parse(localStorage.getItem(FLEET_KEY)||'[]'); } catch(e){ return []; } }
+function fvSave(d) { try { localStorage.setItem(FLEET_KEY, JSON.stringify(d)); } catch(e){} }
+
+function fvInit() {
+  // Populate datalist with ship names from SDB
+  const dl = document.getElementById('fv-ship-list');
+  if(dl && dl.children.length === 0 && typeof SHIP_LOADOUTS !== 'undefined') {
+    SHIP_LOADOUTS.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s.name;
+      dl.appendChild(opt);
+    });
+  }
+  fvRender();
+}
+
+function fvSuggest() {
+  // Autocomplete handled by datalist — nothing extra needed
+}
+
+function fvAddShip() {
+  const shipName = document.getElementById('fv-ship-input')?.value?.trim();
+  const member   = document.getElementById('fv-member-input')?.value?.trim() || 'Unknown';
+  if(!shipName) return;
+
+  // Look up role from SHIP_LOADOUTS
+  const sdbEntry = typeof SHIP_LOADOUTS !== 'undefined'
+    ? SHIP_LOADOUTS.find(s => s.name.toLowerCase() === shipName.toLowerCase())
+    : null;
+  const role = sdbEntry?.role || 'Utility';
+  const size = sdbEntry?.size || '—';
+
+  const fleet = fvLoad();
+  fleet.push({ ship: shipName, member, role, size, added: new Date().toISOString() });
+  fvSave(fleet);
+
+  document.getElementById('fv-ship-input').value  = '';
+  document.getElementById('fv-member-input').value = '';
+  fvRender();
+}
+
+function fvRemove(idx) {
+  const fleet = fvLoad();
+  fleet.splice(idx, 1);
+  fvSave(fleet);
+  fvRender();
+}
+
+function fvClear() {
+  if(!confirm('Clear all fleet entries?')) return;
+  fvSave([]);
+  fvRender();
+}
+
+function fvGetCategory(role) {
+  for(const [key, data] of Object.entries(ROLE_MAP)) {
+    if(data.roles.some(r => role.toLowerCase().includes(r.toLowerCase()))) return key;
+  }
+  return 'utility';
+}
+
+function fvRender() {
+  const fleet     = fvLoad();
+  const gridEl    = document.getElementById('fv-grid');
+  const coverEl   = document.getElementById('fv-coverage');
+  if(!gridEl) return;
+
+  if(!fleet.length) {
+    gridEl.innerHTML  = '<div style="grid-column:1/-1;padding:2rem;text-align:center;font-family:\'Share Tech Mono\',monospace;font-size:.75rem;color:var(--t3)">No ships added yet — type a ship name above and hit + ADD SHIP</div>';
+    if(coverEl) coverEl.innerHTML = '';
+    return;
+  }
+
+  // Coverage summary
+  const cats = {};
+  fleet.forEach(e => {
+    const cat = fvGetCategory(e.role);
+    cats[cat] = (cats[cat]||0) + 1;
+  });
+
+  const ALL_CATS = ['fighter','gunship','cargo','mining','salvage','support','interdict','utility'];
+  if(coverEl) {
+    coverEl.innerHTML = ALL_CATS.map(cat => {
+      const count = cats[cat] || 0;
+      const rm    = ROLE_MAP[cat];
+      const col   = count > 0 ? rm.col : 'var(--b2)';
+      const tcol  = count > 0 ? rm.col : 'var(--t3)';
+      return `<div style="background:var(--s2);border:1px solid ${col};border-radius:2px;padding:.2rem .55rem;display:flex;align-items:center;gap:.35rem">
+        <span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:${tcol}">${rm.label}</span>
+        <span style="font-family:'Orbitron',sans-serif;font-size:.75rem;font-weight:700;color:${col}">${count}</span>
+      </div>`;
+    }).join('') +
+    `<span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);margin-left:auto">${fleet.length} ships total</span>`;
+  }
+
+  // Group by role category
+  const grouped = {};
+  fleet.forEach((e, idx) => {
+    const cat = fvGetCategory(e.role);
+    if(!grouped[cat]) grouped[cat] = [];
+    grouped[cat].push({ ...e, idx });
+  });
+
+  gridEl.innerHTML = ALL_CATS.filter(c => grouped[c]).map(cat => {
+    const rm    = ROLE_MAP[cat];
+    const ships = grouped[cat];
+    return `<div style="background:var(--s2);border:1px solid var(--b1);border-left:3px solid ${rm.col};border-radius:2px;padding:.55rem .75rem">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:${rm.col};letter-spacing:.1em;margin-bottom:.4rem">${rm.label.toUpperCase()} — ${ships.length} ship${ships.length>1?'s':''}</div>
+      ${ships.map(e => `
+        <div style="display:flex;align-items:baseline;gap:.4rem;padding:.2rem 0;border-bottom:1px solid rgba(255,255,255,.03)">
+          <span style="font-size:.78rem;color:var(--t1);font-weight:600;flex:1">${e.ship}</span>
+          <span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">${e.member}</span>
+          <button onclick="fvRemove(${e.idx})" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);background:none;border:none;cursor:pointer;padding:0 .2rem">✕</button>
+        </div>`).join('')}
+    </div>`;
+  }).join('');
+}
+
+// ── REFINERY QUEUE ESTIMATOR ─────────────────────────────────────────────────
+
+// Base refinery durations in seconds per SCU — Ferron Exchange baseline, others scaled
+// Community-measured 4.8 values (approximate — CIG doesn't publish exact formulas)
+const RQ_BASE_RATES = {
+  // seconds per SCU for Ferron Exchange
+  quant:    900,    // ~15 min/SCU (Quantainium is slow)
+  agio:     600,    // ~10 min/SCU
+  taran:    540,
+  bexal:    480,
+  boro:     360,
+  janalite: 120,    // gems are fast
+  hadanite: 120,
+  other:    480,    // conservative default
+};
+
+// Method time multipliers relative to Ferron Exchange
+const RQ_METHOD_MULT = {
+  dinyx:   3.5,   // ~3.5× slower than Ferron
+  ferron:  1.0,
+  electro: 0.85,
+  xcr:     0.6,
+  gaskin:  0.45,
+  cormack: 0.3,
+};
+
+// Method yield multipliers
+const RQ_METHOD_YIELD = {
+  dinyx:   1.00,
+  ferron:  0.90,
+  electro: 0.80,
+  xcr:     0.75,
+  gaskin:  0.65,
+  cormack: 0.50,
+};
+
+function rqInit() {
+  // Set submitted time to now by default
+  const el = document.getElementById('rq-submitted');
+  if(el && !el.value) {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    el.value = now.toISOString().slice(0,16);
+  }
+  rqUpdate();
+}
+
+function rqUpdate() {
+  const resultsEl = document.getElementById('rq-results');
+  if(!resultsEl) return;
+
+  const ore     = document.getElementById('rq-ore')?.value     || 'quant';
+  const scu     = Math.max(1, parseFloat(document.getElementById('rq-scu')?.value || '32'));
+  const method  = document.getElementById('rq-method')?.value  || 'ferron';
+  const subStr  = document.getElementById('rq-submitted')?.value;
+
+  const baseRate   = RQ_BASE_RATES[ore]   || 480;
+  const timeMult   = RQ_METHOD_MULT[method]  || 1.0;
+  const yieldMult  = RQ_METHOD_YIELD[method] || 0.9;
+
+  const totalSecs  = Math.round(baseRate * timeMult * scu);
+  const yieldSCU   = Math.round(scu * yieldMult * 10) / 10;
+
+  // Get live ore price
+  const oreNameMap = {
+    quant:'Quantainium', agio:'Agricium', taran:'Taranite',
+    bexal:'Bexalite', boro:'Borase', janalite:'Janalite', hadanite:'Hadanite',
+  };
+  const oreName = oreNameMap[ore];
+  const orePrice = oreName && typeof COMMODITIES !== 'undefined'
+    ? (COMMODITIES.find(c => c.n === oreName)?.s || 0)
+    : 0;
+  const estValue = orePrice > 0 ? Math.round(orePrice * yieldSCU) : 0;
+
+  // Duration breakdown
+  const h = Math.floor(totalSecs / 3600);
+  const m = Math.floor((totalSecs % 3600) / 60);
+  const durStr = h > 0 ? `${h}h ${m}m` : `${m}m`;
+
+  // Completion time
+  let completeStr = '—';
+  let remainStr   = '—';
+  let remainColor = 'var(--t2)';
+  if(subStr) {
+    const submitted = new Date(subStr);
+    const completeAt = new Date(submitted.getTime() + totalSecs * 1000);
+    const now = new Date();
+    const remainMs = completeAt - now;
+    completeStr = completeAt.toLocaleString([], {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+    if(remainMs <= 0) {
+      remainStr   = '✅ COMPLETE';
+      remainColor = 'var(--green)';
+    } else {
+      const rh = Math.floor(remainMs / 3600000);
+      const rm = Math.floor((remainMs % 3600000) / 60000);
+      remainStr   = rh > 0 ? `${rh}h ${rm}m remaining` : `${rm}m remaining`;
+      remainColor = remainMs < 3600000 ? 'var(--gold)' : 'var(--teal)';
+    }
+  }
+
+  const fmtK = n => n >= 1e6 ? (n/1e6).toFixed(2)+'M' : n >= 1000 ? Math.round(n/1000)+'k' : Math.round(n).toString();
+
+  resultsEl.innerHTML = `
+    <div class="card" style="padding:.55rem .75rem">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--t3);margin-bottom:.2rem">DURATION</div>
+      <div style="font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;color:var(--teal)">${durStr}</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">${totalSecs >= 86400 ? Math.round(totalSecs/86400*10)/10 + ' days' : ''}</div>
+    </div>
+    <div class="card" style="padding:.55rem .75rem">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--t3);margin-bottom:.2rem">COMPLETES AT</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--t1)">${completeStr}</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:${remainColor}">${remainStr}</div>
+    </div>
+    <div class="card" style="padding:.55rem .75rem">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--t3);margin-bottom:.2rem">YIELD</div>
+      <div style="font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;color:var(--gold)">${yieldSCU} SCU</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">${Math.round(yieldMult*100)}% of ${scu} SCU input</div>
+    </div>
+    ${estValue > 0 ? `
+    <div class="card" style="padding:.55rem .75rem">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--t3);margin-bottom:.2rem">EST. VALUE</div>
+      <div style="font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;color:var(--green)">${fmtK(estValue)}</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">${fmtK(orePrice)}/SCU live · UEX</div>
+    </div>` : ''}
+    <div class="card" style="padding:.55rem .75rem;grid-column:1/-1">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);line-height:1.7">
+        ⚠ Durations are community estimates — CIG does not publish exact refinery formulas. Actual times may vary ±15–20% based on station load and ore purity.
+        ${totalSecs > 86400*5 ? ' <span style="color:var(--fire)">⚡ Wipe risk — consider a faster method if a patch is due soon.</span>' : ''}
+      </div>
+    </div>`;
+}
+
 function renderChangelog() {
   const el = document.getElementById('changelog-content');
-  if (!el || el.dataset.rendered) return;
+  if (!el) return;
+  delete el.dataset.rendered;
 
-  el.innerHTML = CHANGELOG.map(v => `
+  const filter = clActiveFilter || 'all';
+
+  // Filter items across all versions
+  let totalItems = 0;
+  let matchItems = 0;
+
+  el.innerHTML = CHANGELOG.map(v => {
+    const items = filter === 'all'
+      ? v.items
+      : v.items.filter(i => i.cat === filter);
+
+    totalItems += v.items.length;
+    matchItems += items.length;
+
+    if(!items.length) return '';
+
+    return `
     <div style="margin-bottom:1.25rem">
       <div style="display:flex;align-items:baseline;gap:.75rem;margin-bottom:.55rem;padding-bottom:.4rem;border-bottom:1px solid var(--b2)">
         <span style="font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:700;color:${v.col}">${v.ver}</span>
         <span style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--t3)">${v.date}</span>
       </div>
-      ${v.items.map(i => `
+      ${items.map(i => `
         <div style="display:flex;gap:.6rem;align-items:baseline;padding:.22rem 0;border-bottom:1px solid rgba(44,26,8,.6)">
           <span style="font-family:'Share Tech Mono',monospace;font-size:.55rem;color:${CAT_COL[i.cat]||'var(--t3)'};min-width:62px;letter-spacing:.06em;flex-shrink:0">${i.cat}</span>
           <span style="font-size:.75rem;color:var(--t2);line-height:1.55">${i.text}</span>
         </div>`).join('')}
-    </div>`).join('');
+    </div>`;
+  }).join('');
+
+  const countEl = document.getElementById('cl-filter-count');
+  if(countEl) countEl.textContent = filter === 'all'
+    ? `${totalItems} entries`
+    : `${matchItems} of ${totalItems} entries`;
 
   el.dataset.rendered = '1';
 }
@@ -6367,9 +6798,9 @@ const ROADMAP = [
     label: 'UP NEXT',
     col: 'var(--lava)',
     items: [
-      { tag:'COMBAT',   pri:'MED',  text:'Combat Analysis — PvP tier list tab. Community-voted ship rankings for 1v1 and small group PvP, updated per patch.' },
-      { tag:'MINING',   pri:'MED',  text:'Mining Compendium — live refinery queue estimator. Check refinery wait times and estimate order completion.' },
-      { tag:'CHANGELOG',pri:'LOW',  text:'Changelog — category filter. Filter entries by panel tag (GRIND, COMBAT, INFRA etc) to find specific changes quickly.' },
+      { tag:'SHIPS',    pri:'MED',  text:'Ship DB — fleet view import/export. Share org fleet config via a paste code so multiple members can sync the same fleet list.' },
+      { tag:'GRIND',    pri:'LOW',  text:'Grind Guide — live Starfarer income estimate from UEX if United Wayfarers contract value becomes available via API.' },
+      { tag:'MISC',     pri:'LOW',  text:'Dark/light theme toggle. Low priority but frequently requested.' },
     ],
   },
   {
@@ -6377,9 +6808,8 @@ const ROADMAP = [
     label: 'PLANNED',
     col: 'var(--ember)',
     items: [
-      { tag:'COMBAT',   pri:'LOW',  text:'Combat Analysis — Polaris profiles and matchups once it becomes more accessible in-game.' },
-      { tag:'GRIND',    pri:'LOW',  text:'Grind Guide — Starfarer refuelling tier. Dedicated tab covering the United Wayfarers loop in detail.' },
-      { tag:'SHIPS',    pri:'LOW',  text:'Ship DB — org fleet view. Visual grid of the org\'s collective pledge portfolio with role coverage gaps highlighted.' },
+      { tag:'COMBAT',   pri:'LOW',  text:'Combat Analysis — additional capital ship matchups. Polaris vs Perseus, Hammerhead vs Starlancer TAC fleet doctrine.' },
+      { tag:'MISC',     pri:'LOW',  text:'Tool performance pass — lazy render remaining panels, reduce DOM on inactive tabs.' },
     ],
   },
   {
@@ -6387,10 +6817,10 @@ const ROADMAP = [
     label: 'CONSIDERING',
     col: 'var(--teal)',
     items: [
-      { tag:'ORG',      pri:'LOW',  text:'Org Ops — shared session state. Push current session config to a worker so all org members see the same brief without needing to be on the same machine.' },
-      { tag:'COMBAT',   pri:'LOW',  text:'Combat Analysis — Polaris profiles and matchups once it becomes more accessible in-game.' },
-      { tag:'GRIND',    pri:'LOW',  text:'Grind Guide — Starfarer refuelling tier. Dedicated tab covering the United Wayfarers loop in detail once more community data is available.' },
-      { tag:'SHIPS',    pri:'LOW',  text:'Ship DB — fleet view. Visual grid of all ships in the org\'s collective pledge portfolio with role coverage gaps highlighted.' },
+      { tag:'COMBAT',   pri:'LOW',  text:'Combat Analysis — additional capital ship matchups. Polaris vs Perseus, Hammerhead vs Starlancer TAC fleet doctrine.' },
+      { tag:'MISC',     pri:'LOW',  text:'Tool performance pass — lazy render remaining panels, reduce DOM on inactive tabs.' },
+      { tag:'MISC',     pri:'LOW',  text:'Dark/light theme toggle. Frequently requested, low build complexity.' },
+      { tag:'SHIPS',    pri:'LOW',  text:'Ship DB — fleet view import/export via paste code for multi-member sync.' },
     ],
   },
   {
@@ -7704,6 +8134,7 @@ const SHIP_PROFILES_DATA = [
   {name:'Starlancer TAC',slug:'misc-starlancer-tac',mfr:'MISC',cls:'Gunship',size:'medium',style:'medium',pledge:true,scm:150,pitch:35,zero_scm:3.1,ir:12000,em:38000,cap:20,cap_t:27.8,shield:144000,guns:'4× S4 pilot + 2× S4 turret + S3 belly',missiles:'8× S3',sig:'high',col:'var(--lava)',summary:'L-shield on a medium hull. 144,000 HP shield is extraordinary — more than most large ships. 4× S4 pilot guns before turrets even fire. Pledge only. The Starlancer TAC does not manoeuvre, it does not run — it absorbs and overwhelms. An entirely different engagement model.',strengths:['144,000 HP L-shield — absurd tanking for a medium frame','4× S4 pilot simultaneously — serious DPS before turrets contribute','L-grade power/cooler — same internals as large ships'],weaknesses:['Pledge only','35 pitch / 150 SCM — cannot escape or reposition','IR 12,000 / EM 38,000 — extremely visible at all ranges'],builds:[{label:'ERT Tank',w:'4× Deadbolt IV S4 pilot + turrets: Deadbolt IV S4 × 2 + M3A S3',sh:'Asclepius L or FR-76 L crafted',pw:'Starlite L',co:'Bracer L',qd:'Atlas M',mis:'Ignite III × 8',note:'144,000 HP L-shield means you absorb punishment that kills everything else. Fly straight — you do not dodge. 4× S4 pilot sustained plus turret DPS from crew. FR-76 L is the end-game shield upgrade.'},{label:'Solo ERT',w:'4× M4A S4 laser cannon',sh:'Asclepius L',pw:'Starlite L',co:'Bracer L',qd:'Atlas M',mis:'Ignite III × 8',note:'Solo: turrets unmanned but 4× S4 energy pilot guns sustain indefinitely. Fly straight at ERTs — the L-shield absorbs everything. The ship effectively negates the need to dodge at ERT tier.'}],counter:'Sustained distortion weapons over time, fast lights at knife range (35 pitch cannot respond)'},
   {name:'Perseus',slug:'rsi-perseus',mfr:'RSI',cls:'Heavy Gunship',size:'large',style:'long',pledge:false,scm:150,pitch:20,zero_scm:4.2,ir:18000,em:52000,cap:20,cap_t:28.2,shield:211200,guns:'2× S7 manned turrets + 9 defensive',missiles:'20× S5 torpedoes',sig:'very_high',col:'var(--fire)',summary:'4.8 in-game purchasable (~40M aUEC). The Perseus is an anti-capital gunship with 2× manned S7 turrets — the hardest-hitting crewed guns in the game. 211,200 HP L-shield. Not a fighter, not a frigate — a platform that turns capital-class firepower over to a 3-crew team. At 40M it is the most expensive in-game purchasable ship in 4.8.',strengths:['2× manned S7 turrets — devastating at any range against large targets','211,200 HP L-shield — capital-class survivability','20× S5 torpedoes — anti-capital deterrent package'],weaknesses:['40M aUEC — enormous investment requiring extended grind','20 pitch — cannot reposition, cannot escape','IR 18,000 / EM 52,000 — visible across the entire system'],builds:[{label:'Anti-Capital Fleet',w:'Turret gunners: S7 ballistic or laser (locked) × 2',sh:'Asclepius L or FR-76 L',pw:'Starlite L',co:'Bracer L',qd:'Atlas L',mis:'S5 torpedoes × 20 — fire at capital targets from max range',note:'The Perseus does not have pilot guns — it is entirely crew-dependent. Minimum crew: 1 pilot + 2 S7 turret gunners. Pilot manages navigation, shields, and power. Gunners call targets and fire independently. Against fighters the S7 turrets are overkill — use the torpedoes as a deterrent. The Perseus is at its best in fleet ops against Hammerheads, Idris, or large station targets.'},{label:'Defensive Config',w:'All turret slots filled — S7 manned + defensive turrets covered',sh:'FR-76 L crafted (priority)',pw:'Starlite L',co:'Bracer L',qd:'Atlas L',mis:'S5 × 20 — standoff deterrent',note:'Fill every defensive turret with the best available. With a 5+ crew the Perseus is virtually unkillable by anything short of another capital. Run in org fleet ops as the fire support anchor — let fighters screen while the Perseus absorbs damage and S7 turrets clear priority targets.'}],counter:'Light fighter swarm overwhelming defensive coverage, sustained distortion on the L-shield, interdiction + boarding before crew can respond'},
   {name:'Hammerhead',slug:'aegs-hammerhead',mfr:'Aegis',cls:'Heavy Gunship',size:'large',style:'medium',pledge:false,scm:160,pitch:22,zero_scm:3.8,ir:16000,em:48000,cap:20,cap_t:28.0,shield:144000,guns:'6× manned S4 turrets (full coverage)',missiles:'32× S3',sig:'very_high',col:'var(--ember)',summary:'The Hammerhead is the anti-fighter fleet ship. 6× manned S4 turrets with overlapping coverage fields — every vector is covered. 144,000 HP L-shield. At ~45.5M aUEC it is the second most expensive in-game purchasable ship in 4.8. With a full 7-crew it creates a kill zone no fighter can survive. The defining org fleet ship.',strengths:['6× S4 manned turrets with full spherical coverage — no blind spots with full crew','144,000 HP L-shield — same as Starlancer TAC but on a larger hull','32× S3 missiles — devastating opening salvo against fighter formations'],weaknesses:['~45.5M aUEC — the biggest in-game investment in 4.8','22 pitch / 160 SCM — completely static, no repositioning','Requires full 7-crew to be effective — unmanned turrets are dead weight'],builds:[{label:'Full Crew Anti-Fighter',w:'6× Deadbolt IV S4 across all turrets',sh:'FR-76 L crafted',pw:'Starlite L',co:'Bracer L',qd:'Atlas L',mis:'Ignite III × 32 — fire all sectors simultaneously against fighter formations',note:'Assign turret sectors before undocking: bow, stern, port, starboard, dorsal, ventral. Coordinator (pilot or dedicated role) calls priority targets and sectors. The overlapping turret coverage means anything within 2km is in crossfire from at least 2 turrets simultaneously. FR-76 L shield is the priority upgrade — the L-shield is what keeps the ship alive while turrets work.'},{label:'4-Crew Reduced',w:'4× Deadbolt IV S4 on primary sectors (bow/stern/port/starboard)',sh:'Asclepius L',pw:'Starlite L',co:'Bracer L',qd:'Atlas L',mis:'Ignite III × 32',note:'4 crew leaves dorsal/ventral uncovered — fighters can attack from above/below. Still very effective but dorsal/ventral blind spots must be covered by escort fighters. Do not run the Hammerhead with fewer than 4 crew in a contested environment.'}],counter:'Dorsal/ventral approach with fewer than 6 crew, sustained distortion on L-shield over time, coordinated torpedo strike from outside turret range'},
+  {name:'RSI Polaris',slug:'rsi-polaris',mfr:'RSI',cls:'Corvette',size:'capital',style:'long',pledge:true,scm:210,pitch:12,zero_scm:6.8,ir:4200,em:38000,cap:20,cap_t:30.0,shield:450000,guns:'6× manned turrets + remote nose + auto rear',missiles:'4× S10 torpedo tubes (60 torps) + 16× S3 + 12× S2',sig:'medium',col:'var(--teal)',summary:'Pledge-only corvette-class capital ship. The Polaris is unique in having a surprisingly low IR signature for its size — lower than the Constellation, MSR and 400i. 210 SCM fast for a capital. 4× S10 torpedo tubes are its defining weapon — each torp can obliterate a fighter formation or strip capital shields in seconds. Hangar bay fits one medium fighter. Medical bay, brig, cargo hold. The apex Catfight fleet asset.',strengths:['4× S10 torpedo tubes — highest alpha damage delivery in the game','210 SCM — extraordinarily fast for a capital ship, can disengage unlike Hammerhead/Perseus','IR signature lower than many medium ships — approaches cold before detection'],weaknesses:['Pledge only — the rarest ship in most orgs','12 pitch — cannot fight agile fighters directly, relies entirely on turrets and torps','Full effectiveness requires 10+ crew — pilot, coordinator, 6 turret gunners, torpedo officer, engineer'],builds:[{label:'Full Fleet Engagement',w:'6× turret gunners on manned S4/S5 turrets + torpedo officer on 4× S10 tubes',sh:'Best available L-shield — priority upgrade',pw:'Starlite capital-class',co:'Bracer capital-class',qd:'Atlas capital-class',mis:'60× S10 torps pre-loaded + 16× S3 rack + 12× S2 rear',note:'Crew positions: Pilot (navigation, shield triangle), Coordinator (calls targets, manages engagement range), Torpedo Officer (fires S10 salvos, tracks reload), 6× Turret Gunners (sector assignments), Engineer (power allocation, damage control). The Polaris fights at 3-10km range — torpedoes engage capitals, turrets handle fighters. Never close to knife range.'},{label:'Stealth Approach',w:'All weapons powered down until within 5km of target',sh:'Powered down on approach — spike only on engagement',pw:'Minimum idle power',co:'Bracer capital-class',qd:'Stealth QD for approach',mis:'Full torp load — fire full salvo at once',note:'The Polaris\'s low IR makes stealth approaches viable for a capital ship. Approach cold, power up within 5km, fire full S10 salvo before the target can respond. Against a Hammerhead this eliminates the turret advantage entirely — dead before they react. Coordinate with escort fighters to cover the approach.'}],counter:'Sustained fighter swarm at knife range (12 pitch cannot track), distortion weapons on shields, interdiction + boarding before torpedo reload'},
 ];
 
 const WEAPON_MATRIX_DATA = {
@@ -7859,6 +8290,27 @@ const MATCHUP_DATA = [
     arrow_tips:['Attacking undermanned Hammerhead: observe where the turret fire comes from to map coverage','Approach from uncovered dorsal or ventral vector — stay directly above or below the ship','Inside 400m the turrets cannot track — knife-fight range neutralises S4 turret advantage'],
     gladius_tips:['Hammerhead crew: always assign dorsal and ventral last — they are the hardest to cover solo but the most critical','Coordinator on comms calls incoming vector — gunners do not pick their own targets independently','If running with fewer than 6 crew, call for escort fighters on the uncovered sectors before entering contested space'],
   },
+  {
+    title:'Fighting the Polaris',
+    result:'Polaris wins at range — loses to knife range swarm or torpedo counter-strike',
+    detail:'The Polaris at range is almost unkillable. S10 torpedoes obliterate anything they hit and the 210 SCM means it can disengage faster than most fighters expect. The vulnerability is knife range — 12 pitch means the turrets cannot track agile fighters that get inside 500m. A coordinated swarm of 4+ lights attacking simultaneously from multiple vectors will overwhelm the turret coverage. The Polaris also cannot respond to its own torpedo counter — if the attacking force has torpedo-capable ships standing off at 5km+, the Polaris must either close range (losing its advantage) or absorb sustained torp fire. The low IR means the Polaris often arrives before it is detected — treat every contested zone as if a Polaris is already there.',
+    arrow_tips:['Attacking Polaris: never approach from any angle the turrets can track — come from above/below at maximum speed','Inside 400m the Polaris cannot fight effectively — get there and stay there','Coordinate torpedo or S5 missile strike from 5km+ while swarm keeps turrets occupied'],
+    gladius_tips:['Polaris crew: engagement range is everything — stay at 3-8km and let torps do the work','Power down non-essential systems on approach — the low IR is your biggest tactical advantage','If fighters close to knife range: full power to shields, call for escort fighter support immediately'],
+  },
+  {
+    title:'Polaris vs Hammerhead',
+    result:'Polaris wins at range with torpedo alpha — Hammerhead wins if it survives the opening salvo',
+    detail:'The Polaris S10 torpedo opening salvo is the deciding factor. A full 4-tube salvo against a Hammerhead will strip most of its L-shield in one volley. If the Hammerhead survives the opener — either through evasion, point defence, or the Polaris missing — the 6× S4 turrets become a sustained DPS advantage that the Polaris cannot match. The Polaris must fire first and hit. The Hammerhead must absorb the opener and close range to where the Polaris turrets cannot track. This is the org fleet matchup that defines capital engagements in 4.8.',
+    arrow_tips:['Polaris: fire full torpedo salvo at max range before the Hammerhead can close — do not hold for a better shot','After torpedo volley switch to turret fire immediately — do not let the Hammerhead have a free approach window','If the Hammerhead closes to under 1km, disengage at 210 SCM — you outrun it'],
+    gladius_tips:['Hammerhead: use fighter screen to intercept torpedo salvos if point defence is available','Close range as fast as possible after the first torpedo volley — inside 1km the Polaris loses its main advantage','All 6 turret sectors on the Polaris at close range — the 12 pitch cannot respond to simultaneous angles'],
+  },
+  {
+    title:'Polaris torpedo doctrine',
+    result:'Full salvo at range is the only correct use — partial salvos are wasted',
+    detail:'The S10 torpedo has a massive blast radius and each one carries enormous alpha damage. The doctrine is simple: never fire a partial salvo. Wait until the target is confirmed, fire all 4 tubes simultaneously, then reload. A staggered torp approach gives the target time to evade between shots. Simultaneous detonation from 4 torps in close proximity creates overlapping blast zones that are nearly impossible to evade even with a fast ship. The Polaris torpedo officer\'s job is timing — hold until the target\'s velocity vector is predictable, fire all 4, reload immediately. Against capital ships fire two salvos in sequence. Against fighter formations fire during a merge when evasion is limited.',
+    arrow_tips:['Polaris torpedo officer: never fire partial salvo — wait for the full 4-tube lock before committing','Optimal range: 3-6km — far enough for full torp speed, close enough for reliable tracking','Against fighters: fire during a head-on merge when evasion space is limited, not at retreating targets'],
+    gladius_tips:['Defending against Polaris torps: break hard perpendicular the moment you see a launch signature — torps track slow manoeuvrers','If you have point defence: activate the moment you see torp separation from the Polaris tubes','Never fly straight within 6km of a known Polaris position — the torp flight time is short enough to catch you'],
+  },
 ];
 
 function setCombatTab(t, btn){
@@ -7869,6 +8321,7 @@ function setCombatTab(t, btn){
   if(t === 'profiles') renderCombatProfiles();
   if(t === 'weapons')  renderWeaponMatrix();
   if(t === 'matchups') { const me = document.getElementById('combat-matchups-content'); if(me) delete me.dataset.rendered; renderMatchups(); }
+  if(t === 'tierlist') { const te = document.getElementById('combat-tierlist-content'); if(te) delete te.dataset.rendered; renderTierList(); }
 }
 
 // Signature rating colours and labels
@@ -8074,15 +8527,240 @@ function renderMatchups(){
   el.dataset.rendered = '1';
 }
 
-// ===== RSI SERVER STATUS =====
+// ── PVP TIER LIST ─────────────────────────────────────────────────────────────
+
+const TIER_LIST = [
+  {
+    tier: 'S', col: '#ff4444', bg: 'rgba(255,68,68,.08)',
+    label: 'Broken — wins almost every matchup at equivalent pilot skill',
+    solo: [
+      { name:'Banu Defender',   note:'Alien shield regen makes burst builds useless. Near-unkillable by anything that relies on alpha.' },
+      { name:'F8C Lightning',   note:'6-gun convergence alpha. Pledge only but when piloted well, nothing in medium class survives the opener.' },
+      { name:'Ghost Mk II',     note:'IR 1,693 — effectively invisible on passive scanners. First-pass surprise win rate is extraordinary.' },
+    ],
+    group: [
+      { name:'Perseus',         note:'2× S7 manned turrets with fighter cover. Effectively unkillable without torpedoes or boarding.' },
+      { name:'Hammerhead',      note:'Full crew 6× S4 spherical coverage. Creates a kill zone no single fighter survives.' },
+    ],
+  },
+  {
+    tier: 'A', col: '#ff8800', bg: 'rgba(255,136,0,.07)',
+    label: 'Strong — clear advantages, wins most matchups against equivalent ships',
+    solo: [
+      { name:'Vanguard Harbinger', note:'21,120 HP M-shield + S5 nose. Attrition king — outlasts almost any medium.' },
+      { name:'Sabre',              note:'4× S3 burst + stealth approach. Cold arrival decides the fight before it starts.' },
+      { name:'Asgard',             note:'21,120 HP M-shield, 16× S3 missiles. Anti-fighter ceiling is exceptionally high.' },
+      { name:'Scorpius',           note:'Best value heavy. 7 hardpoints, M-shield, 230 SCM. Does everything.' },
+      { name:'Guardian MX',        note:'4× S4 + 21,120 HP + 24 missiles. Strong all-rounder for the pledge tier.' },
+    ],
+    group: [
+      { name:'Redeemer',           note:'Full crew combined DPS rivals capital platforms. 21,120 HP M-shield.' },
+      { name:'Starlancer TAC',     note:'144,000 HP L-shield absorbs everything. 4× S4 pilot before turrets fire.' },
+    ],
+  },
+  {
+    tier: 'B', col: '#ffcc00', bg: 'rgba(255,204,0,.06)',
+    label: 'Solid — competitive in most scenarios with correct play',
+    solo: [
+      { name:'F7C Mk II',          note:'2× S4 + S5. Most accessible capable medium. Excellent ERT grinder.' },
+      { name:'F7C-M Super Hornet Mk II', note:'3× pilot guns, rear turret. Knife-fight specialist — deadly inside 300m.' },
+      { name:'Shiv',               note:'M-shield at 5.5M aUEC. Remote turret coverage. Incredible value for cost.' },
+      { name:'Hurricane',          note:'9.23M for M-shield + 3× S4 effective. Best budget entry to heavy fighter tier.' },
+      { name:'Ares Ion',           note:'S7 laser devastates large targets. Helpless against lights without escort.' },
+      { name:'F7A Hornet Mk II',   note:'Strictly better F7C Mk II internals. Strong if you have it.' },
+    ],
+    group: [
+      { name:'MOLE',               note:'3-crew mining income is competitive with PvE combat at the same player count.' },
+    ],
+  },
+  {
+    tier: 'C', col: '#88cc44', bg: 'rgba(136,204,68,.05)',
+    label: 'Viable — can compete but has clear weaknesses that better ships exploit',
+    solo: [
+      { name:'Arrow',              note:'229 SCM, 75 pitch. Agility ace but 3,168 HP shield — one mistake ends it.' },
+      { name:'Gladius',            note:'68 pitch, 6,336 HP. Durable light fighter but outgunned by anything S4+.' },
+      { name:'Buccaneer',          note:'Unusual 5-gun layout, good speed. Fragile but punches above its price.' },
+      { name:'Meteor',             note:'S5 Leonid alpha is exceptional. S2 shield is the fatal weakness.' },
+      { name:'Esperia Stinger',    note:'Strong stats but pledge-only with an awkward asymmetric gun layout.' },
+    ],
+    group: [],
+  },
+  {
+    tier: 'D', col: '#888888', bg: 'rgba(128,128,128,.04)',
+    label: 'Situational — outclassed in direct PvP but viable in specific roles',
+    solo: [
+      { name:'Eclipse',            note:'One-shot S10 torps. Devastating ambush weapon, useless in sustained combat.' },
+      { name:'Mantis',             note:'No pilot guns — pure interdiction utility. Not a combat ship.' },
+      { name:'Ares Inferno',       note:'S7 Gatling armor strip. Same specialist limitations as the Ion.' },
+    ],
+    group: [
+      { name:'Constellation Andromeda', note:'4× S5 is threatening but the size and slow pitch make it a soft target.' },
+    ],
+  },
+];
+
+function renderTierList() {
+  const el = document.getElementById('combat-tierlist-content');
+  if(!el || el.dataset.rendered) return;
+
+  el.innerHTML = TIER_LIST.map(t => `
+    <div style="margin-bottom:.85rem;border:1px solid var(--b1);border-left:4px solid ${t.col};border-radius:2px;overflow:hidden">
+      <div style="display:flex;align-items:center;gap:.75rem;padding:.5rem .85rem;background:${t.bg};border-bottom:1px solid var(--b1)">
+        <span style="font-family:'Orbitron',sans-serif;font-size:1.4rem;font-weight:900;color:${t.col};min-width:28px">${t.tier}</span>
+        <span style="font-size:.72rem;color:var(--t2)">${t.label}</span>
+      </div>
+      <div style="padding:.5rem .85rem">
+        ${t.solo.length ? `
+          <div style="font-family:'Share Tech Mono',monospace;font-size:.55rem;color:var(--t3);letter-spacing:.1em;margin-bottom:.35rem">SOLO / SMALL GROUP</div>
+          <div style="display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:${t.group.length?'.5rem':'0'}">
+            ${t.solo.map(s=>`
+              <div style="background:var(--s2);border:1px solid var(--b1);border-radius:2px;padding:.25rem .55rem;cursor:default" title="${s.note}">
+                <span style="font-size:.78rem;color:var(--t1);font-weight:600">${s.name}</span>
+                <span style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--t3);display:block;margin-top:.1rem">${s.note}</span>
+              </div>`).join('')}
+          </div>` : ''}
+        ${t.group.length ? `
+          <div style="font-family:'Share Tech Mono',monospace;font-size:.55rem;color:var(--t3);letter-spacing:.1em;margin-bottom:.35rem">MULTI-CREW / FLEET</div>
+          <div style="display:flex;flex-wrap:wrap;gap:.35rem">
+            ${t.group.map(s=>`
+              <div style="background:var(--s2);border:1px solid var(--b1);border-radius:2px;padding:.25rem .55rem">
+                <span style="font-size:.78rem;color:var(--t1);font-weight:600">${s.name}</span>
+                <span style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--t3);display:block;margin-top:.1rem">${s.note}</span>
+              </div>`).join('')}
+          </div>` : ''}
+      </div>
+    </div>`).join('') +
+    `<div class="info" style="font-size:.7rem">Tier list reflects 4.8 meta as of Jun 2026. Pledge-only ships rated on capability assuming access. Pilot skill, loadout quality and positioning outweigh tier in most fights. Updated per patch — drop feedback in Discord.</div>`;
+
+  el.dataset.rendered = '1';
+}
+const SESSION_PROXY = 'https://catfight-session.catmilker.workers.dev';
+
+async function orgPushSession() {
+  const statusEl = document.getElementById('org-shared-status');
+  if(statusEl) { statusEl.textContent = '📡 Pushing…'; statusEl.style.color = 'var(--teal)'; }
+  try {
+    const st = orgGetState();
+    st.duration    = document.getElementById('orgDuration')?.value || '120';
+    st.coordinator = st.players[0]?.name || 'CatMilker';
+    st.pushedAt    = Date.now();
+
+    const resp = await fetch(SESSION_PROXY + '/session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(st),
+    });
+    const data = await resp.json();
+    if(data.ok) {
+      const ts = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+      if(statusEl) { statusEl.textContent = '✅ Live — pushed at ' + ts + ' · org members can PULL'; statusEl.style.color = 'var(--green)'; }
+    } else {
+      throw new Error(data.error || 'Push failed');
+    }
+  } catch(e) {
+    if(statusEl) { statusEl.textContent = '⚠ Push failed: ' + e.message; statusEl.style.color = 'var(--fire)'; }
+  }
+}
+
+async function orgPullSession() {
+  const statusEl = document.getElementById('org-shared-status');
+  if(statusEl) { statusEl.textContent = '⬇ Pulling…'; statusEl.style.color = 'var(--teal)'; }
+  try {
+    const data = await fetch(SESSION_PROXY + '/session').then(r => r.json());
+    if(!data.active) {
+      if(statusEl) { statusEl.textContent = data.expired ? '⚪ Session expired (>8hr)' : '⚪ No active session'; statusEl.style.color = 'var(--t3)'; }
+      return;
+    }
+    // Load the session
+    document.getElementById('orgObjective').value = data.obj     || 'grind';
+    document.getElementById('orgSystem').value    = data.sys     || 'stanton';
+    document.getElementById('orgCount').value     = data.count   || '4';
+    if(data.duration) document.getElementById('orgDuration').value = data.duration;
+    orgTimerReset(); orgTimerSet();
+    orgUpdate();
+    // Restore players
+    setTimeout(() => {
+      (data.players||[]).forEach((p, i) => {
+        const n = i + 1;
+        const nameEl = document.getElementById('orgName' + n);
+        const roleEl = document.getElementById('orgRole' + n);
+        const shipEl = document.getElementById('orgShip' + n);
+        if(nameEl) nameEl.value = p.name || '';
+        if(roleEl) roleEl.value = p.role || 'flex';
+        if(shipEl) shipEl.value = p.ship || '';
+      });
+      orgUpdate();
+    }, 60);
+
+    const ts = new Date(data.pushedAt).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    if(statusEl) {
+      statusEl.textContent = '✅ Loaded — pushed by ' + (data.pushedBy||'?') + ' at ' + ts;
+      statusEl.style.color = 'var(--green)';
+    }
+  } catch(e) {
+    if(statusEl) { statusEl.textContent = '⚠ Pull failed: ' + e.message; statusEl.style.color = 'var(--fire)'; }
+  }
+}
+
+async function orgClearSession() {
+  const statusEl = document.getElementById('org-shared-status');
+  try {
+    await fetch(SESSION_PROXY + '/session', { method: 'DELETE' });
+    if(statusEl) { statusEl.textContent = 'Session cleared'; statusEl.style.color = 'var(--t3)'; }
+  } catch(e) {
+    if(statusEl) { statusEl.textContent = '⚠ Clear failed'; statusEl.style.color = 'var(--fire)'; }
+  }
+}
+
+// Auto-poll for active session when Org panel opens
+async function orgCheckSharedSession() {
+  const statusEl = document.getElementById('org-shared-status');
+  if(!statusEl) return;
+  try {
+    const data = await fetch(SESSION_PROXY + '/session').then(r => r.json());
+    if(data.active) {
+      const ts = new Date(data.pushedAt).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+      statusEl.textContent = '📡 Active session available — pushed by ' + (data.pushedBy||'?') + ' at ' + ts + ' · click ⬇ PULL to load';
+      statusEl.style.color = 'var(--teal)';
+    } else {
+      statusEl.textContent = 'No active session — coordinator hits 📡 PUSH to share';
+      statusEl.style.color = 'var(--t3)';
+    }
+  } catch(e) { /* silent */ }
+}
+
 const RSI_STATUS_PROXY = 'https://rsi-status-worker.catmilker.workers.dev';
 const AWS_STATUS_PROXY = 'https://aws-status-worker.catmilker.workers.dev';
 const MOTD_PROXY       = 'https://catfight-motd.catmilker.workers.dev';
 
+// ── PING TRACKER ─────────────────────────────────────────────────────────────
+async function pingTest() {
+  const el = document.getElementById('ping-display');
+  if(el) { el.textContent = '···'; el.style.color = 'var(--t3)'; }
+  try {
+    // Ping RSI status endpoint — already being hit, gives real RTT to CIG infra
+    const PINGS = 3;
+    const times = [];
+    for(let i = 0; i < PINGS; i++) {
+      const t0 = performance.now();
+      await fetch(RSI_STATUS_PROXY + '/status', { cache:'no-store' });
+      times.push(Math.round(performance.now() - t0));
+      if(i < PINGS-1) await new Promise(r => setTimeout(r, 200));
+    }
+    const avg = Math.round(times.reduce((a,b)=>a+b,0) / times.length);
+    const col  = avg < 80  ? 'var(--green)'
+               : avg < 150 ? 'var(--gold)'
+               : avg < 300 ? 'var(--ember)'
+               : 'var(--fire)';
+    if(el) { el.textContent = avg + 'ms'; el.style.color = col; }
+  } catch(e) {
+    if(el) { el.textContent = 'err'; el.style.color = 'var(--t3)'; }
+  }
+}
+
 async function fetchMOTD() {
   try {
-    const d = await fetch(MOTD_PROXY + '/motd').then(r => r.json());
-    if(!d.active) return;
+    const d = await fetch(MOTD_PROXY + '/motd').then(r => r.json());    if(!d.active) return;
     // Check expiry
     if(d.expires && new Date(d.expires) < new Date()) return;
     const bar     = document.getElementById('motd-bar');
@@ -8340,6 +9018,7 @@ function setMineTab(t, btn){
   const el = document.getElementById('mine-'+t);
   if(el) el.classList.add('active');
   if(btn){ btn.closest('.cftabs').querySelectorAll('.ltab').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
+  if(t === 'refinery') rqInit();
 }
 
 // Extended MINERAL_DATA with prices and methods
@@ -8581,6 +9260,8 @@ document.addEventListener('DOMContentLoaded',function(){
   fetchRSIStatus();
   fetchAWSStatus();
   fetchMOTD();
+  setTimeout(pingTest, 3000); // run after RSI status settles
+  setInterval(pingTest, 120000); // refresh every 2 min
   setInterval(fetchRSIStatus, 120000);
   setInterval(fetchAWSStatus, 180000); // AWS updates slower, 3 min refresh
 });
