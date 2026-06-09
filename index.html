@@ -774,6 +774,15 @@ footer {
   </div>
 </div>
 
+<!-- MOTD ticker — hidden until worker returns active:true -->
+<div id="motd-bar" style="display:none;padding:.4rem .75rem;font-family:'Share Tech Mono',monospace;font-size:.72rem;border-bottom:1px solid var(--b1);align-items:center;gap:.75rem">
+  <span id="motd-type-badge" style="font-family:'Orbitron',sans-serif;font-size:.52rem;letter-spacing:.12em;padding:.15rem .45rem;border-radius:2px;flex-shrink:0"></span>
+  <span id="motd-title" style="color:var(--t1);font-weight:600"></span>
+  <span id="motd-message" style="color:var(--t2);flex:1"></span>
+  <span id="motd-updated" style="color:var(--t3);font-size:.6rem;flex-shrink:0"></span>
+  <button onclick="document.getElementById('motd-bar').style.display='none'" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:.85rem;flex-shrink:0;padding:0 .25rem">✕</button>
+</div>
+
 <nav>
   <div class="nav-grid">
     <button class="nav-btn nb-grind active" onclick="setPanel('grind')">
@@ -1606,7 +1615,46 @@ footer {
 
   <!-- ROUTES TAB -->
   <div class="miss-tab" id="trade-routes">
-    <div class="info" style="margin-bottom:.75rem">Static route reference — always cross-check on SC Trade Tools or UEX before committing. Prices and stock shift constantly. Routes are organised by tier: risk vs reward.</div>
+
+    <!-- Route Calculator -->
+    <div style="background:var(--s2);border:1px solid var(--b1);border-radius:2px;padding:.75rem 1rem;margin-bottom:.85rem">
+      <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.18em;color:var(--gold);margin-bottom:.6rem">🧮 BEST ROUTE CALCULATOR — LIVE UEX DATA</div>
+      <div style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:flex-end;margin-bottom:.65rem">
+        <div class="form-group" style="margin:0;flex:1;min-width:120px">
+          <label>SHIP CARGO (SCU)</label>
+          <input type="number" id="rc-scu" value="46" min="1" max="800" style="width:100%" oninput="calcBestRoute()">
+        </div>
+        <div class="form-group" style="margin:0;flex:2;min-width:160px">
+          <label>STARTING SYSTEM</label>
+          <select id="rc-system" onchange="calcBestRoute()" style="width:100%">
+            <option value="any">Any system</option>
+            <option value="Stanton">Stanton</option>
+            <option value="Pyro">Pyro</option>
+            <option value="Nyx">Nyx</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin:0;flex:1;min-width:120px">
+          <label>RISK TOLERANCE</label>
+          <select id="rc-risk" onchange="calcBestRoute()" style="width:100%">
+            <option value="any">Any</option>
+            <option value="legal">Legal only</option>
+            <option value="illegal">Include illegal</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin:0;flex:1;min-width:100px">
+          <label>RESULTS</label>
+          <select id="rc-count" onchange="calcBestRoute()" style="width:100%">
+            <option value="5">Top 5</option>
+            <option value="10" selected>Top 10</option>
+            <option value="20">Top 20</option>
+          </select>
+        </div>
+      </div>
+      <div id="rc-status" style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--t3);margin-bottom:.5rem">⚪ Waiting for UEX data…</div>
+      <div id="rc-results"></div>
+    </div>
+
+    <div class="info" style="margin-bottom:.75rem">Static route reference — always cross-check on SC Trade Tools or UEX before committing. Prices and stock shift constantly.</div>
 
     <div style="font-size:10px;font-weight:500;color:var(--green);letter-spacing:.08em;margin-bottom:.4rem">TIER 1 — LOW RISK · STABLE INCOME · ANY CARGO SHIP</div>
     <table class="data-tbl" style="margin-bottom:1rem">
@@ -3373,6 +3421,7 @@ function setTradeTab(t,btn){
   if(el)el.classList.add('active');
   btn.closest('.cftabs').querySelectorAll('.ltab').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
+  if(t==='routes') calcBestRoute();
 }
 
 // ===== SHOP FINDER =====
@@ -5524,7 +5573,70 @@ function iRenderSaveSlots() {
     </div>`).join('');
 }
 
-// ── EXEC HANGAR TIMER ─────────────────────────────────────────────────────────
+// ── KEYBOARD SHORTCUTS ───────────────────────────────────────────────────────
+document.addEventListener('keydown', function(e) {
+  // Skip if user is typing in an input, textarea or select
+  const tag = document.activeElement?.tagName?.toLowerCase();
+  if(tag === 'input' || tag === 'textarea' || tag === 'select') return;
+  // Skip if modifier keys held
+  if(e.ctrlKey || e.metaKey || e.altKey) return;
+
+  const MAP = {
+    'g': 'grind',
+    't': 'trade',
+    'r': 'rep',
+    'c': 'calc',
+    'o': 'org',
+    's': 'ships',
+    'y': 'systems',
+    'm': 'mining',
+    'j': 'missions',
+    'b': 'bpsrc',
+    'f': 'combat',
+    'i': 'interdict',
+    'e': 'exec',
+    'l': 'changelog',
+    'p': 'roadmap',
+  };
+
+  const panel = MAP[e.key?.toLowerCase()];
+  if(panel) { e.preventDefault(); setPanel(panel); }
+
+  // ? key shows shortcut help overlay
+  if(e.key === '?') { e.preventDefault(); execShowShortcuts(); }
+});
+
+function execShowShortcuts() {
+  const existing = document.getElementById('kbd-overlay');
+  if(existing) { existing.remove(); return; }
+  const div = document.createElement('div');
+  div.id = 'kbd-overlay';
+  div.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--s1);border:1px solid var(--b1);border-radius:4px;padding:1.5rem 2rem;z-index:9999;min-width:320px;box-shadow:0 8px 32px rgba(0,0,0,.6)';
+  div.innerHTML = `
+    <div style="font-family:'Orbitron',sans-serif;font-size:.7rem;letter-spacing:.2em;color:var(--ember);margin-bottom:1rem">KEYBOARD SHORTCUTS</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.2rem .75rem;font-family:'Share Tech Mono',monospace;font-size:.72rem">
+      <span style="color:var(--gold)">G</span><span style="color:var(--t2)">Grind Guide</span>
+      <span style="color:var(--gold)">T</span><span style="color:var(--t2)">Trade</span>
+      <span style="color:var(--gold)">R</span><span style="color:var(--t2)">Rep Tracker</span>
+      <span style="color:var(--gold)">C</span><span style="color:var(--t2)">Calc</span>
+      <span style="color:var(--gold)">O</span><span style="color:var(--t2)">Org Ops</span>
+      <span style="color:var(--gold)">S</span><span style="color:var(--t2)">Ship DB</span>
+      <span style="color:var(--gold)">Y</span><span style="color:var(--t2)">Systems</span>
+      <span style="color:var(--gold)">M</span><span style="color:var(--t2)">Mining</span>
+      <span style="color:var(--gold)">J</span><span style="color:var(--t2)">Missions</span>
+      <span style="color:var(--gold)">B</span><span style="color:var(--t2)">Blueprints</span>
+      <span style="color:var(--gold)">F</span><span style="color:var(--t2)">Combat</span>
+      <span style="color:var(--gold)">I</span><span style="color:var(--t2)">Interdict</span>
+      <span style="color:var(--gold)">E</span><span style="color:var(--t2)">Exec Hangar</span>
+      <span style="color:var(--gold)">L</span><span style="color:var(--t2)">Changelog</span>
+      <span style="color:var(--gold)">P</span><span style="color:var(--t2)">Roadmap</span>
+      <span style="color:var(--gold)">?</span><span style="color:var(--t2)">Toggle this overlay</span>
+    </div>
+    <div style="margin-top:.85rem;font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">Shortcuts disabled while typing in a field. Press ? or click outside to close.</div>`;
+  div.addEventListener('click', e => e.stopPropagation());
+  document.addEventListener('click', () => div.remove(), { once: true });
+  document.body.appendChild(div);
+}
 
 // Cycle constants — calibrated from 250+ community observations (Xyxyll / Arkanis)
 const EXEC_CYCLE_MS   = 11100699;   // 185 min 699ms — do NOT round, causes drift
@@ -6255,9 +6367,9 @@ const ROADMAP = [
     label: 'UP NEXT',
     col: 'var(--lava)',
     items: [
-      { tag:'INFRA',    pri:'HIGH', text:'In-tool MOTD / news ticker. CatMilker pushes org announcements or patch notes to a worker endpoint — tool displays without a redeploy.' },
-      { tag:'TRADE',    pri:'MED',  text:'Trade panel — best route calculator. Given a ship SCU and starting location, find the best single buy→sell run using live UEX data.' },
-      { tag:'MISC',     pri:'MED',  text:'Keyboard shortcuts. Quick-jump to any panel without the nav bar (G = Grind, T = Trade, S = Ships, C = Combat, I = Interdict, E = Exec).' },
+      { tag:'COMBAT',   pri:'MED',  text:'Combat Analysis — PvP tier list tab. Community-voted ship rankings for 1v1 and small group PvP, updated per patch.' },
+      { tag:'MINING',   pri:'MED',  text:'Mining Compendium — live refinery queue estimator. Check refinery wait times and estimate order completion.' },
+      { tag:'CHANGELOG',pri:'LOW',  text:'Changelog — category filter. Filter entries by panel tag (GRIND, COMBAT, INFRA etc) to find specific changes quickly.' },
     ],
   },
   {
@@ -6265,10 +6377,9 @@ const ROADMAP = [
     label: 'PLANNED',
     col: 'var(--ember)',
     items: [
-      { tag:'COMBAT',   pri:'LOW',  text:'Combat Analysis — PvP tier list tab. Community-voted ship rankings for 1v1 and small group PvP, updated per patch.' },
-      { tag:'MINING',   pri:'LOW',  text:'Mining Compendium — live refinery queue estimator. Check refinery wait times and estimate order completion.' },
-      { tag:'CHANGELOG',pri:'LOW',  text:'Changelog — category filter. Filter entries by panel tag (GRIND, COMBAT, INFRA etc) to find specific changes quickly across versions.' },
       { tag:'COMBAT',   pri:'LOW',  text:'Combat Analysis — Polaris profiles and matchups once it becomes more accessible in-game.' },
+      { tag:'GRIND',    pri:'LOW',  text:'Grind Guide — Starfarer refuelling tier. Dedicated tab covering the United Wayfarers loop in detail.' },
+      { tag:'SHIPS',    pri:'LOW',  text:'Ship DB — org fleet view. Visual grid of the org\'s collective pledge portfolio with role coverage gaps highlighted.' },
     ],
   },
   {
@@ -6489,6 +6600,106 @@ function renderBestRoutes(){
   } catch(e){ console.error('renderBestRoutes error:',e); }
 }
 
+function calcBestRoute() {
+  const statusEl  = document.getElementById('rc-status');
+  const resultsEl = document.getElementById('rc-results');
+  if(!resultsEl) return;
+
+  if(typeof COMMODITIES === 'undefined' || !COMMODITIES.length ||
+     typeof TRADE_LOCS  === 'undefined' || !Object.keys(TRADE_LOCS).length) {
+    if(statusEl) statusEl.textContent = '⚪ Waiting for UEX live data…';
+    return;
+  }
+
+  const scu    = Math.max(1, parseInt(document.getElementById('rc-scu')?.value || '46'));
+  const system = document.getElementById('rc-system')?.value || 'any';
+  const risk   = document.getElementById('rc-risk')?.value   || 'any';
+  const count  = parseInt(document.getElementById('rc-count')?.value || '10');
+
+  const fmtK = n => n >= 1e6 ? (n/1e6).toFixed(2)+'M' : n >= 1000 ? Math.round(n/1000)+'k' : Math.round(n).toString();
+
+  // Build route list from TRADE_LOCS
+  const routes = [];
+  for(const [name, loc] of Object.entries(TRADE_LOCS)) {
+    if(!loc.b?.length || !loc.s?.length) continue;
+    if(risk === 'legal'   &&  loc.ill) continue;
+    if(risk === 'illegal' && !loc.ill) continue;
+
+    const buyEntry  = loc.b[0];
+    const sellEntry = loc.s[0];
+    if(!buyEntry?.p || !sellEntry?.p) continue;
+
+    // System filter — check buy or sell system
+    if(system !== 'any') {
+      const buySys  = buyEntry.sys  || '';
+      const sellSys = sellEntry.sys || '';
+      if(!buySys.includes(system) && !sellSys.includes(system)) continue;
+    }
+
+    const profitPerSCU = sellEntry.p - buyEntry.p;
+    if(profitPerSCU <= 0) continue;
+
+    const profitTrip = profitPerSCU * scu;
+    const margin     = Math.round(profitPerSCU / buyEntry.p * 1000) / 10;
+    const investment = buyEntry.p * scu;
+
+    routes.push({
+      name,
+      buyTerm:  buyEntry.t  || '?',
+      sellTerm: sellEntry.t || '?',
+      buySys:   buyEntry.sys  || '?',
+      sellSys:  sellEntry.sys || '?',
+      buyPrice:    buyEntry.p,
+      sellPrice:   sellEntry.p,
+      profitPerSCU,
+      profitTrip,
+      margin,
+      investment,
+      ill: loc.ill,
+    });
+  }
+
+  // Sort by profit per trip (best use of cargo space)
+  routes.sort((a,b) => b.profitTrip - a.profitTrip);
+  const top = routes.slice(0, count);
+
+  if(statusEl) {
+    const ts = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    statusEl.textContent = `🟢 UEX LIVE · ${routes.length} routes found · sorted by profit/trip · ${ts}`;
+    statusEl.style.color = 'var(--green)';
+  }
+
+  if(!top.length) {
+    resultsEl.innerHTML = '<div style="color:var(--t3);font-size:.75rem;padding:.5rem 0">No routes found for current filters.</div>';
+    return;
+  }
+
+  const maxProfit = top[0].profitTrip;
+
+  resultsEl.innerHTML = top.map((r, i) => `
+    <div style="display:grid;grid-template-columns:24px 1fr auto;gap:.4rem .6rem;align-items:baseline;padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.03)">
+      <span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">#${i+1}</span>
+      <div>
+        <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.15rem">
+          <span style="font-size:.82rem;font-weight:600;color:var(--t1)">${r.name}</span>
+          ${r.ill ? '<span style="font-size:.6rem;color:var(--fire)">⚠ ILLEGAL</span>' : ''}
+          <span style="font-family:\'Share Tech Mono\',monospace;font-size:.6rem;color:var(--t3)">${r.buySys !== r.sellSys ? r.buySys + ' → ' + r.sellSys : r.buySys}</span>
+        </div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--t3)">
+          Buy: ${r.buyTerm} · ${fmtK(r.buyPrice)}/SCU &nbsp;→&nbsp; Sell: ${r.sellTerm} · ${fmtK(r.sellPrice)}/SCU
+        </div>
+        <div style="margin-top:.2rem;height:2px;background:var(--b1);border-radius:2px;width:100%">
+          <div style="height:100%;width:${Math.round(r.profitTrip/maxProfit*100)}%;background:linear-gradient(90deg,var(--lava),var(--gold));border-radius:2px"></div>
+        </div>
+      </div>
+      <div style="text-align:right;white-space:nowrap">
+        <div style="font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:700;color:var(--gold)">${fmtK(r.profitTrip)}</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">+${fmtK(r.profitPerSCU)}/SCU · ${r.margin}%</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--t3)">invest ${fmtK(r.investment)}</div>
+      </div>
+    </div>`).join('');
+}
+
 // ===== LIVE UEX FETCH VIA CLOUDFLARE WORKER =====
 const UEX_PROXY = 'https://uex-proxy-worker.catmilker.workers.dev';
 let uexFetchDone = false;
@@ -6595,6 +6806,7 @@ async function fetchLiveUEX(){
     // Refresh Grind Guide + Interdict hot routes with live prices
     grindUpdateLivePrices();
     interdictUpdateLivePrices();
+    calcBestRoute();
 
   } catch(err){
     const bar = document.getElementById('uex-status-bar');
@@ -7865,6 +8077,35 @@ function renderMatchups(){
 // ===== RSI SERVER STATUS =====
 const RSI_STATUS_PROXY = 'https://rsi-status-worker.catmilker.workers.dev';
 const AWS_STATUS_PROXY = 'https://aws-status-worker.catmilker.workers.dev';
+const MOTD_PROXY       = 'https://catfight-motd.catmilker.workers.dev';
+
+async function fetchMOTD() {
+  try {
+    const d = await fetch(MOTD_PROXY + '/motd').then(r => r.json());
+    if(!d.active) return;
+    // Check expiry
+    if(d.expires && new Date(d.expires) < new Date()) return;
+    const bar     = document.getElementById('motd-bar');
+    const badge   = document.getElementById('motd-type-badge');
+    const title   = document.getElementById('motd-title');
+    const msg     = document.getElementById('motd-message');
+    const updated = document.getElementById('motd-updated');
+    if(!bar) return;
+    const TYPE_STYLES = {
+      info:    { bg:'rgba(100,160,255,.15)', col:'#64a0ff',  label:'ℹ INFO' },
+      warning: { bg:'rgba(255,107,26,.18)',  col:'var(--lava)', label:'⚠ WARNING' },
+      patch:   { bg:'rgba(142,203,110,.15)', col:'var(--green)', label:'🔧 PATCH' },
+      event:   { bg:'rgba(232,160,64,.15)',  col:'var(--gold)',  label:'⚡ EVENT' },
+    };
+    const style = TYPE_STYLES[d.type] || TYPE_STYLES.info;
+    badge.textContent   = style.label;
+    badge.style.cssText = `font-family:'Orbitron',sans-serif;font-size:.52rem;letter-spacing:.12em;padding:.15rem .45rem;border-radius:2px;flex-shrink:0;background:${style.bg};color:${style.col}`;
+    if(title)   { title.textContent = d.title;   title.style.display = d.title ? '' : 'none'; }
+    if(msg)       msg.textContent   = d.message;
+    if(updated)   updated.textContent = d.updated ? 'Updated ' + d.updated : '';
+    bar.style.display = 'flex';
+  } catch(e) { /* silent fail — no MOTD shown */ }
+}
 
 const STATUS_COL = {
   operational:'var(--green)', maintenance:'var(--gold)',
@@ -8339,10 +8580,11 @@ document.addEventListener('DOMContentLoaded',function(){
   setTimeout(fetchLiveShipDB, 2800);
   fetchRSIStatus();
   fetchAWSStatus();
+  fetchMOTD();
   setInterval(fetchRSIStatus, 120000);
   setInterval(fetchAWSStatus, 180000); // AWS updates slower, 3 min refresh
 });
 </script>
-<footer>CATFIGHT ORG &nbsp;·&nbsp; STAR CITIZEN 4.8 &nbsp;·&nbsp; DATA: SC WIKI API + SC CRAFT TOOLS + UEX LIVE + ERKUL LIVE + 4.8.0.11825000 DATAMINE &nbsp;·&nbsp; PRICES: UEX LIVE API &nbsp;·&nbsp; BETA v0.9.4 &nbsp;·&nbsp; NOT FINANCIAL ADVICE</footer>
+<footer>CATFIGHT ORG &nbsp;·&nbsp; STAR CITIZEN 4.8 &nbsp;·&nbsp; DATA: SC WIKI API + SC CRAFT TOOLS + UEX LIVE + ERKUL LIVE + 4.8.0.11825000 DATAMINE &nbsp;·&nbsp; PRICES: UEX LIVE API &nbsp;·&nbsp; BETA v0.9.4 &nbsp;·&nbsp; NOT FINANCIAL ADVICE &nbsp;·&nbsp; <span style="color:var(--t3);cursor:pointer" onclick="execShowShortcuts()">? SHORTCUTS</span></footer>
 </body>
 </html>
