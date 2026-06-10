@@ -29,7 +29,7 @@ Everything you need for a session in one tab — income planning, ship loadouts,
 | 📋 Blueprints | Mission drop BPs, 252 component BPs (live SC Craft sources), Priority Roadmap. |
 | ⚔️ Combat | 21 ship profiles with verified builds + PvP analysis. Weapon Matrix (S1–S5). 22 matchups including capital fleet engagements. PvP Tier List. Loadout Synergy Checker. |
 | 🕳️ Interdict | Interdiction Planner — op type, 20 locations, 9 crew roles, live cargo prices, comms callouts, mission brief. Save/load 8 named ops. |
-| 🏛️ Exec Hangar | PYAM CZ timer synced to exec.xyxyll.com — 185min 226ms cycle, 5 LED status, ONLINE/OFFLINE phases, 12hr schedule. CZ self-timers (keycard, vault, terminal, crypt). |
+| 🏛️ Exec Hangar | PYAM CZ timer synced to exec.redline-arsenal.net — 185min 226ms cycle, 5 LED status, ONLINE/OFFLINE phases, 12hr schedule. CZ self-timers (keycard, vault, terminal, crypt). |
 | 📋 Changelog | Full version history v0.1 → v1.0, in-tool, filterable by category. |
 | 🗺️ Roadmap | Upcoming features. |
 
@@ -86,6 +86,6 @@ Press `?` in the tool for the full overlay. Panel keys: `G` Grind · `T` Trade �
 
 Built by **CatMilker**. Contributors: CatCya, CatNipp.
 
-Exec Hangar Timer calibrated from [exec.xyxyll.com](https://exec.xyxyll.com) — MIT © Xyxyll 2026.
+Exec Hangar Timer calibrated from [exec.redline-arsenal.net](https://exec.redline-arsenal.net) — epoch updated Jun 7 2026.
 
 Drop requests in the Catfight Discord `#catfight-command-centre` thread.
