@@ -3965,7 +3965,18 @@ function renderLocs(){
 
 // ===== SHIP DATABASE =====
 let SDB_SHIPS=[];
-fetch("https://catmilker.github.io/catfight-command-centre/sdb-ships.json").then(r=>r.json()).then(d=>{SDB_SHIPS=d;if(typeof sdbFilterShips==="function")sdbFilterShips();if(typeof sdbUpdateStats==="function")sdbUpdateStats();}).catch(()=>{});
+fetch("https://catmilker.github.io/catfight-command-centre/sdb-ships.json").then(r=>r.json()).then(d=>{
+  SDB_SHIPS=d;
+  if(typeof sdbFilterShips==="function") sdbFilterShips();
+  if(typeof sdbUpdateStats==="function") sdbUpdateStats();
+  // If ship panel is open, re-render immediately
+  const panel = document.getElementById('ship-tab-db');
+  if(panel && panel.style.display !== 'none') { sdbFilterShips(); sdbUpdateStats(); }
+}).catch(()=>{
+  // Fetch failed — show error in ship body
+  const body = document.getElementById('shipBody');
+  if(body) body.innerHTML = '<tr><td colspan="11" style="padding:1rem;color:var(--fire);font-family:\'Share Tech Mono\',monospace;font-size:.72rem">⚠ Could not load ship data — check your connection and refresh</td></tr>';
+});
 
 const SDB_ALL_ROLES=['combat','cargo','mining','exploration','utility','industrial','medical','passenger','bomber','racing','starter','ground'];
 
@@ -4572,7 +4583,14 @@ function setShipMasterTab(t, btn) {
     btn.closest('.cftabs').querySelectorAll('.ltab').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
   }
-  if (t === 'db') sdbFilterShips();
+  if (t === 'db') {
+    if(!SDB_SHIPS.length) {
+      const body = document.getElementById('shipBody');
+      if(body) body.innerHTML = '<tr><td colspan="11" style="padding:1.5rem;color:var(--t3);font-family:\'Share Tech Mono\',monospace;font-size:.72rem;text-align:center">⟳ Loading ship data…</td></tr>';
+    } else {
+      sdbFilterShips();
+    }
+  }
   if (t === 'loadout') { renderCuratedLoadouts(); loadoutSearch(); }
   if (t === 'builder') { lbInit(); if(!erkulDone&&!erkulFetching) fetchLiveErkul(); }
   if (t === 'compare') { cmpPopulateShips(); }
