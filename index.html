@@ -5979,15 +5979,25 @@ const execTimers   = {};
 let execCustomMins = 10;
 
 function execHangarInit() {
-  // Load any saved manual sync
+  // Load any saved manual sync — but only use it if it's plausible
+  // (within 10 cycles of now, meaning < ~31 hours old)
   try {
     const saved = localStorage.getItem('catfight_exec_epoch');
     if(saved) {
-      window._execEpochOverride = parseInt(saved);
-      const statusEl = document.getElementById('exec-sync-status');
-      if(statusEl) {
-        statusEl.textContent = '✅ Using saved manual sync';
-        statusEl.style.color = 'var(--green)';
+      const storedEpoch = parseInt(saved);
+      const now = Date.now();
+      // Validate: the stored epoch should be in the past and within 50 cycles (~4 days)
+      const maxAge = EXEC_CYCLE_MS * 50;
+      if(storedEpoch < now && (now - storedEpoch) < maxAge) {
+        window._execEpochOverride = storedEpoch;
+        const statusEl = document.getElementById('exec-sync-status');
+        if(statusEl) {
+          statusEl.textContent = '✅ Using saved manual sync';
+          statusEl.style.color = 'var(--green)';
+        }
+      } else {
+        // Stale or invalid — clear it and use baked-in
+        localStorage.removeItem('catfight_exec_epoch');
       }
     }
   } catch(e) {}
@@ -6024,18 +6034,16 @@ function execManualSync() {
   };
 
   const posInCycle = POSITIONS[event] || 0;
-  // epoch = now - posInCycle, normalised to a clean cycle boundary
-  let newEpoch = now - posInCycle;
+  // epoch = point in time when the current cycle started (position 0)
+  const newEpoch = now - posInCycle;
 
   try { localStorage.setItem('catfight_exec_epoch', String(newEpoch)); } catch(e) {}
-
-  // Override the live constant
   window._execEpochOverride = newEpoch;
 
   const statusEl = document.getElementById('exec-sync-status');
   if(statusEl) {
     const ts = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
-    statusEl.textContent = `✅ Manually synced at ${ts} — override active`;
+    statusEl.textContent = `✅ Synced at ${ts} · hit ✕ to revert to baked-in epoch`;
     statusEl.style.color = 'var(--green)';
   }
 
