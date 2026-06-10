@@ -2490,64 +2490,332 @@ footer {
 
   <!-- ===== LASERS TAB ===== -->
   <div class="miss-tab" id="mine-lasers">
-    <div class="info" style="margin-bottom:.75rem">Mining heads and modules. Helix = raw power, Hofstede = stability and safety. Pick based on your rock difficulty.</div>
-    <div style="margin-bottom:1rem">
-      <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.15em;color:var(--teal);margin-bottom:.5rem">MINING LASER HEADS</div>
+    <div class="info" style="margin-bottom:.5rem">
+      Full laser head comparison — all stats from <a href="https://starcitizen.tools/Mining_laser" target="_blank" style="color:var(--ember)">SC Wiki</a>.
+      Quality system (q500 = stock, q700 = slight bonus, q1000 = max bonus) reference from <a href="https://sm.scmdb.net/" target="_blank" style="color:var(--ember)">SCMDB Star Miner</a>.
+      Green = beneficial · Red = detrimental.
+    </div>
+
+    <!-- Head comparison sub-tabs -->
+    <div class="cftabs" style="margin-bottom:.65rem">
+      <button class="ltab active" onclick="setLaserTab('s1',this)">S1 Heads</button>
+      <button class="ltab" onclick="setLaserTab('s2',this)">S2 Heads</button>
+      <button class="ltab" onclick="setLaserTab('quality',this)">Quality System</button>
+      <button class="ltab" onclick="setLaserTab('modules',this)">Modules</button>
+      <button class="ltab" onclick="setLaserTab('builds',this)">Recommended Builds</button>
+    </div>
+
+    <!-- S1 HEADS -->
+    <div class="miss-tab active" id="laser-s1">
       <div style="overflow-x:auto">
-        <table class="data-tbl">
-          <thead><tr><th>Laser</th><th>Size</th><th>Mfr</th><th>Power</th><th>Instability</th><th>Best for</th><th>Where to buy</th></tr></thead>
+        <table class="data-tbl" style="min-width:700px">
+          <thead><tr>
+            <th>Head</th><th>Mfr</th><th>Power Transfer</th><th>Resistance</th><th>Instability</th><th>Charge Window</th><th>Extraction</th><th>Modules</th><th>Buy</th>
+          </tr></thead>
           <tbody>
-            <tr><td><strong>Helix I/II</strong></td><td>S1/S2</td><td>Thermyte</td><td style="color:var(--gold)">★★★★★</td><td style="color:var(--fire)">High</td><td>High-resistance rocks, cracking tough deposits</td><td>Lorville · Area 18 · Levski</td></tr>
-            <tr><td><strong>Hofstede S1/S2</strong></td><td>S1/S2</td><td>Hofstede</td><td style="color:var(--ember)">★★★☆☆</td><td style="color:var(--green)">Low</td><td>Safer mining, beginners, Quantainium control</td><td>Lorville · Orison · Port Tressler</td></tr>
-            <tr><td><strong>Lancet MH1/MH2</strong></td><td>S1/S2</td><td>Greycat</td><td style="color:var(--t3)">★★☆☆☆</td><td style="color:var(--green)">Very Low</td><td>MOLE support laser — resistance reduction</td><td>Area 18 · Levski</td></tr>
-            <tr><td><strong>Arbor MH1/MH2</strong></td><td>S1/S2</td><td>Greycat</td><td style="color:var(--ember)">★★★☆☆</td><td style="color:var(--t2)">Medium</td><td>Balanced — good all-rounder for solo Prospector</td><td>Lorville · Area 18 · Orison</td></tr>
-            <tr><td><strong>Impact I</strong></td><td>S1</td><td>Thermyte</td><td style="color:var(--gold)">★★★★☆</td><td style="color:var(--fire)">Very High</td><td>Expert only — maximum DPS, tight control window</td><td>Lorville · Port Tressler</td></tr>
+            <tr>
+              <td><strong style="color:var(--gold)">Helix I</strong><br><span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">Top-tier cracker</span></td>
+              <td>Thermyte</td>
+              <td><span style="color:var(--green)">2,300</span></td>
+              <td><span style="color:var(--green)">-10%</span></td>
+              <td><span style="color:var(--green)">-30%</span></td>
+              <td><span style="color:var(--green)">+15%</span></td>
+              <td>0.50 SCU/s</td>
+              <td style="color:var(--teal)">3 slots</td>
+              <td style="font-size:.7rem">Lorville · Area 18 · Levski</td>
+            </tr>
+            <tr>
+              <td><strong style="color:var(--ember)">Impact I</strong><br><span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">Expert only</span></td>
+              <td>Thermyte</td>
+              <td><span style="color:var(--green)">3,000</span></td>
+              <td><span style="color:var(--green)">-10%</span></td>
+              <td><span style="color:var(--fire)">+20%</span></td>
+              <td><span style="color:var(--green)">+20% optimal</span></td>
+              <td>0.45 SCU/s</td>
+              <td style="color:var(--t3)">2 slots</td>
+              <td style="font-size:.7rem">Lorville · Area 18</td>
+            </tr>
+            <tr>
+              <td><strong>Hofstede-S1</strong><br><span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">Safe &amp; stable</span></td>
+              <td>Shubin</td>
+              <td>2,100</td>
+              <td><span style="color:var(--green)">-20%</span></td>
+              <td><span style="color:var(--fire)">+10%</span></td>
+              <td><span style="color:var(--green)">+25%</span></td>
+              <td>0.35 SCU/s</td>
+              <td style="color:var(--t3)">2 slots</td>
+              <td style="font-size:.7rem">Lorville · Orison</td>
+            </tr>
+            <tr>
+              <td><strong>Klein-S1</strong><br><span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">Resistance specialist</span></td>
+              <td>Shubin</td>
+              <td>2,520</td>
+              <td><span style="color:var(--green)">-35%</span></td>
+              <td>0%</td>
+              <td><span style="color:var(--green)">+10%</span></td>
+              <td>0.40 SCU/s</td>
+              <td style="color:var(--t3)">2 slots</td>
+              <td style="font-size:.7rem">Area 18 · Levski</td>
+            </tr>
+            <tr>
+              <td><strong>Lancet MH1</strong><br><span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">MOLE support</span></td>
+              <td>Greycat</td>
+              <td>2,520</td>
+              <td>0%</td>
+              <td><span style="color:var(--green)">-10%</span></td>
+              <td><span style="color:var(--fire)">-30%</span></td>
+              <td>0.35 SCU/s</td>
+              <td style="color:var(--t3)">2 slots</td>
+              <td style="font-size:.7rem">Area 18 · Levski</td>
+            </tr>
+            <tr>
+              <td><strong>Arbor MH1</strong><br><span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">Balanced all-rounder</span></td>
+              <td>Greycat</td>
+              <td>1,890</td>
+              <td><span style="color:var(--fire)">+10%</span></td>
+              <td>0%</td>
+              <td><span style="color:var(--green)">+20%</span></td>
+              <td>0.35 SCU/s</td>
+              <td style="color:var(--t3)">2 slots</td>
+              <td style="font-size:.7rem">Lorville · Area 18 · Orison</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="info" style="margin-top:.5rem;font-size:.7rem">S1 heads fit: Prospector (1 slot) · MOLE (3 slots, one per turret) · ROC: hand tool only</div>
+    </div>
+
+    <!-- S2 HEADS -->
+    <div class="miss-tab" id="laser-s2">
+      <div style="overflow-x:auto">
+        <table class="data-tbl" style="min-width:700px">
+          <thead><tr>
+            <th>Head</th><th>Mfr</th><th>Power Transfer</th><th>Resistance</th><th>Instability</th><th>Charge Window</th><th>Extraction</th><th>Modules</th><th>Buy</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td><strong style="color:var(--gold)">Helix II</strong><br><span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">Top-tier S2</span></td>
+              <td>Thermyte</td>
+              <td><span style="color:var(--green)">4,080</span></td>
+              <td><span style="color:var(--green)">-10%</span></td>
+              <td><span style="color:var(--green)">-30%</span></td>
+              <td><span style="color:var(--green)">+15%</span></td>
+              <td>0.65 SCU/s</td>
+              <td style="color:var(--teal)">3 slots</td>
+              <td style="font-size:.7rem">Shubin reps · Port Tressler</td>
+            </tr>
+            <tr>
+              <td><strong style="color:var(--ember)">Impact II</strong><br><span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">Expert only</span></td>
+              <td>Thermyte</td>
+              <td><span style="color:var(--green)">3,360</span></td>
+              <td><span style="color:var(--green)">-10%</span></td>
+              <td><span style="color:var(--fire)">+20%</span></td>
+              <td><span style="color:var(--green)">+20% optimal</span></td>
+              <td>0.55 SCU/s</td>
+              <td style="color:var(--t3)">2 slots</td>
+              <td style="font-size:.7rem">Lorville · Area 18</td>
+            </tr>
+            <tr>
+              <td><strong>Hofstede-S2</strong><br><span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">Safe &amp; stable</span></td>
+              <td>Shubin</td>
+              <td>3,360</td>
+              <td><span style="color:var(--green)">-20%</span></td>
+              <td><span style="color:var(--fire)">+10%</span></td>
+              <td><span style="color:var(--green)">+25%</span></td>
+              <td>0.45 SCU/s</td>
+              <td style="color:var(--t3)">2 slots</td>
+              <td style="font-size:.7rem">Lorville · Orison</td>
+            </tr>
+            <tr>
+              <td><strong>Klein-S2</strong><br><span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">Resistance specialist</span></td>
+              <td>Shubin</td>
+              <td>3,600</td>
+              <td><span style="color:var(--green)">-35%</span></td>
+              <td>0%</td>
+              <td><span style="color:var(--green)">+10%</span></td>
+              <td>0.50 SCU/s</td>
+              <td style="color:var(--t3)">2 slots</td>
+              <td style="font-size:.7rem">Area 18 · Levski</td>
+            </tr>
+            <tr>
+              <td><strong>Lancet MH2</strong><br><span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">MOLE support</span></td>
+              <td>Greycat</td>
+              <td>3,600</td>
+              <td>0%</td>
+              <td><span style="color:var(--green)">-10%</span></td>
+              <td><span style="color:var(--fire)">-30%</span></td>
+              <td>0.45 SCU/s</td>
+              <td style="color:var(--t3)">2 slots</td>
+              <td style="font-size:.7rem">Area 18 · Levski</td>
+            </tr>
+            <tr>
+              <td><strong>Arbor MH2</strong><br><span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">Balanced all-rounder</span></td>
+              <td>Greycat</td>
+              <td>2,400</td>
+              <td><span style="color:var(--fire)">+10%</span></td>
+              <td>0%</td>
+              <td><span style="color:var(--green)">+20%</span></td>
+              <td>0.45 SCU/s</td>
+              <td style="color:var(--t3)">2 slots</td>
+              <td style="font-size:.7rem">Lorville · Area 18 · Orison</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="info" style="margin-top:.5rem;font-size:.7rem">S2 heads fit: MOLE front turret (1 S2 slot) · Arrastra · Orion. Prospector takes S1 only.</div>
+    </div>
+
+    <!-- QUALITY SYSTEM -->
+    <div class="miss-tab" id="laser-quality">
+      <div style="background:var(--s2);border:1px solid var(--b1);border-radius:2px;padding:.75rem 1rem;margin-bottom:.75rem">
+        <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.15em;color:var(--gold);margin-bottom:.5rem">⭐ LASER HEAD QUALITY — HOW IT WORKS</div>
+        <div style="font-size:.78rem;color:var(--t2);line-height:1.75;margin-bottom:.65rem">
+          Mining laser heads have a <strong style="color:var(--gold)">quality rating from 0–1000</strong>. Quality scales all of the head's stat modifiers proportionally.
+          A q500 head performs exactly as the base stats show. A q1000 head doubles the modifier values. A q0 head has no modifiers at all — just baseline power transfer.
+          <br><br>
+          Quality affects <strong>every modifier</strong> on the head — resistance reduction, instability reduction, charge window bonus, extraction throughput.
+          This makes high-quality Helix heads significantly stronger than low-quality ones.
+          <br><br>
+          Reference: <a href="https://sm.scmdb.net/" target="_blank" style="color:var(--ember)">SCMDB Star Miner</a> shows per-quality stat breakdowns for all heads.
+        </div>
+        <div style="overflow-x:auto">
+          <table class="data-tbl" style="min-width:500px">
+            <thead><tr>
+              <th>Quality Tier</th><th>Modifier Scale</th><th>Example — Helix I Instability</th><th>Worth using?</th>
+            </tr></thead>
+            <tbody>
+              <tr><td><span style="color:var(--fire)">q0–q249</span></td><td>0–25% of base</td><td>-30% → -0% to -7.5%</td><td style="color:var(--fire)">No — almost no benefit over stock head</td></tr>
+              <tr><td><span style="color:var(--ember)">q250–q499</span></td><td>25–50% of base</td><td>-30% → -7.5% to -15%</td><td style="color:var(--ember)">Marginal — usable if nothing better available</td></tr>
+              <tr><td><span style="color:var(--gold)">q500–q699</span></td><td>50–70% of base</td><td>-30% → -15% to -21%</td><td style="color:var(--gold)">Decent — noticeable improvement</td></tr>
+              <tr><td><span style="color:var(--green)">q700–q899</span></td><td>70–90% of base</td><td>-30% → -21% to -27%</td><td style="color:var(--green)">Good — aim for this tier minimum</td></tr>
+              <tr><td><span style="color:var(--teal)">q900–q1000</span></td><td>90–100% of base</td><td>-30% → -27% to -30%</td><td style="color:var(--teal)">Best — full modifier values, max performance</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="info" style="margin-top:.5rem;font-size:.7rem">
+          ⚠ Quality below q500 is not worth refining or crafting with — sell it as raw material instead.
+          q700+ is the practical minimum for laser heads used on high-value rocks.
+          Crafted Helix heads from Shubin rep can reach q900+ with the right material quality.
+        </div>
+      </div>
+
+      <!-- Per-head quality impact -->
+      <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.15em;color:var(--teal);margin-bottom:.5rem">QUALITY IMPACT BY HEAD (q500 vs q1000)</div>
+      <div style="overflow-x:auto">
+        <table class="data-tbl" style="min-width:600px">
+          <thead><tr>
+            <th>Head</th><th>Stat</th><th>q500 (stock)</th><th>q1000 (max)</th><th>Practical impact</th>
+          </tr></thead>
+          <tbody>
+            <tr><td rowspan="3"><strong style="color:var(--gold)">Helix I/II</strong></td><td>Instability</td><td style="color:var(--green)">-15%</td><td style="color:var(--green)">-30%</td><td>Bigger green window — much easier Quant mining</td></tr>
+            <tr><td>Resistance</td><td style="color:var(--green)">-5%</td><td style="color:var(--green)">-10%</td><td>Rocks crack faster at lower throttle</td></tr>
+            <tr><td>Charge Window</td><td style="color:var(--green)">+7.5%</td><td style="color:var(--green)">+15%</td><td>More room to stay in optimal zone</td></tr>
+            <tr style="border-top:1px solid var(--b2)"><td rowspan="2"><strong>Hofstede S1/S2</strong></td><td>Resistance</td><td style="color:var(--green)">-10%</td><td style="color:var(--green)">-20%</td><td>Better at cracking tough rocks</td></tr>
+            <tr><td>Charge Window</td><td style="color:var(--green)">+12.5%</td><td style="color:var(--green)">+25%</td><td>Largest window bonus of any S1 head at q1000</td></tr>
+            <tr style="border-top:1px solid var(--b2)"><td rowspan="2"><strong>Klein S1/S2</strong></td><td>Resistance</td><td style="color:var(--green)">-17.5%</td><td style="color:var(--green)">-35%</td><td>Strongest resistance reduction available</td></tr>
+            <tr><td>Instability</td><td>0%</td><td>0%</td><td>No instability modifier — neutral</td></tr>
+            <tr style="border-top:1px solid var(--b2)"><td rowspan="2"><strong style="color:var(--ember)">Impact I/II</strong></td><td>Instability</td><td style="color:var(--fire)">+10%</td><td style="color:var(--fire)">+20%</td><td>Gets WORSE at higher quality — more dangerous</td></tr>
+            <tr><td>Catastrophic rate</td><td style="color:var(--fire)">+50%</td><td style="color:var(--fire)">+100%</td><td>Explodes much faster at q1000 — expert only</td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <div>
-      <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.15em;color:var(--teal);margin-bottom:.5rem">MINING MODULES</div>
+    <!-- MODULES -->
+    <div class="miss-tab" id="laser-modules">
       <div style="overflow-x:auto">
-        <table class="data-tbl">
-          <thead><tr><th>Module</th><th>Effect</th><th>When to use</th></tr></thead>
+        <table class="data-tbl" style="min-width:650px">
+          <thead><tr>
+            <th>Module</th><th>Power</th><th>Resistance</th><th>Instability</th><th>Charge Window</th><th>Catastrophic Rate</th><th>Best use</th>
+          </tr></thead>
           <tbody>
-            <tr><td><strong>Surge</strong></td><td style="color:var(--gold)">Temporary power spike — forces rock past threshold</td><td>Stubborn high-resistance rocks that won't crack</td></tr>
-            <tr><td><strong>Focus II / III</strong></td><td style="color:var(--ember)">Increases optimal charge window size</td><td>Paired with Hofstede for safer Quant extraction</td></tr>
-            <tr><td><strong>Torrent II / III</strong></td><td style="color:var(--ember)">Extends optimal extraction zone</td><td>Maximising yield on medium rocks</td></tr>
-            <tr><td><strong>FLTR / FLTR-L</strong></td><td style="color:var(--green)">Filters inert material — higher ore yield</td><td>Low-grade rocks with high inert content</td></tr>
-            <tr><td><strong>Torpid</strong></td><td style="color:var(--t2)">Reduces instability on volatile ores</td><td>Quantainium — keeps charge stable during extraction</td></tr>
-            <tr><td><strong>Rime</strong></td><td style="color:var(--t2)">Cooling effect — reduces rock instability</td><td>Volatile deposits, pair with Torpid</td></tr>
-            <tr><td><strong>Optimum</strong></td><td style="color:var(--green)">Widens optimal extraction window</td><td>General use — best budget module for beginners</td></tr>
-            <tr><td><strong>Vaux / Vaux-C2</strong></td><td style="color:var(--t2)">Resistance reduction on target</td><td>Support role on MOLE alongside Lancet</td></tr>
+            <tr><td><strong style="color:var(--green)">Lifeline</strong></td><td>—</td><td style="color:var(--green)">↓ reduces</td><td style="color:var(--green)">↓ reduces</td><td>—</td><td style="color:var(--fire)">↑ increases</td><td>Best general-purpose module — safer on volatile ores</td></tr>
+            <tr><td><strong style="color:var(--green)">Optimum</strong></td><td style="color:var(--fire)">↓ reduces</td><td>—</td><td style="color:var(--green)">↓ reduces</td><td style="color:var(--green)">↑ large increase</td><td style="color:var(--green)">↓ reduces</td><td>Safest module — maximises green window, reduces explosion risk. Pairs with Helix for Quant.</td></tr>
+            <tr><td><strong style="color:var(--teal)">Focus II/III</strong></td><td>—</td><td>—</td><td>—</td><td style="color:var(--green)">↑ increases</td><td>—</td><td>Widens optimal window — more room to stay in green zone</td></tr>
+            <tr><td><strong style="color:var(--amber)">Surge</strong></td><td style="color:var(--green)">↑↑ large spike</td><td>—</td><td>—</td><td>—</td><td>—</td><td>One-time power burst — forces past threshold on stubborn rocks</td></tr>
+            <tr><td><strong>Rime</strong></td><td style="color:var(--fire)">↓ reduces</td><td>—</td><td style="color:var(--green)">↓ reduces</td><td>—</td><td>—</td><td>Stability-focused — use on high-instability rocks when you need more control</td></tr>
+            <tr><td><strong>Forel</strong></td><td>—</td><td style="color:var(--green)">↓ reduces</td><td style="color:var(--fire)">↑ increases</td><td>—</td><td>—</td><td>Trade instability for resistance reduction — good on stable high-resistance rocks</td></tr>
+            <tr><td><strong>Sabir</strong></td><td>—</td><td style="color:var(--green)">↓↓ large</td><td style="color:var(--fire)">↑ increases</td><td style="color:var(--green)">↑ increases</td><td>—</td><td>Tough deposits — big resistance drop but raises instability. One gadget per rock max.</td></tr>
+            <tr><td><strong>Brandt</strong></td><td style="color:var(--green)">↑ 60s boost</td><td style="color:var(--fire)">↑ increases</td><td>—</td><td>—</td><td>—</td><td>Timed power boost — good for cracking the last bit. Resistance penalty is the cost.</td></tr>
+            <tr><td><strong>FLTR-L</strong></td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>Filters inert material — increases useful ore yield percentage on low-grade rocks</td></tr>
+            <tr><td><strong>Stampede</strong></td><td style="color:var(--green)">↑ extraction</td><td>—</td><td>—</td><td>—</td><td>—</td><td>Faster extraction throughput — use when rock is already cracked and stable</td></tr>
+            <tr><td><strong>Rieger C3</strong></td><td style="color:var(--green)">↑ power</td><td>—</td><td>—</td><td>—</td><td>—</td><td>Pure power increase — budget alternative to Surge for underpowered lasers</td></tr>
           </tbody>
         </table>
       </div>
+      <div class="info" style="margin-top:.5rem;font-size:.7rem">⚠ Multiple laser modifiers targeting the same stat are multiplicative, not additive. Returns diminish quickly — don't stack 3× instability reduction modules.</div>
     </div>
 
-    <div style="margin-top:1rem">
-      <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.15em;color:var(--teal);margin-bottom:.5rem">RECOMMENDED LOADOUTS</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.5rem">
-        <div class="card">
-          <div class="card-title" style="color:var(--teal)">PROSPECTOR — BEGINNER</div>
-          <div class="card-body">Hofstede S1 + Focus III module<br><span style="color:var(--t3);font-size:.72rem">Wide charge window, forgiving for Quant. Use Surge when rocks resist. Best for learning.</span></div>
+    <!-- RECOMMENDED BUILDS -->
+    <div class="miss-tab" id="laser-builds">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.65rem">
+
+        <div style="background:var(--s2);border:1px solid var(--b1);border-left:3px solid var(--gold);border-radius:2px;padding:.65rem .85rem">
+          <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;color:var(--gold);margin-bottom:.3rem">PROSPECTOR — QUANTAINIUM</div>
+          <div style="font-size:.78rem;color:var(--t1);font-weight:600;margin-bottom:.3rem">Helix I (q700+) + Optimum + Focus III</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--t3);line-height:1.6">
+            Optimum widens the window and cuts catastrophic rate. Focus III stacks more window on top.
+            Helix I's instability reduction handles most Quant rocks at mid-throttle.
+            Keep throttle at 30–40% until charged, spike to 50% to crack.
+          </div>
         </div>
-        <div class="card">
-          <div class="card-title" style="color:var(--gold)">PROSPECTOR — ADVANCED</div>
-          <div class="card-body">Helix I + Focus II + Surge module<br><span style="color:var(--t3);font-size:.72rem">Maximum cracking power. Tight control window. Pair Torpid for Quantainium runs.</span></div>
+
+        <div style="background:var(--s2);border:1px solid var(--b1);border-left:3px solid var(--teal);border-radius:2px;padding:.65rem .85rem">
+          <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;color:var(--teal);margin-bottom:.3rem">PROSPECTOR — GENERAL MINING</div>
+          <div style="font-size:.78rem;color:var(--t1);font-weight:600;margin-bottom:.3rem">Arbor MH1 + Focus II + Rieger C3</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--t3);line-height:1.6">
+            Balanced load — Arbor gives good power and charge window bonus.
+            Rieger C3 compensates for lower power transfer on tough rocks.
+            Focus II keeps the green zone manageable. Budget-friendly.
+          </div>
         </div>
-        <div class="card">
-          <div class="card-title" style="color:var(--ember)">MOLE — FRONT TURRET</div>
-          <div class="card-body">Helix II + Surge × 2<br><span style="color:var(--t3);font-size:.72rem">Primary breaker. Handles all high-resistance rocks the other turrets can't move.</span></div>
+
+        <div style="background:var(--s2);border:1px solid var(--b1);border-left:3px solid var(--green);border-radius:2px;padding:.65rem .85rem">
+          <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;color:var(--green);margin-bottom:.3rem">PROSPECTOR — BEGINNER</div>
+          <div style="font-size:.78rem;color:var(--t1);font-weight:600;margin-bottom:.3rem">Hofstede-S1 + Focus III + Optimum</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--t3);line-height:1.6">
+            Hofstede's +25% charge window stacked with Focus III and Optimum gives a massive green zone.
+            Forgiving for new miners. Lower power means skip very high-resistance rocks.
+            Buy Focus III and Optimum at Levski customs.
+          </div>
         </div>
-        <div class="card">
-          <div class="card-title" style="color:var(--t2)">MOLE — SIDE TURRETS</div>
-          <div class="card-body">Hofstede S2 + Torrent II<br><span style="color:var(--t3);font-size:.72rem">Sustained extraction. Stabilises rock after front turret cracks it. Both sides same loadout.</span></div>
+
+        <div style="background:var(--s2);border:1px solid var(--b1);border-left:3px solid var(--ember);border-radius:2px;padding:.65rem .85rem">
+          <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;color:var(--ember);margin-bottom:.3rem">MOLE — 3-LASER SETUP</div>
+          <div style="font-size:.78rem;color:var(--t1);font-weight:600;margin-bottom:.3rem">Helix I front + Lancet MH1 × 2 sides</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--t3);line-height:1.6">
+            Helix I does the cracking. Lancet MH1s reduce instability on both sides.
+            Lancet's negative charge window is offset by Helix.
+            Modifiers are multiplicative — 2× Lancet instability reduction stacks nicely with Helix.
+          </div>
         </div>
+
+        <div style="background:var(--s2);border:1px solid var(--b1);border-left:3px solid var(--lava);border-radius:2px;padding:.65rem .85rem">
+          <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;color:var(--lava);margin-bottom:.3rem">TOUGH ROCKS — HIGH RESISTANCE</div>
+          <div style="font-size:.78rem;color:var(--t1);font-weight:600;margin-bottom:.3rem">Klein-S1 + Sabir gadget + Forel</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--t3);line-height:1.6">
+            Klein-S1 gives the strongest resistance reduction of any S1 head (-35% at q1000).
+            Sabir gadget adds more resistance drop but raises instability — acceptable if rock is stable.
+            Forel module cuts resistance further. One Sabir max per rock.
+          </div>
+        </div>
+
+        <div style="background:var(--s2);border:1px solid var(--b1);border-left:3px solid var(--fire);border-radius:2px;padding:.65rem .85rem">
+          <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;color:var(--fire);margin-bottom:.3rem">EXPERT — MAX THROUGHPUT</div>
+          <div style="font-size:.78rem;color:var(--t1);font-weight:600;margin-bottom:.3rem">Impact I (q900+) + Lifeline + Optimum</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--t3);line-height:1.6">
+            Impact I has the highest raw power but brutal instability and catastrophic rate.
+            Lifeline cuts instability and resistance. Optimum widens the window and cuts catastrophic.
+            Only viable at q900+ — at lower quality the penalties outweigh the power.
+            Not recommended unless you know what you're doing.
+          </div>
+        </div>
+
       </div>
     </div>
+
   </div>
+
 
   <!-- ===== REFINERY TAB ===== -->
   <div class="miss-tab" id="mine-refinery">
@@ -9287,6 +9555,17 @@ function renderWeaponPicker(size, containerId){
 }
 
 
+
+function setLaserTab(t, btn) {
+  ['s1','s2','quality','modules','builds'].forEach(id => {
+    const el = document.getElementById('laser-' + id);
+    if(el) el.className = 'miss-tab' + (id === t ? ' active' : '');
+  });
+  if(btn) {
+    btn.closest('.cftabs').querySelectorAll('.ltab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+}
 
 function setMineTab(t, btn){
   document.querySelectorAll('#panel-mining .miss-tab').forEach(c=>c.classList.remove('active'));
