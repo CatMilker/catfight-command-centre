@@ -3293,7 +3293,7 @@ EXTRACT: never all QT at once. Mantis last out.
 
       <!-- Manual sync -->
       <div style="border-top:1px solid var(--b1);padding-top:.6rem">
-        <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);letter-spacing:.08em;margin-bottom:.35rem">MANUAL SYNC — tap when 5 lights go green in-game</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);letter-spacing:.08em;margin-bottom:.35rem">MANUAL SYNC — session only, resets on reload</div>
         <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.3rem">
           <select id="exec-sync-event" style="font-family:'Share Tech Mono',monospace;font-size:.63rem;flex:1;min-width:140px">
             <option value="5green">5 lights just went green (new ONLINE phase)</option>
@@ -3301,7 +3301,7 @@ EXTRACT: never all QT at once. Mantis last out.
             <option value="3green">3 lights green (2 turned off — 24min elapsed)</option>
             <option value="2green">2 lights green (3 turned off — 36min elapsed)</option>
             <option value="1green">1 light green (4 turned off — 48min elapsed)</option>
-            <option value="reset">Reset phase started (top 3 flashing orange — 60min elapsed)</option>
+            <option value="reset">Reset phase (top 3 flashing orange — 60min elapsed)</option>
             <option value="0green">Reset ended — OFFLINE just started</option>
             <option value="1red">OFFLINE — 1/5 lights green (24min in)</option>
             <option value="2red">OFFLINE — 2/5 lights green (48min in)</option>
@@ -3310,9 +3310,9 @@ EXTRACT: never all QT at once. Mantis last out.
             <option value="5red">OFFLINE — all 5 lights green (almost open)</option>
           </select>
           <button onclick="execManualSync()" style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--green);background:none;border:1px solid rgba(142,203,110,.5);padding:.3rem .65rem;cursor:pointer;border-radius:2px;white-space:nowrap">⚡ SYNC</button>
-          <button onclick="execClearSync()" style="font-family:'Share Tech Mono',monospace;font-size:.63rem;color:var(--t3);background:none;border:1px solid var(--b2);padding:.3rem .5rem;cursor:pointer;border-radius:2px" title="Clear manual sync, revert to baked-in epoch">✕</button>
+          <button onclick="execClearSync()" style="font-family:'Share Tech Mono',monospace;font-size:.63rem;color:var(--t3);background:none;border:1px solid var(--b2);padding:.3rem .5rem;cursor:pointer;border-radius:2px" title="Revert to ground truth epoch">✕</button>
         </div>
-        <div id="exec-sync-status" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">Ground truth · 5 green confirmed in-game · 2026-06-10</div>
+        <div id="exec-sync-status" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">Ground truth · 5 green confirmed by CatNipp · 2026-06-10</div>
       </div>
     </div>
   </div>
@@ -5979,29 +5979,6 @@ const execTimers   = {};
 let execCustomMins = 10;
 
 function execHangarInit() {
-  // Load any saved manual sync — but only use it if it's plausible
-  // (within 10 cycles of now, meaning < ~31 hours old)
-  try {
-    const saved = localStorage.getItem('catfight_exec_epoch');
-    if(saved) {
-      const storedEpoch = parseInt(saved);
-      const now = Date.now();
-      // Validate: the stored epoch should be in the past and within 50 cycles (~4 days)
-      const maxAge = EXEC_CYCLE_MS * 50;
-      if(storedEpoch < now && (now - storedEpoch) < maxAge) {
-        window._execEpochOverride = storedEpoch;
-        const statusEl = document.getElementById('exec-sync-status');
-        if(statusEl) {
-          statusEl.textContent = '✅ Using saved manual sync';
-          statusEl.style.color = 'var(--green)';
-        }
-      } else {
-        // Stale or invalid — clear it and use baked-in
-        localStorage.removeItem('catfight_exec_epoch');
-      }
-    }
-  } catch(e) {}
-
   if(execInterval) clearInterval(execInterval);
   execInterval = setInterval(execHangarTick, 500);
   execHangarTick();
@@ -6010,22 +5987,28 @@ function execHangarInit() {
   execInitDone = true;
 }
 
-const EXEC_BAKED_EPOCH = new Date('2026-06-10T06:48:00.000Z').getTime();
+// Ground truth epoch — 5 green confirmed by CatNipp at 2:48pm AWST 2026-06-10
+const EXEC_INITIAL_OPEN = new Date('2026-06-10T06:48:00.000Z').getTime();
+
+// Manual sync override — session only, never persisted, always starts from baked-in epoch
+let _execEpochOverride = null;
+
+function execGetCyclePos(now) {
+  return (((now - (_execEpochOverride || EXEC_INITIAL_OPEN)) % EXEC_CYCLE_MS) + EXEC_CYCLE_MS) % EXEC_CYCLE_MS;
+}
 
 function execManualSync() {
   const event = document.getElementById('exec-sync-event')?.value || '5green';
   const now   = Date.now();
 
-  // Each option tells us exactly where in the cycle we are right now
-  // Calculate what the epoch must be given current position
   const POSITIONS = {
     '5green': 0,
     '4green': EXEC_LIGHT_ONLINE_MS,
     '3green': EXEC_LIGHT_ONLINE_MS * 2,
     '2green': EXEC_LIGHT_ONLINE_MS * 3,
     '1green': EXEC_LIGHT_ONLINE_MS * 4,
-    'reset':  EXEC_LIGHT_ONLINE_MS * 5,          // start of 5 min reset
-    '0green': EXEC_ONLINE_MS,                     // start of OFFLINE
+    'reset':  EXEC_LIGHT_ONLINE_MS * 5,
+    '0green': EXEC_ONLINE_MS,
     '1red':   EXEC_ONLINE_MS + EXEC_LIGHT_OFFLINE_MS,
     '2red':   EXEC_ONLINE_MS + EXEC_LIGHT_OFFLINE_MS * 2,
     '3red':   EXEC_ONLINE_MS + EXEC_LIGHT_OFFLINE_MS * 3,
@@ -6033,39 +6016,27 @@ function execManualSync() {
     '5red':   EXEC_ONLINE_MS + EXEC_LIGHT_OFFLINE_MS * 5,
   };
 
-  const posInCycle = POSITIONS[event] || 0;
-  // epoch = point in time when the current cycle started (position 0)
-  const newEpoch = now - posInCycle;
-
-  try { localStorage.setItem('catfight_exec_epoch', String(newEpoch)); } catch(e) {}
-  window._execEpochOverride = newEpoch;
+  _execEpochOverride = now - (POSITIONS[event] || 0);
 
   const statusEl = document.getElementById('exec-sync-status');
   if(statusEl) {
     const ts = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
-    statusEl.textContent = `✅ Synced at ${ts} · hit ✕ to revert to baked-in epoch`;
+    statusEl.textContent = `✅ Synced at ${ts} — session only, reloading reverts to ground truth`;
     statusEl.style.color = 'var(--green)';
   }
-
   execHangarTick();
   execRenderSchedule();
 }
 
 function execClearSync() {
-  try { localStorage.removeItem('catfight_exec_epoch'); } catch(e) {}
-  window._execEpochOverride = null;
+  _execEpochOverride = null;
   const statusEl = document.getElementById('exec-sync-status');
   if(statusEl) {
-    statusEl.textContent = 'Ground truth · 5 green confirmed in-game · 2026-06-10';
+    statusEl.textContent = 'Ground truth · 5 green confirmed by CatNipp · 2026-06-10';
     statusEl.style.color = 'var(--t3)';
   }
   execHangarTick();
   execRenderSchedule();
-}
-
-function execGetCyclePos(now) {
-  const epoch = window._execEpochOverride || EXEC_BAKED_EPOCH;
-  return ((now - epoch) % EXEC_CYCLE_MS + EXEC_CYCLE_MS) % EXEC_CYCLE_MS;
 }
 
 function execGetPhase(pos) {
