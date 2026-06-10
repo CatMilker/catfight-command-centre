@@ -3967,6 +3967,13 @@ const SDB_SHIPS=[{"name":"Avenger Stalker","mfr":"Aegis","roles":["combat","util
 
 const SDB_ALL_ROLES=['combat','cargo','mining','exploration','utility','industrial','medical','passenger','bomber','racing','starter','ground'];
 
+const SDB_ROLE_COLORS={
+  combat:'rb-combat',cargo:'rb-cargo',mining:'rb-mining',exploration:'rb-explore',
+  utility:'rb-util',industrial:'rb-cargo',medical:'rb-util',passenger:'rb-util',
+  bomber:'rb-bomber',racing:'rb-racing',starter:'rb-starter',ground:'rb-ground',
+  stealth:'rb-combat',
+};
+
 let sdbCurrentSort='name';
 let sdbSortDir=1;
 let sdbActiveRoles=new Set();
