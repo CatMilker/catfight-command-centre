@@ -3293,8 +3293,8 @@ EXTRACT: never all QT at once. Mantis last out.
       <!-- Xyxyll credit -->
       <div style="border-top:1px solid var(--b1);padding-top:.6rem">
         <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);margin-bottom:.2rem">CALIBRATION SOURCE</div>
-        <div style="font-size:.72rem;color:var(--t2)">Synced from <a href="https://exec.xyxyll.com" target="_blank" style="color:var(--ember)">exec.xyxyll.com</a> — 250+ cycles, ±1s accuracy</div>
-        <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);margin-top:.25rem">4.8.1-LIVE · Jun 5 2026 · MIT © Xyxyll</div>
+        <div style="font-size:.72rem;color:var(--t2)">Synced from <a href="https://exec.redline-arsenal.net" target="_blank" style="color:var(--ember)">exec.redline-arsenal.net</a> — calibrated Jun 7 2026</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);margin-top:.25rem">4.8.1-LIVE · epoch 2026-06-07T19:05:42.463Z</div>
       </div>
     </div>
   </div>
@@ -3375,12 +3375,12 @@ EXTRACT: never all QT at once. Mantis last out.
   <div class="info" style="font-size:.72rem;line-height:1.7">
     <strong style="color:var(--green)">Cycle breakdown:</strong>
     🟢 <strong>ONLINE phase — 65 min</strong> (5 lights × ~13 min each) — all lights green at start, turn off one by one. INSERT COMPBOARDS. Claim ships.
-    🔴 <strong>OFFLINE phase — 120 min</strong> (5 lights × 24 min each) — all lights off, turn red one by one. DO NOT insert compboards.
+    🔴 <strong>OFFLINE phase — 120 min</strong> (5 lights × 24 min each) — all lights red at start, turn green one by one as the next open approaches. DO NOT insert compboards.
     Total: <strong>185 min 226ms</strong> per cycle. Globally synchronised across all shards — confirmed by CIG dev Elfiann.
     <br>
-    <strong style="color:var(--gold)">Calibration:</strong> Epoch synced directly from <a href="https://exec.xyxyll.com" target="_blank" style="color:var(--ember)">exec.xyxyll.com</a> (Xyxyll, 250+ cycles, ±1s accuracy). Updated for 4.8.1-LIVE patch Jun 5 2026.
+    <strong style="color:var(--gold)">Reading the LEDs during offline:</strong> lights turning green = getting closer to the next open window. All 5 green = opening imminently.
     <br>
-    <strong style="color:var(--t3)">After a major patch</strong> CIG may shift the cycle. If the timer looks wrong, check exec.xyxyll.com and report in the Catfight Discord.
+    <strong style="color:var(--t3)">Calibration:</strong> Epoch synced from <a href="https://exec.redline-arsenal.net" target="_blank" style="color:var(--ember)">exec.redline-arsenal.net</a> — Jun 7 2026. After a major patch check Redline and report in Catfight Discord if it looks wrong.
   </div>
 </div>
 
@@ -5923,31 +5923,18 @@ function execShowShortcuts() {
   document.body.appendChild(div);
 }
 
-// ── EXEC HANGAR TIMER — synced to exec.xyxyll.com (MIT, Xyxyll 2026) ─────────
+// ── EXEC HANGAR TIMER — synced to exec.redline-arsenal.net ───────────────────
 //
-// Xyxyll's calibrated constants (app.js v2.2.5, lastModified 2026-Jun-05):
+// Redline's calibrated constants (app.js?v=2, updated 2026-Jun-07):
 //   CYCLE_DRIFT_MS     = 226
-//   DESIGN_ONLINE_MIN  = 65   (compboards ACTIVE — lights turn off one by one)
-//   DESIGN_OFFLINE_MIN = 120  (lights turn red one by one — DO NOT insert boards)
-//   INITIAL_OPEN_TIME  = 2026-06-05T19:47:35.211-04:00  (confirmed online start)
+//   DESIGN_ONLINE_MIN  = 65   (OPEN — insert compboards)
+//   DESIGN_OFFLINE_MIN = 120  (CLOSED — wait)
+//   INITIAL_OPEN_TIME  = 2026-06-07T19:05:42.463Z  (confirmed open start)
 //
-// Phase naming (matches xyxyll):
-//   ONLINE  (65 min) — all lights green at start, turn OFF every ~13 min  ← INSERT BOARDS
-//   OFFLINE (120 min) — all lights off at start, turn RED every 24 min    ← WAIT
-//
-// LED state during ONLINE:
-//   timeInOnline  0–13min:  [G G G G G]
-//   13–26min: [G G G G -]
-//   26–39min: [G G G - -]
-//   39–52min: [G G - - -]
-//   52–65min: [G - - - -]  ← last 13min of green window
-//
-// LED state during OFFLINE:
-//   timeInOffline 0–24min: [- - - - -]
-//   24–48min: [R - - - -]
-//   48–72min: [R R - - -]
-//   72–96min: [R R R - -]
-//   96–120min:[R R R R -] → [R R R R R] at 120min → ONLINE resets
+// LED behaviour (matches Redline):
+//   ONLINE  (65 min) — starts [G G G G G], lights turn OFF every ~13min
+//   OFFLINE (120 min)— starts [R R R R R], lights turn GREEN every 24min
+//                      (shows progress toward next open window)
 
 const EXEC_DRIFT_MS      = 226;
 const EXEC_ONLINE_MIN    = 65;
@@ -5962,11 +5949,11 @@ const EXEC_CYCLE_MS   = EXEC_DESIGN_CYCLE_MS + EXEC_DRIFT_MS;
 const EXEC_ONLINE_MS  = Math.round(EXEC_CYCLE_MS * EXEC_DESIGN_ONLINE_MS  / EXEC_DESIGN_CYCLE_MS);
 const EXEC_OFFLINE_MS = EXEC_CYCLE_MS - EXEC_ONLINE_MS;
 
-// Xyxyll's calibrated epoch — confirmed online start time (4.8.1-LIVE, Jun 5 2026)
-const EXEC_INITIAL_OPEN = new Date('2026-06-05T19:47:35.211-04:00').getTime();
+// Redline's calibrated epoch — confirmed open start (2026-06-07T19:05:42.463Z)
+const EXEC_INITIAL_OPEN = new Date('2026-06-07T19:05:42.463Z').getTime();
 
-const EXEC_LIGHT_ONLINE_MS  = EXEC_ONLINE_MS  / 5;  // ~13 min each (light turns off)
-const EXEC_LIGHT_OFFLINE_MS = EXEC_OFFLINE_MS / 5;  // ~24 min each (light turns red)
+const EXEC_LIGHT_ONLINE_MS  = EXEC_ONLINE_MS  / 5;  // ~13 min each (light turns OFF)
+const EXEC_LIGHT_OFFLINE_MS = EXEC_OFFLINE_MS / 5;  // ~24 min each (light turns GREEN)
 
 let execInterval   = null;
 let execInitDone   = false;
@@ -6015,19 +6002,23 @@ function execHangarTick() {
     detailText = `${5 - lightOff}/5 lights active · ${fmtDur(remaining)} of green window remaining`;
     execUpdateLEDs('online', lightOff);
   } else {
-    // OFFLINE: lights are off, turning red one by one
+    // OFFLINE: lights are red, turning green one by one as next open approaches
     const offPos    = pos - EXEC_ONLINE_MS;
-    const lightRed  = Math.floor(offPos / EXEC_LIGHT_OFFLINE_MS);  // how many lights are now red
+    const lightGreen = Math.floor(offPos / EXEC_LIGHT_OFFLINE_MS); // how many lights are now green
     const lightPos  = offPos % EXEC_LIGHT_OFFLINE_MS;
     nextChangeMs    = EXEC_LIGHT_OFFLINE_MS - lightPos;
     const remaining = EXEC_OFFLINE_MS - offPos;
 
-    phaseText  = lightRed === 0 ? '⚫ OFFLINE — ALL LIGHTS OFF' : `🔴 OFFLINE — ${lightRed}/5 LIGHTS RED`;
-    countColor = 'var(--fire)';
-    detailText = lightRed === 5
-      ? `All lights red — green window opening in ${fmtDur(nextChangeMs)}`
-      : `${lightRed}/5 lights red · ${fmtDur(remaining)} until green window`;
-    execUpdateLEDs('offline', lightRed);
+    phaseText  = lightGreen === 5
+      ? '🟢 OPENING SOON — STAND BY'
+      : lightGreen === 0
+      ? '🔴 OFFLINE — CLOSED'
+      : `🟡 OFFLINE — ${lightGreen}/5 LIGHTS GREEN`;
+    countColor = lightGreen >= 4 ? 'var(--gold)' : 'var(--fire)';
+    detailText = lightGreen === 5
+      ? `All lights green — online window opening in ${fmtDur(nextChangeMs)}`
+      : `${lightGreen}/5 lights green · ${fmtDur(remaining)} until open`;
+    execUpdateLEDs('offline', lightGreen);
   }
 
   if(phaseEl)  { phaseEl.textContent = phaseText; phaseEl.style.color = countColor; }
@@ -6039,16 +6030,19 @@ function execHangarTick() {
 }
 
 function execUpdateLEDs(phase, idx) {
+  // Matches Redline's threshold model:
+  // ONLINE:  starts [G G G G G], lights turn off left→right as time passes
+  // OFFLINE: starts [R R R R R], lights turn green left→right as next open approaches
   for(let i = 1; i <= 5; i++) {
     const el = document.getElementById('exec-led-' + i);
     if(!el) continue;
     el.className = 'exec-led';
     if(phase === 'online') {
-      // Lights 1..idx have turned OFF, rest are green
+      // idx = how many lights have turned off (0=all green, 5=all off)
       el.classList.add(i <= idx ? 'off' : 'green');
     } else {
-      // Lights 1..idx have turned RED, rest are off
-      el.classList.add(i <= idx ? 'red' : 'off');
+      // idx = how many lights have turned green (0=all red, 5=all green = opening soon)
+      el.classList.add(i <= idx ? 'green' : 'red');
     }
   }
 }
