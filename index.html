@@ -350,10 +350,11 @@ nav { max-width: 1440px; margin: .6rem auto 0; padding: 0 2rem; }
 .worker-chip.warn { border-color:rgba(255,153,51,.5);color:var(--ember); }
 .worker-chip.err  { border-color:rgba(255,77,0,.5);color:var(--fire); }
 .exec-led { width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,.1);transition:background .4s,box-shadow .4s; }
-.exec-led.red   { background:var(--fire);box-shadow:0 0 8px var(--fire); }
-.exec-led.green { background:var(--green);box-shadow:0 0 10px var(--green); }
-.exec-led.off   { background:rgba(44,26,8,.6);border-color:rgba(255,255,255,.05); }
-.exec-led.unknown { background:rgba(196,147,90,.3);border-color:var(--amber); }
+.exec-led.red    { background:var(--fire);box-shadow:0 0 8px var(--fire); }
+.exec-led.green  { background:var(--green);box-shadow:0 0 10px var(--green); }
+.exec-led.orange { background:var(--ember);box-shadow:0 0 10px var(--ember); }
+.exec-led.off    { background:rgba(44,26,8,.6);border-color:rgba(255,255,255,.05); }
+.exec-led.unknown{ background:rgba(196,147,90,.3);border-color:var(--amber); }
 .exec-timer-display { font-family:'Orbitron',sans-serif;font-size:1.3rem;font-weight:700;color:var(--teal);letter-spacing:.08em; }
 .exec-timer-display.warn { color:var(--ember); }
 .exec-timer-display.done { color:var(--green); }
@@ -3296,16 +3297,17 @@ EXTRACT: never all QT at once. Mantis last out.
         <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.3rem">
           <select id="exec-sync-event" style="font-family:'Share Tech Mono',monospace;font-size:.63rem;flex:1;min-width:140px">
             <option value="5green">5 lights just went green (new ONLINE phase)</option>
-            <option value="4green">4 lights green (1 turned off)</option>
-            <option value="3green">3 lights green (2 turned off)</option>
-            <option value="2green">2 lights green (3 turned off)</option>
-            <option value="1green">1 light green (4 turned off)</option>
-            <option value="0green">All lights off (ONLINE just ended)</option>
-            <option value="1red">1 light red (OFFLINE — 1/5 charging)</option>
-            <option value="2red">2 lights red (OFFLINE — 2/5 charging)</option>
-            <option value="3red">3 lights red (OFFLINE — 3/5 charging)</option>
-            <option value="4red">4 lights red (OFFLINE — 4/5 charging)</option>
-            <option value="5red">5 lights red (OFFLINE — all charging)</option>
+            <option value="4green">4 lights green (1 turned off — 12min elapsed)</option>
+            <option value="3green">3 lights green (2 turned off — 24min elapsed)</option>
+            <option value="2green">2 lights green (3 turned off — 36min elapsed)</option>
+            <option value="1green">1 light green (4 turned off — 48min elapsed)</option>
+            <option value="reset">Reset phase started (top 3 flashing orange — 60min elapsed)</option>
+            <option value="0green">Reset ended — OFFLINE just started</option>
+            <option value="1red">OFFLINE — 1/5 lights green (24min in)</option>
+            <option value="2red">OFFLINE — 2/5 lights green (48min in)</option>
+            <option value="3red">OFFLINE — 3/5 lights green (72min in)</option>
+            <option value="4red">OFFLINE — 4/5 lights green (96min in)</option>
+            <option value="5red">OFFLINE — all 5 lights green (almost open)</option>
           </select>
           <button onclick="execManualSync()" style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--green);background:none;border:1px solid rgba(142,203,110,.5);padding:.3rem .65rem;cursor:pointer;border-radius:2px;white-space:nowrap">⚡ SYNC</button>
           <button onclick="execClearSync()" style="font-family:'Share Tech Mono',monospace;font-size:.63rem;color:var(--t3);background:none;border:1px solid var(--b2);padding:.3rem .5rem;cursor:pointer;border-radius:2px" title="Clear manual sync, revert to baked-in epoch">✕</button>
@@ -3389,14 +3391,13 @@ EXTRACT: never all QT at once. Mantis last out.
 
   <!-- Info / calibration note -->
   <div class="info" style="font-size:.72rem;line-height:1.7">
-    <strong style="color:var(--green)">Cycle breakdown:</strong>
-    🟢 <strong>ONLINE phase — 65 min</strong> (5 lights × ~13 min each) — all lights green at start, turn off one by one. INSERT COMPBOARDS. Claim ships.
-    🔴 <strong>OFFLINE phase — 120 min</strong> (5 lights × 24 min each) — all lights red at start, turn green one by one as the next open approaches. DO NOT insert compboards.
-    Total: <strong>185 min 226ms</strong> per cycle. Globally synchronised across all shards — confirmed by CIG dev Elfiann.
+    <strong style="color:var(--green)">Cycle breakdown (confirmed):</strong>
+    🟢 <strong>ONLINE — 65 min total:</strong> 5 lights × 12 min each (60 min active) + 5 min reset. INSERT COMPBOARDS during the 60 min active window.
+    🟠 <strong>RESET — final 5 min of online:</strong> Top 3 lights flash orange. Get out of the hangar now.
+    🔴 <strong>OFFLINE — 120 min:</strong> 5 lights × 24 min each. All red at start, turn green one by one. All 5 green = opening imminently.
+    Total: <strong>185 min 226ms</strong> per cycle. Globally synchronised across all shards.
     <br>
-    <strong style="color:var(--gold)">Reading the LEDs during offline:</strong> lights turning green = getting closer to the next open window. All 5 green = opening imminently.
-    <br>
-    <strong style="color:var(--t3)">After a major patch</strong> the cycle may shift. If the timer looks wrong, report in Catfight Discord and we'll recalibrate.
+    <strong style="color:var(--t3)">After a major patch</strong> use the manual sync above — watch for a light change and hit ⚡ SYNC.
   </div>
 </div>
 
@@ -5965,8 +5966,10 @@ const EXEC_CYCLE_MS   = EXEC_DESIGN_CYCLE_MS + EXEC_DRIFT_MS;
 const EXEC_ONLINE_MS  = Math.round(EXEC_CYCLE_MS * EXEC_DESIGN_ONLINE_MS  / EXEC_DESIGN_CYCLE_MS);
 const EXEC_OFFLINE_MS = EXEC_CYCLE_MS - EXEC_ONLINE_MS;
 
-const EXEC_LIGHT_ONLINE_MS  = EXEC_ONLINE_MS  / 5;  // ~13 min each (light turns OFF)
-const EXEC_LIGHT_OFFLINE_MS = EXEC_OFFLINE_MS / 5;  // ~24 min each (light turns GREEN)
+const EXEC_LIGHT_ONLINE_MS  = 12 * 60000;   // 12 min per light turning off (confirmed)
+const EXEC_LIGHT_OFFLINE_MS = 24 * 60000;   // 24 min per light turning green (confirmed)
+const EXEC_RESET_MS         = 5  * 60000;   // 5 min reset at end of online phase (confirmed)
+// 5×12min + 5min reset = 65min online ✓   5×24min = 120min offline ✓
 
 let execInterval   = null;
 let execInitDone   = false;
@@ -6006,13 +6009,14 @@ function execManualSync() {
   // Each option tells us exactly where in the cycle we are right now
   // Calculate what the epoch must be given current position
   const POSITIONS = {
-    '5green': 0,                                          // start of ONLINE
-    '4green': EXEC_LIGHT_ONLINE_MS,                       // 1 light off
+    '5green': 0,
+    '4green': EXEC_LIGHT_ONLINE_MS,
     '3green': EXEC_LIGHT_ONLINE_MS * 2,
     '2green': EXEC_LIGHT_ONLINE_MS * 3,
     '1green': EXEC_LIGHT_ONLINE_MS * 4,
-    '0green': EXEC_ONLINE_MS,                             // start of OFFLINE
-    '1red':   EXEC_ONLINE_MS + EXEC_LIGHT_OFFLINE_MS,    // 1 light green (offline)
+    'reset':  EXEC_LIGHT_ONLINE_MS * 5,          // start of 5 min reset
+    '0green': EXEC_ONLINE_MS,                     // start of OFFLINE
+    '1red':   EXEC_ONLINE_MS + EXEC_LIGHT_OFFLINE_MS,
     '2red':   EXEC_ONLINE_MS + EXEC_LIGHT_OFFLINE_MS * 2,
     '3red':   EXEC_ONLINE_MS + EXEC_LIGHT_OFFLINE_MS * 3,
     '4red':   EXEC_ONLINE_MS + EXEC_LIGHT_OFFLINE_MS * 4,
@@ -6072,16 +6076,29 @@ function execHangarTick() {
   let nextChangeMs, phaseText, detailText, countColor;
 
   if(phase === 'online') {
-    // ONLINE: lights are green, turning off one by one
-    const lightOff  = Math.floor(pos / EXEC_LIGHT_ONLINE_MS);  // how many lights have gone off
-    const lightPos  = pos % EXEC_LIGHT_ONLINE_MS;
-    nextChangeMs    = EXEC_LIGHT_ONLINE_MS - lightPos;
-    const remaining = EXEC_ONLINE_MS - pos;
+    const onlinePos  = pos;
+    const activeEnd  = EXEC_LIGHT_ONLINE_MS * 5; // 60 min — last light turns off
+    const isReset    = onlinePos >= activeEnd;    // final 5 min reset window
 
-    phaseText  = '🟢 ONLINE — INSERT COMPBOARDS';
-    countColor = remaining < EXEC_LIGHT_ONLINE_MS ? 'var(--fire)' : 'var(--green)';
-    detailText = `${5 - lightOff}/5 lights active · ${fmtDur(remaining)} of green window remaining`;
-    execUpdateLEDs('online', lightOff);
+    if(isReset) {
+      // RESET phase — top 3 lights flash orange, 5 min countdown
+      const resetRemaining = EXEC_ONLINE_MS - onlinePos;
+      nextChangeMs = resetRemaining;
+      phaseText  = '🟠 RESET — GET OUT NOW';
+      countColor = 'var(--ember)';
+      detailText = `5 min reset window — top 3 lights flashing orange · leave the hangar`;
+      execUpdateLEDs('reset', 0);
+    } else {
+      // Normal online — lights turning off
+      const lightOff  = Math.floor(onlinePos / EXEC_LIGHT_ONLINE_MS);
+      const lightPos  = onlinePos % EXEC_LIGHT_ONLINE_MS;
+      nextChangeMs    = EXEC_LIGHT_ONLINE_MS - lightPos;
+      const remaining = activeEnd - onlinePos;
+      phaseText  = '🟢 ONLINE — INSERT COMPBOARDS';
+      countColor = remaining < EXEC_LIGHT_ONLINE_MS ? 'var(--gold)' : 'var(--green)';
+      detailText = `${5 - lightOff}/5 lights active · ${fmtDur(remaining)} before reset`;
+      execUpdateLEDs('online', lightOff);
+    }
   } else {
     // OFFLINE: lights are red, turning green one by one as next open approaches
     const offPos    = pos - EXEC_ONLINE_MS;
@@ -6111,18 +6128,23 @@ function execHangarTick() {
 }
 
 function execUpdateLEDs(phase, idx) {
-  // Matches Redline's threshold model:
-  // ONLINE:  starts [G G G G G], lights turn off left→right as time passes
-  // OFFLINE: starts [R R R R R], lights turn green left→right as next open approaches
+  const now = Date.now();
   for(let i = 1; i <= 5; i++) {
     const el = document.getElementById('exec-led-' + i);
     if(!el) continue;
     el.className = 'exec-led';
-    if(phase === 'online') {
-      // idx = how many lights have turned off (0=all green, 5=all off)
+    if(phase === 'reset') {
+      // Top 3 lights (1,2,3) flash orange, bottom 2 are off
+      if(i <= 3) {
+        // Flash: alternate orange every 500ms
+        el.classList.add(Math.floor(now / 500) % 2 === 0 ? 'orange' : 'off');
+      } else {
+        el.classList.add('off');
+      }
+    } else if(phase === 'online') {
       el.classList.add(i <= idx ? 'off' : 'green');
     } else {
-      // idx = how many lights have turned green (0=all red, 5=all green = opening soon)
+      // offline: idx = lights turned green
       el.classList.add(i <= idx ? 'green' : 'red');
     }
   }
