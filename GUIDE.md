@@ -238,7 +238,7 @@ Plan a piracy or interdiction op.
 
 ## Exec Hangar Timer
 
-Tracks the PYAM contested zone cycle in real time. Calibrated from [exec.xyxyll.com](https://exec.xyxyll.com) — 250+ community-observed cycles, ±1 second accuracy. The cycle is globally synchronised across all servers and shards.
+Tracks the PYAM contested zone cycle in real time. Calibrated from [exec.redline-arsenal.net](https://exec.redline-arsenal.net) — calibrated Jun 7 2026, ±1 second accuracy. The cycle is globally synchronised across all servers and shards.
 
 **The cycle (185 min 226ms total):**
 - 🟢 **ONLINE — 65 min** — all 5 lights are green at the start. They turn off one by one every ~13 minutes. **INSERT COMPBOARDS NOW. Claim ships.**
@@ -303,6 +303,6 @@ The bar at the top of every page shows live infrastructure status.
 
 ## Getting Help
 
-Drop questions or feature requests in the **#catfight-command-centre** Discord thread.
+Message reverend_ozmund on discord for help
 
 Built by CatMilker · Contributors: CatCya, CatNipp
