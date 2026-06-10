@@ -4109,9 +4109,7 @@ function sdbUpdateStats(){
   document.getElementById('statMfr').textContent=mfrs;
 }
 
-sdbBuildRoleFilters();
-sdbUpdateStats();
-sdbFilterShips();
+// SDB init runs after DOM is ready (see DOMContentLoaded below)
 
 
 
@@ -6537,10 +6535,10 @@ function fvSave(d) { try { localStorage.setItem(FLEET_KEY, JSON.stringify(d)); }
 function fvInit() {
   // Populate datalist with ship names from SDB
   const dl = document.getElementById('fv-ship-list');
-  if(dl && dl.children.length === 0 && typeof SHIP_LOADOUTS !== 'undefined') {
+  if(dl && dl.children.length === 0 && typeof SHIP_LOADOUTS !== 'undefined' && SHIP_LOADOUTS.length) {
     SHIP_LOADOUTS.forEach(s => {
       const opt = document.createElement('option');
-      opt.value = s.name;
+      opt.value = s.n || s.name || '';
       dl.appendChild(opt);
     });
   }
@@ -6558,9 +6556,9 @@ function fvAddShip() {
 
   // Look up role from SHIP_LOADOUTS
   const sdbEntry = typeof SHIP_LOADOUTS !== 'undefined'
-    ? SHIP_LOADOUTS.find(s => s.name.toLowerCase() === shipName.toLowerCase())
+    ? SHIP_LOADOUTS.find(s => (s.n || s.name || '').toLowerCase() === shipName.toLowerCase())
     : null;
-  const role = sdbEntry?.role || 'Utility';
+  const role = sdbEntry?.rol || sdbEntry?.role || 'Utility';
   const size = sdbEntry?.size || '—';
 
   const fleet = fvLoad();
@@ -6659,7 +6657,7 @@ function fvRender() {
   if(coverEl) {
     const totalValue = fleet.reduce((sum, e) => {
       const sdb = typeof SHIP_LOADOUTS !== 'undefined'
-        ? SHIP_LOADOUTS.find(s => s.name.toLowerCase() === e.ship.toLowerCase())
+        ? SHIP_LOADOUTS.find(s => (s.n || s.name || "").toLowerCase() === e.ship.toLowerCase())
         : null;
       return sum + (sdb?.auec || 0);
     }, 0);
@@ -6693,7 +6691,7 @@ function fvRender() {
       ${ships.map(e => {
         // Look up live price from SHIP_LOADOUTS
         const sdb = typeof SHIP_LOADOUTS !== 'undefined'
-          ? SHIP_LOADOUTS.find(s => s.name.toLowerCase() === e.ship.toLowerCase())
+          ? SHIP_LOADOUTS.find(s => (s.n || s.name || "").toLowerCase() === e.ship.toLowerCase())
           : null;
         const price = sdb?.auec ? sdb.auec : null;
         const fmtK = n => n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1000 ? Math.round(n/1000)+'k' : n;
@@ -9528,6 +9526,8 @@ document.addEventListener('DOMContentLoaded',function(){
   setTimeout(fetchLiveErkul, 1200);
   setTimeout(fetchLiveSCCraft, 2000);
   setTimeout(fetchLiveShipDB, 2800);
+  sdbBuildRoleFilters();
+  sdbUpdateStats();
   fetchRSIStatus();
   fetchAWSStatus();
   fetchMOTD();
