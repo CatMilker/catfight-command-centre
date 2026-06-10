@@ -3290,10 +3290,27 @@ EXTRACT: never all QT at once. Mantis last out.
       <div style="font-family:'Orbitron',sans-serif;font-size:.55rem;letter-spacing:.14em;color:var(--t3);margin-bottom:.35rem">AFTER THAT</div>
       <div id="exec-next2" style="font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--t2);margin-bottom:.75rem">–</div>
 
-      <!-- Calibration note -->
+      <!-- Manual sync -->
       <div style="border-top:1px solid var(--b1);padding-top:.6rem">
-        <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);margin-bottom:.2rem">CALIBRATION</div>
-        <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">Ground truth · 5 green confirmed in-game · 2026-06-10</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);letter-spacing:.08em;margin-bottom:.35rem">MANUAL SYNC — tap when 5 lights go green in-game</div>
+        <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.3rem">
+          <select id="exec-sync-event" style="font-family:'Share Tech Mono',monospace;font-size:.63rem;flex:1;min-width:140px">
+            <option value="5green">5 lights just went green (new ONLINE phase)</option>
+            <option value="4green">4 lights green (1 turned off)</option>
+            <option value="3green">3 lights green (2 turned off)</option>
+            <option value="2green">2 lights green (3 turned off)</option>
+            <option value="1green">1 light green (4 turned off)</option>
+            <option value="0green">All lights off (ONLINE just ended)</option>
+            <option value="1red">1 light red (OFFLINE — 1/5 charging)</option>
+            <option value="2red">2 lights red (OFFLINE — 2/5 charging)</option>
+            <option value="3red">3 lights red (OFFLINE — 3/5 charging)</option>
+            <option value="4red">4 lights red (OFFLINE — 4/5 charging)</option>
+            <option value="5red">5 lights red (OFFLINE — all charging)</option>
+          </select>
+          <button onclick="execManualSync()" style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--green);background:none;border:1px solid rgba(142,203,110,.5);padding:.3rem .65rem;cursor:pointer;border-radius:2px;white-space:nowrap">⚡ SYNC</button>
+          <button onclick="execClearSync()" style="font-family:'Share Tech Mono',monospace;font-size:.63rem;color:var(--t3);background:none;border:1px solid var(--b2);padding:.3rem .5rem;cursor:pointer;border-radius:2px" title="Clear manual sync, revert to baked-in epoch">✕</button>
+        </div>
+        <div id="exec-sync-status" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">Ground truth · 5 green confirmed in-game · 2026-06-10</div>
       </div>
     </div>
   </div>
@@ -5948,9 +5965,6 @@ const EXEC_CYCLE_MS   = EXEC_DESIGN_CYCLE_MS + EXEC_DRIFT_MS;
 const EXEC_ONLINE_MS  = Math.round(EXEC_CYCLE_MS * EXEC_DESIGN_ONLINE_MS  / EXEC_DESIGN_CYCLE_MS);
 const EXEC_OFFLINE_MS = EXEC_CYCLE_MS - EXEC_ONLINE_MS;
 
-// Ground truth epoch — 5 green confirmed by CatNipp at 2:48pm AWST 2026-06-10
-const EXEC_INITIAL_OPEN = new Date('2026-06-10T06:48:00.000Z').getTime();
-
 const EXEC_LIGHT_ONLINE_MS  = EXEC_ONLINE_MS  / 5;  // ~13 min each (light turns OFF)
 const EXEC_LIGHT_OFFLINE_MS = EXEC_OFFLINE_MS / 5;  // ~24 min each (light turns GREEN)
 
@@ -5962,6 +5976,19 @@ const execTimers   = {};
 let execCustomMins = 10;
 
 function execHangarInit() {
+  // Load any saved manual sync
+  try {
+    const saved = localStorage.getItem('catfight_exec_epoch');
+    if(saved) {
+      window._execEpochOverride = parseInt(saved);
+      const statusEl = document.getElementById('exec-sync-status');
+      if(statusEl) {
+        statusEl.textContent = '✅ Using saved manual sync';
+        statusEl.style.color = 'var(--green)';
+      }
+    }
+  } catch(e) {}
+
   if(execInterval) clearInterval(execInterval);
   execInterval = setInterval(execHangarTick, 500);
   execHangarTick();
@@ -5970,8 +5997,63 @@ function execHangarInit() {
   execInitDone = true;
 }
 
+const EXEC_BAKED_EPOCH = new Date('2026-06-10T06:48:00.000Z').getTime();
+
+function execManualSync() {
+  const event = document.getElementById('exec-sync-event')?.value || '5green';
+  const now   = Date.now();
+
+  // Each option tells us exactly where in the cycle we are right now
+  // Calculate what the epoch must be given current position
+  const POSITIONS = {
+    '5green': 0,                                          // start of ONLINE
+    '4green': EXEC_LIGHT_ONLINE_MS,                       // 1 light off
+    '3green': EXEC_LIGHT_ONLINE_MS * 2,
+    '2green': EXEC_LIGHT_ONLINE_MS * 3,
+    '1green': EXEC_LIGHT_ONLINE_MS * 4,
+    '0green': EXEC_ONLINE_MS,                             // start of OFFLINE
+    '1red':   EXEC_ONLINE_MS + EXEC_LIGHT_OFFLINE_MS,    // 1 light green (offline)
+    '2red':   EXEC_ONLINE_MS + EXEC_LIGHT_OFFLINE_MS * 2,
+    '3red':   EXEC_ONLINE_MS + EXEC_LIGHT_OFFLINE_MS * 3,
+    '4red':   EXEC_ONLINE_MS + EXEC_LIGHT_OFFLINE_MS * 4,
+    '5red':   EXEC_ONLINE_MS + EXEC_LIGHT_OFFLINE_MS * 5,
+  };
+
+  const posInCycle = POSITIONS[event] || 0;
+  // epoch = now - posInCycle, normalised to a clean cycle boundary
+  let newEpoch = now - posInCycle;
+
+  try { localStorage.setItem('catfight_exec_epoch', String(newEpoch)); } catch(e) {}
+
+  // Override the live constant
+  window._execEpochOverride = newEpoch;
+
+  const statusEl = document.getElementById('exec-sync-status');
+  if(statusEl) {
+    const ts = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+    statusEl.textContent = `✅ Manually synced at ${ts} — override active`;
+    statusEl.style.color = 'var(--green)';
+  }
+
+  execHangarTick();
+  execRenderSchedule();
+}
+
+function execClearSync() {
+  try { localStorage.removeItem('catfight_exec_epoch'); } catch(e) {}
+  window._execEpochOverride = null;
+  const statusEl = document.getElementById('exec-sync-status');
+  if(statusEl) {
+    statusEl.textContent = 'Ground truth · 5 green confirmed in-game · 2026-06-10';
+    statusEl.style.color = 'var(--t3)';
+  }
+  execHangarTick();
+  execRenderSchedule();
+}
+
 function execGetCyclePos(now) {
-  return ((now - EXEC_INITIAL_OPEN) % EXEC_CYCLE_MS + EXEC_CYCLE_MS) % EXEC_CYCLE_MS;
+  const epoch = window._execEpochOverride || EXEC_BAKED_EPOCH;
+  return ((now - epoch) % EXEC_CYCLE_MS + EXEC_CYCLE_MS) % EXEC_CYCLE_MS;
 }
 
 function execGetPhase(pos) {
