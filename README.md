@@ -88,4 +88,4 @@ Built by **CatMilker**. Contributors: CatCya, CatNipp.
 
 Exec Hangar Timer calibrated from [exec.redline-arsenal.net](https://exec.redline-arsenal.net) — epoch updated Jun 7 2026.
 
-Drop requests in the Catfight Discord `#catfight-command-centre` thread.
+Feature requests can be sent to reverend_ozmund on discord
