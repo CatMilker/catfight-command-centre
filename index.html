@@ -355,6 +355,12 @@ nav { max-width: 1440px; margin: .6rem auto 0; padding: 0 2rem; }
 .exec-led.orange { background:var(--ember);box-shadow:0 0 10px var(--ember); }
 .exec-led.off    { background:rgba(44,26,8,.6);border-color:rgba(255,255,255,.05); }
 .exec-led.unknown{ background:rgba(196,147,90,.3);border-color:var(--amber); }
+
+.exec-seg { flex:1;height:10px;border-radius:2px;background:var(--s1);border:1px solid var(--b1);transition:background .4s,box-shadow .4s; }
+.exec-seg.green  { background:var(--green);border-color:var(--green);box-shadow:0 0 8px rgba(142,203,110,.4); }
+.exec-seg.red    { background:var(--fire);border-color:var(--fire);box-shadow:0 0 8px rgba(255,77,0,.4); }
+.exec-seg.orange { background:var(--ember);border-color:var(--ember);box-shadow:0 0 8px rgba(255,153,51,.4); }
+.exec-seg.off    { background:var(--s1);border-color:var(--b1); }
 .exec-timer-display { font-family:'Orbitron',sans-serif;font-size:1.3rem;font-weight:700;color:var(--teal);letter-spacing:.08em; }
 .exec-timer-display.warn { color:var(--ember); }
 .exec-timer-display.done { color:var(--green); }
@@ -3529,65 +3535,74 @@ EXTRACT: never all QT at once. Mantis last out.
     <div class="sec-sub">PYAM CONTESTED ZONE · GLOBAL SYNC · 185m 699ms CYCLE · SC 4.8</div>
   </div>
 
-  <!-- Main status card -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem">
+  <!-- Main status card — unified -->
+  <div class="card" style="padding:1.1rem 1.25rem;margin-bottom:.75rem">
 
-    <!-- Phase display -->
-    <div class="card" style="padding:.85rem 1rem">
-      <div style="font-family:'Orbitron',sans-serif;font-size:.55rem;letter-spacing:.14em;color:var(--t3);margin-bottom:.5rem">CURRENT PHASE</div>
-      <div id="exec-phase-label" style="font-family:'Orbitron',sans-serif;font-size:1.1rem;font-weight:700;color:var(--t3);margin-bottom:.3rem">LOADING…</div>
-      <div id="exec-phase-detail" style="font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--t2);margin-bottom:.65rem">Calculating cycle…</div>
-
-      <!-- 5 LEDs -->
-      <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.65rem">
-        <span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">LIGHTS</span>
-        <div id="exec-leds" style="display:flex;gap:.4rem">
-          <div class="exec-led" id="exec-led-1"></div>
-          <div class="exec-led" id="exec-led-2"></div>
-          <div class="exec-led" id="exec-led-3"></div>
-          <div class="exec-led" id="exec-led-4"></div>
-          <div class="exec-led" id="exec-led-5"></div>
-        </div>
+    <!-- Header row: phase + window countdown -->
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.4rem;margin-bottom:.9rem">
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <div id="exec-phase-dot" style="width:12px;height:12px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);flex-shrink:0"></div>
+        <span id="exec-phase-label" style="font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;color:var(--t1)">LOADING…</span>
       </div>
-
-      <!-- Countdown -->
-      <div style="font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--t3);margin-bottom:.2rem">NEXT CHANGE IN</div>
-      <div id="exec-countdown" style="font-family:'Orbitron',sans-serif;font-size:1.6rem;font-weight:700;color:var(--teal);letter-spacing:.08em">--:--</div>
+      <span id="exec-window-countdown" style="font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--t2)">--:--</span>
     </div>
 
-    <!-- Next online window + calibration -->
-    <div class="card" style="padding:.85rem 1rem">
-      <div style="font-family:'Orbitron',sans-serif;font-size:.55rem;letter-spacing:.14em;color:var(--t3);margin-bottom:.5rem">NEXT ONLINE WINDOW</div>
-      <div id="exec-next-green" style="font-family:'Share Tech Mono',monospace;font-size:.78rem;color:var(--green);margin-bottom:.25rem">Calculating…</div>
-      <div id="exec-green-in" style="font-family:'Orbitron',sans-serif;font-size:1.2rem;font-weight:700;color:var(--green);margin-bottom:.65rem">--:--:--</div>
+    <!-- 5-segment progress bar -->
+    <div id="exec-leds" style="display:flex;gap:.35rem;margin-bottom:.85rem">
+      <div class="exec-seg" id="exec-led-1"></div>
+      <div class="exec-seg" id="exec-led-2"></div>
+      <div class="exec-seg" id="exec-led-3"></div>
+      <div class="exec-seg" id="exec-led-4"></div>
+      <div class="exec-seg" id="exec-led-5"></div>
+    </div>
 
-      <div style="font-family:'Orbitron',sans-serif;font-size:.55rem;letter-spacing:.14em;color:var(--t3);margin-bottom:.35rem">AFTER THAT</div>
-      <div id="exec-next2" style="font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--t2);margin-bottom:.75rem">–</div>
+    <!-- Big countdown: next light change -->
+    <div style="display:flex;align-items:baseline;justify-content:space-between;background:var(--s1);border:1px solid var(--b1);border-radius:2px;padding:.6rem .85rem;margin-bottom:.6rem">
+      <span style="font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--t3)">NEXT LIGHT CHANGE IN</span>
+      <span id="exec-countdown" style="font-family:'Orbitron',sans-serif;font-size:1.5rem;font-weight:700;color:var(--gold);letter-spacing:.06em">--:--</span>
+    </div>
 
-      <!-- Manual sync -->
-      <div style="border-top:1px solid var(--b1);padding-top:.6rem">
-        <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);letter-spacing:.08em;margin-bottom:.35rem">MANUAL SYNC — session only, resets on reload</div>
-        <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.3rem">
-          <select id="exec-sync-event" style="font-family:'Share Tech Mono',monospace;font-size:.63rem;flex:1;min-width:140px">
-            <option value="5green">5 lights just went green (new ONLINE phase)</option>
-            <option value="4green">4 lights green (1 turned off — 12min elapsed)</option>
-            <option value="3green">3 lights green (2 turned off — 24min elapsed)</option>
-            <option value="2green">2 lights green (3 turned off — 36min elapsed)</option>
-            <option value="1green">1 light green (4 turned off — 48min elapsed)</option>
-            <option value="reset">Reset phase (top 3 flashing orange — 60min elapsed)</option>
-            <option value="0green">Reset ended — OFFLINE just started</option>
-            <option value="1red">OFFLINE — 1/5 lights green (24min in)</option>
-            <option value="2red">OFFLINE — 2/5 lights green (48min in)</option>
-            <option value="3red">OFFLINE — 3/5 lights green (72min in)</option>
-            <option value="4red">OFFLINE — 4/5 lights green (96min in)</option>
-            <option value="5red">OFFLINE — all 5 lights green (almost open)</option>
-          </select>
-          <button onclick="execManualSync()" style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--green);background:none;border:1px solid rgba(142,203,110,.5);padding:.3rem .65rem;cursor:pointer;border-radius:2px;white-space:nowrap">⚡ SYNC</button>
-          <button onclick="execClearSync()" style="font-family:'Share Tech Mono',monospace;font-size:.63rem;color:var(--t3);background:none;border:1px solid var(--b2);padding:.3rem .5rem;cursor:pointer;border-radius:2px" title="Revert to ground truth epoch">✕</button>
+    <div id="exec-phase-detail" style="font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--t3);margin-bottom:.9rem">Calculating cycle…</div>
+
+    <!-- After this window closes -->
+    <div style="border-top:1px solid var(--b1);padding-top:.7rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+      <span style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--t3);letter-spacing:.08em;white-space:nowrap">AFTER THIS WINDOW</span>
+      <div style="display:flex;align-items:center;gap:.6rem;flex:1;min-width:200px">
+        <div style="flex:1">
+          <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);margin-bottom:.1rem">CLOSES</div>
+          <div id="exec-closes-at" style="font-family:'Share Tech Mono',monospace;font-size:.85rem;color:var(--t1);font-weight:700">--:--</div>
         </div>
-        <div id="exec-sync-status" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">Ground truth · 5 green confirmed by CatNipp · 2026-06-10</div>
+        <span style="color:var(--t3);font-size:.9rem">→</span>
+        <div style="flex:1">
+          <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);margin-bottom:.1rem">OPENS AGAIN</div>
+          <div id="exec-opens-at" style="font-family:'Share Tech Mono',monospace;font-size:.85rem;color:var(--green);font-weight:700">--:--</div>
+        </div>
       </div>
     </div>
+  </div>
+
+  <!-- Manual sync card -->
+  <div class="card" style="padding:.75rem 1rem;margin-bottom:.75rem">
+    <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3);letter-spacing:.08em;margin-bottom:.35rem">MANUAL SYNC — session only, resets on reload</div>
+    <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.3rem">
+      <select id="exec-sync-event" style="font-family:'Share Tech Mono',monospace;font-size:.63rem;flex:1;min-width:140px">
+        <option value="5green">5 lights just went green (new ONLINE phase)</option>
+        <option value="4green">4 lights green (1 turned off — 12min elapsed)</option>
+        <option value="3green">3 lights green (2 turned off — 24min elapsed)</option>
+        <option value="2green">2 lights green (3 turned off — 36min elapsed)</option>
+        <option value="1green">1 light green (4 turned off — 48min elapsed)</option>
+        <option value="reset">Reset phase (top 3 flashing orange — 60min elapsed)</option>
+        <option value="0green">Reset ended — OFFLINE just started</option>
+        <option value="1red">OFFLINE — 1/5 lights green (24min in)</option>
+        <option value="2red">OFFLINE — 2/5 lights green (48min in)</option>
+        <option value="3red">OFFLINE — 3/5 lights green (72min in)</option>
+        <option value="4red">OFFLINE — 4/5 lights green (96min in)</option>
+        <option value="5red">OFFLINE — all 5 lights green (almost open)</option>
+      </select>
+      <button onclick="execManualSync()" style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--green);background:none;border:1px solid rgba(142,203,110,.5);padding:.3rem .65rem;cursor:pointer;border-radius:2px;white-space:nowrap">⚡ SYNC</button>
+      <button onclick="execClearSync()" style="font-family:'Share Tech Mono',monospace;font-size:.63rem;color:var(--t3);background:none;border:1px solid var(--b2);padding:.3rem .5rem;cursor:pointer;border-radius:2px" title="Revert to ground truth epoch">✕</button>
+    </div>
+    <div id="exec-sync-status" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">Ground truth · 5 green confirmed by CatNipp · 2026-06-10</div>
   </div>
 
   <!-- Upcoming schedule -->
@@ -6324,34 +6339,36 @@ function execHangarTick() {
   const pos   = execGetCyclePos(now);
   const phase = execGetPhase(pos);
 
-  const phaseEl  = document.getElementById('exec-phase-label');
-  const detailEl = document.getElementById('exec-phase-detail');
-  const countEl  = document.getElementById('exec-countdown');
+  const phaseEl   = document.getElementById('exec-phase-label');
+  const dotEl     = document.getElementById('exec-phase-dot');
+  const detailEl  = document.getElementById('exec-phase-detail');
+  const countEl   = document.getElementById('exec-countdown');
+  const windowEl  = document.getElementById('exec-window-countdown');
 
-  let nextChangeMs, phaseText, detailText, countColor;
+  let nextChangeMs, phaseText, detailText, dotColor, windowRemaining, windowLabel;
 
   if(phase === 'online') {
     const onlinePos  = pos;
     const activeEnd  = EXEC_LIGHT_ONLINE_MS * 5; // 60 min — last light turns off
     const isReset    = onlinePos >= activeEnd;    // final 5 min reset window
+    windowRemaining  = EXEC_ONLINE_MS - onlinePos;
+    windowLabel      = (isReset ? 'reset ends in ' : 'window closes in ') + fmtDur(windowRemaining);
 
     if(isReset) {
       // RESET phase — top 3 lights flash orange, 5 min countdown
-      const resetRemaining = EXEC_ONLINE_MS - onlinePos;
-      nextChangeMs = resetRemaining;
-      phaseText  = '🟠 RESET — GET OUT NOW';
-      countColor = 'var(--ember)';
-      detailText = `5 min reset window — top 3 lights flashing orange · leave the hangar`;
+      nextChangeMs = windowRemaining;
+      phaseText  = 'RESET — GET OUT NOW';
+      dotColor   = 'var(--ember)';
+      detailText = `Reset window — top 3 lights flashing orange. Leave the hangar before they go red.`;
       execUpdateLEDs('reset', 0);
     } else {
       // Normal online — lights turning off
       const lightOff  = Math.floor(onlinePos / EXEC_LIGHT_ONLINE_MS);
       const lightPos  = onlinePos % EXEC_LIGHT_ONLINE_MS;
       nextChangeMs    = EXEC_LIGHT_ONLINE_MS - lightPos;
-      const remaining = activeEnd - onlinePos;
-      phaseText  = '🟢 ONLINE — INSERT COMPBOARDS';
-      countColor = remaining < EXEC_LIGHT_ONLINE_MS ? 'var(--gold)' : 'var(--green)';
-      detailText = `${5 - lightOff}/5 lights active · ${fmtDur(remaining)} before reset`;
+      phaseText  = 'ONLINE — insert compboards';
+      dotColor   = windowRemaining < EXEC_LIGHT_ONLINE_MS ? 'var(--gold)' : 'var(--green)';
+      detailText = `${5 - lightOff}/5 lights still on. A light turns off every 12 min — when all 5 are off, a 5 min reset begins and you must leave the hangar.`;
       execUpdateLEDs('online', lightOff);
     }
   } else {
@@ -6360,23 +6377,24 @@ function execHangarTick() {
     const lightGreen = Math.floor(offPos / EXEC_LIGHT_OFFLINE_MS); // how many lights are now green
     const lightPos  = offPos % EXEC_LIGHT_OFFLINE_MS;
     nextChangeMs    = EXEC_LIGHT_OFFLINE_MS - lightPos;
-    const remaining = EXEC_OFFLINE_MS - offPos;
+    windowRemaining = EXEC_OFFLINE_MS - offPos;
+    windowLabel     = 'opens in ' + fmtDur(windowRemaining);
 
     phaseText  = lightGreen === 5
-      ? '🟢 OPENING SOON — STAND BY'
+      ? 'OPENING SOON — stand by'
       : lightGreen === 0
-      ? '🔴 OFFLINE — CLOSED'
-      : `🟡 OFFLINE — ${lightGreen}/5 LIGHTS GREEN`;
-    countColor = lightGreen >= 4 ? 'var(--gold)' : 'var(--fire)';
-    detailText = lightGreen === 5
-      ? `All lights green — online window opening in ${fmtDur(nextChangeMs)}`
-      : `${lightGreen}/5 lights green · ${fmtDur(remaining)} until open`;
+      ? 'OFFLINE — closed'
+      : `OFFLINE — ${lightGreen}/5 lights green`;
+    dotColor = lightGreen >= 4 ? 'var(--gold)' : 'var(--fire)';
+    detailText = `${lightGreen}/5 lights have turned green. A light turns green every 24 min — when all 5 are green, the hangar opens.`;
     execUpdateLEDs('offline', lightGreen);
   }
 
-  if(phaseEl)  { phaseEl.textContent = phaseText; phaseEl.style.color = countColor; }
+  if(phaseEl)  { phaseEl.textContent = phaseText; phaseEl.style.color = 'var(--t1)'; }
+  if(dotEl)    { dotEl.style.background = dotColor; dotEl.style.boxShadow = '0 0 8px ' + dotColor; }
   if(detailEl) detailEl.textContent = detailText;
-  if(countEl)  { countEl.textContent = fmtDur(nextChangeMs); countEl.style.color = countColor; }
+  if(countEl)  { countEl.textContent = fmtDur(nextChangeMs); countEl.style.color = dotColor; }
+  if(windowEl) windowEl.textContent = windowLabel;
 
   execUpdateNextOnline(now, pos, phase);
   execTickSelfTimers();
@@ -6387,11 +6405,10 @@ function execUpdateLEDs(phase, idx) {
   for(let i = 1; i <= 5; i++) {
     const el = document.getElementById('exec-led-' + i);
     if(!el) continue;
-    el.className = 'exec-led';
+    el.className = 'exec-seg';
     if(phase === 'reset') {
-      // Top 3 lights (1,2,3) flash orange, bottom 2 are off
+      // Top 3 segments (1,2,3) flash orange, bottom 2 are off
       if(i <= 3) {
-        // Flash: alternate orange every 500ms
         el.classList.add(Math.floor(now / 500) % 2 === 0 ? 'orange' : 'off');
       } else {
         el.classList.add('off');
@@ -6406,26 +6423,19 @@ function execUpdateLEDs(phase, idx) {
 }
 
 function execUpdateNextOnline(now, pos, phase) {
-  const nextGreenEl = document.getElementById('exec-next-green');
-  const greenInEl   = document.getElementById('exec-green-in');
-  const next2El     = document.getElementById('exec-next2');
-  if(!nextGreenEl) return;
+  const closesEl = document.getElementById('exec-closes-at');
+  const opensEl  = document.getElementById('exec-opens-at');
+  if(!closesEl || !opensEl) return;
 
   if(phase === 'online') {
     const remaining = EXEC_ONLINE_MS - pos;
-    nextGreenEl.textContent = '✅ ACTIVE NOW — insert compboards';
-    nextGreenEl.style.color = 'var(--green)';
-    if(greenInEl) { greenInEl.textContent = fmtDur(remaining) + ' remaining'; greenInEl.style.color = 'var(--green)'; }
-    const nextOpen = now + (EXEC_OFFLINE_MS + EXEC_ONLINE_MS);  // rough — after this online ends
-    if(next2El) next2El.textContent = 'Next: ' + fmtAbsTime(now + EXEC_OFFLINE_MS + remaining + EXEC_ONLINE_MS);
+    closesEl.textContent = fmtAbsTime(now + remaining);
+    opensEl.textContent  = fmtAbsTime(now + EXEC_OFFLINE_MS + remaining + EXEC_ONLINE_MS);
   } else {
     const offPos     = pos - EXEC_ONLINE_MS;
     const msToOnline = EXEC_OFFLINE_MS - offPos;
-    const absTime    = fmtAbsTime(now + msToOnline);
-    nextGreenEl.textContent = 'Opens at ' + absTime;
-    nextGreenEl.style.color = 'var(--t2)';
-    if(greenInEl) { greenInEl.textContent = fmtDur(msToOnline); greenInEl.style.color = 'var(--teal)'; }
-    if(next2El)   next2El.textContent = 'Then: ' + fmtAbsTime(now + msToOnline + EXEC_CYCLE_MS);
+    closesEl.textContent = fmtAbsTime(now + msToOnline + EXEC_ONLINE_MS);
+    opensEl.textContent  = fmtAbsTime(now + msToOnline);
   }
 }
 
