@@ -2142,7 +2142,7 @@ footer {
 
   <!-- BHG STACK CALC TAB -->
   <div class="miss-tab" id="calc-bhg">
-    <div class="info" style="margin-bottom:.75rem">Stack bounty contracts before heading out — each contract clears independently. More contracts = longer session but linear aUEC gain. Loot adds on top. Use this to plan your stack before undocking.</div>
+    <div class="info" style="margin-bottom:.75rem">Stack bounty contracts before heading out — each contract clears independently. Max 10 active contracts at once. More contracts = longer session but linear aUEC gain. Loot adds on top. Use this to plan your stack before undocking.</div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
 
@@ -2160,10 +2160,10 @@ footer {
         </div>
 
         <div class="form-group">
-          <label>CONTRACTS STACKED</label>
-          <input type="range" id="bhg-stack" min="1" max="20" value="8" oninput="bhgCalcUpdate();document.getElementById('bhg-stack-val').textContent=this.value" style="width:100%;margin:.3rem 0">
+          <label>CONTRACTS STACKED <span style="color:var(--t3);font-weight:400">(max 10 active at once)</span></label>
+          <input type="range" id="bhg-stack" min="1" max="10" value="8" oninput="bhgCalcUpdate();document.getElementById('bhg-stack-val').textContent=this.value" style="width:100%;margin:.3rem 0">
           <div style="display:flex;justify-content:space-between;font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--t3)">
-            <span>1</span><span id="bhg-stack-val" style="color:var(--gold);font-size:.85rem">8</span><span>20</span>
+            <span>1</span><span id="bhg-stack-val" style="color:var(--gold);font-size:.85rem">8</span><span>10</span>
           </div>
         </div>
 
@@ -7161,37 +7161,11 @@ function renderChangelog() {
 
 const ROADMAP = [
   {
-    status: 'next',
-    label: 'UP NEXT',
-    col: 'var(--lava)',
-    items: [
-      { tag:'MISC',     pri:'HIGH', text:'Version 1.0 — full audit pass, version bump, updated changelog, Discord main post refresh, README update.' },
-    ],
-  },
-  {
-    status: 'planned',
-    label: 'PLANNED',
-    col: 'var(--ember)',
-    items: [
-      { tag:'MISC',     pri:'LOW',  text:'Further data splits — WEAPON_MATRIX_DATA, TIER_LIST, CALC_ACTS to push HTML toward 580KB.' },
-      { tag:'INFRA',    pri:'LOW',  text:'PWA icon — replace emoji SVG with a proper 512px Catfight icon for cleaner home screen install.' },
-    ],
-  },
-  {
-    status: 'considering',
-    label: 'CONSIDERING',
-    col: 'var(--teal)',
-    items: [
-      { tag:'INFRA',    pri:'LOW',  text:'Push notifications via service worker — notify org members when MOTD is active or session is pushed.' },
-      { tag:'MISC',     pri:'LOW',  text:'Dark/light theme — persist per-device, add high-contrast accessibility variant.' },
-    ],
-  },
-  {
     status: 'community',
     label: 'COMMUNITY REQUESTS',
     col: 'var(--green)',
     items: [
-      { tag:'REQUEST',  pri:'—',    text:'Drop requests in the Catfight Discord #catfight-command-centre thread. CatNipp and CatCya — anything specific you want added, drop it here.' },
+      { tag:'REQUEST',  pri:'—',    text:'Got a feature request or found a bug? Message reverend_ozmund on Discord — anything specific you want added, send it through.' },
     ],
   },
 ];
