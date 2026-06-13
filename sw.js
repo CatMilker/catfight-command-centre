@@ -1,7 +1,7 @@
 // Catfight Command Centre — Service Worker
 // Caches the tool shell for offline use. Data fetches (UEX, workers) still need network.
 // Version bump this string to force cache refresh on deploy.
-const CACHE_VERSION = 'catfight-v1.0';
+const CACHE_VERSION = 'catfight-v1.1';
 const CACHE_NAME    = CACHE_VERSION;
 
 // Files to cache on install — the tool shell + all JSON data files
@@ -39,7 +39,9 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Fetch: cache-first for same-origin assets, network-first for API calls
+// Fetch: network-first for same-origin HTML/JSON (always get latest data when online,
+// fall back to cache when offline). External API calls (workers, UEX, SC Wiki etc)
+// are left to the browser entirely — no caching.
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
 
@@ -48,18 +50,16 @@ self.addEventListener('fetch', event => {
     return; // let browser handle — no caching for external fetches
   }
 
-  // Cache-first for same-origin (HTML + JSON data files)
+  // Network-first for same-origin (HTML + JSON data files) — keeps data current,
+  // falls back to cache only if offline or the network request fails.
   event.respondWith(
-    caches.match(event.request).then(cached => {
-      if(cached) return cached;
-      return fetch(event.request).then(response => {
-        if(!response || response.status !== 200 || response.type !== 'basic') {
-          return response;
-        }
-        const clone = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+    fetch(event.request).then(response => {
+      if(!response || response.status !== 200 || response.type !== 'basic') {
         return response;
-      });
-    })
+      }
+      const clone = response.clone();
+      caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+      return response;
+    }).catch(() => caches.match(event.request))
   );
 });
