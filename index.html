@@ -7756,7 +7756,7 @@ async function fetchLiveUEX(){
     }
     for(const cd of Object.values(TRADE_LOCS)){
       cd.b.sort((a,b)=>a.p-b.p); cd.s.sort((a,b)=>b.p-a.p);
-      cd.b=cd.b.slice(0,6);      cd.s=cd.s.slice(0,6);
+      cd.b=cd.b.slice(0,10);     cd.s=cd.s.slice(0,10);
       cd.bp=cd.b[0]?.p||0;       cd.sp=cd.s[0]?.p||0;
       cd.bm=cd.sp-cd.bp;
       cd.bmp=cd.bp>0?Math.round((cd.bm/cd.bp)*1000)/10:0;
