@@ -1827,6 +1827,7 @@ footer {
         <tr><td>Stanton → Levski (Nyx)</td><td>Stanton/Nyx</td><td>Electronics, Medical Supplies, Food</td><td>Cutlass+ (46 SCU+)</td><td style="color:var(--amber)">~25–30% margin</td><td>Levski pays premium on imports — Nyx has supply shortfall</td></tr>
         <tr><td>Mining outposts → Levski</td><td>Nyx</td><td>Lindinium, Savrilium, Iron</td><td>Zeus CL / C2</td><td style="color:var(--amber)">~30% margin</td><td>Nyx minerals sell well in Stanton — outbound leg worth loading</td></tr>
         <tr><td>Pyro → Stanton (HEPH loop)</td><td>Pyro/Stanton</td><td>Hephaestanite</td><td>Any</td><td style="color:var(--amber)">~30–40% margin</td><td>Pyro gateway buy → Stanton sell. Jump point risk.</td></tr>
+        <tr><td>Megumi → Endgame (Aluminium)</td><td>Pyro</td><td>Aluminium</td><td>Cutlass+ (46 SCU+)</td><td style="color:var(--amber)">~15–20% margin</td><td>CatAids route — buy Aluminium at Megumi Refuelling, sell at Endgame. Both Pyro, short jump, low risk.</td></tr>
         <tr><td>Adagio salvage cargo (Titanium)</td><td>Stanton</td><td>Titanium (from wrecks)</td><td>RAFT / C2</td><td style="color:var(--gold)">3M+ aUEC/hr (RAFT)</td><td>4.8 confirmed — Adagio Senior Contractor required. Best salvage income.</td></tr>
       </tbody>
     </table>
@@ -7341,18 +7342,18 @@ function tradeCalcUpdate(){
   if(buyEl){
     const prev = buyEl.value;
     buyEl.innerHTML = '<option value="">— Best available —</option>' +
-      cd.b.map(x=>`<option value="${x.p}" data-loc="${x.t}">${x.t} (${x.l}) — ${x.p.toLocaleString()} aUEC</option>`).join('');
-    if(prev) buyEl.value = prev;
+      cd.b.map((x,i)=>`<option value="${i}" data-price="${x.p}" data-loc="${x.t}">${x.t} (${x.l}) — ${x.p.toLocaleString()} aUEC</option>`).join('');
+    if(prev && buyEl.querySelector(`option[value="${prev}"]`)) buyEl.value = prev;
   }
   if(sellEl){
     const prev = sellEl.value;
     sellEl.innerHTML = '<option value="">— Best available —</option>' +
-      cd.s.map(x=>`<option value="${x.p}" data-loc="${x.t}">${x.t} (${x.l}) — ${x.p.toLocaleString()} aUEC</option>`).join('');
-    if(prev) sellEl.value = prev;
+      cd.s.map((x,i)=>`<option value="${i}" data-price="${x.p}" data-loc="${x.t}">${x.t} (${x.l}) — ${x.p.toLocaleString()} aUEC</option>`).join('');
+    if(prev && sellEl.querySelector(`option[value="${prev}"]`)) sellEl.value = prev;
   }
 
-  const buyPrice  = parseFloat(buyEl?.value) || (cd.b[0]?.p || 0);
-  const sellPrice = parseFloat(sellEl?.value) || (cd.s[0]?.p || 0);
+  const buyPrice  = buyEl?.value !== '' && buyEl?.selectedOptions[0]?.dataset.price ? parseFloat(buyEl.selectedOptions[0].dataset.price) : (cd.b[0]?.p || 0);
+  const sellPrice = sellEl?.value !== '' && sellEl?.selectedOptions[0]?.dataset.price ? parseFloat(sellEl.selectedOptions[0].dataset.price) : (cd.s[0]?.p || 0);
   const scu = parseInt(document.getElementById('calc-scu')?.value) || 46;
   const budget = parseInt(document.getElementById('calc-budget')?.value) || 0;
 
