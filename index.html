@@ -1746,22 +1746,16 @@ footer {
           <label>SHIP CARGO (SCU)</label>
           <input type="number" id="rc-scu" value="46" min="1" max="800" style="width:100%" oninput="calcBestRoute()">
         </div>
-        <div class="form-group" style="margin:0;flex:1.5;min-width:130px">
-          <label>FROM (buy system)</label>
+        <div class="form-group" style="margin:0;flex:1.5;min-width:160px">
+          <label>FROM (buy here)</label>
           <select id="rc-from" onchange="calcBestRoute()" style="width:100%">
-            <option value="any">Any system</option>
-            <option value="Stanton">Stanton</option>
-            <option value="Pyro">Pyro</option>
-            <option value="Nyx">Nyx</option>
+            <option value="any">Any system / station</option>
           </select>
         </div>
-        <div class="form-group" style="margin:0;flex:1.5;min-width:130px">
-          <label>TO (sell system)</label>
+        <div class="form-group" style="margin:0;flex:1.5;min-width:160px">
+          <label>TO (sell here)</label>
           <select id="rc-to" onchange="calcBestRoute()" style="width:100%">
-            <option value="any">Any system</option>
-            <option value="Stanton">Stanton</option>
-            <option value="Pyro">Pyro</option>
-            <option value="Nyx">Nyx</option>
+            <option value="any">Any system / station</option>
           </select>
         </div>
         <div class="form-group" style="margin:0;flex:1;min-width:120px">
@@ -7436,7 +7430,42 @@ function renderBestRoutes(){
   } catch(e){ console.error('renderBestRoutes error:',e); }
 }
 
+// Populate FROM/TO route calculator dropdowns with systems + individual stations
+function populateRouteLocationSelects() {
+  const fromEl = document.getElementById('rc-from');
+  const toEl   = document.getElementById('rc-to');
+  if(!fromEl || !toEl) return;
+  if(typeof TRADE_LOCS === 'undefined' || !Object.keys(TRADE_LOCS).length) return;
+  if(fromEl.dataset.populated === '1') return; // only build once
+
+  // Collect unique stations grouped by system
+  const stations = {}; // sys -> Set(stationName)
+  for(const loc of Object.values(TRADE_LOCS)) {
+    for(const x of [...(loc.b||[]), ...(loc.s||[])]) {
+      if(!x.t || !x.sys) continue;
+      (stations[x.sys] ||= new Set()).add(x.t);
+    }
+  }
+
+  const systems = Object.keys(stations).sort();
+  let html = '<option value="any">Any system / station</option>';
+  for(const sys of systems) {
+    html += `<optgroup label="${sys}">`;
+    html += `<option value="sys:${sys}">Any in ${sys}</option>`;
+    for(const station of [...stations[sys]].sort()) {
+      html += `<option value="station:${station}">${station} (${sys})</option>`;
+    }
+    html += `</optgroup>`;
+  }
+
+  fromEl.innerHTML = html;
+  toEl.innerHTML   = html;
+  fromEl.dataset.populated = '1';
+  toEl.dataset.populated   = '1';
+}
+
 function calcBestRoute() {
+  populateRouteLocationSelects();
   const statusEl  = document.getElementById('rc-status');
   const resultsEl = document.getElementById('rc-results');
   if(!resultsEl) return;
@@ -7448,10 +7477,18 @@ function calcBestRoute() {
   }
 
   const scu    = Math.max(1, parseInt(document.getElementById('rc-scu')?.value || '46'));
-  const fromSys = document.getElementById('rc-from')?.value || 'any';
-  const toSys   = document.getElementById('rc-to')?.value   || 'any';
+  const fromSel = document.getElementById('rc-from')?.value || 'any';
+  const toSel   = document.getElementById('rc-to')?.value   || 'any';
   const risk   = document.getElementById('rc-risk')?.value   || 'any';
   const count  = parseInt(document.getElementById('rc-count')?.value || '10');
+
+  // fromSel/toSel encoding: 'any' | 'sys:Pyro' | 'station:Endgame'
+  const matchLoc = (entry, sel) => {
+    if(sel === 'any') return true;
+    if(sel.startsWith('sys:'))     return (entry.sys||'').includes(sel.slice(4));
+    if(sel.startsWith('station:')) return entry.t === sel.slice(8);
+    return true;
+  };
 
   const fmtK = n => n >= 1e6 ? (n/1e6).toFixed(2)+'M' : n >= 1000 ? Math.round(n/1000)+'k' : Math.round(n).toString();
 
@@ -7462,12 +7499,8 @@ function calcBestRoute() {
     if(risk === 'legal'   &&  loc.ill) continue;
     if(risk === 'illegal' && !loc.ill) continue;
 
-    const buyEntry  = fromSys === 'any'
-      ? loc.b[0]
-      : loc.b.find(x => (x.sys||'').includes(fromSys));
-    const sellEntry = toSys === 'any'
-      ? loc.s[0]
-      : loc.s.find(x => (x.sys||'').includes(toSys));
+    const buyEntry  = fromSel === 'any' ? loc.b[0] : loc.b.find(x => matchLoc(x, fromSel));
+    const sellEntry = toSel   === 'any' ? loc.s[0] : loc.s.find(x => matchLoc(x, toSel));
     if(!buyEntry?.p || !sellEntry?.p) continue;
 
     const profitPerSCU = sellEntry.p - buyEntry.p;
