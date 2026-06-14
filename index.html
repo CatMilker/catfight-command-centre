@@ -9846,6 +9846,31 @@ function renderMineralTable(){
   minFilter();
 }
 
+// Cross-reference: how many component BPs use a given mineral as an ingredient,
+// and which ones (sorted by quantity required, descending).
+function mineralBPUsage(mineralName){
+  if(typeof COMP_BPS === 'undefined' || !COMP_BPS.length) return null;
+  const esc = mineralName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp('\\b' + esc + '\\s*[\u00d7x]\\s*([\\d.]+)', 'i');
+  const matches = [];
+  for(const bp of COMP_BPS){
+    const m = (bp.ing||'').match(re);
+    if(m) matches.push({name: bp.n, qty: parseFloat(m[1])});
+  }
+  if(!matches.length) return null;
+  matches.sort((a,b)=>b.qty-a.qty);
+  return matches;
+}
+
+// Jump from Minerals tab to Component BPs tab pre-filtered by this mineral
+function jumpToMineralBPs(mineralName){
+  setPanel('bpsrc');
+  const tabBtn = document.querySelector('#panel-bpsrc .cftabs .ltab:nth-child(2)');
+  setBpsrcTab('comps', tabBtn);
+  const search = document.getElementById('cbp-search');
+  if(search){ search.value = mineralName; cbpFilter(); }
+}
+
 function minFilter(){
   const q   = (document.getElementById('min-search')?.value||'').toLowerCase();
   const sys = (document.getElementById('min-sys')?.value||'').toLowerCase();
@@ -9882,7 +9907,12 @@ function minFilter(){
     })()}</td>
     <td>${methodIcon(m)} ${m.method==='hand'?'Hand / ATLS':'Ship mining'}</td>
     <td style="font-size:.72rem;color:var(--t2)">${m.locations.join('<br>')}</td>
-    <td style="font-size:.72rem;color:var(--t3)">${m.craft}</td>
+    <td style="font-size:.72rem;color:var(--t3)">${(()=>{
+      const usage = mineralBPUsage(m.name);
+      if(!usage) return m.craft;
+      const top3 = usage.slice(0,3).map(u=>u.name).join(', ');
+      return `<span style="color:var(--teal);cursor:pointer;text-decoration:underline dotted" onclick="jumpToMineralBPs('${m.name}')" title="Click to view in Component BPs">Used in ${usage.length} BP${usage.length===1?'':'s'}</span><br><span style="font-size:.62rem;color:var(--t4)">${top3}${usage.length>3?'…':''}</span>`;
+    })()}</td>
   </tr>`).join('');
 
   if(cnt) cnt.textContent = filtered.length+' minerals';
