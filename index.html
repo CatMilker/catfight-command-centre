@@ -3603,7 +3603,7 @@ EXTRACT: never all QT at once. Mantis last out.
       <button onclick="execManualSync()" style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--green);background:none;border:1px solid rgba(142,203,110,.5);padding:.3rem .65rem;cursor:pointer;border-radius:2px;white-space:nowrap">⚡ SYNC</button>
       <button onclick="execClearSync()" style="font-family:'Share Tech Mono',monospace;font-size:.63rem;color:var(--t3);background:none;border:1px solid var(--b2);padding:.3rem .5rem;cursor:pointer;border-radius:2px" title="Revert to ground truth epoch">✕</button>
     </div>
-    <div id="exec-sync-status" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">Ground truth · 5 green confirmed by CatNipp · 2026-06-10</div>
+    <div id="exec-sync-status" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--t3)">Resynced 2026-06-12 · 4.8.1 cycle timing has been unstable — resync if it drifts</div>
   </div>
 
   <!-- Upcoming schedule -->
@@ -6231,15 +6231,18 @@ function execShowShortcuts() {
   document.body.appendChild(div);
 }
 
-// ── EXEC HANGAR TIMER — synced to exec.redline-arsenal.net ───────────────────
+// ── EXEC HANGAR TIMER — synced to exec.xyxyll.com ────────────────────────────
 //
-// Redline's calibrated constants (app.js?v=2, updated 2026-Jun-07):
+// Xyxyll's calibrated constants (app.js, updated 2026-Jun-12):
 //   CYCLE_DRIFT_MS     = 226
 //   DESIGN_ONLINE_MIN  = 65   (OPEN — insert compboards)
 //   DESIGN_OFFLINE_MIN = 120  (CLOSED — wait)
-//   INITIAL_OPEN_TIME  = 2026-06-07T19:05:42.463Z  (confirmed open start)
+//   INITIAL_OPEN_TIME  = 2026-06-13T01:58:00.833Z  (cycle 36, confirmed open start)
 //
-// LED behaviour (matches Redline):
+// NOTE: 4.8.1 cycle start times have been drifting/resetting irregularly —
+// resync periodically against exec.xyxyll.com or in-game observation.
+//
+// LED behaviour:
 //   ONLINE  (65 min) — starts [G G G G G], lights turn OFF every ~13min
 //   OFFLINE (120 min)— starts [R R R R R], lights turn GREEN every 24min
 //                      (shows progress toward next open window)
@@ -6278,8 +6281,8 @@ function execHangarInit() {
   execInitDone = true;
 }
 
-// Ground truth epoch — 5 green confirmed by CatNipp at 2:48pm AWST 2026-06-10
-const EXEC_INITIAL_OPEN = new Date('2026-06-10T06:48:00.000Z').getTime();
+// Resynced from exec.xyxyll.com — cycle 36, observed 2026-06-12 (4.8.1 cycle timing has been unstable, resync periodically)
+const EXEC_INITIAL_OPEN = new Date('2026-06-13T01:58:00.833Z').getTime();
 
 // Manual sync override — session only, never persisted, always starts from baked-in epoch
 let _execEpochOverride = null;
@@ -6323,7 +6326,7 @@ function execClearSync() {
   _execEpochOverride = null;
   const statusEl = document.getElementById('exec-sync-status');
   if(statusEl) {
-    statusEl.textContent = 'Ground truth · 5 green confirmed by CatNipp · 2026-06-10';
+    statusEl.textContent = 'Resynced 2026-06-12 · 4.8.1 cycle timing has been unstable — resync if it drifts';
     statusEl.style.color = 'var(--t3)';
   }
   execHangarTick();
