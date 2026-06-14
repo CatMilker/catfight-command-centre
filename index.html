@@ -1746,9 +1746,18 @@ footer {
           <label>SHIP CARGO (SCU)</label>
           <input type="number" id="rc-scu" value="46" min="1" max="800" style="width:100%" oninput="calcBestRoute()">
         </div>
-        <div class="form-group" style="margin:0;flex:2;min-width:160px">
-          <label>STARTING SYSTEM</label>
-          <select id="rc-system" onchange="calcBestRoute()" style="width:100%">
+        <div class="form-group" style="margin:0;flex:1.5;min-width:130px">
+          <label>FROM (buy system)</label>
+          <select id="rc-from" onchange="calcBestRoute()" style="width:100%">
+            <option value="any">Any system</option>
+            <option value="Stanton">Stanton</option>
+            <option value="Pyro">Pyro</option>
+            <option value="Nyx">Nyx</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin:0;flex:1.5;min-width:130px">
+          <label>TO (sell system)</label>
+          <select id="rc-to" onchange="calcBestRoute()" style="width:100%">
             <option value="any">Any system</option>
             <option value="Stanton">Stanton</option>
             <option value="Pyro">Pyro</option>
@@ -7439,7 +7448,8 @@ function calcBestRoute() {
   }
 
   const scu    = Math.max(1, parseInt(document.getElementById('rc-scu')?.value || '46'));
-  const system = document.getElementById('rc-system')?.value || 'any';
+  const fromSys = document.getElementById('rc-from')?.value || 'any';
+  const toSys   = document.getElementById('rc-to')?.value   || 'any';
   const risk   = document.getElementById('rc-risk')?.value   || 'any';
   const count  = parseInt(document.getElementById('rc-count')?.value || '10');
 
@@ -7452,16 +7462,13 @@ function calcBestRoute() {
     if(risk === 'legal'   &&  loc.ill) continue;
     if(risk === 'illegal' && !loc.ill) continue;
 
-    const buyEntry  = loc.b[0];
-    const sellEntry = loc.s[0];
+    const buyEntry  = fromSys === 'any'
+      ? loc.b[0]
+      : loc.b.find(x => (x.sys||'').includes(fromSys));
+    const sellEntry = toSys === 'any'
+      ? loc.s[0]
+      : loc.s.find(x => (x.sys||'').includes(toSys));
     if(!buyEntry?.p || !sellEntry?.p) continue;
-
-    // System filter — check buy or sell system
-    if(system !== 'any') {
-      const buySys  = buyEntry.sys  || '';
-      const sellSys = sellEntry.sys || '';
-      if(!buySys.includes(system) && !sellSys.includes(system)) continue;
-    }
 
     const profitPerSCU = sellEntry.p - buyEntry.p;
     if(profitPerSCU <= 0) continue;
