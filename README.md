@@ -1,4 +1,4 @@
-# Catfight Command Centre — v1.1
+# Catfight Command Centre — v1.2
 
 Star Citizen 4.8.1 org tool for the Catfight org. Open in any browser. No account. No install.
 
@@ -17,7 +17,7 @@ Everything you need for a session in one tab — income planning, ship loadouts,
 | Panel | What's in it |
 |---|---|
 | ⚡ Grind Guide | 9 tiers: Starter → Light Fighter → Medium Fighter → Heavy Fighter → Cargo → Mining → Interdiction → Multi-crew → Salvage. Live income estimates from UEX. Covers ATLS gem mining, Adagio Titanium loop, PAF farming, JP piracy, Starfarer refuelling, multi-crew breakdowns. |
-| 💱 Trade | 98 live commodities (UEX), Best Locations, Profit Calc, Route Calculator (single + multi-hop round trip), Hauling, Trade Tips, Commodity Watchlist with price alerts. |
+| 💱 Trade | 98 live commodities (UEX), Best Locations, Profit Calc, Route Calculator with FROM/TO system or station selection (110 stations across Stanton/Pyro/Nyx) and location-type filter (stations-only, outposts-only, no-gateways), multi-hop round trip, Hauling, Trade Tips, Commodity Watchlist with price alerts. |
 | 🏅 Rep Tracker | 11 factions, rank unlocks, XP thresholds, BP drops. Saves to localStorage. Export/import. |
 | 🧮 Calc | Session income estimator (37 activities) + BHG Stack Calc (max 10 active contracts). |
 | 🐱 Org Ops | Session planner: objective, system, crew roster with roles + ships, live income estimate, session timer, mission brief copy. Save/load 8 named sessions. Shared session state via Cloudflare KV (push/pull). Session history. Post-session debrief mode. Includes 4.8.1 aUEC transfer cap notice (~999,999 per transaction, recipient must be online to accept). |
@@ -29,8 +29,8 @@ Everything you need for a session in one tab — income planning, ship loadouts,
 | 📋 Blueprints | Mission drop BPs, 252 component BPs (live SC Craft sources), Priority Roadmap. |
 | ⚔️ Combat | 21 ship profiles with verified builds + PvP analysis. Weapon Matrix (S1–S5). 22 matchups including capital fleet engagements. PvP Tier List. Loadout Synergy Checker. |
 | 🕳️ Interdict | Interdiction Planner — op type, 20 locations, 9 crew roles, live cargo prices, comms callouts, mission brief. Save/load 8 named ops. |
-| 🏛️ Exec Hangar | PYAM CZ timer — ground-truth calibrated, 185min 226ms cycle, 5 LED status, ONLINE/OFFLINE phases, 12hr schedule. Manual sync (session-only, reverts to ground truth on reload). CZ self-timers (keycard, vault, terminal, crypt). |
-| 📋 Changelog | Full version history v0.1 → v1.1, in-tool, filterable by category. |
+| 🏛️ Exec Hangar | PYAM CZ timer — resynced to exec.xyxyll.com (185min 226ms cycle), unified single-card display with 5-segment progress bar, plain-English window status, and Closes/Opens timeline. Manual sync (session-only, reverts to ground truth on reload). CZ self-timers (keycard, vault, terminal, crypt). |
+| 📋 Changelog | Full version history v0.1 → v1.2, in-tool, filterable by category. |
 | 🗺️ Roadmap | Upcoming features. |
 
 ---
@@ -47,7 +47,7 @@ Everything you need for a session in one tab — income planning, ship loadouts,
 | AWS Status | Infrastructure incidents | `aws-status-worker` |
 | MOTD | Org announcements | `catfight-motd` |
 | Session state | Shared org session via KV | `catfight-session` |
-| Exec epoch | Calibrated CZ timer | `exec-epoch-worker` |
+| Exec epoch | Calibrated CZ timer (synced to exec.xyxyll.com) | `exec-epoch-worker` |
 
 All workers at `*.catmilker.workers.dev`. Silent fallback to baked-in data if any source is unreachable.
 
@@ -70,7 +70,7 @@ matchup-data.json       — 22 PvP matchups (27KB)
 changelog.json          — version history (18KB)
 ```
 
-Ship DB (224 ships) and ship loadout data are baked directly into `index.html` for instant load with no fetch race conditions. All other JSON files are lazy-loaded on page open. The tool works offline after first load via the service worker.
+Ship DB (224 ships), ship loadout data, and trade route data (110 stations across Stanton/Pyro/Nyx, classified by station type) are baked directly into `index.html` for instant load with no fetch race conditions. All other JSON files are lazy-loaded on page open. The tool works offline after first load via the service worker.
 
 ---
 
